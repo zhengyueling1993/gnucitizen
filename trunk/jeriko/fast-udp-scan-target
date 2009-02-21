@@ -1,4 +1,7 @@
 #!/bin/sh
 if [ -f `dirname $0`/load-environment ]; then . `dirname $0`/load-environment; fi
 
-nmap -vvv $NMAP_TCP_SCAN_METHOD -p1-65535 -oA "full_tcp_scan_$@_`date +%s`" $@
+if [ "$@" ]
+then
+	nmap -vvv $NMAP_UDP_SCAN_METHOD -F -oA "fast_udp_scan_$@_`date +%s`" $@
+fi
