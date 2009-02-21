@@ -1,4 +1,4 @@
 #!/bin/sh
 if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
 
-((cat *.nbe | extract-services-nbe) & (cat *.gnmap | extract-services-gnmap)) | sort | uniq
+((cat *.nbe 2>/dev/null | extract-services-nbe) & (cat *.gnmap 2>/dev/null | extract-services-gnmap)) | sort | uniq
