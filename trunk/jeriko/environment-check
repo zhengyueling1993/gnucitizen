@@ -6,49 +6,51 @@ then
 	JERIKO_STRICT_CHECKS=true
 fi
 
-#
-# BASIC CHECKS
-#
-if [ ! -x `which pgrep` ]
-then
-	echo '[x] cannot find pgrep' 1>&2
-	exit
-fi
-
-if [ ! -x `which pgrep` ]
-then
-	echo '[x] cannot find pkill' 1>&2
-	exit
-fi
-
-if [ ! -x `which expr` ]
-then
-	echo '[x] cannot find expr' 1>&2
-	exit
-fi
-
-if [ ! -x `which nmap` ]
-then
-	echo '[x] cannot find nmap' 1>&2
-	exit
-fi
-if [ ! -x `which nessus` ]
-then
-	echo '[x] cannot find nessus' 1>&2
-	exit
-fi
-
-#
-# JERIKO STRICT CHECKS
-#
-if [ "$JERIKO_STRICT_CHECKS" ]
-then
-	if [ "$NESSUS_HOST" = "127.0.0.1" -o "$NESSUS_HOST" = "localhost" ]
+if [ ! "$JERIKO_CHECKLESS" ]
+	#
+	# BASIC CHECKS
+	#
+	if [ ! -x `which pgrep` ]
 	then
-		if [ ! `pgrep '^nessusd$'` ]
+		echo '[x] cannot find pgrep' 1>&2
+		exit
+	fi
+
+	if [ ! -x `which pgrep` ]
+	then
+		echo '[x] cannot find pkill' 1>&2
+		exit
+	fi
+
+	if [ ! -x `which expr` ]
+	then
+		echo '[x] cannot find expr' 1>&2
+		exit
+	fi
+
+	if [ ! -x `which nmap` ]
+	then
+		echo '[x] cannot find nmap' 1>&2
+		exit
+	fi
+	if [ ! -x `which nessus` ]
+	then
+		echo '[x] cannot find nessus' 1>&2
+		exit
+	fi
+
+	#
+	# JERIKO STRICT CHECKS
+	#
+	if [ "$JERIKO_STRICT_CHECKS" ]
+	then
+		if [ "$NESSUS_HOST" = "127.0.0.1" -o "$NESSUS_HOST" = "localhost" ]
 		then
-			echo '[x] cannot find nessusd' 1>&2
-			exit
+			if [ ! `pgrep '^nessusd$'` ]
+			then
+				echo '[x] cannot find nessusd' 1>&2
+				exit
+			fi
 		fi
 	fi
 fi
