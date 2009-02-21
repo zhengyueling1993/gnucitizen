@@ -1,2 +1,12 @@
 #!/bin/sh
-TMP=`mktemp`; (cat >> targets.txt; cat targets.txt) | sort | uniq > $TMP; mv $TMP targets.txt
+if [ "$@" ]
+then
+	for TARGET in $@
+	do
+		echo $TARGET >> targets.txt
+	done
+else
+	cat >> targets.txt
+fi
+
+TMPFILE=`mktemp`; cat targets.txt | sort | uniq > $TMPFILE; mv $TMPFILE targets.txt

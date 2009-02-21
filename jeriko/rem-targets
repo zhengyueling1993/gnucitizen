@@ -1,13 +1,22 @@
 #!/bin/sh
 if [ -f targets.txt ]
 then
-	TMP=`mktemp`
+	TMPFILE=`mktemp`
 
-	cat | while read TARGET_TO_REMOVE
-	do
-		cat targets.txt | grep -v $TARGET_TO_REMOVE > $TMP
-		cp $TMP targets.txt
-	done
+	if [ "$@" ]
+	then
+		for TARGET_TO_REMOVE in $@
+		do
+			cat targets.txt | grep -v $TARGET_TO_REMOVE > $TMPFILE
+			cp $TMPFILE targets.txt
+		done
+	else
+		cat | while read TARGET_TO_REMOVE
+		do
+			cat targets.txt | grep -v $TARGET_TO_REMOVE > $TMPFILE
+			cp $TMPFILE targets.txt
+		done
+	fi
 
-	rm $TMP
+	rm $TMPFILE
 fi
