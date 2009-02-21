@@ -1,5 +1,10 @@
 #!/bin/sh
 #
+# PATH
+#
+export PATH=`dirname $0`:$PATH
+
+#
 # RUN IN PARALLEL
 #
 RUN_IN_PARALLEL_MAX_PROCESSES=10
