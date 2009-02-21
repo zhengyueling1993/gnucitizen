@@ -1,2 +1,0 @@
-#!/bin/sh
-((cat *.nbe | nbe-to-services) & (cat *.gnmap | gnmap-to-services)) | sort | uniq

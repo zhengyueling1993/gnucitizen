@@ -64,4 +64,4 @@ fi
 #
 # CHECK DEPENDENCIES
 #
-JERIKO_ENVIRONMENTLESS=true . check-dependencies
+JERIKO_ENVIRONMENTLESS=true . environment-check
