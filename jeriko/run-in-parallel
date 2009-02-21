@@ -1,15 +1,9 @@
 #!/bin/sh
 . `dirname $0`/load-environment
 
-if [ ! $RUN_IN_PARALLEL_MAX_PROCESSES ]
-then
-	RUN_IN_PARALLEL_MAX_PROCESSES=10
-fi
+if [ ! $RUN_IN_PARALLEL_MAX_PROCESSES ]; then RUN_IN_PARALLEL_MAX_PROCESSES=10; fi
 
-if [ $1 ]
-then
-	RUN_IN_PARALLEL_MAX_PROCESSES=$1
-fi
+if [ $1 ]; then RUN_IN_PARALLEL_MAX_PROCESSES=$1; fi
 
 CUR_PROCESSES=0
 SUB_PROCESSES=0

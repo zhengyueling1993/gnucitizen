@@ -1,24 +1,17 @@
 #!/bin/sh
 . `dirname $0`/load-environment
 
-if [ ! $RUN_IN_PARALLEL_MAX_PROCESSES ]
-then
-	RUN_IN_PARALLEL_MAX_PROCESSES=10
-fi
+if [ ! $RUN_IN_PARALLEL_MAX_PROCESSES ]; then RUN_IN_PARALLEL_MAX_PROCESSES=10; fi
+if [ ! $RUN_IN_PARALLEL_MAX_WAIT ]; then RUN_IN_PARALLEL_MAX_WAIT=10; fi
 
-if [ $1 ]
-then
-	RUN_IN_PARALLEL_MAX_PROCESSES=$1
-fi
+if [ $1 ]; then RUN_IN_PARALLEL_MAX_PROCESSES=$1; fi
+if [ $2 ]; then RUN_IN_PARALLEL_MAX_WAIT=$2; fi
 
 CUR_PROCESS=0
-TMP_PROCESS=`mktemp`
-
-echo "[p:0000] tempfile: $TMP_PROCESS"
 
 while true
 do
-	if [ `cat $TMP_PROCESS | wc -l` -lt $RUN_IN_PARALLEL_MAX_PROCESSES ]
+	if [ `pgrep -P $$ | wc -l` -lt $RUN_IN_PARALLEL_MAX_PROCESSES ]
 	then
 		read PROCESS
 
@@ -27,18 +20,19 @@ do
 			break
 		fi
 
-		echo "[p:0000] execting: $PROCESS"
+		echo "[p:0000] executing: $PROCESS"
 
 		CUR_PROCESS=`expr $CUR_PROCESS + 1`
-		echo $CUR_PROCESS >> $TMP_PROCESS
 
-		($PROCESS 2>&1 | while read LINE; do echo "[p:`printf "%.4d" $CUR_PROCESS`] $LINE"; done; cat $TMP_PROCESS | grep -vE "^$CUR_PROCESS$" | tee $TMP_PROCESS 1>/dev/null) &
+		($PROCESS 2>&1 | while read LINE; do echo "[p:`printf "%.4d" $CUR_PROCESS`] $LINE"; done) &
+
+		echo "[p:0000] pid: $!"
 	else
-		echo "[p:0000] prunning:" `cat $TMP_PROCESS | sed -r -e 's/\n/ /g'`
-		echo "[p:0000] sleeping: 10"
-		sleep 10
+		echo "[p:0000] currently running pids:" `pgrep -P $$ | sed -r -e 's/\n/ /g'`
+		echo "[p:0000] sleeping: $RUN_IN_PARALLEL_MAX_WAIT"
+		sleep $RUN_IN_PARALLEL_MAX_WAIT
 	fi
 done
-wait
 
-rm $TMP_PROCESS
+echo "[p:0000] finishing up:" `pgrep -P $$ | sed -r -e 's/\n/ /g'`
+wait
