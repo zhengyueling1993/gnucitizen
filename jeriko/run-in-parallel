@@ -12,8 +12,8 @@ while read PROCESS
 do
 	($PROCESS 2>&1 | while read line; do echo "[p:`printf "%.4d" $CUR_PROCESS`] $line"; done) &
 
-	CUR_PROCESS=$(( $CUR_PROCESS + 1 ))
-	SUB_PROCESS=$(( $SUB_PROCESS + 1 ))
+	CUR_PROCESS=`expr $CUR_PROCESS + 1`
+	SUB_PROCESS=`expr $SUB_PROCESS + 1`
 
 	if [ $SUB_PROCESS -eq $RUN_IN_PARALLEL_MAX_PROCESSES ]
 	then
