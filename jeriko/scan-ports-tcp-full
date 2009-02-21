@@ -1,6 +1,8 @@
 #!/bin/sh
 if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
 
+TIMESTAMP=`date +%s`
+
 if [ "$@" ]
 then
 	for TARGET in $@
@@ -11,5 +13,5 @@ else
 	cat
 fi | sort | uniq | while read TARGET
 do
-	nmap -vvv $NMAP_TCP_SCAN_METHOD -F -oA "fast_tcp_scan_$TARGET_`date +%s`" $TARGET
+	nmap -vvv $NMAP_TCP_SCAN_METHOD -p1-65535 -oA "full_tcp_scan_$TARGET_$TIMESTAMP" $TARGET
 done

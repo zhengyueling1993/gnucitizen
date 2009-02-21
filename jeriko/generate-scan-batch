@@ -1,9 +1,14 @@
 #!/bin/sh
-if [ -f targets.txt ]; then cat targets.txt | while read TARGET; do cat << EOF
-fast-tcp-scan $TARGET
-fast-udp-scan $TARGET
-full-tcp-scan $TARGET
-full-udp-scan $TARGET
-vulnerability-scan $TARGET
+if [ -f targets.txt ]
+then
+	cat targets.txt | while read TARGET
+	do
+cat << EOF
+scan-ports-tcp-fast $TARGET
+scan-ports-udp-fast $TARGET
+scan-ports-tcp-full $TARGET
+scan-ports-udp-full $TARGET
+scan-vulnerabilities $TARGET
 EOF
-done; fi
+	done
+fi
