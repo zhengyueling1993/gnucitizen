@@ -7,14 +7,6 @@
 export PATH=`dirname $0`:$PATH
 
 #
-# KILL ALL
-# kill all child processes when CTRL+C
-#
-KILL_ALL() { pkill -P $$; exit; }
-
-trap KILL_ALL INT
-
-#
 # RUN IN BATCH
 # environment variables specific to run-in-batch
 #
@@ -65,3 +57,11 @@ fi
 # CHECK DEPENDENCIES
 #
 JERIKO_ENVIRONMENTLESS=true . environment-check
+
+#
+# KILL ALL
+# kill all child processes when CTRL+C
+#
+KILL_ALL() { pkill -P $$; exit; }
+
+trap KILL_ALL INT
