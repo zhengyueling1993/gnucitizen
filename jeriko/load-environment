@@ -1,31 +1,10 @@
 #!/bin/bash
 
 #
-# FIND PGREP
-# 
-if [ ! -x `which pgrep` ]
-then
-	echo '[x] cannot find pgrep' 1>&2
-	exit
-fi
-
+# PATH
+# set PATH to point to jeriko's folder first
 #
-# FIND PKILL
-# 
-if [ ! -x `which pgrep` ]
-then
-	echo '[x] cannot find pkill' 1>&2
-	exit
-fi
-
-#
-# FIND EXPR
-# 
-if [ ! -x `which expr` ]
-then
-	echo '[x] cannot find expr' 1>&2
-	exit
-fi
+export PATH=`dirname $0`:$PATH
 
 #
 # KILL ALL
@@ -36,17 +15,48 @@ KILL_ALL() { pkill -P $$; exit; }
 trap KILL_ALL INT
 
 #
-# PATH
-# set PATH to point to jeriko's folder first
+# RUN IN BATCH
+# environment variables specific to run-in-batch
 #
-export PATH=`dirname $0`:$PATH
+RUN_IN_BATCH_MAX_PROCESSES=10
 
 #
 # RUN IN PARALLEL
-# environment variables specific to run-in-parallel and flx-in-parallel
+# environment variables specific to run-in-parallel
 #
 RUN_IN_PARALLEL_MAX_PROCESSES=10
 RUN_IN_PARALLEL_MAX_WAIT=10
+
+#
+# PGREP
+# configure pgrep
+# 
+if [ ! -x `which pgrep` ]
+then
+	echo '[x] cannot find pgrep' 1>&2
+	exit
+fi
+
+#
+# PKILL
+# configure pkill
+# 
+if [ ! -x `which pgrep` ]
+then
+	echo '[x] cannot find pkill' 1>&2
+	exit
+fi
+
+#
+# EXPR
+# configure expr
+# 
+if [ ! -x `which expr` ]
+then
+	echo '[x] cannot find expr' 1>&2
+	exit
+fi
+
 
 #
 # NMAP
