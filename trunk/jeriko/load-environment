@@ -19,6 +19,15 @@ then
 fi
 
 #
+# FIND EXPR
+# 
+if [ ! -x `which expr` ]
+then
+	echo '[x] cannot find expr' 1>&2
+	exit
+fi
+
+#
 # KILL ALL
 # kill all child processes when CTRL+C
 #
