@@ -1,0 +1,19 @@
+#!/bin/sh
+if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
+
+TIMESTAMP=`date +%s`
+
+if [ "$@" ]
+then
+	for TARGET in $@
+	do
+		echo $TARGET
+	done
+else
+	cat
+fi | sort | uniq | while read $TARGET
+do
+	echo "$TARGET" > "vulnerability_scan_$TARGET_$TIMESTAMP.target"
+
+	nessus -V -T nbe -x -c "vulnerability_scan_$TARGET_$TIMESTAMP.config" -q $NESSUS_HOST $NESSUS_PORT $NESSUS_USER $NESSUS_PASS "vulnerability_scan_$TARGET_$TIMESTAMP.target"  "vulnerability_scan_$TARGET_$TIMESTAMP.nbe"
+done
