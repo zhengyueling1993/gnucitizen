@@ -1,0 +1,13 @@
+#!/bin/sh
+if [ -f targets.txt ]
+then
+	TMP=`mktemp`
+
+	cat | while read TARGET_TO_REMOVE
+	do
+		cat targets.txt | grep -v $TARGET_TO_REMOVE > $TMP
+		cp $TMP targets.txt
+	done
+
+	rm $TMP
+fi

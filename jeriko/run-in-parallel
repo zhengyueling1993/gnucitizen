@@ -1,0 +1,30 @@
+#!/bin/sh
+. `dirname $0`/load-environment
+
+if [ ! $RUN_IN_PARALLEL_MAX_PROCESSES ]
+then
+	RUN_IN_PARALLEL_MAX_PROCESSES=10
+fi
+
+if [ $1 ]
+then
+	RUN_IN_PARALLEL_MAX_PROCESSES=$1
+fi
+
+CUR_PROCESSES=0
+SUB_PROCESSES=0
+
+while read PROCESS
+do
+	($PROCESS 2>&1 | while read line; do echo "[p:`printf "%.4d" $CUR_PROCESS`] $line"; done) &
+
+	CUR_PROCESS=$(( $CUR_PROCESS + 1 ))
+	SUB_PROCESS=$(( $SUB_PROCESS + 1 ))
+
+	if [ $SUB_PROCESS -eq $RUN_IN_PARALLEL_MAX_PROCESSES ]
+	then
+		wait
+		SUB_PROCESS=0
+	fi
+done
+wait
