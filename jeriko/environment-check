@@ -7,6 +7,7 @@ then
 fi
 
 if [ ! "$JERIKO_CHECKLESS" ]
+then
 	#
 	# BASIC CHECKS
 	#
