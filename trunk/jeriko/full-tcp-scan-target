@@ -1,7 +1,0 @@
-#!/bin/sh
-if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
-
-if [ "$@" ]
-then
-	nmap -vvv $NMAP_TCP_SCAN_METHOD -p1-65535 -oA "full_tcp_scan_$@_`date +%s`" $@
-fi
