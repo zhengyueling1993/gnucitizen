@@ -1,0 +1,9 @@
+#!/bin/sh
+grep -E '^Host:' | while read LINE
+do
+	HOST=`echo $LINE | sed -r -e 's/Host: ([^ ]*).*/\1/'`
+	echo $LINE | sed -r -e 's/.*Ports: //' -e 's/, /\n/g' | grep '/open/' | sed -r -e 's/\/open\//\//' | cut -d '/' -f1-2 | sed -r -e 's/\//,/' | while read PORT
+	do
+		echo $HOST,$PORT
+	done
+done | sort | uniq

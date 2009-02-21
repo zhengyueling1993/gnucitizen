@@ -1,0 +1,2 @@
+#!/bin/sh
+cut -d'|' -f3-4 | grep -vE '^\|' | sed -r -e 's/ //' -e 's/\|[^(]+\(/,/' -e 's/\//,/' -e 's/\)//' | grep -v '|' | sort | uniq

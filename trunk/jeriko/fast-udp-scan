@@ -1,0 +1,3 @@
+#!/bin/sh
+. `dirname $0`/load-environment
+nmap -vvv $NMAP_UDP_SCAN_METHOD -F -oA "fast_udp_scan_$@_`date +%s`" $@
