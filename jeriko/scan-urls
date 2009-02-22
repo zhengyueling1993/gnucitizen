@@ -14,5 +14,5 @@ else
 fi | sort | uniq | while read TARGET
 do
 	FRIENDLYNAME=`echo $TARGET | sed -r -e 's/\W/_/g' -e 's/_+/_/g'`
-	wget --progress=dot -P url_scan_${FRIENDLYNAME}_$TIMESTAMP --protocol-directories -x --save-headers $WGET_URL_SCAN_METHOD $TARGET 2>&1 | tee url_scan_${FRIENDLYNAME}_$TIMESTAMP.log
+	wget -nv -P url_scan_${FRIENDLYNAME}_$TIMESTAMP --protocol-directories -x --save-headers $WGET_URL_SCAN_METHOD $TARGET 2>&1 | tee url_scan_${FRIENDLYNAME}_$TIMESTAMP.log
 done

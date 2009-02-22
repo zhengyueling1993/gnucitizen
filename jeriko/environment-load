@@ -20,6 +20,12 @@ RUN_IN_PARALLEL_MAX_PROCESSES=10
 RUN_IN_PARALLEL_MAX_WAIT=10
 
 #
+# SCAN WHOIS
+# environment vriables specific to scan-whois
+#
+WHOIS_SERVERS="whois.apnic.net whois.arin.net whois.ripe.net whois.networksolutions.com"
+
+#
 # NMAP
 # configure nmap
 #
@@ -40,6 +46,7 @@ NESSUS_PASS=pass
 # configure wget
 #
 WGET_URL_SCAN_METHOD="-l1"
+WGET_URL_STREAM_METHOD=
 
 #
 # LOAD USER DEFINED
