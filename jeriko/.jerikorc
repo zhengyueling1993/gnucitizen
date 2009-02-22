@@ -1,0 +1,25 @@
+#
+# JERIKO CONFIG SKELL
+# just copy this file within your project's folder or your user's folder
+#
+PATH_TO_NMAP=
+PATH_TO_NESSUS=
+PATH_TO_MSFCONSOLE=
+
+#
+# SETUP PATHS
+# configure system paths
+#
+for BIN in $PATH_TO_NMAP $PATH_TO_NESSUS $PATH_TO_MSFCONSOLE
+do
+	if [ `which $BIN` ]
+	then
+		PATH=$PATH:`dirname $BIN`
+	fi 
+done
+
+#
+# MAKE CHECKLESS
+# if this file is present and configured we don't need to perform further checks
+#
+JERIKO_CHECKLESS=true
