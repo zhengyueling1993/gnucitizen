@@ -1,0 +1,7 @@
+#!/bin/sh
+if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
+
+if [ -f targets.txt ]
+then
+	nmap -nsL -iL targets.txt | grep -E 'not scanned$' | cut -d ' ' -f2
+fi
