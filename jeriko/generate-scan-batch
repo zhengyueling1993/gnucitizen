@@ -1,8 +1,8 @@
 #!/bin/sh
-if [ -f targets.txt ]
-then
-	cat targets.txt | while read TARGET
-	do
+if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
+
+generate-ip-batch | while read TARGET
+do
 cat << EOF
 scan-ports-tcp-fast $TARGET
 scan-ports-udp-fast $TARGET
@@ -10,5 +10,4 @@ scan-ports-tcp-full $TARGET
 scan-ports-udp-full $TARGET
 scan-vulnerabilities $TARGET
 EOF
-	done
-fi
+done
