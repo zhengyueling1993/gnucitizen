@@ -3,5 +3,5 @@ if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; f
 
 if [ -f targets.txt ]
 then
-	nmap -nsL -iL targets.txt | grep -E 'not scanned$' | cut -d ' ' -f2
+	nmap -nsL -iL targets.txt 2>/dev/null | grep -E 'not scanned$' | cut -d ' ' -f2
 fi
