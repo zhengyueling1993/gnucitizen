@@ -1,0 +1,4 @@
+#!/bin/sh
+if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
+
+screen -ls | grep 'jeriko' | sed -r -e 's/^\t+//'

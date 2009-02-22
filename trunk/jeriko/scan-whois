@@ -1,0 +1,25 @@
+#!/bin/sh
+if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
+
+TIMESTAMP=`date +%s`
+
+if [ "$@" ]
+then
+	for TARGET in $@
+	do
+		echo $TARGET
+	done
+else
+	cat
+fi | sort | uniq | while read QUERY
+do
+	FRIENDLYQUERY=`echo $QUERY | sed -r -e 's/\W/_/g' -e 's/_+/_/g'`
+
+	whois $QUERY | tee whois_${FRIENDLYQUERY}_$TIMESTAMP
+
+	for SERVER in $WHOIS_SERVERS
+	do
+		FRIENDLYSERVER=`echo $SERVER | sed -r -e 's/\W/_/g' -e 's/_+/_/g'`
+		whois -h $SERVER $QUERY | tee whois_${FRIENDLYQUERY}_${FRIENDLYSERVER}_$TIMESTAMP
+	done
+done
