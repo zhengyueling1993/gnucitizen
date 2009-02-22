@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "GNUCITIZEN"
+echo "Information Security Think Tank"
+echo
+echo "http://www.gnucitizen.org"
