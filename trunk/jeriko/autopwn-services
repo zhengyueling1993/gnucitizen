@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
+
+TIMESTAMP=`date +%s`
+METASPLOIT_RESOURCE_FILE="autopwn_${TIMESTAMP}.rc"
+
+generate-exploit-batch > $METASPLOIT_RESOURCE_FILE
+msfconsole -r $METASPLOIT_RESOURCE_FILE

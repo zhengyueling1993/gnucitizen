@@ -6,58 +6,36 @@ then
 	JERIKO_STRICT_CHECKS=true
 fi
 
+check_for_cmd() {
+	if [ ! `which $1` ]
+	then
+		echo "cannot find $1" 1>&2
+		exit
+	fi
+}
+
+check_for_process() {
+	if [ ! `pgrep "^${1}$"` ]
+	then
+		echo "$1 is not running" 1>&2
+		exit
+	fi
+}
+
 if [ ! "$JERIKO_CHECKLESS" ]
 then
 	#
 	# BASIC CHECKS
 	#
-	if [ ! -x `which pgrep` ]
-	then
-		echo '[x] cannot find pgrep' 1>&2
-		exit
-	fi
-
-	if [ ! -x `which pgrep` ]
-	then
-		echo '[x] cannot find pkill' 1>&2
-		exit
-	fi
-
-	if [ ! -x `which expr` ]
-	then
-		echo '[x] cannot find expr' 1>&2
-		exit
-	fi
-
-	if [ ! -x `which screen` ]
-	then
-		echo '[x] cannot find screen' 1>&2
-		exit
-	fi
-
-	if [ ! -x `which script` ]
-	then
-		echo '[x] cannot find script' 1>&2
-		exit
-	fi
-
-	if [ ! -x `which wget` ]
-	then
-		echo '[x] cannot find wget' 1>&2
-		exit
-	fi
-
-	if [ ! -x `which nmap` ]
-	then
-		echo '[x] cannot find nmap' 1>&2
-		exit
-	fi
-
-	if [ ! -x `which nessus` ]
-	then
-		echo '[x] cannot find nessus' 1>&2
-		exit
-	fi
+	check_for_cmd expr
+	check_for_cmd pgrep
+	check_for_cmd pkill
+	check_for_cmd screen
+	check_for_cmd script
+	check_for_cmd wget
+	check_for_cmd nmap
+	check_for_cmd msfconsole
+	check_for_cmd nessus
 
 	#
 	# JERIKO STRICT CHECKS
@@ -66,11 +44,7 @@ then
 	then
 		if [ "$NESSUS_HOST" = "127.0.0.1" -o "$NESSUS_HOST" = "localhost" ]
 		then
-			if [ ! `pgrep '^nessusd$'` ]
-			then
-				echo '[x] cannot find nessusd' 1>&2
-				exit
-			fi
+			check_for_process nessusd
 		fi
 	fi
 fi
