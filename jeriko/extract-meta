@@ -1,0 +1,2 @@
+#!/bin/sh
+grep -Eio "<meta .*" | grep -Eo "content *= *[\"'][^\"']+" | grep -Eo "[\"'].*" | sed -r -e 's/(")//g' -e 's/[,.]/\n/g' -e 's/ +/\n/g' | sed -r -e 's/^ +//' | grep -Ev "^ *$"

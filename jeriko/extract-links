@@ -1,0 +1,2 @@
+#!/bin/sh
+grep -Eio "(src|href) *= *[\"'][^\"']*" | grep -Eo "[\"'].*" | cut -c2-
