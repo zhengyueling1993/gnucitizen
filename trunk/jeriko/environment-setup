@@ -1,2 +1,30 @@
 #!/bin/sh
-if [ -f `dirname $0`/environment-load ]; then JERIKO_ENVIRONMENTLESS=true . `dirname $0`/environment-load; fi
+. `dirname $0`/environment-load
+
+if [ `which apt-get` ]
+then
+	auto_install_package() {
+		sudo apt-get install $@
+	}
+elif [ `which yum` ]
+then
+	auto_install_package() {
+		sudo yum install $@
+	}
+fi
+
+install_if_not_present() {
+	if [ ! `which $1` ]
+	then
+		if [ "$2" ]
+		then
+			auto_install_package $2
+		else
+			auto_install_package $1
+		fi
+	fi
+}
+
+install_if_not_present nmap
+install_if_not_present nessus
+install_if_not_present msfconsole metasploit

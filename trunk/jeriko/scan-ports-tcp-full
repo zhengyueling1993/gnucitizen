@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
+. `dirname $0`/environment-load
 
 TIMESTAMP=`date +%s`
 

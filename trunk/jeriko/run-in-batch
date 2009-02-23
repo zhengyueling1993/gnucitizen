@@ -1,8 +1,7 @@
 #!/bin/sh
-if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
+. `dirname $0`/environment-load
 
 if [ ! $RUN_IN_BATCH_MAX_PROCESSES ]; then RUN_IN_BATCH_MAX_PROCESSES=10; fi
-
 if [ $1 ]; then RUN_IN_BATCH_MAX_PROCESSES=$1; fi
 
 CUR_PROCESSES=0
