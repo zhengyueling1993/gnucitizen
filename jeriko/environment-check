@@ -2,7 +2,7 @@
 
 if [ ! "$JERIKO_ENVIRONMENTLESS" ]
 then
-	if [ -f `dirname $0`/environment-load ]; then . `dirname $0`/environment-load; fi
+	. `dirname $0`/environment-load
 	JERIKO_STRICT_CHECKS=true
 fi
 
