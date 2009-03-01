@@ -9,4 +9,4 @@ then
 	COMMAND="bash"
 fi
 
-screen -S jeriko.$TIMESTAMP script -c "$COMMAND" jeriko_$TIMESTAMP.session
+screen -d -m -S jeriko.$TIMESTAMP script -c "$COMMAND" jeriko_$TIMESTAMP.session

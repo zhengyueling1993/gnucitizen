@@ -2,10 +2,11 @@
 . `dirname $0`/environment-load
 
 TIMESTAMP=`date +%s`
+ARGS=$@
 
-if [ "$@" ]
+if [ "$ARGS" ]
 then
-	for TARGET in $@
+	for TARGET in $ARGS
 	do
 		echo $TARGET
 	done

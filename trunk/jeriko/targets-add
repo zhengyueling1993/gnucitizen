@@ -1,7 +1,9 @@
 #!/bin/sh
-if [ "$@" ]
+ARGS=$@
+
+if [ "$ARGS" ]
 then
-	for TARGET in $@
+	for TARGET in $ARGS
 	do
 		echo $TARGET >> targets.txt
 	done

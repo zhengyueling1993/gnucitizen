@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "GNUCITIZEN"
-echo "Information Security Think Tank"
-echo
-echo "http://www.gnucitizen.org"
+cat << EOF
+GNUCITIZEN(http://www.gnucitizen.org)
+Information Security Think Tank
+EOF
