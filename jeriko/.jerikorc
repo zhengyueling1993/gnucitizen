@@ -1,6 +1,6 @@
 #
 # JERIKO CONFIG SKELL
-# just copy this file within your project's folder or your user's folder
+# just copy this file within your project's or your user's folder
 #
 PATH_TO_NMAP=
 PATH_TO_NESSUS=
