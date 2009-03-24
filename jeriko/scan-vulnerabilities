@@ -12,7 +12,7 @@ then
 	done
 else
 	cat
-fi | sort | uniq | while read $TARGET
+fi | sort | uniq | while read TARGET
 do
 	echo "$TARGET" > "vulnerability_scan_$TARGET_$TIMESTAMP.target"
 
