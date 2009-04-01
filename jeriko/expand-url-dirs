@@ -1,0 +1,18 @@
+#!/bin/sh
+. `dirname $0`/environment-load
+
+if [ "$ARGS" ]
+then
+	for TARGET in $ARGS
+	do
+		echo $TARGET
+	done
+else
+	cat
+fi | sort | uniq | while read TARGET
+do
+	for DIR in $EXPAND_URL_DIRS
+	do
+		echo $TARGET$DIR
+	done
+done

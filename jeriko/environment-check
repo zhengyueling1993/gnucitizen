@@ -30,6 +30,7 @@ then
 	check_for_cmd expr
 	check_for_cmd pgrep
 	check_for_cmd pkill
+	check_for_cmd awk
 	check_for_cmd screen
 	check_for_cmd script
 	check_for_cmd wget
