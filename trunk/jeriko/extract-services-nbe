@@ -1,2 +1,2 @@
 #!/bin/sh
-cut -d'|' -f3-4 | grep -vE '^\|' | sed -r -e 's/ //' -e 's/\|[^(]+\(/,/' -e 's/\//,/' -e 's/\)//' | grep -v '|' | sort | uniq
+cut -d'|' -f3-4 | grep -vE '^\|' | sed -r -e 's/ //' -e 's/(\||\/)/,/g' | grep '(' | sed -r -e 's/\(|\)/,/g' | awk -F, '{ print $1","$3","$4","$2 }' | sort | uniq

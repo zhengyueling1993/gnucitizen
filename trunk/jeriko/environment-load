@@ -49,6 +49,18 @@ WGET_URL_SCAN_METHOD="-l1"
 WGET_URL_STREAM_METHOD=
 
 #
+# EXPAND URL DIRS
+# configure url dir bruteforce generator
+#
+EXPAND_URL_DIRS="admin root adm portal wordpress blog images site manage system users"
+
+#
+# EXPAND URL CREDENTIALS
+# configure url credentials bruteforce generator
+#
+EXPAND_URL_CREDENTIALS="admin administrator root pass password guest manager cisco user"
+
+#
 # LOAD USER DEFINED
 # load jeriko profile from the user's folder
 #
