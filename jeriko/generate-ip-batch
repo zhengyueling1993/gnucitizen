@@ -3,5 +3,10 @@
 
 if [ -f targets.txt ]
 then
-	nmap -nsL -iL targets.txt 2>/dev/null | grep -E 'not scanned$' | cut -d ' ' -f2
+	if [ -f exceptions.txt ]
+	then
+		nmap -nsL -iL targets.txt 2>/dev/null | grep -E 'not scanned$' | cut -d ' ' -f2 | sort | uniq | grep -v -f exceptions.txt
+	else
+		nmap -nsL -iL targets.txt 2>/dev/null | grep -E 'not scanned$' | cut -d ' ' -f2 | sort | uniq
+	fi
 fi

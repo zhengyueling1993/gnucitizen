@@ -1,0 +1,7 @@
+#!/bin/sh
+. `dirname $0`/environment-load
+
+if [ ! -f ./.jerikorc ]
+then
+	cp `dirname $0`/.jerikorc ./
+fi
