@@ -3,9 +3,9 @@ grep -E '^Host:' | while read LINE
 do
 	HOST=`echo $LINE | sed -r -e 's/Host: ([^ ]*).*/\1/'`
 
-	#echo $LINE | sed -r -e 's/.*Ports: //' -e 's/, /\n/g' | grep '/open/' | sed -r -e 's/\/open\//\//' | cut -d '/' -f1-2 | sed -r -e 's/\//,/' | while read PORT
 	echo $LINE | sed -r -e 's/.*Ports: //' -e 's/, /\n/g' | grep '/open/' | sed -r -e 's/\/open\//\//' | awk -F'/' '{ print $1","$2","$4 }' | while read PORT
 	do
+		PORT=`echo $PORT | cut -d'?' -f1 | sed -r -e 's/\|/-/g' -e 's/\?$//'`
 		echo $HOST,$PORT
 	done
 done | sort | uniq

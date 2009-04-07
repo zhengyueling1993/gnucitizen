@@ -21,9 +21,17 @@ RUN_IN_PARALLEL_MAX_WAIT=10
 
 #
 # SCAN WHOIS
-# environment vriables specific to scan-whois
+# environment variables specific to scan-whois
 #
 WHOIS_SERVERS="whois.apnic.net whois.arin.net whois.ripe.net whois.networksolutions.com"
+
+#
+# SCAN BROWSER
+# environment variables specific to scan-browsers
+#
+XVFB_START_SERVER_NUMBER=99
+XVFB_SCREEN_OPTIONS="-screen 0 1024x768x24 -extension Composite"
+SCAN_BROWSERS_CAPTURE_DELAY=30 #seconds
 
 #
 # NMAP

@@ -25,6 +25,9 @@ install_if_not_present() {
 	fi
 }
 
+install_if_not_present firefox
+install_if_not_present Xvfb xvfb
+install_if_not_present import imagemagic
 install_if_not_present nmap
 install_if_not_present nessus
 install_if_not_present msfconsole metasploit

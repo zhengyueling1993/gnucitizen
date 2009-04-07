@@ -1,0 +1,47 @@
+#!/bin/sh
+. `dirname $0`/environment-load
+
+XVFB_SERVER_NUMBER=$XVFB_START_SERVER_NUMBER
+while [ -f /tmp/.X$XVFB_SERVER_NUMBER-lock ]
+do
+	XVFB_SERVER_NUMBER=`expr $XVFB_SERVER_NUMBER + 1`
+done
+
+XVFB_TEMP_DIR=`mktemp -d`
+XVFB_XAUTHORITY_FILE=$XVFB_TEMP_DIR/Xauthority
+
+xauth -f $XVFB_XAUTHORITY_FILE add :$XVFB_SERVER_NUMBER . `mcookie`  >/dev/null 2>&1
+XAUTHORITY=$XVFB_XAUTHORITY_FILE Xvfb :$XVFB_SERVER_NUMBER $XVFB_SCREEN_OPTIONS -fbdir /tmp/ >/dev/null 2>&1 &
+
+sleep 5
+
+TIMESTAMP=`date +%s`
+ARGS=$@
+
+if [ "$ARGS" ]
+then
+	for TARGET in $ARGS
+	do
+		echo $TARGET
+	done
+else
+	cat
+fi | sort | uniq | while read TARGET
+do
+	FRIENDLYNAME=`echo $TARGET | sed -r -e 's/\W/_/g' -e 's/_+/_/g'`
+	PROFILE_DIR=`mktemp -d`
+
+	DISPLAY=:$XVFB_SERVER_NUMBER XAUTHORITY=$XVFB_XAUTHORITY_FILE firefox -profile $PROFILE_DIR -no-remote $TARGET >/dev/null 2>&1 &
+
+	FIREFOX_PID=$!
+
+	sleep $SCAN_BROWSERS_CAPTURE_DELAY
+
+	echo 'Taking browser screenshot for' $TARGET
+	DISPLAY=:$XVFB_SERVER_NUMBER XAUTHORITY=$XVFB_XAUTHORITY_FILE import -window root -trim browser_scan_${FRIENDLYNAME}_${TIMESTAMP}.png >/dev/null 2>&1
+
+	kill $FIREFOX_PID
+	rm -rf $PROFILE_DIR
+done
+
+rm -rf $XVFB_TEMP_DIR

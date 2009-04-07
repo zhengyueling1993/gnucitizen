@@ -34,6 +34,9 @@ then
 	check_for_cmd screen
 	check_for_cmd script
 	check_for_cmd wget
+	check_for_cmd Xvfb
+	check_for_cmd import
+	check_for_cmd firefox
 	check_for_cmd nmap
 	check_for_cmd msfconsole
 	check_for_cmd nessus

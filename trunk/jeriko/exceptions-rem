@@ -1,0 +1,22 @@
+#!/bin/sh
+if [ -f exceptions.txt ]
+then
+	TMPFILE=`mktemp`
+
+	if [ "$@" ]
+	then
+		for TARGET_TO_REMOVE in $@
+		do
+			cat exceptions.txt | grep -v $TARGET_TO_REMOVE > $TMPFILE
+			cp $TMPFILE exceptions.txt
+		done
+	else
+		cat | while read TARGET_TO_REMOVE
+		do
+			cat exceptions.txt | grep -v $TARGET_TO_REMOVE > $TMPFILE
+			cp $TMPFILE exceptions.txt
+		done
+	fi
+
+	rm $TMPFILE
+fi
