@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://websecurify/skin/tasks.css" type="text/css"?>
+<?xml-stylesheet href="chrome://branding/skin/brand.css" type="text/css"?>
+<!DOCTYPE window [
+<!ENTITY % brand-dtd SYSTEM "chrome://branding/locale/brand.dtd">%brand-dtd;
+<!ENTITY % tasks-dtd SYSTEM "chrome://websecurify/locale/tasks.dtd">%tasks-dtd;
+]>
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="tasks" title="&tasks-title;" windowtype="websecurify:tasks"
+	screenX="5" screenY="5"
+	width="400" height="500"
+	persist="screenX screenY width height sizemode">
+	
+	<script type="application/x-javascript" src="chrome://websecurify/content/tasks.js"/>
+	
+	<stringbundleset id="tasks-stringbundleset">
+		<stringbundle id="tasks-properties" src="chrome://websecurify/locale/tasks.properties"/>
+	</stringbundleset>
+	
+	<box id="tasks-blueprints" hidden="true">
+		<richlistitem id="tasks-blueprints-task" role="task" orient="vertical">
+			<vbox style="overflow:hidden">
+				<label role="description" value=""/>
+				<label role="status" value=""/>
+			</vbox>
+			<progressmeter role="progress"/>
+			<hbox id="tasks-blueprints-task-buttons" pack="end"/>
+		</richlistitem>
+	</box>
+	
+	<richlistbox id="tasks-richlistbox" flex="1"/>
+	
+</window>
