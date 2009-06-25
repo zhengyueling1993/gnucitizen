@@ -1,49 +1,7 @@
 /**
- * FUZZER PROCESSOR WORKER CONSTRUCTOR
+ * FUZZER CONSTRUCTOR
  **/
-function FuzzerProcessorWorker() {
-	var base = 'chrome://websecurify/content/lib/';
-	var processor = this;
-	
-	processor.onmessage = undefined;
-	processor.ondata = undefined;
-	
-	processor.worker = new Worker(base + 'worker.fuzzerprocessor.js');
-	processor.register_observer(function (event) {
-		if (event.data.message_type == 'FuzzerProcessor.data') {
-			if (processor.ondata != undefined) {
-				processor.ondata(event.data);
-			}
-		}
-		
-		if (processor.onmessage != undefined) {
-			processor.onmessage(event.data);
-		}
-	});
-}
-
-/**
- * FUZZER PROCESSOR WORKER PROTOTYPE
- **/
-FuzzerProcessorWorker.prototype = {
-	process: function (request) {
-		this.worker.postMessage({message_type:'process', request:request});
-	},
-	terminate: function () {
-		this.worker.terminate();
-	},
-	register_observer: function (observer) {
-		this.worker.addEventListener('message', observer, true);
-	},
-	unregister_observer: function (observer) {
-		this.worker.removeEventListener('message', observer, true);
-	},
-};
-
-/**
- * FUZZER WORKER CONSTRUCTOR
- **/
-function FuzzerWorker() {
+function Fuzzer() {
 	var base = 'chrome://websecurify/content/lib/';
 	var fuzzer = this;
 	
@@ -65,9 +23,9 @@ function FuzzerWorker() {
 }
 
 /**
- * FUZZER WORKER PROTOTYPE
+ * FUZZER PROTOTYPE
  **/
-FuzzerWorker.prototype = {
+Fuzzer.prototype = {
 	fuzz: function (request) {
 		this.worker.postMessage({message_type:'fuzz', request:request});
 	},

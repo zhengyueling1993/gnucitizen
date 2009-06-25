@@ -4,9 +4,9 @@
 importScripts('lib.fuzzer.js');
 
 /**
- * FUZZER
+ * FUZZER WORKER
  **/
-var fuzzer = new Fuzzer();
+var fuzzer = new FuzzerWorker();
 
 /**
  * ON MESSAGE

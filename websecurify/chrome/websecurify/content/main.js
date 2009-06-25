@@ -78,6 +78,13 @@ window.addEventListener('load', function () {
 		globals.tasks[target] = {progress:0, status:'initiated', messages:[]};
 		globals.engine.initiate(target);
 	};
+	
+	//////////////////////
+	var f = new Fuzzer();
+	f.onmessage = function (message) {
+		dump(message);
+	};
+	f.fuzz({url:'http://www.google.com/search?q=testme'});
 }, true);
 
 /**
