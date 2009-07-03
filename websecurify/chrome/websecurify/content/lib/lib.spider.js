@@ -1,188 +1,158 @@
 /**
  * IMPORT SCRIPTS
  **/
-importScripts('lib.queue.js');
 importScripts('lib.http.js');
-importScripts('api.spider.js');
+importScripts('lib.html.js');
+importScripts('lib.sets.js');
 
 /**
- * SPIDER PROCESSOR CONSTRUCTOR
+ * SCOPE CONSTRUCTOR
  **/
-function SpiderProcessor() {
-	// pass
+function Scope(scope) {
+	this.include = [];
+	this.exclude = [];
+	
+	if (scope != undefined) {
+		this.update(scope);
+	}
 }
 
 /**
- * SPIDER PROCESSOR PROTOTYPE
+ * SCOPE PROTOTYPE
  **/
-SpiderProcessor.prototype = {
-	extract_urls: function (source, base) {
-		var urls = [];
-		
-		var match = source.match(/(\w+?:\/\/\w+[^\s"'><)()]*)/gi);
-		if (match) {
-			for (var i = 0; i < match.length; i++) {
-				try {
-					urls.push((new URL(match[i])).toString());
-				} catch (e) {}
+Scope.prototype = {
+	update: function (scope) {
+		if (typeof scope.include == 'string') {
+			this.include.push(scope.include);
+		} else
+		if (scope.include instanceof Array) {
+			for (var i = 0; i < scope.include.length; i++) {
+				this.include.push(scope.include[i]);
 			}
 		}
 		
-		var match = source.match(/(src|href)\s*=\s*('[^']*'|"[^"]*")/gi);
-		if (match) {
-			for (var i = 0; i < match.length; i++) {
-				var m = match[i];
-				var inner = match[i].replace(/(^(src|href)\s*=\s*("|')|("|')$)/gi, '')
-				                    .replace(/(^\s*|\s*$)/g, '');
-				
-				if (inner.match(/^(about|javascript|data|mailto):/gi)) { // TODO: more known protocols
-					continue;
-				}
-				
-				try {
-					urls.push((new URL(inner)).toString());
-				} catch (e) {
-					try {
-						urls.push((new URL(inner, base)).toString());
-					} catch (e) {}
-				}
+		if (typeof scope.exclude == 'string') {
+			this.exclude.push(scope.exclude);
+		} else
+		if (scope.exclude instanceof Array) {
+			for (var i = 0; i < scope.exclude.length; i++) {
+				this.exclude.push(scope.exclude[i]);
 			}
 		}
-		
-		var _urls = [];
+	},
+	include_request: function (request) {
+		this.include.push('^' + request.url.toString().replace(new RegExp('[.*+?|()\\[\\]{}\\\\]', 'g'), '\\$&'));
+	},
+	exclude_request: function (request) {
+		this.exclude.push('^' + request.url.toString().replace(new RegExp('[.*+?|()\\[\\]{}\\\\]', 'g'), '\\$&'));
+	},
+	match: function (request) {
+		for (var i = 0; i < this.include.length; i++) {
+			if ((new RegExp(this.include[i], 'i')).exec(request.url)) {
+				for (var z = 0; z < this.exclude.length; z++) {
+					if ((new RegExp(this.exclude[z], 'i')).exec(request.url)) {
+						return false;
+					}
+				}
 
-		label:for (var i = 0, n = urls.length; i < n; i++) {
-			for (var x = 0, y = _urls.length; x < y; x++) {
-				if (_urls[x] == urls[i]) {
-					continue label;
-				}
+				return true;
 			}
-			
-			_urls.push(urls[i]);
 		}
-		
-		return _urls;
-	},
-	process: function (request) {
-		var _request = Request.factory.new_from_object(request);
-		var _response = _request.send();
-		
-		var urls = this.extract_urls(_response.responseText, _request.url);
-		
-		this.post_message('SpiderProcessor.data', {request:_request, response:_response, urls:urls});
-	},
-	post_message: function (message_type, message) {
-		message.message_type = message_type;
-		postMessage(message);
+
+		if (this.include.length > 0) {
+			return false;
+		}
+
+		for (var z = 0; z < this.exclude.length; z++) {
+			if ((new RegExp(this.exclude[z], 'i')).exec(request.url)) {
+				return false;
+			}
+		}
+
+		return true;
 	},
 };
 
 /**
- * SPIDER CONSTRUCTOR
+ * SPIDER WORKER CONSTRUCTOR
  **/
-function Spider() {
-	this.scale = 1;
-	this.timer = 0;
-	this.scope = {};
-	this.processors = [];
-	this.requests = new Queue();
+function SpiderWorker() {
+	this.step = 0;
+	this.available = true;
+	
+	this.queue = new Set();
+	this.scope = new Scope();
+	
+	var spider = this;
+	
+	spider.interval = setInterval(function () {
+		if (spider.available) {
+			spider.available = false;
+			
+			spider.process();
+			
+			spider.available = true;
+		}
+	}, 1);
 }
 
 /**
- * SPIDER PROTOTYPE
+ * SPIDER WORKER PROTOTYPE
  **/
-Spider.prototype = {
-	rescale: function (scale) {
-		this.scale = scale;
-		this.schedule();
+SpiderWorker.prototype = {
+	create_scope: function (scope) {
+		this.scope = new Scope(scope);
 	},
-	rescope: function (scope) {
-		this.scope = scope;
+	update_scope: function (scope) {
+		this.scope.update(scope);
 	},
-	schedule: function () {
-		var spider = this;
+	initiate: function (request) {
+		var request = new Request(request);
 		
-		if (spider.scale > spider.processors.length) {
-			for (var i = 0; i < spider.scale - spider.processors.length; i++) {
-				var processor = new SpiderProcessorWorker();
-				processor.register_observer(function (event) {
-					if (event.data.message_type == 'SpiderProcessor.data') {
-						for (var i = 0; i < event.data.urls.length; i++) {
-							var request = Request.factory.new_from_url(event.data.urls[i]);
-							
-							if (request.in_scope(spider.scope)) {
-								spider.requests.push(request);
-							}
-						}
-						
-						spider.post_message('Spider.data', event.data);
-						spider.schedule();
-					}
-				});
-				
-				spider.processors.push(processor);
-			}
-		} else
-		if (spider.scale < spider.processors.length) {
-			for (var i = 0; i < spider.processors.length - spider.scale; i++) {
-				for (var z = 0; z < spider.processors.length; z++) {
-					if (spider.processors[z].is_available()) {
-						spider.processors[z].terminate();
-						delete spider.processors[z];
-						
-						break;
-					}
-				}
-			}
-		}
-		
-		for (var z = 0; z < spider.processors.length; z++) {
-			if (spider.processors[z].is_available()) {
-				var request = spider.requests.pop();
-				
-				if (!request) {
-					break;
-				} else {
-					spider.processors[z].process(request);
-				}
-			}
-		}
+		this.scope.include_request(request);
+		this.queue.push(request);
 	},
-	spider: function (url) {
-		var request = Request.factory.new_from_url(url);
-		
-		if (request.in_scope(this.scope)) {
-			this.requests.push(request);
-		}
-		
-		if (!this.timer) {
-			var spider = this;
+	process: function () {
+		while (true) {
+			var request = this.queue.next();
 			
-			spider.timer = setInterval(function () {
-				if (spider.requests.length == 0) {
-					var available_processors = 0;
-
-					for (var i = 0; i < spider.processors.length; i++) {
-						if (spider.processors[i].is_available()) {
-							available_processors +=1;
-						}
-					}
-
-					if (available_processors == spider.processors.length) {
-						spider.post_message('Spider.finished');
-						clearInterval(spider.timer);
-					}
+			if (!request) {
+				this.post_message('SpiderWorker.finished');
+				
+				break;
+			}
+			
+			this.post_progress('spidering for ' + request.method + ' ' + request.url);
+			
+			var response = request.send();
+			var links = (new Document(response.data, request.url)).links;
+			
+			for (var i = 0; i < links.length; i++) {
+				//dump(links[i] + '\n');
+				var request_to_spider = Request.factory.new_from_url(links[i].split('#')[0]);
+				
+				if (this.scope.match(request_to_spider)) {
+					this.queue.push(request_to_spider, false);
 				}
-			}, 1000);
+			}
+			
+			this.step += 1;
+			
+			this.post_message('SpiderWorker.data', {request:request, response:response, links:links});
+			this.post_progress('finished spidering for ' + request.method + ' ' + request.url);
 		}
+	},
+	post_progress: function (status) {
+		var step = this.step;
+		var steps = this.queue.length;
 		
-		this.schedule();
+		this.post_message('SpiderWorker.progress', {progress:Math.round((100 / steps) * step), step:(step + '/' + steps), status:status});
 	},
 	post_message: function (message_type, message) {
+		var message = message;
+		
 		if (message == undefined) {
 			var message = {};
-		} else {
-			var message = message;
 		}
 		
 		message.message_type = message_type;

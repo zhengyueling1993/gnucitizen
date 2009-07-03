@@ -1,7 +1,7 @@
 /**
  * IMPORTS
  **/
-Components.utils.import("resource://websecurify/mod/globals.jsm");
+Components.utils.import("resource://websecurify/content/mod/globals.jsm");
 
 /**
  * MEDIATOR
@@ -14,6 +14,59 @@ var mediator = Components.classes['@mozilla.org/appshell/window-mediator;1']
  **/
 var prompts = Components.classes['@mozilla.org/embedcomp/prompt-service;1']
                         .getService(Components.interfaces.nsIPromptService);
+
+/**
+ * ON LOAD
+ * initialize application
+ **/
+window.addEventListener('load', function () {
+	// register global tasks object
+	globals.tasks = {};
+	
+	// register new global engine
+	globals.engine = new Engine();
+	
+	// observe the global engine progress
+	globals.engine.onprogress = function (data) {
+		globals.tasks[data.target].status = data.status;
+		globals.tasks[data.target].progress = data.progress;
+	};
+	
+	// observer the global engine messages
+	globals.engine.onmessage = function (data) {
+		globals.tasks[data.target].messages.push(data);
+	};
+	
+	// register global engine initiation function
+	globals.initiate_engine = function (target) {
+		globals.tasks[target] = {progress:0, status:'initiated', messages:[]};
+		globals.engine.initiate(target);
+		
+		main_tools_open_tasks();
+	};
+	///////////
+	globals.initiate_engine('http://testasp.acunetix.com/');
+}, true);
+
+/**
+ * ON CLOSE
+ * exit application
+ **/
+window.addEventListener('close', function (event) {
+	// ask for confirmation from the user
+	/** TODO: uncomment
+	if (!prompts.confirm(null, 'Websecurify', 'Do you really want to quit?')) {
+		return event.preventDefault();
+	}
+	TODO: uncomment **/
+	
+	// get a reference to the app-startup service
+	var ass = Components.classes['@mozilla.org/toolkit/app-startup;1']
+	                    .getService(Components.interfaces.nsIAppStartup);
+	
+	// for the application to quit regardless of the current situation
+	ass.quit(Components.interfaces.nsIAppStartup.eForceQuit);
+}, true);
 
 /**
  * MAIN TOOLS OPEN TASKS
@@ -50,59 +103,3 @@ function main_tools_open_error_console() {
 		win.focus();
 	}
 }
-
-/**
- * ON LOAD
- * initialize application
- **/
-window.addEventListener('load', function () {
-	// register global tasks object
-	globals.tasks = {};
-	
-	// register new global engine
-	globals.engine = new EngineWorker();
-	
-	// observe the global engine progress
-	globals.engine.onprogress = function (data) {
-		globals.tasks[data.target].status = data.status;
-		globals.tasks[data.target].progress = data.progress;
-	};
-	
-	// observer the global engine messages
-	globals.engine.onmessage = function (data) {
-		globals.tasks[data.target].messages.push(data);
-	};
-	
-	// register global engine initiation function
-	globals.initiate_engine = function (target) {
-		globals.tasks[target] = {progress:0, status:'initiated', messages:[]};
-		globals.engine.initiate(target);
-	};
-	
-	//////////////////////
-	var f = new Fuzzer();
-	f.onmessage = function (message) {
-		dump(message);
-	};
-	f.fuzz({url:'http://www.google.com/search?q=testme'});
-}, true);
-
-/**
- * ON CLOSE
- * exit application
- **/
-window.addEventListener('close', function (event) {
-	// ask for confirmation from the user
-	/** TODO: uncomment
-	if (!prompts.confirm(null, 'Websecurify', 'Do you really want to quit?')) {
-		return event.preventDefault();
-	}
-	TODO: uncomment **/
-	
-	// get a reference to the app-startup service
-	var ass = Components.classes['@mozilla.org/toolkit/app-startup;1']
-	                    .getService(Components.interfaces.nsIAppStartup);
-	
-	// for the application to quit regardless of the current situation
-	ass.quit(Components.interfaces.nsIAppStartup.eForceQuit);
-}, true);

@@ -12,12 +12,12 @@ var fuzzer = new FuzzerWorker();
  * ON MESSAGE
  **/
 function onmessage(event) {
-	if (event.data.message_type == 'fuzz') {
+	if (event.data.message_type == 'initiate') {
 		if (event.data.request == undefined) {
 			throw 'no request provided';
 		}
 		
-		fuzzer.fuzz(event.data.request);
+		fuzzer.initiate(event.data.request);
 	}
 }
 

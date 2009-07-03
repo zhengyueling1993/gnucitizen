@@ -1,12 +1,28 @@
 /**
+ * RAW CONSTRUCTOR
+ **/
+function Raw(value) {
+	this.value = value;
+}
+
+/**
+ * RAW PROTOTYPE
+ **/
+Raw.prototype = {
+	toString: function () {
+		return this.value.toString();
+	},
+	valueOf: function () {
+		return this.value.valueOf();
+	}
+};
+
+/**
  * QUERY CONSTRUCTOR
  **/
 function Query(query) {
 	this.query = {};
 	
-	if (query instanceof Query) {
-		this.update(query.query);
-	} else
 	if (typeof query == 'string') {
 		this.update(Query.factory.new_from_string(query));
 	} else
@@ -74,15 +90,18 @@ Query.factory = {
 		var tokens = [];
 		
 		for (var key in query) {
-			//if (key) {
-				tokens.push(escape(key) + '=' + escape(query[key]));
-			//}
+			if (key) {
+				tokens.push(escape(key) + '=' + (query[key] ? query[key] instanceof Raw ? query[key] : escape(query[key]) : ''));
+			}
 		}
 		
 		return tokens.join('&');
 	},
 	new_from_string: function (str) {
 		return new Query(Query.factory.parse_query(str));
+	},
+	new_from_query_object: function (query_obj) {
+		return new Query(query_obj.query);
 	},
 };
 
@@ -92,11 +111,8 @@ Query.factory = {
 function Headers(headers) {
 	this.headers = {};
 	
-	if (headers instanceof Headers) {
-		this.update(headers.headers);
-	} else
 	if (typeof headers == 'string') {
-		this.update(Headers.factory.new_from_string(headers).headers);
+		this.update(Headers.factory.new_from_string(headers));
 	} else
 	if (headers != undefined) {
 		this.update(headers);
@@ -123,6 +139,10 @@ Headers.prototype = {
 		return keys;
 	},
 	update: function (headers) {
+		if (headers instanceof Headers) {
+			var headers = headers.headers;
+		}
+		
 		for (var key in headers) {
 			if (typeof headers[key] != 'function') {
 				this.headers[key] = headers[key];
@@ -164,13 +184,18 @@ Headers.factory = {
 		var tokens = [];
 		
 		for (var key in headers) {
-			tokens.push(key + ': ' + headers[key]);
+			if (key) {
+				tokens.push(key + ': ' + (headers[key] ? headers[key] : ''));
+			}
 		}
 		
 		return tokens.join('\r\n');
 	},
 	new_from_string: function (str) {
 		return new Headers(Headers.factory.parse_headers(str));
+	},
+	new_from_headers_object: function (headers_obj) {
+		return new Headers(headers_obj.headers);
 	},
 };
 
@@ -327,6 +352,17 @@ Url.factory = {
 	new_from_string: function (str) {
 		return new Url(Url.factory.parse_url(str));
 	},
+	new_from_url_object: function (url_obj) {
+		var url = {};
+		
+		for (var parameter in url_obj) {
+			url[parameter] = url_obj[parameter];
+		}
+		
+		url.query = Query.factory.new_from_query_object(url_obj.query);
+		
+		return new Url(url);
+	},
 };
 
 /**
@@ -399,6 +435,17 @@ Response.factory = {
 	new_from_string: function (str) {
 		return new Response(Response.factory.parse_response(str));
 	},
+	new_from_response_object: function (response_obj) {
+		var response = {};
+		
+		for (var parameter in response_obj) {
+			response[parameter] = response_obj[parameter];
+		}
+		
+		response.headers = Headers.factory.new_from_headers_object(response.headers);
+		
+		return new Response(response);
+	},
 };
 
 /**
@@ -466,49 +513,6 @@ Request.prototype = {
 		
 		return new Response(response);
 	},
-	in_scope: function (scope) {
-		var include = scope.include;
-		
-		if (scope.include == undefined) {
-			include = [];
-		} else
-		if (!(scope.include instanceof Array)) {
-			include = [scope.include];
-		}
-		
-		var exclude = scope.exclude;
-		
-		if (scope.exclude == undefined) {
-			exclude = [];
-		} else
-		if (!(scope.exclude instanceof Array)) {
-			exclude = [scope.exclude];
-		}
-		
-		for (var i = 0; i < include.length; i++) {
-			if ((new RegExp(include[i], 'i')).exec(this.url)) {
-				for (var z = 0; z < exclude.length; z++) {
-					if ((new RegExp(exclude[z], 'i')).exec(this.url)) {
-						return false;
-					}
-				}
-				
-				return true;
-			}
-		}
-		
-		if (include.length > 0) {
-			return false;
-		}
-		
-		for (var z = 0; z < exclude.length; z++) {
-			if ((new RegExp(exclude[z], 'i')).exec(this.url)) {
-				return false;
-			}
-		}
-
-		return true;
-	},
 	toString: function () {
 		return Request.factory.build_request(this);
 	},
@@ -564,7 +568,19 @@ Request.factory = {
 		return new Request({method:'GET', url:url, headers:{}, data:null});
 	},
 	new_from_string: function (str) {
-		return new Response(Request.factory.parse_request(str));
+		return new Request(Request.factory.parse_request(str));
+	},
+	new_from_request_object: function (request_obj) {
+		var request = {};
+		
+		for (var parameter in request_obj) {
+			request[parameter] = request_obj[parameter];
+		}
+		
+		request.url = Url.factory.new_from_url_object(request.url);
+		request.headers = Headers.factory.new_from_headers_object(request.headers);
+		
+		return new Request(request);
 	},
 };
 

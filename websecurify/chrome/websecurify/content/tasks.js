@@ -1,7 +1,7 @@
 /**
  * IMPORTS
  **/
-Components.utils.import("resource://websecurify/mod/globals.jsm");
+Components.utils.import("resource://websecurify/content/mod/globals.jsm");
 
 /**
  * ON LOAD
@@ -18,34 +18,37 @@ window.addEventListener('load', function () {
 			// ...get a task
 			var task = globals.tasks[task_name];
 			
-			// ...get task by id
+			// ...get task element by id
 			var $task = document.getElementById('task-' + task_name);
 			
-			// ...if there is no such task
+			// ...if there is no such task element
 			if (!$task) {
-				// ...create a new task based based on the tasks blueprints
-				var $task = document.getElementById('tasks-blueprints').getElementsByAttribute('role', 'task')[0].cloneNode(true);
+				// ...create a new task element based based on the tasks blueprints
+				var $task = document.getElementById('tasks-blueprints-task').cloneNode(true);
 				
-				// ...set the task id
+				// ...set the task element id
 				$task.setAttribute('id', 'task-' + task_name);
 				
-				// ...set the task description
-				$task.getElementsByAttribute('role', 'description')[0].setAttribute('value', task_name);
+				// ...set the task element description
+				$task.getElementsByAttribute('id', 'tasks-blueprints-task-description')[0].setAttribute('value', task_name);
 				
-				// ...inscert task to the tasks richlistbox
+				// ...inscert the task element to the tasks richlistbox
 				$tasks.appendChild($task);
 			}
 			
-			$task.getElementsByAttribute('role', 'status')[0].setAttribute('value', task.status);
-			$task.getElementsByAttribute('role', 'progress')[0].setAttribute('value', task.progress);
+			// ...set the task element status
+			$task.getElementsByAttribute('id', 'tasks-blueprints-task-status')[0].setAttribute('value', task.status);
+			
+			// ...set the task element progress
+			$task.getElementsByAttribute('id', 'tasks-blueprints-task-progress')[0].setAttribute('value', task.progress);
 		}
 	};
 	
 	// rebuild before we start
 	rebuild();
 	
-	// set to rebuild every 10ms
-	window.rebuild_interval = setInterval(rebuild, 10);
+	// set to rebuild every 1ms
+	window.rebuild_interval = setInterval(rebuild, 1);
 }, true);
 
 /**
@@ -55,3 +58,43 @@ window.addEventListener('load', function () {
 window.addEventListener('close', function () {
 	clearInterval(window.rebuild_interval);
 }, true);
+
+/**
+ * TASKS OPEN STRUCTURE
+ **/
+function tasks_open_structure($button) {
+	var task = (new String($button.parentNode.parentNode.getAttribute('id'))).replace(/^task-/, '');
+	
+	if (!window.structure_windows) {
+		window.structure_windows = {};
+	}
+	
+	if (!window.structure_windows[task]) {
+		window.structure_windows[task] = openChromeWindow('chrome://websecurify/content/structure.xul', {task:task});
+		window.structure_windows[task].addEventListener('close', function () {
+			delete window.structure_windows[task];
+		}, false);
+	} else {
+		window.structure_windows[task].focus();
+	}
+}
+
+/**
+ * TASKS OPEN REPORT
+ **/
+function tasks_open_report($button) {
+	var task = (new String($button.parentNode.parentNode.getAttribute('id'))).replace(/^task-/, '');
+	
+	if (!window.report_windows) {
+		window.report_windows = {};
+	}
+	
+	if (!window.report_windows[task]) {
+		window.report_windows[task] = openChromeWindow('chrome://websecurify/content/report.xul', {task:task});
+		window.report_windows[task].addEventListener('close', function () {
+			delete window.report_windows[task];
+		}, false);
+	} else {
+		window.report_windows[task].focus();
+	}
+}

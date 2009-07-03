@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://websecurify/skin/bindings.css" type="text/css"?>
 <?xml-stylesheet href="chrome://websecurify/skin/tasks.css" type="text/css"?>
 <?xml-stylesheet href="chrome://branding/skin/brand.css" type="text/css"?>
 <!DOCTYPE window [
@@ -12,6 +13,7 @@
 	width="400" height="500"
 	persist="screenX screenY width height sizemode">
 	
+	<script type="application/x-javascript" src="chrome://websecurify/content/hlp/xal.js"/>
 	<script type="application/x-javascript" src="chrome://websecurify/content/tasks.js"/>
 	
 	<stringbundleset id="tasks-stringbundleset">
@@ -19,13 +21,16 @@
 	</stringbundleset>
 	
 	<box id="tasks-blueprints" hidden="true">
-		<richlistitem id="tasks-blueprints-task" role="task" orient="vertical">
+		<richlistitem id="tasks-blueprints-task" orient="vertical">
 			<vbox style="overflow:hidden">
-				<label role="description" value=""/>
-				<label role="status" value=""/>
+				<label id="tasks-blueprints-task-description" value=""/>
+				<label id="tasks-blueprints-task-status" value=""/>
 			</vbox>
-			<progressmeter role="progress"/>
-			<hbox id="tasks-blueprints-task-buttons" pack="end"/>
+			<progressmeter id="tasks-blueprints-task-progress"/>
+			<hbox id="tasks-blueprints-task-buttons" pack="end">
+				<toolbarbutton id="tasks-blueprints-structure" label="&tasks-blueprints-structure-label;" oncommand="return tasks_open_structure(this)"/>
+				<toolbarbutton id="tasks-blueprints-report" label="&tasks-blueprints-report-label;" oncommand="return tasks_open_report(this)"/>
+			</hbox>
 		</richlistitem>
 	</box>
 	
