@@ -7,12 +7,24 @@ function Fuzzer() {
 	
 	fuzzer.onmessage = undefined;
 	fuzzer.ondata = undefined;
+	fuzzer.onprogress = undefined;
+	fuzzer.onfinished = undefined;
 	
 	fuzzer.worker = new Worker(base + 'worker.fuzzer.js');
 	fuzzer.register_observer(function (event) {
-		if (event.data.message_type == 'Fuzzer.data') {
+		if (event.data.message_type == 'FuzzerWorker.data') {
 			if (fuzzer.ondata != undefined) {
 				fuzzer.ondata(event.data);
+			}
+		} else
+		if (event.data.message_type == 'FuzzerWorker.progress') {
+			if (fuzzer.onprogress != undefined) {
+				fuzzer.onprogress(event.data);
+			}
+		} else
+		if (event.data.message_type == 'FuzzerWorker.finished') {
+			if (fuzzer.onfinished != undefined) {
+				fuzzer.onfinished(event.data);
 			}
 		}
 		
@@ -26,8 +38,8 @@ function Fuzzer() {
  * FUZZER PROTOTYPE
  **/
 Fuzzer.prototype = {
-	fuzz: function (request) {
-		this.worker.postMessage({message_type:'fuzz', request:request});
+	initiate: function (request) {
+		this.worker.postMessage({message_type:'initiate', request:request});
 	},
 	terminate: function () {
 		this.worker.terminate();

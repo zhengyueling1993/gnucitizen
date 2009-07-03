@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://websecurify/skin/bindings.css" type="text/css"?>
 <?xml-stylesheet href="chrome://websecurify/skin/main.css" type="text/css"?>
 <?xml-stylesheet href="chrome://branding/skin/brand.css" type="text/css"?>
 <!DOCTYPE window [
@@ -12,8 +13,6 @@
 	width="900" height="500"
 	persist="screenX screenY width height sizemode">
 	
-	<script type="application/x-javascript" src="chrome://websecurify/content/lib/lib.http.js"/>
-	<script type="application/x-javascript" src="chrome://websecurify/content/lib/api.fuzzer.js"/>
 	<script type="application/x-javascript" src="chrome://websecurify/content/lib/api.engine.js"/>
 	<script type="application/x-javascript" src="chrome://websecurify/content/main.js"/>
 	

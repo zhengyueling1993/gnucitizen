@@ -2,112 +2,108 @@
  * IMPORT SCRIPTS
  **/
 importScripts('api.spider.js');
-importScripts('api.engine.js');
+importScripts('api.fuzzer.js');
+importScripts('api.scanner.js');
+importScripts('lib.http.js');
 
 /**
- * ENGINE PROCESSOR CONSTRUCTOR
+ * ENGINE WORKER CONSTRUCTOR
  **/
-function EngineProcessor() {
-	var processor = this;
-	
-	processor.spidered_urls = 1;
-	processor.max_urls_to_spider = 1000;
-	
-	processor.spider = new SpiderWorker();
-	processor.spider.register_observer(function (event) {
-		if (event.data.message_type == 'Spider.data') {
-			processor.forward_message(event.data);
-			
-			if (processor.spidered_urls < processor.max_urls_to_spider) {
-				processor.spidered_urls += 1;
-			} else {
-				processor.spider.terminate();
-			}
-			
-			processor.post_progress('found url ' + event.data.request.url);
-		} else
-		if (event.data.message_type == 'Spider.finished') {
-			processor.forward_message(event.data);
-			processor.spider.terminate();
-			
-			processor.max_urls_to_spider = processor.spidered_urls;
-			
-			processor.post_progress('spidering finished');
-		}
-	});
+function EngineWorker() {
+	this.workers = [];
 }
 
 /**
- * ENGINE PROCESSOR PROTOTYPE
+ * ENGINE WORKER PROTOTYPE
  **/
-EngineProcessor.prototype = {
-	process: function (target) {
-		var include = '^' + target.replace(new RegExp('[.*+?|()\\[\\]{}\\\\]', 'g'), '\\$&');
-		var exclude = '\\.(jpg|gif|png|avi|mov|divx|mp4|mpg|mp3|mpeg|zip|tar|gz|swf|pdf)$';
-		
-		this.spider.rescope({include:include, exclude: exclude});
-		this.spider.rescale(10);
-		this.spider.spider(target);
-	},
-	get max_steps() {
-		return this.max_urls_to_spider;
-	},
-	get current_step() {
-		return this.spidered_urls;
-	},
-	post_progress: function (status) {
-		var progress = Math.round((100/this.max_steps)*this.current_step);
-		
-		if (progress == 100) {
-			var status = 'completed';
-		} else
-		if (status != undefined) {
-			var status = status;
-		} else {
-			var status = '';
-		}
-		
-		this.post_message('EngineProcessor.progress', {progress:progress, status:status});
-	},
-	post_message: function (message_type, message) {
-		message.message_type = message_type;
-		postMessage(message);
-	},
-	forward_message: function (message) {
-		postMessage(message);
-	},
-};
-
-/**
- * ENGINE CONSTRUCTOR
- **/
-function Engine() {
-	this.processors = [];
-}
-
-/**
- * ENGINE PROTOTYPE
- **/
-Engine.prototype = {
+EngineWorker.prototype = {
 	initiate: function (target) {
+		var worker = {
+			target:target,
+			spider_step:0, spider_steps:0,
+			fuzzer_step:0, fuzzer_steps:0,
+			scanner_step: 0, scanner_steps: 0,
+			status:'initiated',
+			spider:new Spider(), fuzzer:new Fuzzer(), scanner: new Scanner()};
+			
 		var engine = this;
 		
-		var processor = new EngineProcessorWorker();
-		processor.process(target);
-		processor.register_observer(function (event) {
-			var data = event.data;
-			data.target = target;
+		worker.spider.onprogress = function (data) {
+			var tokens = data.step.split('/');
+			var step = parseInt(tokens[0]);
+			var steps = parseInt(tokens[1]);
 			
-			if (event.data.message_type == 'EngineProcessor.progress') {
-				engine.post_message('Engine.progress', data);
-			} else {
-				engine.forward_message(data);
-			}
-		});
+			worker.spider_step = step;
+			worker.spider_steps = steps;
+			
+			engine.post_progress(worker);
+		};
+		worker.fuzzer.onprogress = function (data) {
+			var tokens = data.step.split('/');
+			var step = parseInt(tokens[0]);
+			var steps = parseInt(tokens[1]);
+			
+			worker.fuzzer_step = step;
+			worker.fuzzer_steps = steps;
+			
+			engine.post_progress(worker);
+		};
+		worker.scanner.onprogress = function (data) {
+			var tokens = data.step.split('/');
+			var step = parseInt(tokens[0]);
+			var steps = parseInt(tokens[1]);
+			
+			worker.scanner_step = step;
+			worker.scanner_steps = steps;
+			
+			engine.post_progress(worker);
+		};
+		worker.spider.ondata = function (data) {
+			worker.status = 'testing ' + Url.factory.new_from_url_object(data.request.url);
+			
+			worker.fuzzer.initiate(data.request);
+			worker.scanner.initiate(data.request);
+		};
+		worker.fuzzer.ondata = function (data) {
+			// TODO: report
+		};
+		worker.scanner.ondata = function (data) {
+			// TODO: report
+		};
 		
-		engine.processors.push(processor);
+		worker.spider.onmessage = worker.fuzzer.onmessage = worker.scanner.onmessage = function (message) {
+			message.target = worker.target;
+			engine.forward_message(message);
+		};
+		
+		worker.spider.create_scope({exclude:'\\.(jpg|png|gif|pdf|zip|tar|gz|swf|ico|css|js|xml|rss|html)$'});
+		worker.spider.initiate({url:worker.target});
+		
+		this.workers.push(worker);
+	},
+	post_progress: function (worker) {
+		var step = worker.spider_step + worker.fuzzer_step + worker.scanner_step;
+		var steps = worker.spider_steps + worker.fuzzer_steps + worker.scanner_steps;
+		
+		var progress = Math.round((100 / steps) * step);
+		var step = step + '/' + steps;
+		var status = step + ' ' + progress + '% ' + worker.status;
+		
+		this.post_message('EngineWorker.progress', {progress:progress, step:step, status:status, target:worker.target});
+		
+		if (progress == 100) {
+			var status = step + ' ' + progress + '% finished';
+			
+			this.post_message('EngineWorker.progress', {progress:progress, step:step, status:status, target:worker.target});
+		}
 	},
 	post_message: function (message_type, message) {
+		var message = message;
+		
+		if (message == undefined) {
+			var message = {};
+		}
+		
 		message.message_type = message_type;
 		postMessage(message);
 	},

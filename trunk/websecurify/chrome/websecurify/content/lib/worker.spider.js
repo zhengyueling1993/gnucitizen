@@ -4,34 +4,36 @@
 importScripts('lib.spider.js');
 
 /**
- * SPIDER
+ * SPIDER WORKER
  **/
-var spider = new Spider();
+var spider = new SpiderWorker();
 
 /**
  * ON MESSAGE
  **/
 function onmessage(event) {
-	if (event.data.message_type == 'rescale') {
-		if (event.data.scale == undefined) {
-			throw 'no scale provided';
-		}
-		
-		spider.rescale(event.data.scale);
-	} else
-	if (event.data.message_type == 'rescope') {
+	if (event.data.message_type == 'create_scope') {
 		if (event.data.scope == undefined) {
 			throw 'no scope provided';
 		}
 		
-		spider.rescope(event.data.scope);
+		spider.create_scope(event.data.scope);
 	} else
-	if (event.data.message_type == 'spider') {
-		if (event.data.url == undefined) {
-			throw 'no url provided';
+	if (event.data.message_type == 'update_scope') {
+		if (event.data.scope == undefined) {
+			throw 'no scope provided';
 		}
 		
-		spider.spider(event.data.url);
+		spider.update_scope(event.data.scope);
+	} else
+	if (event.data.message_type == 'initiate') {
+		if (event.data.request == undefined) {
+			throw 'no request provided';
+		}
+		
+		spider.initiate(event.data.request);
+	} else {
+		throw 'unknown message';
 	}
 }
 

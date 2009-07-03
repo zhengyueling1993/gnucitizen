@@ -4,9 +4,9 @@
 importScripts('lib.engine.js');
 
 /**
- * ENGINE
+ * ENGINE WORKER
  **/
-var engine = new Engine();
+var engine = new EngineWorker();
 
 /**
  * ON MESSAGE

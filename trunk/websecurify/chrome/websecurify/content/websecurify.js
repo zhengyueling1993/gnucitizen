@@ -1,10 +1,7 @@
-Components.utils.import("resource://websecurify/mod/globals.jsm");
+Components.utils.import("resource://websecurify/content/mod/globals.jsm");
 
 var prompts = Components.classes['@mozilla.org/embedcomp/prompt-service;1']
                         .getService(Components.interfaces.nsIPromptService);
-
-var mediator = Components.classes['@mozilla.org/appshell/window-mediator;1']
-                         .getService(Components.interfaces.nsIWindowMediator);
 
 $(document).ready(function () {
 	$('input[name="target_url"]').focus(function () {
@@ -34,14 +31,6 @@ $(document).ready(function () {
 		globals.initiate_engine(target);
 		
 		$('form[name="scanner"]').fadeOut(300, function () {
-			var win = mediator.getMostRecentWindow('websecurify:tasks');
-			
-			if (!win) {
-				window.open('chrome://websecurify/content/tasks.xul', '', 'menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes,chrome');
-			} else {
-				win.focus();
-			}
-			
 			$target.val('');
 			$target.blur();
 			
