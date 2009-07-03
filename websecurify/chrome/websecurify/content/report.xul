@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://websecurify/skin/bindings.css" type="text/css"?>
+<?xml-stylesheet href="chrome://websecurify/skin/report.css" type="text/css"?>
+<?xml-stylesheet href="chrome://branding/skin/brand.css" type="text/css"?>
+<!DOCTYPE window [
+<!ENTITY % brand-dtd SYSTEM "chrome://branding/locale/brand.dtd">%brand-dtd;
+<!ENTITY % report-dtd SYSTEM "chrome://websecurify/locale/report.dtd">%report-dtd;
+]>
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="report" title="&report-title;" windowtype="websecurify:report"
+	screenX="5" screenY="5"
+	width="400" height="500"
+	persist="screenX screenY width height sizemode">
+	
+	<script type="application/x-javascript" src="chrome://websecurify/content/report.js"/>
+	
+	<stringbundleset id="report-stringbundleset">
+		<stringbundle id="report-properties" src="chrome://websecurify/locale/report.properties"/>
+	</stringbundleset>
+	
+	<box id="report-blueprints" hidden="true">
+		<richlistitem id="report-blueprints-issue" orient="vertical" style="overflow:hidden">
+			<label id="report-blueprints-issue-title" value=""/>
+			<label id="report-blueprints-issue-description" value=""/>
+		</richlistitem>
+	</box>
+	
+	<richlistbox id="report-issues" flex="1"/>
+	
+</window>
