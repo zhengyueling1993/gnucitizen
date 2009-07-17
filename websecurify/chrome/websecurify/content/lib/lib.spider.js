@@ -82,18 +82,6 @@ function SpiderWorker() {
 	
 	this.queue = new Set();
 	this.scope = new Scope();
-	
-	var spider = this;
-	
-	spider.interval = setInterval(function () {
-		if (spider.available) {
-			spider.available = false;
-			
-			spider.process();
-			
-			spider.available = true;
-		}
-	}, 1);
 }
 
 /**
@@ -110,7 +98,9 @@ SpiderWorker.prototype = {
 		var request = new Request(request);
 		
 		this.scope.include_request(request);
-		this.queue.push(request);
+		this.queue.push(request, false);
+		
+		this.process();
 	},
 	process: function () {
 		while (true) {
@@ -128,7 +118,6 @@ SpiderWorker.prototype = {
 			var links = (new Document(response.data, request.url)).links;
 			
 			for (var i = 0; i < links.length; i++) {
-				//dump(links[i] + '\n');
 				var request_to_spider = Request.factory.new_from_url(links[i].split('#')[0]);
 				
 				if (this.scope.match(request_to_spider)) {

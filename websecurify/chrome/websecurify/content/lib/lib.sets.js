@@ -36,7 +36,11 @@ Set.prototype = {
 	push: function (value, stricked) {
 		if (value != undefined && !this.contains(value, stricked)) {
 			this.values.push(value);
+			
+			return true;
 		}
+		
+		return false;
 	},
 	contains: function (value, stricked) {
 		if (stricked == undefined) {
@@ -53,7 +57,7 @@ Set.prototype = {
 			function compare(a, b) {
 				switch (typeof a) {
 					case 'number': case 'string': case 'boolean': case 'undefined':
-						return a == b;
+						return a === b;
 					default:
 						for (var p in a) {
 							if (!compare(a[p], b[p])) {

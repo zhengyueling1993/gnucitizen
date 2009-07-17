@@ -55,4 +55,4 @@ window.addEventListener('load', function () {
 		// ...rebuild every 1000ms
 		setInterval(rebuild, 1000);
 	}
-}, true);
+}, false);

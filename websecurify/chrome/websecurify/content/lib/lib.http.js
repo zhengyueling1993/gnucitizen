@@ -1,19 +1,45 @@
 /**
  * RAW CONSTRUCTOR
  **/
-function Raw(value) {
-	this.value = value;
+function Raw(raw) {
+	this.raw = '';
+	
+	if (typeof raw == 'string') {
+		this.update(Raw.factory.new_from_string(raw));
+	} else
+	if (raw != undefined) {
+		this.update(raw);
+	}
 }
 
 /**
  * RAW PROTOTYPE
  **/
 Raw.prototype = {
+	update: function (raw) {
+		if (raw instanceof Raw) {
+			this.raw = raw.raw;
+		} else {
+			this.raw = raw;
+		}
+	},
 	toString: function () {
-		return this.value.toString();
+		return this.raw.toString();
 	},
 	valueOf: function () {
-		return this.value.valueOf();
+		return this.raw.valueOf();
+	}
+};
+
+/**
+ * RAW FACTORY
+ **/
+Raw.factory = {
+	new_from_string: function (str) {
+		return str;
+	},
+	new_from_raw_object: function (raw_obj) {
+		return new Raw(raw_obj.raw);
 	}
 };
 
@@ -56,8 +82,8 @@ Query.prototype = {
 		}
 		
 		for (var key in query) {
-			if (typeof query[key] != 'function') {
-				if (key) {
+			if (key) {
+				if (typeof query[key] != 'function') {
 					this.query[key] = query[key];
 				}
 			}
@@ -81,7 +107,7 @@ Query.factory = {
 		
 		for (var i = 0; i < tokens.length; i++) {
 			var pair = tokens[i].split('=');
-			query[pair[0]] = pair[1];
+			query[unescape(pair[0])] = unescape(pair[1]);
 		}
 		
 		return query;
@@ -101,7 +127,15 @@ Query.factory = {
 		return new Query(Query.factory.parse_query(str));
 	},
 	new_from_query_object: function (query_obj) {
-		return new Query(query_obj.query);
+		var query = new Query(query_obj.query);
+		
+		for (var key in query.query) {
+			if (query.query[key].raw != undefined) {
+				query.query[key] = Raw.factory.new_from_raw_object(query.query[key]);
+			}
+		}
+		
+		return query;
 	},
 };
 

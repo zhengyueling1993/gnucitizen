@@ -23,10 +23,36 @@ window.addEventListener('load', function () {
 		var index = 0;
 		
 		// ...get a reference to the report issues
-		var issues = document.getElementById('report-issues');
+		var $issues = document.getElementById('report-issues');
 		
 		// ...declare a rebuild function
 		function rebuild() {
+			// ...the i is equal to the current index of the issues
+			var i = index;
+			
+			// ...the new index is equal to the number of messages available for this task
+			index = task.messages.length;
+			
+			// ...for every i
+			for (i; i < index; i++) {
+				// ...get a message
+				var message = task.messages[i];
+				
+				// ...if message is ReporterWorker.data
+				if (message.message_type == 'ReporterWorker.data') {
+					// ...create a new issue element based on the blueprints
+					var $issue = document.getElementById('report-blueprints-issue').cloneNode(true);
+					
+					// ...set the issue element title
+					$issue.getElementsByAttribute('id', 'report-blueprints-issue-title')[0].setAttribute('value', message.title);
+					
+					// ...set the issue element description
+					$issue.getElementsByAttribute('id', 'report-blueprints-issue-description')[0].innerHTML = message.description;
+					
+					// ...insert the issue element to the issues
+					$issues.appendChild($issue);
+				}
+			}
 		}
 		
 		// ...rebuild

@@ -1,0 +1,18 @@
+ISSUES = {
+	'sqli': {
+		'title': 'Application Vulnerable to SQL Injection',
+		'description': 'test <b>testme</b> <pre><code>{request}</code></pre>',
+	},
+	'bsqli': {
+		'title': 'Application Vulnerable to Blind SQL Injection',
+		'description': '',
+	},
+	'xss': {
+		'title': 'Application Vulnerable to Reflective Cross-site Scripting',
+		'description': '',
+	},
+	'pxss': {
+		'title': 'Application Vulnerable to Persistent Cross-site Scripting',
+		'description': '',
+	},
+}

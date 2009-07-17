@@ -4,6 +4,7 @@
 importScripts('api.spider.js');
 importScripts('api.fuzzer.js');
 importScripts('api.scanner.js');
+importScripts('api.reporter.js');
 importScripts('lib.http.js');
 
 /**
@@ -24,7 +25,7 @@ EngineWorker.prototype = {
 			fuzzer_step:0, fuzzer_steps:0,
 			scanner_step: 0, scanner_steps: 0,
 			status:'initiated',
-			spider:new Spider(), fuzzer:new Fuzzer(), scanner: new Scanner()};
+			spider:new Spider(), fuzzer:new Fuzzer(), scanner: new Scanner(), reporter: new Reporter()};
 			
 		var engine = this;
 		
@@ -65,18 +66,18 @@ EngineWorker.prototype = {
 			worker.scanner.initiate(data.request);
 		};
 		worker.fuzzer.ondata = function (data) {
-			// TODO: report
+			worker.reporter.initiate(data);
 		};
 		worker.scanner.ondata = function (data) {
-			// TODO: report
+			worker.reporter.initiate(data);
 		};
 		
-		worker.spider.onmessage = worker.fuzzer.onmessage = worker.scanner.onmessage = function (message) {
+		worker.spider.onmessage = worker.fuzzer.onmessage = worker.scanner.onmessage = worker.reporter.onmessage = function (message) {
 			message.target = worker.target;
 			engine.forward_message(message);
 		};
 		
-		worker.spider.create_scope({exclude:'\\.(jpg|png|gif|pdf|zip|tar|gz|swf|ico|css|js|xml|rss|html)$'});
+		worker.spider.create_scope({exclude:'\\.(jpg|png|gif|pdf|zip|tar|gz|swf|ico|css|js|xml|rss|html|htm)$'});
 		worker.spider.initiate({url:worker.target});
 		
 		this.workers.push(worker);
