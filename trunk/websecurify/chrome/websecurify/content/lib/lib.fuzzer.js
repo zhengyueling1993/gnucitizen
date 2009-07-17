@@ -5,6 +5,12 @@ importScripts('lib.http.js');
 importScripts('lib.sets.js');
 
 /**
+ * IMPORT DATA
+ **/
+importScripts('data.xss.db');
+importScripts('data.sqli.db');
+
+/**
  * FUZZER WORKER CONSTRUCTOR
  **/
 function FuzzerWorker() {
@@ -12,13 +18,129 @@ function FuzzerWorker() {
 	this.steps = 0;
 	
 	this.fuzzed_requests = new Set();
-	this.xss_strings = ['<xss>'];
+	
+	this.xss_tests = XSS.tests;
+	this.xss_payloads = XSS.payloads;
+	
+	this.sqli_tests = SQLI.tests;
+	this.sqli_payloads = SQLI.payloads;
 }
 
 /**
  * FUZZER WORKER PROTOTYPE
  **/
 FuzzerWorker.prototype = {
+	generate_template_request: function (request) {
+		var template_request = new Request(request);
+		
+		var parameters = template_request.url.query.keys();
+		
+		for (var x = 0; x < parameters.length; x++) {
+			var parameter = parameters[x];
+			
+			template_request.url.query.set(parameter, '');
+		}
+		
+		if (request.headers.get('Content-type') == 'application/x-www-form-urlencoded') {
+			var data = new Query(request.data);
+			var parameters = data.keys();
+			
+			for (var x = 0; x < parameters.length; x++) {
+				var parameter = parameters[x];
+				
+				data.set(parameter, '');
+			}
+			
+			request.data = data;
+		}
+		
+		return template_request;
+	},
+	generate_parameter_fuzz: function (request, set) {
+		var fuzzed_requests = [];
+		
+		var parameters = request.url.query.keys();
+		
+		for (var x = 0; x < parameters.length; x++) {
+			var parameter = parameters[x];
+			
+			for (var y = 0; y < set.length; y++) {
+				var value = request.url.query.get(parameter);
+				var payloads = [set[y], value + set[y], set[y] + value];
+				
+				for (var z = 0; z < payloads.length; z++) {
+					var payload = payloads[z];
+					
+					var fuzzed_request = new Request(request);
+					fuzzed_request.url.query.set(parameter, new Raw(payload));
+					
+					fuzzed_requests.push(fuzzed_request);
+				}
+			}
+		}
+		
+		return fuzzed_requests;
+	},
+	test_xss: function (request) {
+		var response = request.send();
+		var data = new String(response.data);
+		
+		for (var i = 0; i < this.xss_tests.length; i++) {
+			var test = this.xss_tests[i];
+			
+			if (data.match(new RegExp(test, 'i'))) {
+				this.post_message('FuzzerWorker.data', {issue:'xss', request:request, response:response});
+				return true;
+			}
+		}
+		
+		return false;
+	},
+	test_sqli: function (request) {
+		var response = request.send();
+		var data = new String(response.data);
+		
+		for (var database in this.sqli_tests) {
+			var tests = this.sqli_tests[database];
+			
+			for (var i = 0; i < tests.length; i++) {
+				var test = tests[i];
+				
+				if (data.match(new RegExp(test, 'i'))) {
+					this.post_message('FuzzerWorker.data', {issue:'sqli', database:database, request:request, response:response});
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	},
+	fuzz_xss: function (request) {
+		var template_request = this.generate_template_request(request);
+		var exists = !this.fuzzed_requests.push(template_request.toString());
+		
+		if (!exists) {
+			var fuzzed_requests = this.generate_parameter_fuzz(request, this.xss_payloads);
+		
+			for (var i = 0; i < fuzzed_requests.length; i++) {
+				var fuzzed_request = fuzzed_requests[i];
+				this.test_xss(fuzzed_request);
+			}
+		}
+	},
+	fuzz_sqli: function (request) {
+		var template_request = this.generate_template_request(request);
+		var exists = !this.fuzzed_requests.push(template_request.toString());
+		
+		if (!exists) {
+			var fuzzed_requests = this.generate_parameter_fuzz(request, this.sqli_payloads);
+		
+			for (var i = 0; i < fuzzed_requests.length; i++) {
+				var fuzzed_request = fuzzed_requests[i];
+				this.text_sqli(fuzzed_request);
+			}
+		}
+	},
 	initiate: function (request) {
 		var fuzzed_request = Request.factory.new_from_request_object(request);
 		var fuzzer_methods = [];
@@ -42,56 +164,6 @@ FuzzerWorker.prototype = {
 		}
 		
 		this.post_message('FuzzerWorker.finished');
-	},
-	fuzz_xss: function (fuzzed_request) {
-		var query_keys = fuzzed_request.url.query.keys();
-		
-		for (var i in query_keys) {
-			var key = query_keys[i];
-			var request = new Request(fuzzed_request);
-			
-			for (var i = 0; i < this.xss_strings.length; i++) {
-				request.url.query.set(key, new Raw(this.xss_strings[i]));
-				this.test_xss(this.xss_strings[i], request);
-			}
-		}
-		
-		if (fuzzed_request.headers.get('Content-type') == 'application/x-www-form-urlencoded') {
-			var query_data = new Query(fuzzed_request.data);
-			var query_keys = query_data.keys();
-			
-			for (var i in query_keys) {
-				var key = query_keys[i];
-				
-				var request = new Request(fuzzed_request);
-				request.data = new Query(query_data);
-				
-				for (var i = 0; i < this.xss_strings.length; i++) {
-					request.data.set(key, new Raw(this.xss_strings[i]));
-					this.test_xss(this.xss_strings[i], request);
-				}
-			}
-		}
-	},
-	test_xss: function (string, request) {
-		if (this.fuzzed_requests.contains(request, false)) {
-			return;
-		}
-		
-		var regexpst = string.replace(/[.*+?|()\[\]{}\\]/g, '\\$&');
-		var response = request.send();
-		
-		if ((new String(request.data)).match(new RegExp(regexpst))) {
-			this.post_message('FuzzerWorker.data', {request:request, response:response, conclusion:'xss'});
-		}
-		
-		this.fuzzed_requests.push(request);
-	},
-	fuzz_sqli: function (request) {
-		// TODO: fuzz sqli
-	},
-	fuzz_crlfi: function (request) {
-		// TODO: fuzz crfli
 	},
 	post_progress: function (status) {
 		var progress = (100 / this.steps) * this.step;

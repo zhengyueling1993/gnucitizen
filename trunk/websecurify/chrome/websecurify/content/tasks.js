@@ -23,7 +23,7 @@ window.addEventListener('load', function () {
 			
 			// ...if there is no such task element
 			if (!$task) {
-				// ...create a new task element based based on the tasks blueprints
+				// ...create a new task element based on the blueprints
 				var $task = document.getElementById('tasks-blueprints-task').cloneNode(true);
 				
 				// ...set the task element id
@@ -32,7 +32,7 @@ window.addEventListener('load', function () {
 				// ...set the task element description
 				$task.getElementsByAttribute('id', 'tasks-blueprints-task-description')[0].setAttribute('value', task_name);
 				
-				// ...inscert the task element to the tasks richlistbox
+				// ...insert the task element to the tasks richlistbox
 				$tasks.appendChild($task);
 			}
 			
@@ -47,9 +47,9 @@ window.addEventListener('load', function () {
 	// rebuild before we start
 	rebuild();
 	
-	// set to rebuild every 1ms
-	window.rebuild_interval = setInterval(rebuild, 1);
-}, true);
+	// set to rebuild every 10ms
+	window.rebuild_interval = setInterval(rebuild, 10); // NOTE: 1ms result in a "Bus error"
+}, false);
 
 /**
  * ON CLOSE
@@ -57,14 +57,20 @@ window.addEventListener('load', function () {
  **/
 window.addEventListener('close', function () {
 	clearInterval(window.rebuild_interval);
-}, true);
+}, false);
 
 /**
  * TASKS OPEN STRUCTURE
  **/
 function tasks_open_structure($button) {
 	var task = (new String($button.parentNode.parentNode.getAttribute('id'))).replace(/^task-/, '');
-	
+	tasks_open_strcuture_for_task(task);
+}
+
+/**
+ * TASKS OPEN STRUCTURE FOR TASK
+ **/
+function tasks_open_strcuture_for_task(task) {
 	if (!window.structure_windows) {
 		window.structure_windows = {};
 	}
@@ -84,7 +90,13 @@ function tasks_open_structure($button) {
  **/
 function tasks_open_report($button) {
 	var task = (new String($button.parentNode.parentNode.getAttribute('id'))).replace(/^task-/, '');
-	
+	tasks_open_report_for_task(task);
+}
+
+/**
+ * TASKS OPEN REPORT FOR TASK
+ **/
+function tasks_open_report_for_task(task) {
 	if (!window.report_windows) {
 		window.report_windows = {};
 	}

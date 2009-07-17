@@ -1,0 +1,4 @@
+XSS = {
+	'payloads': ['<test>'],
+	'tests': ['<test>'],
+}

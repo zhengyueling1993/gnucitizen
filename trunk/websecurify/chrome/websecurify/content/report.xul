@@ -22,7 +22,7 @@
 	<box id="report-blueprints" hidden="true">
 		<richlistitem id="report-blueprints-issue" orient="vertical" style="overflow:hidden">
 			<label id="report-blueprints-issue-title" value=""/>
-			<label id="report-blueprints-issue-description" value=""/>
+			<div id="report-blueprints-issue-description" xmlns="http://www.w3.org/1999/xhtml"/>
 		</richlistitem>
 	</box>
 	
