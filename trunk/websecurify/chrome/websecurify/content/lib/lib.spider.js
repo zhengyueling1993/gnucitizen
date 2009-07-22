@@ -3,7 +3,42 @@
  **/
 importScripts('lib.http.js');
 importScripts('lib.html.js');
-importScripts('lib.sets.js');
+
+/**
+ * QUEUE CONSTRUCTOR
+ **/
+function Queue() {
+	this.index = 0;
+	this.values = [];
+}
+
+/**
+ * QUEUE PROTOTYPE
+ **/
+Queue.prototype = {
+	get length() {
+		return this.values.length;
+	},
+	contains: function (value) {
+		return this.values.some(function (element) {
+			return value.valueOf() == element.valueOf();
+		});
+	},
+	push: function (value) {
+		if (!this.contains(value)) {
+			this.values.push(value);
+			
+			return true;
+		}
+		
+		return false;
+	},
+	next: function () {
+		if (this.index < this.values.length) {
+			return this.values[this.index++];
+		}
+	},
+};
 
 /**
  * SCOPE CONSTRUCTOR
@@ -80,7 +115,7 @@ function SpiderWorker() {
 	this.step = 0;
 	this.available = true;
 	
-	this.queue = new Set();
+	this.queue = new Queue();
 	this.scope = new Scope();
 }
 

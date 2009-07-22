@@ -2,7 +2,7 @@
  * IMPORT SCRIPTS
  **/
 importScripts('lib.http.js');
-importScripts('lib.sets.js');
+importScripts('lib.spider.js');
 
 /**
  * IMPORT DATA
@@ -17,7 +17,7 @@ function FuzzerWorker() {
 	this.step = 0;
 	this.steps = 0;
 	
-	this.fuzzed_requests = new Set();
+	this.fuzzed_requests = new Queue();
 	
 	this.xss_tests = XSS.tests;
 	this.xss_payloads = XSS.payloads;
@@ -40,7 +40,7 @@ FuzzerWorker.prototype = {
 			
 			template_request.url.query.set(parameter, '');
 		}
-		
+		dump(template_request.headers + '\n');
 		if (request.headers.get('Content-type') == 'application/x-www-form-urlencoded') {
 			var data = new Query(request.data);
 			var parameters = data.keys();
@@ -90,6 +90,7 @@ FuzzerWorker.prototype = {
 			
 			if (data.match(new RegExp(test, 'i'))) {
 				this.post_message('FuzzerWorker.data', {issue:'xss', request:request, response:response});
+				
 				return true;
 			}
 		}
@@ -108,6 +109,7 @@ FuzzerWorker.prototype = {
 				
 				if (data.match(new RegExp(test, 'i'))) {
 					this.post_message('FuzzerWorker.data', {issue:'sqli', database:database, request:request, response:response});
+					
 					return true;
 				}
 			}
@@ -116,54 +118,51 @@ FuzzerWorker.prototype = {
 		return false;
 	},
 	fuzz_xss: function (request) {
-		var template_request = this.generate_template_request(request);
-		var exists = !this.fuzzed_requests.push(template_request.toString());
-		
-		if (!exists) {
-			var fuzzed_requests = this.generate_parameter_fuzz(request, this.xss_payloads);
-		
-			for (var i = 0; i < fuzzed_requests.length; i++) {
-				var fuzzed_request = fuzzed_requests[i];
-				this.test_xss(fuzzed_request);
-			}
+		var fuzzed_requests = this.generate_parameter_fuzz(request, this.xss_payloads);
+	
+		for (var i = 0; i < fuzzed_requests.length; i++) {
+			var fuzzed_request = fuzzed_requests[i];
+			
+			this.test_xss(fuzzed_request);
 		}
 	},
 	fuzz_sqli: function (request) {
-		var template_request = this.generate_template_request(request);
-		var exists = !this.fuzzed_requests.push(template_request.toString());
-		
-		if (!exists) {
-			var fuzzed_requests = this.generate_parameter_fuzz(request, this.sqli_payloads);
-		
-			for (var i = 0; i < fuzzed_requests.length; i++) {
-				var fuzzed_request = fuzzed_requests[i];
-				this.text_sqli(fuzzed_request);
-			}
+		var fuzzed_requests = this.generate_parameter_fuzz(request, this.sqli_payloads);
+	
+		for (var i = 0; i < fuzzed_requests.length; i++) {
+			var fuzzed_request = fuzzed_requests[i];
+			
+			this.text_sqli(fuzzed_request);
 		}
 	},
 	initiate: function (request) {
 		var fuzzed_request = Request.factory.new_from_request_object(request);
 		var fuzzer_methods = [];
 		
-		for (var fuzz_name in this) {
-			if (fuzz_name.substring(0, 5) == 'fuzz_') {
-				fuzzer_methods.push(fuzz_name);
+		var template_request = this.generate_template_request(request);
+		var exists = !this.fuzzed_requests.push(template_request);
+		
+		if (!exists) {
+			for (var fuzz_name in this) {
+				if (fuzz_name.substring(0, 5) == 'fuzz_') {
+					fuzzer_methods.push(fuzz_name);
+				}
 			}
+	
+			this.steps += fuzzer_methods.length;
+	
+			for (var i = 0; i < fuzzer_methods.length; i++) {
+				this.post_progress('fuzzing for ' + fuzzer_methods[i]);
+		
+				this.step += 1;
+		
+				this[fuzzer_methods[i]](fuzzed_request);
+		
+				this.post_progress('finished fuzzing for ' + fuzzer_methods[i]);
+			}
+	
+			this.post_message('FuzzerWorker.finished');
 		}
-		
-		this.steps += fuzzer_methods.length;
-		
-		for (var i = 0; i < fuzzer_methods.length; i++) {
-			this.post_progress('fuzzing for ' + fuzzer_methods[i]);
-			
-			this.step += 1;
-			
-			this[fuzzer_methods[i]](fuzzed_request);
-			
-			this.post_progress('finished fuzzing for ' + fuzzer_methods[i]);
-		}
-		
-		this.post_message('FuzzerWorker.finished');
 	},
 	post_progress: function (status) {
 		var progress = (100 / this.steps) * this.step;
