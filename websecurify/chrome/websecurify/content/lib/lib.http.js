@@ -1,623 +1,490 @@
 /**
- * RAW CONSTRUCTOR
+ *    lib.http.js v0.1
+ *    Copyright (C) 2009  Petko D (pdp) Petkov (GNUCITIZEN)
+ *    
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *   
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *   
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  **/
-function Raw(raw) {
-	this.raw = '';
+
+/**
+ * HTTP
+ **/
+http = (function () {
+	// IMPORTS
+	// code dependencies
+	try {
+		load('lib.httparse.js');
+	} catch (e) {
+		importScripts('lib.httparse.js');
+	}
 	
-	if (typeof raw == 'string') {
-		this.update(Raw.factory.new_from_string(raw));
-	} else
-	if (raw != undefined) {
-		this.update(raw);
-	}
-}
-
-/**
- * RAW PROTOTYPE
- **/
-Raw.prototype = {
-	update: function (raw) {
-		if (raw instanceof Raw) {
-			this.raw = raw.raw;
-		} else {
-			this.raw = raw;
-		}
-	},
-	toString: function () {
-		return this.raw.toString();
-	},
-	valueOf: function () {
-		return this.raw.valueOf();
-	}
-};
-
-/**
- * RAW FACTORY
- **/
-Raw.factory = {
-	new_from_string: function (str) {
-		return str;
-	},
-	new_from_raw_object: function (raw_obj) {
-		return new Raw(raw_obj.raw);
-	}
-};
-
-/**
- * QUERY CONSTRUCTOR
- **/
-function Query(query) {
-	this.query = {};
+	// IS STRING
+	// checks if string
+	var is_string = function (value) {
+		return typeof value == 'string' || (typeof value == 'object' && value.constructor.toString().match(/string/i));
+	};
 	
-	if (typeof query == 'string') {
-		this.update(Query.factory.new_from_string(query));
-	} else
-	if (query != undefined) {
-		this.update(query);
-	}
-}
-
-/**
- * QUERY PROTOTYPE
- **/
-Query.prototype = {
-	get: function (key) {
-		return this.query[key];
-	},
-	set: function (key, val) {
-		this.query[key] = val;
-	},
-	keys: function () {
-		var keys = [];
-		
-		for (var key in this.query) {
-			keys.push(key);
-		}
-		
-		return keys;
-	},
-	update: function (query) {
-		if (query instanceof Query) {
-			var query = query.query;
-		}
-		
-		for (var key in query) {
-			if (key) {
-				if (typeof query[key] != 'function') {
-					this.query[key] = query[key];
-				}
-			}
-		}
-	},
-	toString: function () {
-		return Query.factory.build_query(this.query);
-	},
-	valueOf: function () {
-		return this.toString();
-	},
-};
-
-/**
- * QUERY FACTORY
- **/
-Query.factory = {
-	parse_query: function (str) {
-		var query = {};
-		var tokens = str.split('&');
-		
-		for (var i = 0; i < tokens.length; i++) {
-			var pair = tokens[i].split('=');
-			query[unescape(pair[0])] = unescape(pair[1]);
-		}
-		
-		return query;
-	},
-	build_query: function (query) {
-		var tokens = [];
-		
-		for (var key in query) {
-			if (key) {
-				tokens.push(escape(key) + '=' + (query[key] ? query[key] instanceof Raw ? query[key] : escape(query[key]) : ''));
-			}
-		}
-		
-		return tokens.join('&');
-	},
-	new_from_string: function (str) {
-		return new Query(Query.factory.parse_query(str));
-	},
-	new_from_query_object: function (query_obj) {
-		var query = new Query(query_obj.query);
-		
-		for (var key in query.query) {
-			if (query.query[key].raw != undefined) {
-				query.query[key] = Raw.factory.new_from_raw_object(query.query[key]);
-			}
-		}
-		
-		return query;
-	},
-};
-
-/**
- * HEADERS CONSTRUCTOR
- **/
-function Headers(headers) {
-	this.headers = {};
+	// IS NUMBER
+	// checks if number
+	var is_number = function (value) {
+		return typeof value == 'number' || (typeof value == 'object' && value.constructor.toString().match(/number/i));
+	};
 	
-	if (typeof headers == 'string') {
-		this.update(Headers.factory.new_from_string(headers));
-	} else
-	if (headers != undefined) {
-		this.update(headers);
+	// EXTEND
+	// extends objecta with the content of objectb
+	var extend = function (objecta, objectb) {
+		for (var property in objectb) {
+			objecta[property] = objectb[property];
+		}
+		
+		return objecta;
+	};
+	
+	/**
+	 * RESPONSE CONSTRUCTOR
+	 **/
+	var Response = function (parts) {
+		this.parts = parts;
 	}
-}
-
-/**
- * HEADERS PROTOTYPE
- **/
-Headers.prototype = {
-	get: function (key) {
-		return this.headers[key];
-	},
-	set: function (key, val) {
-		this.headers[key] = val;
-	},
-	keys: function () {
-		var keys = [];
-		
-		for (var key in this.headers) {
-			keys.push(key);
-		}
-		
-		return keys;
-	},
-	update: function (headers) {
-		if (headers instanceof Headers) {
-			var headers = headers.headers;
-		}
-		
-		for (var key in headers) {
-			if (typeof headers[key] != 'function') {
-				this.headers[key] = headers[key];
+	
+	/**
+	 * RESPONSE PROTOTYPE
+	 **/
+	Response.prototype = {
+		// CODE GETTER
+		// gets validated and normalized code
+		get code() {
+			if (is_number(this.parts.code)) {
+				return code;
+			} else
+			if (is_string(this.parts.code)) {
+				return parseInt(this.parts.code.toString(), 10);
+			} else {
+				return undefined;
 			}
-		}
-	},
-	toString: function () {
-		return Headers.factory.build_headers(this.headers);
-	},
-	valueOf: function () {
-		return this.toString();
-	},
-};
-
-/**
- * HEADERS FACTORY
- **/
-Headers.factory = {
-	parse_headers: function (str) {
-		var headers = {};
-		var tokens = str.replace(/^\s*|\s*$/g, '')
-		                .replace('\r\n', '\n')
-		                .split('\n');
+		},
 		
-		for (var i = 0; i < tokens.length; i++) {
-			var pair = tokens[i].split(':');
-			
-			var key = pair[0];
-			var val = pair[1];
-			
-			if (key && val != undefined) {
-				headers[key.replace(/^\s*|\s*$/g, '')] = val.replace(/^\s*|\s*$/g, '');
+		// CODE SETTER
+		// sets validated and normalized code
+		set code(value) {
+			if (is_number(value)) {
+				this.parts.code = value;
+			} else
+			if (is_string(value)) {
+				this.parts.code = parseInt(value.toString(), 10);
+			} else {
+				this.parts.code = undefined;
 			}
-		}
+		},
 		
-		return headers;
-	},
-	build_headers: function (headers) {
-		var tokens = [];
+		get message() {
+			return this.parts.message ? this.parts.message : undefined;
+		},
 		
-		for (var key in headers) {
-			if (key) {
-				tokens.push(key + ': ' + (headers[key] ? headers[key] : ''));
+		set message(value) {
+			this.parts.message = value.toString();
+		},
+		
+		// HEADERS GETTER
+		// gets validated and normalized headers
+		get headers() {
+			if (is_string(this.parts.headers)) {
+				return httparse.parse_headers(this.parts.headers);
+			} else {
+				return extend({}, this.parts.headers);
 			}
-		}
+		},
 		
-		return tokens.join('\r\n');
-	},
-	new_from_string: function (str) {
-		return new Headers(Headers.factory.parse_headers(str));
-	},
-	new_from_headers_object: function (headers_obj) {
-		return new Headers(headers_obj.headers);
-	},
-};
-
-/**
- * URL CONSTRUCTOR
- **/
-function Url(url) {
-	if (typeof url == 'string') {
-		this.update(Url.factory.new_from_string(url));
-	} else {
-		this.update(Url.factory.polish_url(url));
-	}
-}
-
-/**
- * URL PROTOTYPE
- **/
-Url.prototype = {
-	update: function (parts) {
-		var fields = ['protocol', 'username', 'password', 'hostname', 'port', 'pathname', 'query', 'fragment', 'pathinfo'];
+		// HEADERS SETTER
+		// sets a validated and normalized headers
+		set headers(value) {
+			if (is_string(value)) {
+				this.parts.headers = value.toString();
+			} else {
+				this.parts.headers = httparse.build_headers(value);
+			}
+		},
 		
-		for (var i in fields) {
-			if (typeof parts[fields[i]] != 'undefined') {
-				if (fields[i] == 'query') {
-					this[fields[i]] = new Query(parts[fields[i]]);
-				} else {
-					this[fields[i]] = parts[fields[i]];
+		// DATA GETTER
+		// gets validated and normalized data
+		get data() {
+			if (is_string(this.parts.data)) {
+				return this.parts.data.toString();
+			} else {
+				return httparse.build_query(this.parts.data);
+			}
+		},
+		
+		// DATA SETTER
+		// sets validated and normalized data
+		set data(value) {
+			if (is_string(value)) {
+				this.parts.data = value.toString();
+			} else {
+				this.parts.data = httparse.build_query(value);
+			}
+		},
+		
+		// EXPORT
+		// exports internal parts
+		export: function () {
+			return this.parts;
+		},
+		
+		// IMPORT
+		// imports internal parts
+		import: function (parts) {
+			extend(this.parts, parts);
+		},
+		
+		// TOSTRING
+		// calculates the string representation of response
+		toString: function () {
+			return httparse.build_response(this);
+		},
+		
+		// VALUEOF
+		// calculates the value representation of response
+		valueOf: function () {
+			return this.toString();
+		},
+	};
+	
+	/**
+	 * RESPONSE FACTORY
+	 **/
+	Response.factory = {
+		// NEW RESPONSE
+		// factory method for creating new responses
+		new_response: function (code, message, headers, data) {
+			return new Request({code:code, message:message, headers:(headers ? headers : {}), data:(data ? data : '')});
+		},
+		
+		// NEW RESPONSE FROM URL
+		// factory method for creating new responses from url
+		new_response_from_url: function (url) {
+			return this.new_response_from_request(Request.factory.new_get_request(url));
+		},
+		
+		// NEW RESPONSE FROM REQUEST
+		// factory method for creating new responses from requests
+		new_response_from_request: function (request) {
+			return request.send();
+		},
+	};
+	
+	/**
+	 * REQUEST CONSTRUCTOR
+	 **/
+	var Request = function (parts) {
+		this.parts = parts;
+	};
+	
+	// REQUEST PROTOTYPE
+	Request.prototype = {
+		// METHOD GETTER
+		// gets a validated and normalized request method
+		get method() {
+			return this.parts.method ? this.parts.method.toString().toUpperCase() : 'GET';
+		},
+		
+		// METHOD SETTER
+		// sets a validated and nromalized request method
+		set method(value) {
+			this.parts.method = value.toString().toUpperCase();
+		},
+		
+		// URL GETTER
+		// gets a validated and normalized url from internal parts
+		get url() {
+			return httparse.build_url(httparse.polish_url(this.parts));
+		},
+		
+		// URL SETTER
+		// sets internal parts from validated and normalized url
+		set url(value) {
+			var parts = httparse.polish_url(httparse.parse_url(value));
+
+			extend(this.parts, parts);
+		},
+		
+		// PROTOCOL GETTER
+		// gets a validated and normalized url protocol
+		get protocol() {
+			return this.parts.protocol ? this.parts.protocol.toString().toLowerCase() : 'http';
+		},
+		
+		// PROTOCOL SETTER
+		// sets a validated and normalized url protocol
+		set protocol(value) {
+			this.parts.protocol = value.toString().toLowerCase();
+		},
+		
+		// USERNAME GETTER
+		// gets a validated and normalized url username
+		get username() {
+			return this.parts.username ? this.parts.username.toString() : undefined;
+		},
+		
+		// USERNAME SETTER
+		// sets a validated and normalized url username
+		set username(value) {
+			this.parts.username = value.toString();
+		},
+		
+		// PASSWORD GETTER
+		// gets a validated and normalized url password
+		get password() {
+			return this.parts.password ? this.parts.password.toString() : undefined;
+		},
+		
+		// PASSWORD SETTER
+		// sets a validated and normalized url password
+		set password(value) {
+			this.parts.password = value.toString();
+		},
+		
+		// HOSTNAME GETTER
+		// gets a validated and normalized url hostname
+		get hostname() {
+			return this.parts.hostname ? this.parts.hostname.toString() : 'localhost';
+		},
+		
+		// HOSTNAME SETTER
+		// sets a validated and normalized url hostname
+		set hostname(value) {
+			this.parts.hostname = value.toString();
+		},
+		
+		// PORT GETTER
+		// gets a validated and normalized url port
+		get port() {
+			if (is_number(this.parts.port)) {
+				return this.parts.port >= 0 ? this.parts.port : undefined;
+			} else
+			if (is_string(this.parts.port)) {
+				var port = parseInt(this.parts.port, 10);
+				return this.parts.port >=0 ? this.parts.port : undefined;
+			} else {
+				switch (self.protocol) {
+					case 'ftp'  : return 21;
+					case 'http' : return 80;
+					case 'https': return 443;
+					default     : return 0;
+				};
+			}
+		},
+		
+		// PORT SETTER
+		// sets a validated and normalized url port
+		set port(value) {
+			if (is_number(value)) {
+				this.parts.port  = value >= 0 ? value : undefined;
+			} else
+			if (is_string(value)) {
+				try {
+					var port = parseInt(value.toString(), 10);
+					this.parts.port  = value >= 0 ? value : undefined;
+				} catch (e) {
+					this.parts.port = undefined;
 				}
+			} else {
+				switch (this.protocol) {
+					case 'ftp'  : this.parts.port = 21       ; break;
+					case 'http' : this.parts.port = 80       ; break;
+					case 'https': this.parts.port = 443      ; break;
+					default     : this.parts.port = undefined; break;
+				};
 			}
-		}
-	},
-	toString: function () {
-		return Url.factory.build_url(this);
-	},
-	valueOf: function () {
-		return this.toString();
-	},
-};
-
-/**
- * URL FACTORY
- **/
-Url.factory = {
-	reveal_path: function (path) {
-		if (path.match(/\.\.\/|\.\//)) {
-			var parts = [];
-			var tokens = path.split('/');
+		},
+		
+		// PATHNAME GETTER
+		// gets a validated and normalized pathname
+		get pathname() {
+			return httparse.polish_pathname(this.parts.pathname.toString().replace(/^\/?/, '/'));
+		},
+		
+		// PATHNAME SETTER
+		// sets a validated and normalized pathname
+		set pathname(value) {
+			this.parts.pathname = httparse.polish_pathname(value.toString().replace(/^\/?/, '/'));
+		},
+		
+		// QUERY GETTER
+		// gets a validated and normalized query
+		get query() {
+			if (is_string(this.parts.query)) {
+				return httparse.parse_query(this.parts.query);
+			} else {
+				return extend({}, this.parts.query);
+			}
+		},
+		
+		// QUERY SETTER
+		// sets a validated and normalized query
+		set query(value) {
+			if (is_string(this.parts.query)) {
+				this.parts.query = value.toString();
+			} else {
+				this.parts.query = httparse.build_query(this.parts);
+			}
+		},
+		
+		// PATHINFO GETTER
+		// gets a validated and normalized pathinfo
+		get pathinfo() {
+			return this.pathname + (this.query ? '?' + httparse.build_query(this.query) : '');
+		},
+		
+		// PATHINFO SETTER
+		// sets a validated and normalized pathinfo
+		set pathinfo(value) {
+			var url = 'http://dummy' + httparse.polish_pathname(value.toString().replace(/^\/?/, '/'));
+			var parts = httparse.polish_url(httparse.parse_url(url));
 			
-			for (var i = 0; i < tokens.length; i++) {
-				if (tokens[i] == '.') {
-					continue;
-				} else
-				if (tokens[i] == '..') {
-					parts.pop();
-				} else {
-					parts.push(tokens[i]);
-				}
+			this.pathname = parts.pathname;
+			this.query = parts.query;
+		},
+		
+		// HEADERS GETTER
+		// gets validated and normalized headers
+		get headers() {
+			if (is_string(this.parts.headers)) {
+				return httparse.parse_headers(this.parts.headers);
+			} else {
+				return extend({}, this.parts.headers);
 			}
+		},
+		
+		// HEADERS SETTER
+		// sets a validated and normalized headers
+		set headers(value) {
+			if (is_string(value)) {
+				this.parts.headers = value.toString();
+			} else {
+				this.parts.headers = httparse.build_headers(value);
+			}
+		},
+		
+		// DATA GETTER
+		// gets validated and normalized data
+		get data() {
+			if (is_string(this.parts.data)) {
+				return this.parts.data.toString();
+			} else {
+				return httparse.build_query(this.parts.data);
+			}
+		},
+		
+		// DATA SETTER
+		// sets validated and normalized data
+		set data(value) {
+			if (is_string(value)) {
+				this.parts.data = value.toString();
+			} else {
+				this.parts.data = httparse.build_query(value);
+			}
+		},
+		
+		// SEND
+		// sends request
+		send: function () {
+			var request = new XMLHttpRequest();
+			request.open(this.method, this.url, false, this.username, this.password);
 			
-			var path = ('/' + parts.join('/')).replace(/\/+/g, '/');
-		}
-		
-		return path;
-	},
-	polish_url: function (url) {
-		if (!url.hostname) {
-			throw 'no hostname provided';
-		}
-		
-		var protocol = url.protocol ? url.protocol.toLowerCase() : 'http';
-		var username = url.username ? url.username : '';
-		var password = url.password ? url.password : '';
-		var hostname = url.hostname;
-		var pathname = url.pathname ? Url.factory.reveal_path(url.pathname.replace(/^\/?/, '/')) : '/';
-		var query    = new Query(url.query ? url.query : '');
-		var fragment = url.fragment ? url.fragment : '';
-		var pathinfo = pathname + (query.toString() ? '?' + query : '');
-		
-		if (typeof url.port != 'number') {
-			var port = parseInt(url.port, 10);
-			
-			if (!port) {
-				switch (protocol) {
-					case 'http':
-						var port = 80;
-						break;
-					case 'https':
-						var port = 443;
-						break;
-					case 'ftp':
-						var port = 21;
-						break;
-					default:
-						var port = null;
-						break;
-				}
-			}
-		} else {
-			var port = url.port;
-		}
-		
-		return {
-			protocol:protocol, username:username, password:password,
-			hostname:hostname, port:port, pathname:pathname,
-			query:query, fragment:fragment, pathinfo:pathinfo};
-	},
-	parse_url: function (url) {
-		var url = url.replace(/^\s*|\s*$/g, '');
-		
-		var regex = /^((\w+):\/\/)?((\w+):?(\w+)?@)?([^\/\?:]+):?(\d+)?(\/?[^\?#]+)?\??([^#]+)?#?(\w*)/;
-		var fields = {
-			'protocol': 2,
-			'username': 4,
-			'password': 5,
-			'hostname': 6,
-			'port': 7,
-			'pathname': 8,
-			'query': 9,
-			'fragment': 10
-		};
-		
-		var parts = {};
-		var match = regex.exec(url);
-		
-		for (var field in fields) {
-			parts[field] = match[fields[field]];
-		}
-		
-		var parts = Url.factory.polish_url(parts);
-		
-		return parts;
-	},
-	build_url: function (url) {
-		var url = Url.factory.polish_url(url);
-		
-		var protocol = url.protocol;
-		var username = url.username;
-		var password = url.password;
-		var hostname = url.hostname;
-		var port     = url.port;
-		var pathname = url.pathname;
-		var query    = url.query;
-		var fragment = url.fragment;
-		var pathinfo = url.pathinfo;
-		
-		var proto = protocol + '://';
-		var creds = username || password ? username + ':' + password + '@' : '';
-		var porto = port != null && port != 80 ? ':' + port : '';
-		var quero = query.toString() ? '?' + query : '';
-		var frago = fragment ? '#' + fragment : '';
-		
-		return proto + creds + hostname + porto + pathname + quero + frago;
-	},
-	new_from_string: function (str) {
-		return new Url(Url.factory.parse_url(str));
-	},
-	new_from_url_object: function (url_obj) {
-		var url = {};
-		
-		for (var parameter in url_obj) {
-			url[parameter] = url_obj[parameter];
-		}
-		
-		url.query = Query.factory.new_from_query_object(url_obj.query);
-		
-		return new Url(url);
-	},
-};
-
-/**
- * RESPONSE CONSTRUCTOR
- **/
-function Response(response) {
-	if (typeof response == 'string') {
-		this.update(Response.factory.new_from_string(response));
-	} else
-	if (response != undefined) {
-		this.update(Response.factory.polish_response(response));
-	}
-}
-
-/**
- * RESPONSE PROTOTYPE
- **/
-Response.prototype = {
-	update: function (parts) {
-		var fields = ['status', 'statusText', 'headers', 'data'];
-		
-		for (var i in fields) {
-			if (typeof parts[fields[i]] != 'undefined') {
-				this[fields[i]] = parts[fields[i]];
-			}
-		}
-	},
-	toString: function () {
-		return Response.factory.build_response(this);
-	},
-	valueOf: function () {
-		return this.toString();
-	},
-};
-
-/**
- * RESPONSE FACTORY
- **/
-Response.factory = {
-	polish_response: function (response) {
-		var status = response.status ? response.status : 200;
-		var statusText = response.statusText ? response.statusText : 'OK';
-		var headers = new Headers(response.headers ? response.headers : '');
-		var data = response.data ? response.data : null;
-		
-		if (data) {
-			if (!headers.get('Content-length')) {
-				headers.set('Content-length', data.length);
-			}
-		}
-		
-		return {status:status, statusText:statusText, headers:headers, data:data};
-	},
-	parse_response: function (response) {
-		// TODO: add code
-	},
-	build_response: function (response) {
-		var response = Response.factory.polish_response(response);
-		
-		var status = response.status;
-		var statusText = response.statusText;
-		var headers = response.headers;
-		var data = response.data ? '\r\n\r\n' + response.data : '';
-		
-		return 'HTTP/1.1 ' + status + ' ' + statusText + '\r\n' + headers + data + '\r\n\r\n';
-	},
-	new_from_url: function (url) {
-		return Request.factory.new_from_url(url).send();
-	},
-	new_from_string: function (str) {
-		return new Response(Response.factory.parse_response(str));
-	},
-	new_from_response_object: function (response_obj) {
-		var response = {};
-		
-		for (var parameter in response_obj) {
-			response[parameter] = response_obj[parameter];
-		}
-		
-		response.headers = Headers.factory.new_from_headers_object(response.headers);
-		
-		return new Response(response);
-	},
-};
-
-/**
- * REQUEST CONSTRUCTOR
- **/
-function Request(request) {
-	if (typeof request == 'string') {
-		this.update(Request.factory.new_from_string(request));
-	} else
-	if (request != undefined) {
-		this.update(Request.factory.polish_request(request));
-	}
-}
-
-/**
- * REQUEST PROTOTYPE
- **/
-Request.prototype = {
-	update: function (parts) {
-		var fields = ['method', 'url', 'headers', 'data'];
-		
-		for (var i in fields) {
-			if (typeof parts[fields[i]] != 'undefined') {
-				if (fields[i] == 'url') {
-					this[fields[i]] = new Url(parts[fields[i]]);
-				} else
-				if (fields[i] == 'headers') {
-					this[fields[i]] = new Headers(parts[fields[i]]);
-				} else {
-					this[fields[i]] = parts[fields[i]];
-				}
-			}
-		}
-	},
-	send: function () {
-		var request = Request.factory.polish_request(this);
-		
-		var method = request.method;
-		var url = request.url;
-		var headers = request.headers;
-		var data = request.data;
-		
-		var request = new XMLHttpRequest();
-		request.open(method, url, false);
-		
-		for (var key in headers.keys()) {
-			request.setRequestHeader(key, headers.get(key));
-		}
-		
-		try {
-			request.mozBackgroundRequest = true;
-		} catch (e) {}
-		
-		try {
-			request.send(request.data);
-		} catch (e) {} // TODO: retry request if it fails
-		
-		var response = {status:request.status, statusText:request.statusText, data:request.responseText};
-		
-		try {
-			response.headers = request.getAllResponseHeaders();
-		} catch (e) {
-			response.headers = {};
-		}
-		
-		return new Response(response);
-	},
-	toString: function () {
-		return Request.factory.build_request(this);
-	},
-	valueOf: function () {
-		return this.toString();
-	},
-};
-
-/**
- * REQUEST FACTORY
- **/
-Request.factory = {
-	polish_request: function (request) {
-		if (!request.url) {
-			throw 'no url provided';
-		}
-		
-		var method = request.method ? request.method.toUpperCase() : request.data ? 'POST' : 'GET';
-		var url = new Url(request.url);
-		var headers = new Headers(request.headers ? request.headers : '');
-		var data = request.data ? request.data : null;
-		
-		if (!headers.get('Server')) {
-			headers.set('Server', url.hostname);
-		}
-		
-		if (data) {
-			if (!headers.get('Content-type')) {
-				headers.set('Content-type', 'application/x-www-form-urlencoded');
+			for (var key in this.headers) {
+				request.setRequestHeader(key, this.headers[key]);
 			}
 			
-			if (!headers.get('Content-length')) {
-				headers.set('Content-length', data.length);
+			try {
+				request.mozBackgroundRequest = true;
+			} catch (e) {}
+			
+			try {
+				request.send(this.data);
+			} catch (e) {} // TODO: retry request if it fails
+			
+			try {
+				var headers = httparse.parse_headers(request.getAllResponseHeaders());
+			} catch (e) {
+				var headers = {};
 			}
-		}
-		
-		return {method:method, url:url, headers:headers, data:data};
-	},
-	parse_request: function (request) {
-		// TODO: add code
-	},
-	build_request: function (request) {
-		var request = Request.factory.polish_request(request);
-		
-		var method = request.method;
-		var pathinfo = request.url.pathinfo;
-		var headers = request.headers;
-		var data = request.data ? '\r\n\r\n' + request.data : '';
-		
-		return method + ' ' + pathinfo + ' HTTP/1.1\r\n' + headers + data + '\r\n\r\n';
-	},
-	new_from_url: function (url) {
-		return new Request({method:'GET', url:url, headers:{}, data:null});
-	},
-	new_from_string: function (str) {
-		return new Request(Request.factory.parse_request(str));
-	},
-	new_from_request_object: function (request_obj) {
-		var request = {};
-		
-		for (var parameter in request_obj) {
-			request[parameter] = request_obj[parameter];
-		}
-		
-		request.url = Url.factory.new_from_url_object(request.url);
-		request.headers = Headers.factory.new_from_headers_object(request.headers);
-		
-		return new Request(request);
-	},
-};
+			
+			return new Response({code:request.status, message:request.statusText, headers:headers, data:request.responseText});
+		},
 
-/* by Petko D. (pdp) Petkov
- * GNUCITIZEN
- **************************/
+		// EXPORT
+		// exports internal parts
+		export: function () {
+			return this.parts;
+		},
+		
+		// IMPORT
+		// imports internal parts
+		import: function (parts) {
+			extend(this.parts, parts);
+		},
+		
+		// TOSTRING
+		// calculates the string representation of request
+		toString: function () {
+			var request = extend({}, this);
+			request.query = httparse.build_query(request.query);
+			request.headers = httparse.build_headers(request.headers);
+			
+			return httparse.build_request(request);
+		},
+		
+		// VALUEOF
+		// calculates the value representation of request
+		valueOf: function () {
+			return this.toString();
+		},
+	};
+	
+	/**
+	 * REQUEST FACTORY
+	 **/
+	Request.factory = {
+		// NEW REQUEST
+		// factory method for creating new requests
+		new_request: function (method, url, headers, data) {
+			var parts = httparse.polish_url(httparse.parse_url(url));
+			
+			parts.method = method ? method : 'GET';
+			parts.headers = headers ? headers : {};
+			parts.data = data ? data : '';
+			
+			return new Request(parts);
+		},
+		
+		// NEW GET REQUEST
+		// factory method for creating new GET requests
+		new_get_request: function (url, headers) {
+			return this.new_request('GET', url, headers, null);
+		},
+		
+		// NET POST REQUEST
+		// factory method for creating new POST requests
+		new_post_request: function (url, headers, data) {
+			return this.new_request('POST', url, headers, data);
+		},
+	};
+	
+	// NAMESPACE
+	// http namespace
+	return {
+		Response: Response,
+		Request : Request};
+})();
