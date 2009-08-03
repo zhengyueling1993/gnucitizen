@@ -45,7 +45,9 @@ window.addEventListener('load', function () {
 		main_tools_open_tasks();
 	};
 	///////////
-	globals.initiate_engine('http://testasp.acunetix.com/');
+	//globals.initiate_engine('http://testasp.acunetix.com/');
+	globals.initiate_engine('http://zero.webappsecurity.com/');
+	//globals.initiate_engine('http://testphp.acunetix.com');
 }, true);
 
 /**

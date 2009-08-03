@@ -1,64 +1,98 @@
 /**
  * IMPORTS
+ * code dependencies
  **/
 Components.utils.import("resource://websecurify/content/mod/globals.jsm");
 
 /**
- * ON LOAD
+ * ONLOAD
  * initialize window
  **/
 window.addEventListener('load', function () {
-	// get a referene to the task name
 	var task_name = window.arguments[0].task;
 	
-	// get a reference to the task
 	var task = globals.tasks[task_name];
 	
-	// if task name given...
 	if (task_name) {
-		// ...change the title of the current window
 		document.title = document.title + ' (' + task_name + ')';
 		
-		// ...set the current index of the tree to 0
 		var index = 0;
 		
-		// ...get a reference to the report issues
-		var $issues = document.getElementById('report-issues');
+		var $report_data = document.getElementById('report-data');
+		var $report_pane = document.getElementById('report-pane');
+		var $report_tree = document.getElementById('report-tree');
 		
-		// ...declare a rebuild function
 		function rebuild() {
-			// ...the i is equal to the current index of the issues
 			var i = index;
 			
-			// ...the new index is equal to the number of messages available for this task
 			index = task.messages.length;
 			
-			// ...for every i
 			for (i; i < index; i++) {
-				// ...get a message
 				var message = task.messages[i];
 				
-				// ...if message is ReporterWorker.data
-				if (message.message_type == 'ReporterWorker.data') {
-					// ...create a new issue element based on the blueprints
-					var $issue = document.getElementById('report-blueprints-issue').cloneNode(true);
+				if (message.message_type == 'Reporter.data') {
+					var title = message.title;
+					var explanation = message.explanation;
+					var description = message.description;
 					
-					// ...set the issue element title
-					$issue.getElementsByAttribute('id', 'report-blueprints-issue-title')[0].setAttribute('value', message.title);
+					var $issue = $report_data.getElementsByAttribute('title', title)[0];
 					
-					// ...set the issue element description
-					$issue.getElementsByAttribute('id', 'report-blueprints-issue-description')[0].innerHTML = message.description;
+					if (!$issue) {
+						var $issue = document.createElement('issue');
+						$issue.setAttribute('index', 0);
+						$issue.setAttribute('title', title);
+						$issue.setAttribute('description', explanation);
+						
+						$report_data.appendChild($issue);
+					}
 					
-					// ...insert the issue element to the issues
-					$issues.appendChild($issue);
+					var $variant = document.createElement('variant');
+					$variant.setAttribute('title', 'Variant ' + (parseInt($issue.getAttribute('index'), 10) + 1));
+					$variant.setAttribute('description', description);
+					
+					$issue.appendChild($variant);
+					$issue.setAttribute('index', parseInt($issue.getAttribute('index'), 10) + 1);
 				}
 			}
+			
+			$report_pane.builder.rebuild();
+			$report_tree.builder.rebuild();
 		}
 		
-		// ...rebuild
 		rebuild();
 		
-		// ...rebuild every 1000ms
 		setInterval(rebuild, 1000);
+		
+		var report_tree_listener = {
+			willRebuild: function (builder) {
+				this.open_containers = [];
+				
+				for (var x = 0; x < builder.root.view.rowCount; x++) {
+					if (builder.root.view.isContainer(x) && builder.root.view.isContainerOpen(x)) {
+						this.open_containers.push(builder.root.view.getCellText(x, builder.root.columns['report-tree-treecols-title']));
+					}
+				}
+				
+				this.current_index = builder.root.currentIndex;
+			},
+			
+			didRebuild: function (builder) {
+				for (var y = 0; y < this.open_containers.length; y++) {
+					for (var x = 0; x < builder.root.view.rowCount; x++) {
+						if (builder.root.view.isContainer(x) && !builder.root.view.isContainerOpen(x)) {
+							var title = builder.root.view.getCellText(x, builder.root.columns['report-tree-treecols-title']);
+							
+							if (title == this.open_containers[y]) {
+								builder.root.view.toggleOpenState(x);
+							}
+						}
+					}
+				}
+				
+				builder.root.view.selection.select(this.current_index);
+			},
+		};
+		
+		$report_tree.builder.addListener(report_tree_listener);
 	}
 }, false);

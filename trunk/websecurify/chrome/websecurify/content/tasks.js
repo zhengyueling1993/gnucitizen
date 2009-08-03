@@ -8,47 +8,58 @@ Components.utils.import("resource://websecurify/content/mod/globals.jsm");
  * initialize window
  **/
 window.addEventListener('load', function () {
-	// get a reference to the tasks richlistbox
 	var $tasks = document.getElementById('tasks-richlistbox');
 	
-	// rebuild the tasks richlistbox
 	var rebuild = function () {
-		// for all global tasks...
 		for (var task_name in globals.tasks) {
-			// ...get a task
 			var task = globals.tasks[task_name];
 			
-			// ...get task element by id
 			var $task = document.getElementById('task-' + task_name);
 			
-			// ...if there is no such task element
 			if (!$task) {
-				// ...create a new task element based on the blueprints
 				var $task = document.getElementById('tasks-blueprints-task').cloneNode(true);
 				
-				// ...set the task element id
 				$task.setAttribute('id', 'task-' + task_name);
 				
-				// ...set the task element description
 				$task.getElementsByAttribute('id', 'tasks-blueprints-task-description')[0].setAttribute('value', task_name);
 				
-				// ...insert the task element to the tasks richlistbox
 				$tasks.appendChild($task);
 			}
 			
-			// ...set the task element status
 			$task.getElementsByAttribute('id', 'tasks-blueprints-task-status')[0].setAttribute('value', task.status);
 			
-			// ...set the task element progress
 			$task.getElementsByAttribute('id', 'tasks-blueprints-task-progress')[0].setAttribute('value', task.progress);
 		}
 	};
 	
-	// rebuild before we start
 	rebuild();
 	
-	// set to rebuild every 10ms
-	window.rebuild_interval = setInterval(rebuild, 10); // NOTE: 1ms result in a "Bus error"
+	window.rebuild_interval = setInterval(rebuild, 10); // NOTE: 1ms results in a "Bus error"
+	
+	var tasks_message_indexes = {};
+	
+	var report = function () {
+		for (var task_name in globals.tasks) {
+			if (tasks_message_indexes[task_name] == undefined) {
+				tasks_message_indexes[task_name] = 0;
+			}
+			
+			var index = tasks_message_indexes[task_name];
+			var length = tasks_message_indexes[task_name] = globals.tasks[task_name].messages.length;
+			
+			for (var i = index; i < length; i++) {
+				var message = globals.tasks[task_name].messages[i];
+				
+				if (message.message_type == 'Engine.finished') {
+					tasks_open_report_for_task(task_name);
+				}
+			}
+		}
+	};
+	
+	report();
+	
+	window.report_interval = setInterval(report, 10); // NOTE: 1ms results in a "Bus error"
 }, false);
 
 /**

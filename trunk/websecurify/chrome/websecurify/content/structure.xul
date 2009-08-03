@@ -13,7 +13,6 @@
 	width="400" height="500"
 	persist="screenX screenY width height sizemode">
 	
-	<script type="application/x-javascript" src="chrome://websecurify/content/lib/lib.http.js"/>
 	<script type="application/x-javascript" src="chrome://websecurify/content/structure.js"/>
 	
 	<stringbundleset id="structure-stringbundleset">
