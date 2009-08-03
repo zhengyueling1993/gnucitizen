@@ -39,8 +39,14 @@
 						var status = 200;
 					}
 					
-					var url = (new String(url)).replace(/\w+?:\/\//, '').replace(/\/+/g, '/').replace(/#.*$/, '').replace(/\/$/, '');
-					var tokens = (new String(url)).split('?', 2)[0].split('/');
+					var path = url.toString()
+					              .replace(/\w+?:\/\//, '')
+					              .replace(/\/+/g, '/')
+					              .replace(/#.*$/, '')
+					              .split('?', 2)[0]
+					              .replace(/\/$/, '');
+					
+					var tokens = path.split('/');
 					
 					var $node = $tree;
 					
@@ -68,6 +74,20 @@
 					}
 				]]></body>
 			</method>
+		</implementation>
+	</binding>
+	
+	<!-- ==================================================================================================== -->
+	
+	<binding id="htmlbox">
+		<content>
+			<div xmlns="http://www.w3.org/1999/xhtml" id="htmlbox-div"></div>
+		</content>
+		<implementation>
+			<constructor><![CDATA[
+				var $div = document.getAnonymousNodes(this)[0];
+				$div.innerHTML = this.getAttribute('html');
+			]]></constructor>
 		</implementation>
 	</binding>
 	

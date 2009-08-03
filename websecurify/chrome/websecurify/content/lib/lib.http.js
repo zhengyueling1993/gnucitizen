@@ -17,29 +17,16 @@
  *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  **/
 
-/**
- * HTTP
- **/
 http = (function () {
 	// IMPORTS
 	// code dependencies
 	try {
-		load('lib.httparse.js');
+		load('lib.type.js');
+		load('lib.httpparse.js');
 	} catch (e) {
-		importScripts('lib.httparse.js');
+		importScripts('lib.type.js');
+		importScripts('lib.httpparse.js');
 	}
-	
-	// IS STRING
-	// checks if string
-	var is_string = function (value) {
-		return typeof value == 'string' || (typeof value == 'object' && value.constructor.toString().match(/string/i));
-	};
-	
-	// IS NUMBER
-	// checks if number
-	var is_number = function (value) {
-		return typeof value == 'number' || (typeof value == 'object' && value.constructor.toString().match(/number/i));
-	};
 	
 	// EXTEND
 	// extends objecta with the content of objectb
@@ -65,10 +52,10 @@ http = (function () {
 		// CODE GETTER
 		// gets validated and normalized code
 		get code() {
-			if (is_number(this.parts.code)) {
-				return code;
+			if (type.is_number(this.parts.code)) {
+				return this.parts.code;
 			} else
-			if (is_string(this.parts.code)) {
+			if (type.is_string(this.parts.code)) {
 				return parseInt(this.parts.code.toString(), 10);
 			} else {
 				return undefined;
@@ -78,10 +65,10 @@ http = (function () {
 		// CODE SETTER
 		// sets validated and normalized code
 		set code(value) {
-			if (is_number(value)) {
+			if (type.is_number(value)) {
 				this.parts.code = value;
 			} else
-			if (is_string(value)) {
+			if (type.is_string(value)) {
 				this.parts.code = parseInt(value.toString(), 10);
 			} else {
 				this.parts.code = undefined;
@@ -99,8 +86,8 @@ http = (function () {
 		// HEADERS GETTER
 		// gets validated and normalized headers
 		get headers() {
-			if (is_string(this.parts.headers)) {
-				return httparse.parse_headers(this.parts.headers);
+			if (type.is_string(this.parts.headers)) {
+				return httpparse.parse_headers(this.parts.headers);
 			} else {
 				return extend({}, this.parts.headers);
 			}
@@ -109,30 +96,30 @@ http = (function () {
 		// HEADERS SETTER
 		// sets a validated and normalized headers
 		set headers(value) {
-			if (is_string(value)) {
+			if (type.is_string(value)) {
 				this.parts.headers = value.toString();
 			} else {
-				this.parts.headers = httparse.build_headers(value);
+				this.parts.headers = httpparse.build_headers(value);
 			}
 		},
 		
 		// DATA GETTER
 		// gets validated and normalized data
 		get data() {
-			if (is_string(this.parts.data)) {
+			if (type.is_string(this.parts.data)) {
 				return this.parts.data.toString();
 			} else {
-				return httparse.build_query(this.parts.data);
+				return httpparse.build_query(this.parts.data);
 			}
 		},
 		
 		// DATA SETTER
 		// sets validated and normalized data
 		set data(value) {
-			if (is_string(value)) {
+			if (type.is_string(value)) {
 				this.parts.data = value.toString();
 			} else {
-				this.parts.data = httparse.build_query(value);
+				this.parts.data = httpparse.build_query(value);
 			}
 		},
 		
@@ -151,7 +138,7 @@ http = (function () {
 		// TOSTRING
 		// calculates the string representation of response
 		toString: function () {
-			return httparse.build_response(this);
+			return httpparse.build_response(this);
 		},
 		
 		// VALUEOF
@@ -182,6 +169,15 @@ http = (function () {
 		new_response_from_request: function (request) {
 			return request.send();
 		},
+		
+		// NEW FROM EXPORT
+		// factory method for creating new response from exported response parts
+		new_from_export: function (object) {
+			var response = new Response({});
+			response.import(object);
+			
+			return response;
+		},
 	};
 	
 	/**
@@ -202,19 +198,19 @@ http = (function () {
 		// METHOD SETTER
 		// sets a validated and nromalized request method
 		set method(value) {
-			this.parts.method = value.toString().toUpperCase();
+			this.parts.method = value ? value.toString().toUpperCase() : 'GET';
 		},
 		
 		// URL GETTER
 		// gets a validated and normalized url from internal parts
 		get url() {
-			return httparse.build_url(httparse.polish_url(this.parts));
+			return httpparse.build_url(httpparse.polish_url(this.parts));
 		},
 		
 		// URL SETTER
 		// sets internal parts from validated and normalized url
 		set url(value) {
-			var parts = httparse.polish_url(httparse.parse_url(value));
+			var parts = httpparse.polish_url(httpparse.parse_url(value));
 
 			extend(this.parts, parts);
 		},
@@ -270,10 +266,10 @@ http = (function () {
 		// PORT GETTER
 		// gets a validated and normalized url port
 		get port() {
-			if (is_number(this.parts.port)) {
+			if (type.is_number(this.parts.port)) {
 				return this.parts.port >= 0 ? this.parts.port : undefined;
 			} else
-			if (is_string(this.parts.port)) {
+			if (type.is_string(this.parts.port)) {
 				var port = parseInt(this.parts.port, 10);
 				return this.parts.port >=0 ? this.parts.port : undefined;
 			} else {
@@ -312,20 +308,20 @@ http = (function () {
 		// PATHNAME GETTER
 		// gets a validated and normalized pathname
 		get pathname() {
-			return httparse.polish_pathname(this.parts.pathname.toString().replace(/^\/?/, '/'));
+			return httpparse.polish_pathname(this.parts.pathname.toString().replace(/^\/?/, '/'));
 		},
 		
 		// PATHNAME SETTER
 		// sets a validated and normalized pathname
 		set pathname(value) {
-			this.parts.pathname = httparse.polish_pathname(value.toString().replace(/^\/?/, '/'));
+			this.parts.pathname = httpparse.polish_pathname(value.toString().replace(/^\/?/, '/'));
 		},
 		
 		// QUERY GETTER
 		// gets a validated and normalized query
 		get query() {
-			if (is_string(this.parts.query)) {
-				return httparse.parse_query(this.parts.query);
+			if (type.is_string(this.parts.query)) {
+				return httpparse.parse_query(this.parts.query);
 			} else {
 				return extend({}, this.parts.query);
 			}
@@ -334,24 +330,24 @@ http = (function () {
 		// QUERY SETTER
 		// sets a validated and normalized query
 		set query(value) {
-			if (is_string(this.parts.query)) {
+			if (type.is_string(value)) {
 				this.parts.query = value.toString();
 			} else {
-				this.parts.query = httparse.build_query(this.parts);
+				this.parts.query = httpparse.build_query(value);
 			}
 		},
 		
 		// PATHINFO GETTER
 		// gets a validated and normalized pathinfo
 		get pathinfo() {
-			return this.pathname + (this.query ? '?' + httparse.build_query(this.query) : '');
+			return this.pathname + (this.query ? '?' + httpparse.build_query(this.query) : '');
 		},
 		
 		// PATHINFO SETTER
 		// sets a validated and normalized pathinfo
 		set pathinfo(value) {
-			var url = 'http://dummy' + httparse.polish_pathname(value.toString().replace(/^\/?/, '/'));
-			var parts = httparse.polish_url(httparse.parse_url(url));
+			var url = 'http://dummy' + httpparse.polish_pathname(value.toString().replace(/^\/?/, '/'));
+			var parts = httpparse.polish_url(httpparse.parse_url(url));
 			
 			this.pathname = parts.pathname;
 			this.query = parts.query;
@@ -360,8 +356,8 @@ http = (function () {
 		// HEADERS GETTER
 		// gets validated and normalized headers
 		get headers() {
-			if (is_string(this.parts.headers)) {
-				return httparse.parse_headers(this.parts.headers);
+			if (type.is_string(this.parts.headers)) {
+				return httpparse.parse_headers(this.parts.headers);
 			} else {
 				return extend({}, this.parts.headers);
 			}
@@ -370,30 +366,30 @@ http = (function () {
 		// HEADERS SETTER
 		// sets a validated and normalized headers
 		set headers(value) {
-			if (is_string(value)) {
+			if (type.is_string(value)) {
 				this.parts.headers = value.toString();
 			} else {
-				this.parts.headers = httparse.build_headers(value);
+				this.parts.headers = httpparse.build_headers(value);
 			}
 		},
 		
 		// DATA GETTER
 		// gets validated and normalized data
 		get data() {
-			if (is_string(this.parts.data)) {
+			if (type.is_string(this.parts.data)) {
 				return this.parts.data.toString();
 			} else {
-				return httparse.build_query(this.parts.data);
+				return httpparse.build_query(this.parts.data);
 			}
 		},
 		
 		// DATA SETTER
 		// sets validated and normalized data
 		set data(value) {
-			if (is_string(value)) {
+			if (type.is_string(value)) {
 				this.parts.data = value.toString();
 			} else {
-				this.parts.data = httparse.build_query(value);
+				this.parts.data = httpparse.build_query(value);
 			}
 		},
 		
@@ -416,34 +412,47 @@ http = (function () {
 			} catch (e) {} // TODO: retry request if it fails
 			
 			try {
-				var headers = httparse.parse_headers(request.getAllResponseHeaders());
+				var headers = httpparse.parse_headers(request.getAllResponseHeaders());
 			} catch (e) {
 				var headers = {};
 			}
 			
-			return new Response({code:request.status, message:request.statusText, headers:headers, data:request.responseText});
+			try {
+				var statusText = request.statusText;
+			} catch (e) {
+				var statusText = '';
+			}
+			
+			return new Response({code:request.status, message:statusText, headers:headers, data:request.responseText});
 		},
 
 		// EXPORT
-		// exports internal parts
+		// exports important request parts
 		export: function () {
-			return this.parts;
+			return {
+				method  : this.method,
+				url     : this.url,
+				headers : httpparse.build_headers(this.headers),
+				data    : this.data};
 		},
 		
 		// IMPORT
-		// imports internal parts
-		import: function (parts) {
-			extend(this.parts, parts);
+		// imports important request parts
+		import: function (object) {
+			this.method = object.method;
+			this.url = object.url;
+			this.headers = object.headers;
+			this.data = object.data;
 		},
 		
 		// TOSTRING
 		// calculates the string representation of request
 		toString: function () {
 			var request = extend({}, this);
-			request.query = httparse.build_query(request.query);
-			request.headers = httparse.build_headers(request.headers);
+			request.query = httpparse.build_query(request.query);
+			request.headers = httpparse.build_headers(request.headers);
 			
-			return httparse.build_request(request);
+			return httpparse.build_request(request);
 		},
 		
 		// VALUEOF
@@ -460,11 +469,21 @@ http = (function () {
 		// NEW REQUEST
 		// factory method for creating new requests
 		new_request: function (method, url, headers, data) {
-			var parts = httparse.polish_url(httparse.parse_url(url));
+			var parts = httpparse.polish_url(httpparse.parse_url(url));
+			parts.method = method;
 			
-			parts.method = method ? method : 'GET';
-			parts.headers = headers ? headers : {};
-			parts.data = data ? data : '';
+			if (type.is_string(headers)) {
+				parts.headers = headers;
+			} else {
+				parts.headers = httpparse.build_headers(headers);
+			}
+			
+			
+			if (type.is_string(data)) {
+				parts.data = data;
+			} else {
+				parts.data = httpparse.build_query(data);
+			}
 			
 			return new Request(parts);
 		},
@@ -475,10 +494,19 @@ http = (function () {
 			return this.new_request('GET', url, headers, null);
 		},
 		
-		// NET POST REQUEST
+		// NEW POST REQUEST
 		// factory method for creating new POST requests
 		new_post_request: function (url, headers, data) {
 			return this.new_request('POST', url, headers, data);
+		},
+		
+		// NEW FROM EXPORT
+		// factory method for creating new request from exported request parts
+		new_from_export: function (object) {
+			var request = new Request({});
+			request.import(object);
+			
+			return request;
 		},
 	};
 	
@@ -488,3 +516,7 @@ http = (function () {
 		Response: Response,
 		Request : Request};
 })();
+
+/* by Petko D. (pdp) Petkov
+ * GNUCITIZEN
+ **************************/

@@ -1,186 +1,254 @@
 /**
- * IMPORT SCRIPTS
+ *    lib.fuzzer.js
+ *    Copyright (C) 2009  Petko D (pdp) Petkov (GNUCITIZEN)
+ *    
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *   
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *   
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  **/
-importScripts('lib.http.js');
-importScripts('lib.spider.js');
 
-/**
- * IMPORT DATA
- **/
-importScripts('data.xss.db');
-importScripts('data.sqli.db');
-
-/**
- * FUZZER WORKER CONSTRUCTOR
- **/
-function FuzzerWorker() {
-	this.step = 0;
-	this.steps = 0;
-	
-	this.fuzzed_requests = new Queue();
-	
-	this.xss_tests = XSS.tests;
-	this.xss_payloads = XSS.payloads;
-	
-	this.sqli_tests = SQLI.tests;
-	this.sqli_payloads = SQLI.payloads;
-}
-
-/**
- * FUZZER WORKER PROTOTYPE
- **/
-FuzzerWorker.prototype = {
-	generate_template_request: function (request) {
-		var template_request = new Request(request);
+fuzzer = (function () {
+	// IMPORTS
+	// code dependencies
+	try {
+		load('data.xss.db');
+		load('data.sqli.db');
 		
-		var parameters = template_request.url.query.keys();
+		load('lib.type.js');
+		load('lib.http.js');
+		load('lib.spider.js');
+		load('lib.httpparse.js');
+	} catch (e) {
+		importScripts('data.xss.db');
+		importScripts('data.sqli.db');
 		
-		for (var x = 0; x < parameters.length; x++) {
-			var parameter = parameters[x];
+		importScripts('lib.type.js');
+		importScripts('lib.http.js');
+		importScripts('lib.spider.js');
+		importScripts('lib.httpparse.js');
+	}
+	
+	/**
+	 * FUZZER CONSTRUCTOR
+	 **/
+	var Fuzzer = function () {
+		this.step = 0;
+		this.steps = 0;
+		
+		this.fuzzed_requests = new spider.Queue();
+		
+		this.xss_tests = XSS.tests;
+		this.xss_payloads = XSS.payloads;
+		
+		this.sqli_tests = SQLI.tests;
+		this.sqli_payloads = SQLI.payloads;
+	};
+	
+	/**
+	 * FUZZER PROTOTYPE
+	 **/
+	Fuzzer.prototype = {
+		// ONMESSAGE
+		// message event receiver
+		onmessage: undefined,
+		
+		// GENERATE TEMPLATE REQUEST
+		// generates a blanked-out (template) request
+		generate_template_request: function (request) {
+			var template_request = http.Request.factory.new_from_export(request);
 			
-			template_request.url.query.set(parameter, '');
-		}
-		dump(template_request.headers + '\n');
-		if (request.headers.get('Content-type') == 'application/x-www-form-urlencoded') {
-			var data = new Query(request.data);
-			var parameters = data.keys();
+			var query = {};
+			var template_query = template_request.query;
 			
-			for (var x = 0; x < parameters.length; x++) {
-				var parameter = parameters[x];
-				
-				data.set(parameter, '');
+			for (var property in template_query) {
+				query[property] = '';
 			}
 			
-			request.data = data;
-		}
-		
-		return template_request;
-	},
-	generate_parameter_fuzz: function (request, set) {
-		var fuzzed_requests = [];
-		
-		var parameters = request.url.query.keys();
-		
-		for (var x = 0; x < parameters.length; x++) {
-			var parameter = parameters[x];
+			template_request.query = query;
 			
-			for (var y = 0; y < set.length; y++) {
-				var value = request.url.query.get(parameter);
-				var payloads = [set[y], value + set[y], set[y] + value];
+			if (template_request.method == 'POST') {
+				var template_content_type = template_request.headers['Content-type'];
 				
-				for (var z = 0; z < payloads.length; z++) {
-					var payload = payloads[z];
+				if (template_content_type == 'application/x-www-form-urlencoded' || template_content_type == 'multipart/form-data') {
+					var query_data = {};
+					var template_query_data = httpparse.parse_query(template_request.data);
 					
-					var fuzzed_request = new Request(request);
-					fuzzed_request.url.query.set(parameter, new Raw(payload));
+					for (var property in template_query_data) {
+						query_data[property] = '';
+					}
 					
-					fuzzed_requests.push(fuzzed_request);
+					template_request.data = query_data;
 				}
 			}
-		}
-		
-		return fuzzed_requests;
-	},
-	test_xss: function (request) {
-		var response = request.send();
-		var data = new String(response.data);
-		
-		for (var i = 0; i < this.xss_tests.length; i++) {
-			var test = this.xss_tests[i];
 			
-			if (data.match(new RegExp(test, 'i'))) {
-				this.post_message('FuzzerWorker.data', {issue:'xss', request:request, response:response});
+			return template_request;
+		},
+		
+		generate_parameter_fuzz: function (request, set) {
+			var fuzz_requests = [];
+			
+			if (request.method == 'POST') {
+				var content_type = request.headers['Content-type'];
 				
-				return true;
+				if (content_type == 'application/x-www-form-urlencoded' || content_type == 'multipart/form-data') {
+					var data = httpparse.parse_query(request.data);
+					
+					for (var property in data) {
+						for (key in set) {
+							var fuzz_request = http.Request.factory.new_from_export(request);
+							var fuzz_data = httpparse.parse_query(fuzz_request.data);
+
+							fuzz_data[property] = set[key];
+							fuzz_request.data = fuzz_data;
+
+							fuzz_requests.push(fuzz_request);
+						}
+					}
+				}
 			}
-		}
-		
-		return false;
-	},
-	test_sqli: function (request) {
-		var response = request.send();
-		var data = new String(response.data);
-		
-		for (var database in this.sqli_tests) {
-			var tests = this.sqli_tests[database];
 			
-			for (var i = 0; i < tests.length; i++) {
-				var test = tests[i];
+			var query = request.query;
+			
+			for (var property in query) {
+				for (key in set) {
+					var fuzz_request = http.Request.factory.new_from_export(request);
+					var fuzz_query = fuzz_request.query;
+					
+					fuzz_query[property] = set[key];
+					fuzz_request.query = fuzz_query;
+					
+					fuzz_requests.push(fuzz_request);
+				}
+			}
+			
+			return fuzz_requests;
+		},
+		
+		test_xss: function (request) {
+			var response = request.send();
+			var data = response.data;
+			
+			for (var i = 0; i < this.xss_tests.length; i++) {
+				var test = this.xss_tests[i];
 				
 				if (data.match(new RegExp(test, 'i'))) {
-					this.post_message('FuzzerWorker.data', {issue:'sqli', database:database, request:request, response:response});
+					this.post_message('Fuzzer.data', {issue:'xss', request:request.export(), response:response.export()});
 					
-					return true;
+					return;
 				}
 			}
-		}
+		},
 		
-		return false;
-	},
-	fuzz_xss: function (request) {
-		var fuzzed_requests = this.generate_parameter_fuzz(request, this.xss_payloads);
-	
-		for (var i = 0; i < fuzzed_requests.length; i++) {
-			var fuzzed_request = fuzzed_requests[i];
+		test_sqli: function (request) {
+			var response = request.send();
+			var data = response.data;
 			
-			this.test_xss(fuzzed_request);
-		}
-	},
-	fuzz_sqli: function (request) {
-		var fuzzed_requests = this.generate_parameter_fuzz(request, this.sqli_payloads);
-	
-		for (var i = 0; i < fuzzed_requests.length; i++) {
-			var fuzzed_request = fuzzed_requests[i];
-			
-			this.text_sqli(fuzzed_request);
-		}
-	},
-	initiate: function (request) {
-		var fuzzed_request = Request.factory.new_from_request_object(request);
-		var fuzzer_methods = [];
-		
-		var template_request = this.generate_template_request(request);
-		var exists = !this.fuzzed_requests.push(template_request);
-		
-		if (!exists) {
-			for (var fuzz_name in this) {
-				if (fuzz_name.substring(0, 5) == 'fuzz_') {
-					fuzzer_methods.push(fuzz_name);
+			for (var database in this.sqli_tests) {
+				var tests = this.sqli_tests[database];
+				
+				for (var i = 0; i < tests.length; i++) {
+					var test = tests[i];
+					
+					if (data.match(new RegExp(test, 'i'))) {
+						this.post_message('Fuzzer.data', {issue:'sqli', database:database, request:request.export(), response:response.export()});
+						
+						return;
+					}
 				}
 			}
-	
-			this.steps += fuzzer_methods.length;
-	
-			for (var i = 0; i < fuzzer_methods.length; i++) {
-				this.post_progress('fuzzing for ' + fuzzer_methods[i]);
+		},
 		
-				this.step += 1;
-		
-				this[fuzzer_methods[i]](fuzzed_request);
-		
-				this.post_progress('finished fuzzing for ' + fuzzer_methods[i]);
+		fuzz_xss: function (request) {
+			var fuzzed_requests = this.generate_parameter_fuzz(request, this.xss_payloads);
+			
+			for (var i = 0; i < fuzzed_requests.length; i++) {
+				var fuzzed_request = fuzzed_requests[i];
+				
+				this.test_xss(fuzzed_request)
 			}
+		},
+		
+		fuzz_sqli: function (request) {
+			var fuzzed_requests = this.generate_parameter_fuzz(request, this.sqli_payloads);
+			
+			for (var i = 0; i < fuzzed_requests.length; i++) {
+				var fuzzed_request = fuzzed_requests[i];
+				
+				this.test_sqli(fuzzed_request)
+			}
+		},
+		
+		initiate: function (request) {
+			var fuzzed_request = http.Request.factory.new_from_export(request);
+			var fuzzer_methods = [];
+			
+			var template_request = this.generate_template_request(request);
+			var exists = !this.fuzzed_requests.push(template_request);
+			
+			if (!exists) {
+				for (var fuzz_name in this) {
+					if (fuzz_name.substring(0, 5) == 'fuzz_') {
+						fuzzer_methods.push(fuzz_name);
+					}
+				}
+				
+				this.steps += fuzzer_methods.length;
+				
+				for (var i = 0; i < fuzzer_methods.length; i++) {
+					this.post_progress('fuzzing for ' + fuzzer_methods[i]);
+					
+					this.step += 1;
+					
+					this[fuzzer_methods[i]](fuzzed_request);
+					
+					this.post_progress('finished fuzzing for ' + fuzzer_methods[i]);
+				}
+				
+				this.post_message('Fuzzer.finished');
+			}
+		},
+		
+		// POST PROGRESS
+		// posts progress to parrent
+		post_progress: function (status) {
+			var progress = (100 / this.steps) * this.step;
+			var step = this.step + '/' + this.steps;
+
+			this.post_message('Fuzzer.progress', {progress:progress, step:step, status:status});
+		},
+		
+		// POST MESSAGE
+		// posts message to parrent
+		post_message: function (message_type, message) {
+			if (type.is_function(this.onmessage)) {
+				var message = message;
+				
+				if (message == undefined) {
+					var message = {};
+				}
+				
+				message.message_type = message_type;
+				
+				this.onmessage(message);
+			}
+		},
+	};
 	
-			this.post_message('FuzzerWorker.finished');
-		}
-	},
-	post_progress: function (status) {
-		var progress = (100 / this.steps) * this.step;
-		var step = this.step + '/' + this.steps;
-		
-		this.post_message('FuzzerWorker.progress', {progress:progress, step:step, status:status});
-	},
-	post_message: function (message_type, message) {
-		var message = message;
-		
-		if (message == undefined) {
-			var message = {};
-		}
-		
-		message.message_type = message_type;
-		postMessage(message);
-	},
-};
+	// NAMESPACE
+	// fuzzer namespace
+	return {
+		Fuzzer : Fuzzer};
+})();
 
 /* by Petko D. (pdp) Petkov
  * GNUCITIZEN
