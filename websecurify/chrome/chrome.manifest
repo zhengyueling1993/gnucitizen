@@ -1,9 +1,0 @@
-content     websecurify                 file:websecurify/content/
-resource    websecurify                 file:websecurify/
-locale      websecurify en-US           file:websecurify/locale/en-US/
-skin        websecurify classic/1.0     file:websecurify/skin/
-
-content     branding                    file:websecurify/branding/content/
-resource    branding                    file:websecurify/branding/
-locale      branding en-US              file:websecurify/branding/locale/en-US/
-skin        branding classic/1.0        file:websecurify/branding/skin/
