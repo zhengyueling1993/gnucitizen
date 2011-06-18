@@ -1,0 +1,12 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+Get NSS + NSPR to run build on mac
+  * for 64 build - USE_64=1 gmake nss_build_all
+  * for 32 build - you need to pass CC="gcc -arch i386" CXX="g++ -arch i386" to make
