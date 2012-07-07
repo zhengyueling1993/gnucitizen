@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/new-technique-to-perform-universal-website-hijacking/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; New technique to perform universal website hijacking</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; New technique to perform universal website hijacking Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Audio From Black Hat USA 2008' href='../audio-from-black-hat-usa-2008/index.html' />
+<link rel='next' title='Social Media Security' href='../social-media-security/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexfc84.html?p=1347' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-1347" class="post">
+	<div class="post-title"><h2><span>New technique to perform universal website hijacking</span></h2></div>
+	<div class="post-date"><span>published:</span> September 20th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I&#8217;m really excited that <a href="http://conference.hackinthebox.org/hitbsecconf2008kl/">HITBSecConf2008 Malaysia</a> is coming up soon: end of October to be precise. I highly recommend our readers to attend such event, as it&#8217;s organized by one of the finest security event crews I have ever dealt with. There are tons of talks I want to attend, which I will cover in another post. The GNUCITIZEN team would like to thank the Hack in the Box (HITB) staff for inviting us to the Malaysia edition of the conference, making this the second time pdp and I will speak at HITBSecConf. The HITBSecConf crew includes Dhillon, <a href="http://geek00l.blogspot.com/">geek00l</a>, <a href="http://mel.icious.net/">spoonfork</a>, Belinda, Prabu, <a href="http://geeks.serverfreak.biz/rufi0/blog/">ruFI0</a> and Amy among others. Thank you guys, we&#8217;re really humbled by your invitation.</p>
+
+<p>I will be delivering the updated version of my <a href="http://conference.hackinthebox.org/hitbsecconf2008kl/?page_id=186">Cracking into Embedded Devices and Beyond!</a> presentation, which will include a quite special &#8211; i.e.: unusual &#8211; 0day vulnerability which I have successfully reported via <a href="http://www.zerodayinitiative.com/">Zero Day Initiative</a>.</p>
+
+<h3>The 0day vuln</h3>
+<p>Well, I cannot give full details on the vulnerability at this moment, due to ZDI&#8217;s advisory not being published yet. I&#8217;m planning to release the full details for the first time on <a href="http://conference.hackinthebox.org/hitbsecconf2008kl/agenda.htm">30th October</a> at HITBSecConf2008 Malaysia. However, there are a few things I can tell you for the moment being. First of all, the affected system is an embedded device, which is quite obvious by reading the name of my presentation. More precisely, the vulnerability affects appliances of a well-known firewall vendor.</p>
+
+<p>Usually, web cross-domain vulnerabilities, affect either a server-side service/application, or client-side software. For instance, we might have a cross-domain vulnerability on the target site itself (i.e.: XSS/HTML injection), or on a client-side component present on the victim&#8217;s user component. i.e.: web browser itself or web browser plugin. In the case of my finding however, the targeted website can still be hijacked even if the site is NOT vulnerable to XSS, and even if the client-side software on the victim&#8217;s computer is not vulnerable to any cross-domain vulnerability.</p>
+
+<p>In this case, the attacker exploits a vulnerability which doesn&#8217;t affect the targeted website, nor the software installed on the victim user&#8217;s computer. Instead, the attacker exploits a vulnerability on the firewall appliance in charge of <q>protecting</q> the corporate user. Additionally, the cross-domain vulnerability is of <i>universal</i> nature, which means that any website can be hijacked as long as the victim user&#8217;s connection is <q>protected</q> by a firewall appliance of the affected vendor in question.</p>
+
+<p>In summary, by exploiting this vulnerability the attacker:</p>
+
+<ul>
+<li>can hijack ANY website. i.e.: steal session IDs, inject non-legitimate HTML content, and other evil goodness</li>
+<li>doesn&#8217;t need to find any XSS on the website he/she wants to hijack</li>
+<li>doesn&#8217;t need to find any vulnerability on software present on the victim user&#8217;s computer</li>
+</ul>
+
+<p><em>There is virtually nothing the victim user can do to protect against this attack if his/her connection is &#8220;protected&#8221; by a firewall appliance affected by this vulnerability. There are other factors that make this vulnerability quite special, but as I said, I can&#8217;t give too many details for now. All in all, this finding is a good reminder that our online security not only depends on end-point systems such as the client and server that have established a connection, but also all the hops/devices in between!</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/embedded-devices/index.html" rel="tag">embedded devices</a> | <a href="../../tags/firewall/index.html" rel="tag">firewall</a> | <a href="../../tags/hack-in-the-box/index.html" rel="tag">hack in the box</a> | <a href="../../tags/hitbsecconf/index.html" rel="tag">hitbsecconf</a> | <a href="../../tags/vulnerability/index.html" rel="tag">vulnerability</a> | <a href="../../tags/zdi/index.html" rel="tag">zdi</a> | <a href="../../tags/zero-day-initiative/index.html" rel="tag">zero day initiative</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-123801">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/deb9a39eb3c9049674c9711c3c46ceb2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">N</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123801">
+			September 20, 2008 at 7:41 pm</a>		</div>
+
+		<p>cisco pix?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123802">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c6e1de8c64ba8ae709e4140bfaee3f31?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">randomer</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123802">
+			September 20, 2008 at 9:27 pm</a>		</div>
+
+		<p>I bet it&#8217;s Agnitum Outpost firewall.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123807">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3ac09971a0935236d08afd6db126eab6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.h-i-r.net/' rel='external nofollow' class='url'>ax0n</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123807">
+			September 21, 2008 at 12:03 am</a>		</div>
+
+		<p>From a responsible disclosure standpoint, I would much rather have gotten the name of a product family than a list of bad stuff that this vulnerability exposes users to. Now I have to sit around wondering if any of the firewall appliances I&#8217;ve deployed are &#8220;the one&#8221; and throw extra wide-spectrum effort at the problem despite if I&#8217;m actually affected or not.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123809">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/98f25f9a7f97a386501c988aaa5bad7b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">NurBo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123809">
+			September 21, 2008 at 3:29 am</a>		</div>
+
+		<p>why tell us about something if your not going to share thats like saying heres some new shoes but you can&#8217;t wear them.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-123812">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123812">
+			September 21, 2008 at 10:33 am</a>		</div>
+
+		<p>There will never be a good way of disclosing vulnerabilities! At least we try to give you the heads up that an issue exists. The more inform you are the better decisions you can make.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-123814">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123814">
+			September 21, 2008 at 11:06 am</a>		</div>
+
+		<p>guys, as I said I can&#8217;t provide full details at this point, even though I would love to! I simply wanted to share what I could regarding the new material which I will present at HITBSecConf Malaysia.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123823">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2618c57325bb27d7f91728d1b81f50fb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">FilipM</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123823">
+			September 22, 2008 at 11:21 am</a>		</div>
+
+		<p>@NurBo: At least Adrian is taking the appropriate steps after finding vulnerabilities, instead of abusing (or even selling!) them. </p>
+<p>But I am concerned. If Adrian found this one, who else found the same? And when? Did someone already abused any of my systems? We&#8217;ll know after HITBSecConf Malaysia&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-123826">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123826">
+			September 22, 2008 at 9:35 pm</a>		</div>
+
+		<p>@FlipM: we shouldn&#8217;t turn selling a vulnerability into a synonym for irresponsible disclosure. There are several *responsible* vulnerability disclosure programs which pay researchers. ZDI for instance is the one I used, which reported the vulnerability I found to the vendor. Of course, the details will only be available once a fix is released.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123831">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3ac09971a0935236d08afd6db126eab6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.h-i-r.net/' rel='external nofollow' class='url'>ax0n</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123831">
+			September 23, 2008 at 4:49 am</a>		</div>
+
+		<p>I&#8217;d not think listing the vendor would fall into the realm &#8220;irresponsible disclosure&#8221; and I understand that disclosure is tricky business, and selling vulnerabilities is NOT always a bad thing. </p>
+<p>I&#8217;ve deployed many different solutions for customers, so there&#8217;s a good chance I have a client whose dick is hanging in the breeze because of this.  I just don&#8217;t know which one(s). HITBSecConf is a long ways off. And people wonder why I get 15 hours of sleep per week.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123832">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2618c57325bb27d7f91728d1b81f50fb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">FilipM</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123832">
+			September 23, 2008 at 7:18 am</a>		</div>
+
+		<p>You&#8217;re right, I should have been more clear. I ment selling it to irresponsible groups or individuals who have some bad intentions with it. </p>
+<p>What about my concern? I know it&#8217;s possibly impossible to answer correct, but if you have to make a guess, what are the chances that this vuln is already found (and abused) by someone else?<br />
+Without revealing the details on howto, is there a way to check if someone has been a victim of the vuln? Or are there no traces at all?<br />
+As you can notice, you post scared the sh*t out of me   :oÞ</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-123844">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123844">
+			September 24, 2008 at 8:26 am</a>		</div>
+
+		<p>Sure there is always a possibility that someone else can find the same vulnerability. I wouldn&#8217;t be so naive to think I&#8217;m the only one who found it. </p>
+<p>However, I must warn you that this vuln is a *weird one*. In fact I discovered it by pure accident. I&#8217;m planning to explain what lead me to discover it at HITBSecConf, because it&#8217;s actually kind of a funny story ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123855">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3ac09971a0935236d08afd6db126eab6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.h-i-r.net/' rel='external nofollow' class='url'>ax0n</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123855">
+			September 25, 2008 at 1:37 am</a>		</div>
+
+		<p>I know some of my favorite vuln finds are serendipitous ones. That&#8217;s always awesome.</p>
+<p>On a side note, your finding wouldn&#8217;t happen to have anything to do with the huge pile of Cisco advisories that went out today, would it?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-123880">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123880">
+			September 26, 2008 at 8:40 pm</a>		</div>
+
+		<p>@ax0n: no, my finding is not related with those advisories you mentioned.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123902">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b50180e6077e9e13e37f6d24246d7ff8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">maxdj</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123902">
+			September 30, 2008 at 4:06 pm</a>		</div>
+
+		<p>Hi, Is it by chance related to Web security gateway software (Web filtering), aka Internet content-control ?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-123922">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123922">
+			October 2, 2008 at 10:26 pm</a>		</div>
+
+		<p>@maxdj: can&#8217;t comment on any details yet unfortunately :(</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="1347"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e1a2da10ff" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/new-technique-to-perform-universal-website-hijacking/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

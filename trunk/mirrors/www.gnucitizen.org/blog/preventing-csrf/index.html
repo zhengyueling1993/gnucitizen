@@ -1,0 +1,808 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/preventing-csrf/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:21:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Preventing CSRF</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Preventing CSRF Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='ZombieMap' href='../zombiemap/index.html' />
+<link rel='next' title='Big Fish' href='../big-fish/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexc885.html?p=187' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-187" class="post">
+	<div class="post-title"><h2><span>Preventing CSRF</span></h2></div>
+	<div class="post-date"><span>published:</span> March 30th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>During the last couple of months a lot has been said about Cross-site request forgeries and how to prevent them. Before presenting my approach of dealing with this type of attacks, letâ€™s have a look on what Cross-site request forgeries are, for one more time.</p>
+
+<p><a href="../cross-site-request-forgery/index.html">As I have discussed in the past</a>, CSRF vulnerabilities occur on applications which allow every request that has a valid session identifier to be processed by the application business logic. This is bad for a number of reasons. The main reason is related to the way the browser handles requests:</p>
+
+<p>When you authenticate with an application the server provides you with a session identifier in a form of a cookie. The browser remembers the session cookie name, value and the domain it came from for further use. From this point on, every request initiated from browser to the application will contain the session identifier for the particular domain. The browser automatically supplies this information so the developers donâ€™t have to do it themselves.</p>
+
+<p>This mechanism can be abused in a number of ways. For example if the user visits a malicious page at the same time when they are authenticated with their email account, for example, attackers will be able to silently send requests to the webmail application forging the user actions. Because the requests go through the browser, a valid session identifier for the attacked URLs will be provided. As a result, the attacker can blindly perform actions on behalf of the user.</p>
+
+<p>This type of attack could be quite worrying. For example most WIFI routers are vulnerable to CSRF attacks, which make them an easy target. A malicious web page can easily forge a POST or GET request to the router address, which as a result enables the router administrative interface on the Internet facing side and resets the access credentials to something the attackers knows. Once the attacker receives confirmation that a router is compromised, she will go to this particular interface, login with the new credentials and at the end completely hijack the victim&#8217;s entire Internet traffic. From this point on, the attacker will be able to sniff your requests, extract sensitive information and even attack all devises that are inside your network.</p>
+
+<p>How do we prevent CSRF attacks? Well, the most common solution is to add a token for every POST or GET request that is initiated from the browser to the server. When the request arrives the business logic validates the token and allows or disallows further processing. Although it sounds easy, the developers could fall into several traps. First of all, the web application that is developed needs to contain another layer of security that handles the random tokens generation and their validation. Then the developers are most likely to do some sort of system that differentiate between forms, etc. Following all these practices can lead to a lot of trouble in future, possibly spawning new vulnerabilities.</p>
+
+<p>While analysing several anti-CSRF frameworks, I realised that the solution could be a lot simpler. We donâ€™t really need tokens. We donâ€™t have to validate forms. We need unique identifiers which are provided anyway as part of the whole session management paradigm. We are going to reuse whatever is available to protect against CSRF attacks. The solution is very easy and quite generic so you should be able to apply it to your applications right away. Letâ€™s have a look at the theory side first.</p>
+
+<p>So we have an application that provides a form which is vulnerable to CSRF. The form itself contains the fields name and lastname and the button submit. In order to prevent CSRF attacks, we add another field which contains the name of the current session identifier cookie name and the current session identifier cookie value. So the original form:</p>
+
+<pre><code>&lt;form&gt;
+&lt;input type="test" name="name" value="John"/&gt;
+&lt;input type="test" name="lastname" value="Dawson"/&gt;
+&lt;input type="submit"/&gt;
+&lt;/form&gt;</code></pre>
+
+<p>is now:</p>
+
+<pre><code>&lt;form&gt;
+&lt;input type="test" name="name" value="John"/&gt;
+&lt;input type="test" name="lastname" value="Dawson"/&gt;
+&lt;input type="test" name="JSPSESSIONID" value="7af7a55caff365ca594510586"/&gt;
+&lt;input type="submit"/&gt;
+&lt;/form&gt;</code></pre>
+
+<p>When the request arrives, the business logic checks for the presence of the JSPSESSIONID field and then compares its value to whatever it has been given to the user as session identifier. In PHP this tricks can be achieved like this:</p>
+
+<pre><code>&lt;?php
+	if (!(isset($_POST[session_name()]) &#038;&#038; $_POST[session_name()] == session_id()))
+		die("I must die here because someone is forging your requests");
+?&gt;</code></pre>
+
+<p>The session_name function is used to get the current session identifier cookie name which by default is PHPSESSIONID. The session_id function retrieves the session cookie value which is a MD5 hash.</p>
+
+<p>Keep in mind that the information that we provide, in order to validate the form, is unique for the user and cannot be faked. If the attacker has access to this type of information they will go after your session because it will be a lot easier. But unless the attacker has some sort of XSS on the attacked web application, it is not possible to obtain the session cookie name and its value.</p>
+
+<p>The same mechanism applies to GET requests as well, however be conscious with them because there are other traps in there which can lead to all sorts of problems.</p>
+
+<p><em>To sum up, you can easily implement an anti-CSRF feature in your app. All you need to do is to add one extra check in your validation subroutines and modify your requests to include the necessary information. Keep in mind that the second can be achieved with a bit of JavaScript which is included on the top of every page. In theory every application can be secured using this approach without too much of a hustle. Heck, you can even implement a solution with 5 lines in mod_rewrite or mod_security. So do it. Do it now.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/csrf/index.html" rel="tag">csrf</a> | <a href="../../tags/prevention/index.html" rel="tag">prevention</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-11286">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4a5253071ab404f6edb3f3690e14c57d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Giorgio Fedon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11286">
+			March 30, 2007 at 1:02 pm</a>		</div>
+
+		<p>I think that it&#8217;s a smart way to prevent CSRF. It&#8217;s easy to implement and works most of the time.<br />
+I would not use BTW the Cookie SessionID (inside the form) because could be leaked somewhere inside the html page.<br />
+I would use something like hmac (hmac(SESSIONID + Secret)).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11290">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fa600ff43c3203b7187c8c611c025f72?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://altmylife.blogspot.com/' rel='external nofollow' class='url'>Tyop?</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11290">
+			March 30, 2007 at 1:16 pm</a>		</div>
+
+		<p>If I first get the page with your form, parse it in order to check your sessionid, and finally do the post with?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-11301">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11301">
+			March 30, 2007 at 1:51 pm</a>		</div>
+
+		<p>Giorgio,</p>
+<p>I understand your point of view but I see nothing wrong with this approach. Even if the page is cached on the disk that shouldn&#8217;t be a problem since the next time you visit the application you will receive a new token. So there is on problem. If someone is sniffing your traffic,.. well they will be able to do a lot then just CSRFing you so I think that you can use this technique without any fear whatsoever.</p>
+<p>Tyop?,</p>
+<p>If you can do that why would you want to go for CSRF? You can as simple hijack the session then. The only way you can get the page is to have some sort of XSS on the application or even worse a backdoor on the browser. But then again, why would you want to CSRF the user when you can do a lot worse then that.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11327">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2d14f532d960a05eae6fd120975c8544?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">wrc</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11327">
+			March 30, 2007 at 3:12 pm</a>		</div>
+
+		<p>The problems that I have seen have not been related to back-end parsing, it is the occasional accidental or intentional exception.  Request tokens need to be completely pervasive and airtight throughout the application.  </p>
+<p>I take it that in this scheme, you would be protecting GETs similarly with the sessionID?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-11338">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/43c564422282cecb1c04135491fa3af2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://mybeni.rootzilla.de/mybeNi/' rel='external nofollow' class='url'>beNi</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11338">
+			March 30, 2007 at 3:53 pm</a>		</div>
+
+		<p>Hey pdp, imho this is a very weak protection, at least for large homepages, because XSS is everywhere and one Vulnerability is enough to get all the Tokens.<br />
+Check my Blog on Saturday Evening and you&#8217;ll see what I&#8217;m trying to convince you of ;-)</p>
+<p>&#8211;beNi</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11341">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e728e97818bd3bf18780d58fe278d315?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Rick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11341">
+			March 30, 2007 at 4:02 pm</a>		</div>
+
+		<p>You state that this could easily be implemented with a few mod_rewrite or mod_security rules.  How exactly?  It sounds like your concept needs to both modify outbound html and validate inbound data.  Neither mod_rewrite nor mod_security can do the former.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-11353">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e4679be8d7d2484f9c0b8c4df71f4d2a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Oriol</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11353">
+			March 30, 2007 at 4:13 pm</a>		</div>
+
+		<p>What if the user has cookies disabled?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11355">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8291d653ee8e5e106822c70bcb2ce782?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://christ1an.blogspot.com/' rel='external nofollow' class='url'>christ1an</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11355">
+			March 30, 2007 at 4:16 pm</a>		</div>
+
+		<p>Uhmm well, exactly that is our current problem pdp. We do have for example the mhtml bug and actually I see no significant difference between your proposal and the ordinary token based solution.</p>
+<p>Blogger.com has implemented something similar, unfortunately I have an exploit code on my hard drive&#8230;</p>
+<p>I guess that&#8217;s what Tyop meant.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-11368">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d7da8617bc234c15e85f7b7a1b763969?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.owasp.org/' rel='external nofollow' class='url'>owasp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11368">
+			March 30, 2007 at 4:56 pm</a>		</div>
+
+		<p>This approach is dangerous. If you put the real SESSIONID in URLs, it is likely to be disclosed in logs, bookmarks, copy-n-paste, etc&#8230;  If you put the real SESSIONID in forms, it may get cached.  Just use a random token you generate yourself for each session.  It&#8217;s easy AND safe.  See <a href="http://www.owasp.org/index.php/CSRF_Guard" rel="nofollow">http://www.owasp.org/index.php/CSRF_Guard</a> for an example.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11369">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4c73384be451ce427898c1209acc5358?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://portal.spidynamics.com/blogs/msutton/' rel='external nofollow' class='url'>Michael Sutton</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11369">
+			March 30, 2007 at 4:58 pm</a>		</div>
+
+		<p>This is the approach that Microsoft has taken with .Net 2.0+. By default, the EnableEventValidation page directive is set to true. This generates a nonce value that is sent with forms for validation purposes and works nicely when protecting againste CSRF attacks. It&#8217;s encouraging to see development frameworks adding security by default.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-11374">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11374">
+			March 30, 2007 at 5:27 pm</a>		</div>
+
+		<p>wrc,<br />
+GET requests are different in a way that they may leak your session ID. I will explain more about this in a bit.</p>
+<p>beNI,<br />
+We are talking about CSRF not XSS. If an attacker can obtain XSS why on earth they will go for CSRF. Just load the big guns with XMLHttpRequest and have some fun.</p>
+<p>Rick,<br />
+I don&#8217;t have working implementation although I see how it can be done. The idea is that mod_rewrite or mod_security checks verifies that whatever is provided as session identifier is also supplied as part of the POST body. If there is no match then the user receives an error page explaining the problem. Of course you can bypass that with,&#8230; for example setting your cookie to PHPSESSIONID=1 and in the POST body you specify PHPSESSIONID=1 but then the application will complain that the provided ID is not valid. Of course you need to include a JavaScript snippet on each generated html file to rewrite the forms so they fit into the specified criteria.</p>
+<p>Oriol,<br />
+If the user has the cookies disabled they shouldn&#8217;t really surf the web. 99.9% of all authentication mechanisms relay on cookies being enabled.</p>
+<p>christ1an,<br />
+Again, you relay on a bug for IE, which means that if the users is vulnerable to this issue, why on earth the attacker will go after CSRF. They can as easily hijack the user browser and trash their entire web presence.</p>
+<p>owasp,<br />
+This approach is simple and easy to implement. Let&#8217;s say that yahoo.com implements this type of CSRF protection mechanism. OK I will leak my session identifier in their logs. So what? Bid deal! After all, they are the one who issued the session identifier on first place. For sure you can store your session identifier as a bookmark but also keep in mind that the session will expire as soon as you close the browser or you click on the log out button. If the session identifier is cached then in order for someone to retrieve it they have to have some sort of access on your system. If they do have access, again there are far more dangerous things to do then performing CSRF. I agree that you can as easily generate another token and use it in a similar way but the purpose of this article is to show that we have the technology to implement CSRF protection mechanism for whatever type of legacy system we have at the moment.</p>
+<p>Michael,<br />
+Yes! I do agree that developing within the scope of a framework is a lot more secure but then you will have these cases when someone finds a vulnerability for the specific framework and exploits 10% of the web because of it. There are a number of other frameworks that protect against CSRF most of them written in Java, Python or Ruby. Yes, it is nice to see some development there.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11387">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cc6d96a25af15db48d4d53654a79b919?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.riskbloggers.com/' rel='external nofollow' class='url'>Benjamin Field</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11387">
+			March 30, 2007 at 6:42 pm</a>		</div>
+
+		<p>pdp, good work getting the word out about CSRF.  Large downside; high propensity to vulnerability; very low cost of mitigation.</p>
+<p>I concur with owasp, and agree that CSRF_Guard is a good implementation, for those who haven&#8217;t tried it.  I have implemented it on a large website, and it is effective, fast and simple.</p>
+<p>Concerning using an actual session ID for the CSRF:  PHP allows for passing the session identifier in the query string, which is an even more overt exposure than a hidden form field, so at least with PHP, I don&#8217;t see this as a big deal.</p>
+<p>By the same token, the &#8220;not a big deal&#8221; logic should be applied to the alternative as well:  the cost for a developer to generate an arbitrarily salted token is negligible, and it&#8217;s the security equivalent of &#8220;defensive driving.&#8221;  Your sphere of influence may be secure, but what about the other &#8220;drivers?&#8221;  I don&#8217;t expose session identifiers in query strings because I don&#8217;t have to.  The same goes for my treatment of CSRF protections.</p>
+<p>Petko, good work explaining the anatomy of this attack and the ease with which it can be mitigated; I like the way you&#8217;re looking for ways to simplify security.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-11396">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8291d653ee8e5e106822c70bcb2ce782?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://christ1an.blogspot.com/' rel='external nofollow' class='url'>christ1an</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11396">
+			March 30, 2007 at 8:05 pm</a>		</div>
+
+		<p>Sorry in this case I don&#8217;t agree with you. Every token based CSRF protection can be bypassed, at least at present and in MSIE (which is still the most popular browser). </p>
+<p>You can not simply ignore the existence of such browser vulnerabilities if you&#8217;re trying to find a good way to protect webapps.</p>
+<p>In general &#8211; if an attacker wanted to hijack someones browser, he&#8217;d figure out how to do that.   However if he wanted to perform a CSRF, he is likely to find a way to do that as well, regardless which specific vulnerability he would have to use.</p>
+<p>I just want to say you need to consider everything. Please do not claim this method as secure, readers may blindly trust you.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11401">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8095f5e2f13a97cc01ede88552a92b86?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.owasp.org/' rel='external nofollow' class='url'>Andrew van der Stock</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11401">
+			March 30, 2007 at 8:45 pm</a>		</div>
+
+		<p>Let&#8217;s look at the attacks against the proposed defenses. </p>
+<p>CSRF forces the *victim* to submit an action, either via GET or POST. Typically, CSRF takes the form of no-click XSS (view it and you&#8217;re done), like the Samy Worm, or one click &#8211; click this form and you&#8217;re done. In both cases, the victim&#8217;s browser has the credentials (the session id in the cookie), and the form token, t.</p>
+<p>This defense mechanism (and the token based choices) prevents GET based attacks unless there&#8217;s JS involved. But it doesn&#8217;t prevent:</p>
+<p>XSS where JS is executed (anything&#8217;s possible)<br />
+XSS where a form has been altered</p>
+<p>The only method to prevent all CSRF is to ask the user to enter in a second factor credential in such a way as to prevent the user from entering the credential into a trojaned form, f&#8217; or a hostile DOM, such as if a Banking trojan is installed. If the attacker succeeds at creating a hostile form f&#8217;, the victim has created a trojaned credential t&#8217;, regardless of our countermeasures.</p>
+<p>What we need to do is to come up with a way to reduce the attack to reasonable proportions. The usual way to do this is a combination of defenses:</p>
+<p>a) Reduce the attack surface area. Try to eliminate XSS opportunities (makes it harder to inject hostile code to create f&#8217; or t&#8217;)</p>
+<p>b) Reduce the number of attackers. Do not use GET (raises the bar from entry level attack to determined attack) for changing an application&#8217;s state. This is as per the recommendations of the HTTP RFC anyway, no matter what the REST folks think.</p>
+<p>c) Securely re-authenticate for value transactions. Get the client to perform some form of 2nd factor authC using elements of data so that trojaned forms (f&#8217;) can&#8217;t create a good t&#8217;</p>
+<p>d) Sequencing. Most CSRF try to aim for a goal function we&#8217;ll call g&#8217;. If we make it hard to get to g&#8217; without writing a complex Ajax script which emulates many user clicks, it makes the attack impossible. </p>
+<p>If you are viewing your account balance page, and there&#8217;s a CSRF attack wishing to transfer money, the web app should have sequencing protection to make it hard to go from the current page to the approve transfer step without user interaction (such as re-entering their password or a 2nd factor token, such as a SMS token authorizing the transfer). This would make &#8220;silent&#8221; attacks like the Samy worm impossible except on the view which immediately precedes the confirmation acceptance. </p>
+<p>Implementing sequencing could be done automatically by software like Spring Web Flow, which uses continuation markers. These continuation markers represent a half way point in a flow. If you validate the half way flow in a sequence such that:</p>
+<p>cm = (flowID, flowStep, hmac(sessionID . flow id . flow step . random salt))</p>
+<p>it would be hard to create a viable trojan&#8217;d cm&#8217;, as the real cm changes between successive uses of the flow, and must match the previous cm and the proposed cm. </p>
+<p>So let&#8217;s make it hard for malware to create cm&#8217; and t&#8217; to they can successfully call their goal function g&#8217;. Most software does nothing, which is why CSRF is such an issue today.</p>
+<p>Andrew</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-11402">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bd38ec8896a46f6a173c7b80aac0d5be?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jordan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11402">
+			March 30, 2007 at 8:47 pm</a>		</div>
+
+		<p>I saw a similar suggestion to this recently.  It&#8217;s kind of ironic when you consider that HttpOnly cookies kill this exact method.  </p>
+<p>So you can either enable httponly cookies for a sort of (very weak) mitigation against XSS, or you can disable them so your legitimate javascript can access cookies to prevent CSRF.</p>
+<p>I&#8217;m a big fan of having the frameworks do the right think for users.  While yes, there is some risk that a vuln in the framework exposes lots of folks, in general, having the frameworks do the right thing int he first place is a lot better since so few of the developers have a clue about security anyway.</p>
+<p>Also, if anybody wants to see the CSRF against a couple of linksys routers, here&#8217;s some AttackAPI code for both VXWorks Linksys routers and the linux based ones that I used for a live demo.  Pretty trivial to come up with:</p>
+<p><a href="http://nopaste.codersnet.org/?id=878" rel="nofollow">http://nopaste.codersnet.org/?id=878</a> (I&#8217;d have pasted them here, but they&#8217;re a little big)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-11421">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11421">
+			March 30, 2007 at 11:39 pm</a>		</div>
+
+		<p>christ1an,<br />
+I am not ignoring the MHTML bug. In fact, I believe that it is one of the most popular way to circumvent the same origin policy, and I totally agree with you that if the attacker is serious enough, they will always find a way around whatever restrictions are introduced. All web technologies put together, are one big pile of mess.</p>
+<p>Andrew van der Stock,<br />
+very interesting and quite complete. All this sounds like the groundings of a framework :)</p>
+<p>Jordan,<br />
+Your code is very interesting. Actually I included a CSRF example against Linksys routers in the XSS Book we are currently finishing up with Jeremiah, RSnake, Anton and Seth. At OWASP, I am going to present a new framework which makes it even easier to write web exploits. The framework has the ability to trace through your code and include only the necessary functionalities which means that you should be able to create self-contained exploits as well as exploits that are reusable.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-11422">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/032013983399d733838ec79b141e6ec4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://securityretentive.blogspot.com/' rel='external nofollow' class='url'>Andy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11422">
+			March 30, 2007 at 11:55 pm</a>		</div>
+
+		<p>I&#8217;m going to agree with pdp here that if you&#8217;re vulnerable to XSS exploits then you are hosed at preventing CSRF at all anyway.  Let&#8217;s not confuse things.  We&#8217;re talking about preventing CSRF in the absence of other security holes.  </p>
+<p>I can just hear someone saying &#8220;but the token can be sniffed off the wire so it isn&#8217;t secure if you&#8217;re using HTTP.&#8221;  To which I respond &#8211; wow, that is very insightful.  Please go away.</p>
+<p>The hidden-form-variable using session cookie is nice, but breaks in cases where a site constantly updates the session cookie for each request, and the user spawns multiple children windows that share the same session-cookie.  Certain forms can get out of date with respect to session-id.  Not sure how common this is, but I know it happens in certain cases.</p>
+<p>In the case of GET requests it isn&#8217;t so bad to leak the URL via referer if the session-id is invalid by the time it gets sent to the referer, and things like bit-flipping attacks aren&#8217;t useful against the token.</p>
+<p>You can prevent using the token in cases where the request will be a POST, but you&#8217;ve still got to modify your whole web application to remove GET requests for sensitive operations.</p>
+<p>One other small problem is a separation of duties one.  In many cases we want weblogs to not contain security relevant data because of who can see them.  Sure its the same org that created the web application, but if session-id&#8217;s don&#8217;t get rorated on each hit then allowing those with weblog access to see session-id&#8217;s (or the equivalent as cookie/auth-token) then you might have a separation of duties concern.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11428">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bd38ec8896a46f6a173c7b80aac0d5be?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jordan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11428">
+			March 31, 2007 at 12:25 am</a>		</div>
+
+		<p>Very nice.  Cool idea.  Metasploit for the web&#8230;  Looking forward to playing with it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-11512">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11512">
+			March 31, 2007 at 8:16 am</a>		</div>
+
+		<p>Andy, interesting points. However, we don&#8217;t really need to track the forms. This introduces too much complications and it is definitely prone to all sorts of bugs. All we need to do is to verify that the user is who ever they are supposed to be. The other thing is that unless you specifically require GET, you should always use POST. Why not use POST and keep the URLs nice and easy?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11583">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/19611f893696bc2244f0d38cbe3981c0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">beaule</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11583">
+			March 31, 2007 at 2:01 pm</a>		</div>
+
+		<p>i think that this kind of protection(putting sessionid in form) can be danferous.<br />
+an xss attack(if your site is vulnerable) can retrieve this value&#8230; often to customer we give advice to put the cookie (which contains the sessionid) as http-only!!! this protection is broken if we use your method to protect against csrf!!<br />
+second, i&#8217;m using the owasp protection(with token) but with an home made upgrade the name of the token is also dynamic!!! so an xss attack can not stole my token value and do a csrf!!!</p>
+<p>please don&#8217;t say that first of all the website has to be protected  agaisnt xss!<br />
+we try to do it but with large website it&#8217;s not easy!!!<br />
+i think that we have to be protected agaisnt csrf and this protection has to be robust against xss attack</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-11620">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f570aa7f970c6be9b9263a19ee433a5d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.jumperz.net/' rel='external nofollow' class='url'>Kanatoko</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11620">
+			March 31, 2007 at 4:42 pm</a>		</div>
+
+		<p>If an attacker get the token(=sessionId) by using the MHTML bug, the system will be vulnerable not only to CSRF, but also to Session Hijack.<br />
+So IMHO this idea is an VERY BAD idea.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11625">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/032013983399d733838ec79b141e6ec4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://securityretentive.blogspot.com/' rel='external nofollow' class='url'>Andy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11625">
+			March 31, 2007 at 5:52 pm</a>		</div>
+
+		<p>My point was simply that fixing CSRF isn&#8217;t a easy as the token, we might want to convert to POST, which in a large codebase can take a lot of time.</p>
+<p>There are cases where we might want to still use GET for certain operations, and in those cases we just have to be careful to not leak the token via referer.</p>
+<p>I don&#8217;t worry about leaking the refer to proxy servers, because in cases where I&#8217;m really worried about preventing CSRF I&#8217;m going to be using SSL.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-11634">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11634">
+			March 31, 2007 at 8:03 pm</a>		</div>
+
+		<p>beaule,<br />
+again you are mixing too completely different problems: the first one is an a site being vulnerable to XSS and the second one a site being vulnerable to CSRF. XSS is a lot more dangerous then simple CSRF, which means that if you can get XSS then why the hell you would like to do CSRF. Use XMLHttpRequest and bring the user down to their knees.</p>
+<p>Kanatoko,<br />
+the MHTML bug is more dangerous then XSS and CSRF, so your statement does not make sense at all. :) sorry!</p>
+<p>Andy,<br />
+where exactly you are going to leak the token? We are not talking about freaking blogs man. We are talking about stuff like admin interfaces or interfaces that allows you to configure your profile or whatever. Otherwise CSRFs are pointless. These interfaces should not hold external links on the first place. I do agree that sometimes we are required to use GET but if you application does an operation over GET, something must be wrong with it. I am not saying that it is not common, all I am saying is that the idea is wrong.</p>
+<p>The idea of this post was to show that CSRF attacks can be prevented in a very simple way without too much trouble. Still, it is possible to screw up with this implementation. However, I do use this prevention mechanism no matter what people are saying and it works very well. I do know about the dangerous of leaking your session ID in the URLs but that is a problem unless you don&#8217;t know what you are doing. Look at all Google applications. The basic CSRF protection mechanism is in the URL. Can users leak that? Yes, it is possible. In theory, this means that if the user clicks on a link from an email and they arrive on some page, the browser may leak the token, right? This means that it could be possible for the website to perform CSRF, right? Well noooo, because Google does a good job to put all external links through their redirection script which eliminates all tokens from the URL.</p>
+<p>To sum up:</p>
+<div class="message">No matter what you do, whether you generate a token or you use the session cookie, and you use that in the GET, there is always a change leaking that on a 3rd-party organization. This means that unless you implement a unique key for every URL and form, you will be screwed. However, depending on the application the security level varies. If the application does not contains links to external sites, then the chances of leaking the session id are 0. Does routers have links to other sites apart from the vendor home page? Nope! This is exactly my point! If you have something like DIGG or Slashdot, you need to consider all possible ways of first of all preventing CSRF and second of all protecting the user tokens. This of course is completely different topic. This is all I am saying :)</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11639">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ikwt.com/' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11639">
+			March 31, 2007 at 9:09 pm</a>		</div>
+
+		<p>owasp,</p>
+<p>There is NO need to put the session IDs within URLs when following this approach. Just include the session ID within form fields that would be transmitted as a POST request, and *not* within URLs:</p>
+<pre><code>&lt;form action=&quot;<a href="http://target/profile.do&amp;quot" rel="nofollow">http://target/profile.do&#038;quot</a>; method=&quot;POST&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;name&quot; value=&quot;John&quot;/&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;lastname&quot; value=&quot;Dawson&quot;/&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;JSPSESSIONID&quot; value=&quot;7af7a55caff365ca594510586&quot;/&gt;
+&lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;</code></pre>
+<p>Giorgio Fedon,</p>
+<p>This might help if youâ€™re paranoid (disable autocomplete):</p>
+<pre><code>&lt;input type=&quot;hidden&quot; name=&quot;JSPSESSIONID&quot; value=&quot;7af7a55caff365ca594510586&quot; autocomplete=&quot;off&quot;/&gt;</code></pre>
+<p>But then again, if you can access the userâ€™s machine, you can also access the session ID cookies! Hopefully, the session ID expires after the idle session timeout ends.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-11645">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f570aa7f970c6be9b9263a19ee433a5d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.jumperz.net/' rel='external nofollow' class='url'>Kanatoko</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11645">
+			April 1, 2007 at 12:36 am</a>		</div>
+
+		<blockquote><p>the MHTML bug is more dangerous than XSS</p></blockquote>
+<p>Interesting.  Why?</p>
+<p>I think XSS( and Session  Hijack) is more dangerous than the MHTML bug because it can access to the response of POST.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-11694">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4485cf3426779efdc3113ea30f1541c9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Hong</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11694">
+			April 1, 2007 at 8:45 am</a>		</div>
+
+		<p>Kanatoko,<br />
+Because MHTML bug breaks the same origin policy. If you do not have any XSS flaw on site A, then you cannot access anything on site A, MHTML bug can make you able to access site A even if site A does not has any XSS flaw.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-11839">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f570aa7f970c6be9b9263a19ee433a5d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.jumperz.net/' rel='external nofollow' class='url'>Kanatoko</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-11839">
+			April 1, 2007 at 2:10 pm</a>		</div>
+
+		<p>Hong </p>
+<p>I think that you are missing the point.<br />
+MHTML bug can be prevented at the server side as same as XSS.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-12036">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/19611f893696bc2244f0d38cbe3981c0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">beaule</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12036">
+			April 2, 2007 at 8:18 am</a>		</div>
+
+		<p>to pdp @ &#8220;XSS is a lot more dangerous then simple CSRF, which means that if you can get XSS then why the hell you would like to do CSRF&#8221;<br />
+&#8211;<br />
+why? it&#8217;s very very simple, if a transfer application is CSRFable and XSSable, i will do an CSRF to retrieve money from the user to my account.<br />
+So even if my application is XSSable i will my transfer application totaly safe against CSRF&#8230;<br />
+That&#8217;s why i think that a CSRF protection must be safe against XSS attack!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-12294">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2d14f532d960a05eae6fd120975c8544?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">wrc</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12294">
+			April 2, 2007 at 4:29 pm</a>		</div>
+
+		<p>An attack using XMLHTTP to make the requests through the victim&#8217;s browser against the desired site will only need an additional intermediate step.  Soley protecting POSTs won&#8217;t help.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-13104">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/47711ee5719f3d0d6cfdc06fde2d019c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kyle</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-13104">
+			April 7, 2007 at 2:01 am</a>		</div>
+
+		<p>In my admin section, the forms are submitted over xmlhttprequest. So instead of using javascript to rewrite the dom and add hidden inputs, couldn&#8217;t I just modify my xmlhttprequest wrapper to add a custom header with a unique id from the cookie? The header is then checked in the back end.</p>
+<p>This would only require 1 line of extra code client side and is faster than rewriting the dom. It also means that if you have different panels of the admin section open in separate tabs then they all have the most recent id whenever you eventually submit them (which a dom rewrite onload may not and even though a dom rewrite onsubmit would it&#8217;s less efficient). I regularly regenerate the session id so this is an issue for me.</p>
+<p>If the user has javascript turned off, the js is incompatible with the browser or the js is just plain borked then the id will not be sent because there&#8217;s no fall back, but that isn&#8217;t a problem here since the admin section is private and for me only.</p>
+<p>Does this method open any new holes that I haven&#8217;t noticed?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-13143">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-13143">
+			April 7, 2007 at 7:18 am</a>		</div>
+
+		<p>Kyle,</p>
+<p>It all depends. We cannot say whether your application is secure or not. Rethink all technologies that you are using and make sure that they are applied appropriately.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-14252">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d5fd00f741981af1a4c9c779b79aec2a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">naka</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-14252">
+			April 13, 2007 at 7:14 am</a>		</div>
+
+		<p>How about using a hashed JSESSIONID instead of raw one?<br />
+I think that it is better than the way you suggested.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-14258">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-14258">
+			April 13, 2007 at 8:05 am</a>		</div>
+
+		<p>naka, yes it will work. the problem is how we are going to prevent CSRF without introducing too mush stuff into the system. but yes, this works.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-15098">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3b6ee38d5458e2359549fdbe0c9e2bbd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Scott Parsons</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-15098">
+			April 20, 2007 at 7:42 pm</a>		</div>
+
+		<p>Newbie here, but have been thinking and discussing CSRF with some other folks.  I&#8217;m feeling pretty large that I had come up with the same approach as PDP a couple weeks ago.  While it sessionID <strong>should</strong> be safe to use, it would seem prudent to use a secure hash of it rather than the sessionID itself.  Provided there is sufficient entropy in the session Id and output bits in the hash, it should be rainbow-table proof.  The advantage is that there is no secret to keep, and it can either be calculated on the server or on the client-side.  This also allows it to be valiated in multiple places without the need to do secret key management, which might be required for an HMAC approach.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-15660">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-15660">
+			April 23, 2007 at 9:46 am</a>		</div>
+
+		<p>Scott,</p>
+<p>good summary my man.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-103503">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76f53ac324b6b2c5e2c49deae956ea7f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Zoiz</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103503">
+			January 25, 2008 at 2:25 pm</a>		</div>
+
+		<p>Newbie here. Can I prevent CSRF by matching the referrer URL with my site URL?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-121039">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/095438bdf50db737884a35e5abd5a73f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://reckord.info/' rel='external nofollow' class='url'>r3ck0rd</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121039">
+			May 7, 2008 at 9:51 am</a>		</div>
+
+		<p>^ a newbie?<br />
+well yes it could be, easily using PHP :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127633">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7a32c9bca90b81d44ce4d0c3df5774ec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://securethoughts.com/' rel='external nofollow' class='url'>Inferno</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127633">
+			July 19, 2009 at 8:30 am</a>		</div>
+
+		<p>Hi pdp,</p>
+<p>Just to add my input to your insightful post, i got an idea of a pure client side attack to locate csrf tokens using jeremiah&#8217;s css history hack. some readers commented on using a hash of session id. if this hash is short length and is part of url, then this attack is feasible (even when links to external sites=0). more details here &#8211; <a href="http://securethoughts.com/2009/07/hacking-csrf-tokens-using-css-history-hack/" rel="nofollow">http://securethoughts.com/2009.....tory-hack/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128104">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e48e64a1efaa12a23568620b16111324?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">sibidiba</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128104">
+			January 16, 2010 at 4:38 am</a>		</div>
+
+		<p>A tipical CSRF attack scenario: You receive an e-mail or a web page with a link on it. You click the link.</p>
+<p>The link is for example: <a href="http://bank.example.com/transfer?amount=1000&amp;to=12345" rel="nofollow">http://bank.example.com/transf.....8;to=12345</a><br />
+or an equivalent POST request.</p>
+<p>You are logged in with the same browser on bank.example.com . Therefore the site will think the request *is* coming on your behalf. Wont be the SESSIONDID still be there? Isn&#8217;t this the reason while the request would already reach this point of code, assuming you are logged in? The presence of your session in the browser is the core of this attack vector. The session is identified by the SESSIONID cookie, isn&#8217;t it? Then your solution wouldn&#8217;t work.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-129184">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6f86f86c52341f5d9af409af94941ca3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sumit</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129184">
+			October 7, 2010 at 11:23 am</a>		</div>
+
+		<p>Is using Security Tokens with URLs Correct Option of Preventing website from XSRF&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-129274">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129274">
+			November 13, 2010 at 2:55 am</a>		</div>
+
+		<p>it depends</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-129909">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3d7b858aecaecaf575377c757122a5c2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bob</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129909">
+			April 22, 2011 at 10:04 pm</a>		</div>
+
+		<p>I came across this old thread while researching CSRF prevention. It seems to me that the proposed solution on this post is what OWASP calls &#8220;double-submit cookies&#8221; (<a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet" rel="nofollow">https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet</a>)<br />
+OWASP suggests that this solution is effective, but increases risk of session hijacking, and recommends a &#8220;synchronizer token&#8221; solution.<br />
+I put the link here in case others come across this thread.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-130045">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-130045">
+			April 27, 2011 at 2:47 pm</a>		</div>
+
+		<p>Hi Bob,</p>
+<p>You can still has the cookie with a known salt value in order to prevent leakage. I think the technique is very simple and effective.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="187"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="d626513dbb" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/preventing-csrf/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:21:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

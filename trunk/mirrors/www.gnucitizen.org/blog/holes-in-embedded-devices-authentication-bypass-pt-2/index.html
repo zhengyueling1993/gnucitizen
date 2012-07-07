@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/holes-in-embedded-devices-authentication-bypass-pt-2/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:52:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Holes in Embedded Devices: Authentication bypass (pt 2)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Holes in Embedded Devices: Authentication bypass (pt 2) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Holes in Embedded Devices: Authentication bypass (pt 1)' href='../holes-in-embedded-devices-authentication-bypass-pt-1/index.html' />
+<link rel='next' title='Holes in Embedded Devices: Authentication bypass (pt 3)' href='../holes-in-embedded-devices-authentication-bypass-pt-3/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexc344.html?p=709' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-709" class="post">
+	<div class="post-title"><h2><span>Holes in Embedded Devices: Authentication bypass (pt 2)</span></h2></div>
+	<div class="post-date"><span>published:</span> February 15th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Usually, when accessing a web interface of an appliance, the user is prompted to enter a password if not authenticated already. This could be done via a HTML form on the login page or a basic HTTP authentication prompt (among other methods).</p>
+
+<p>Let&#8217;s call the <em>authentication stage: A</em>. Once, the admin user enters a username/password combination, the device checks the provided combination against credentials stored in its internal configuration. Letâ€™s call this <em>password checking procedure: B</em>. After authenticating with the correct credentials, the admin user would be presented with a menu which offers all the administrative functionalities available. Let&#8217;s call any of these <em>administrative URLs: C</em>.</p>
+
+<h3><q>A-to-C</q> attacks a.k.a. knowledge of <q>post-authentication</q> URLs</h3>
+
+<p>The problem is that the authentication mechanism of some embedded devices is so poor, that when an unauthenticated user requests a URL that would usually only be available after logging in, the device wonâ€™t even ask for a password. This is due to the >logic of the authentication algorithm which assumes that if the requested URL is part of the administrative menu, then the user must have provided a valid username/password combination already. Instead, the device should check if the user is in fact authenticated with every single HTTP request (i.e.: via session IDs).</p>
+
+<p>The result is devastating as the attacker can completely bypass the authentication and perform tasks with full administrative privileges by simply accessing certain URLs.</p>
+
+<p>One could argue that the real problem is that the developers of the vulnerable web interface made the naive assumption that an attacker would never be able to guess the URL path of an administrative page. However, we all know there are several ways an attacker could have knowledge of such URLs. The following are just some examples:</p>
+
+<ul>
+<li><strong>By sniffing cleartext HTTP traffic</strong> between the admin user and the target device (the attacker would most likely be located in the same local subnet as the admin user in this attack)</li>
+<li><strong>By bruteforcing administrative URLs</strong> (admin URLs are sometimes highly-guessable such as <code>/WAN.html</code> â€“ for WAN settings)</li>
+<li><strong>By learning about a A-to-C auth bypass vulnerability</strong> via public or private vulnerability research</li>
+<li><strong>By looking up support information</strong> on the vendor&#8217;s site (i.e.: manuals)</li>
+</ul>
+
+<p>The following is the pseudocode of the authentication algorithm of a device that blindly trusts the user when requesting administrative URLs:</p>
+
+<pre><code>1. Prompt user for admin username and password
+2. Check if provided credentials match internal configuration
+3. <strong>If</strong> so, <strong>then</strong> provide access to administrative menu (no more auth checks are performed after this)
+4. <strong>Else</strong> prompt user for admin username and password again</code></pre>
+
+<p>It is recommended that you check devices in your network for this kind of issue. Remember, the <a href="../router-hacking-challenge/index.html">router hacking challenge</a> hasn&#8217;t finished yet, so keep the bugs coming! For those stuck who don&#8217;t know what else to check besides XSS and CSRF you might be interested in <a href="../holes-in-embedded-devices-authentication-bypass-pt-1/index.html">reading</a>  <a href="../holes-in-embedded-devices-ip-based-session-management/index.html">the previous</a> <q><a href="../holes-in-embedded-devices-binary-state-session-management/index.html">Holes in Embedded Devices</a></q> <a href="../holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/index.html">posts</a>.</p>
+
+<p><em>By the way, the <q>Holes in Embedded Devices</q> posts is an ongoing series of posts, so stay tuned!</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/authentication/index.html" rel="tag">authentication</a> | <a href="../../tags/bypass/index.html" rel="tag">bypass</a> | <a href="../../tags/devices/index.html" rel="tag">devices</a> | <a href="../../tags/embedded/index.html" rel="tag">embedded</a></div></div>
+				
+
+		
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="709"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b8147c7fbd" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/holes-in-embedded-devices-authentication-bypass-pt-2/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:52:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

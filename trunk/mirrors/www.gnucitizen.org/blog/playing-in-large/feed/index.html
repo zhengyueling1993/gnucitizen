@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Playing in Large</title>
+	<atom:link href="http://www.gnucitizen.org/blog/playing-in-large/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/playing-in-large/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: thornmaker</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-53507</link>
+		<dc:creator>thornmaker</dc:creator>
+		<pubDate>Fri, 28 Sep 2007 20:28:14 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-53507</guid>
+		<description>#0={}; is a valid javascript statement.  This means that you can add 0={}; after the hash which allows your XSS injection to leave of the .substr(1) part, e.g. &quot;&gt;eval(location.hash)</description>
+		<content:encoded><![CDATA[<p>#0={}; is a valid javascript statement.  This means that you can add 0={}; after the hash which allows your XSS injection to leave of the .substr(1) part, e.g. &#8220;&gt;eval(location.hash)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: One Drop on A Spider Web &#124; GNUCITIZEN</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-31611</link>
+		<dc:creator>One Drop on A Spider Web &#124; GNUCITIZEN</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 14:56:51 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-31611</guid>
+		<description>[...] 6th February 2007, I&#8217;ve published an article titled Playing in Large, which discusses various ways of injecting large JavaScript payloads into tiny XSS holes. The [...]</description>
+		<content:encoded><![CDATA[<p>[...] 6th February 2007, I&#8217;ve published an article titled Playing in Large, which discusses various ways of injecting large JavaScript payloads into tiny XSS holes. The [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3667</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Fri, 09 Feb 2007 09:23:12 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3667</guid>
+		<description>Yes, you can do quite virtually inject JavaScript into everything from the DOM. I provided a simple example so everyone understands the concept. Interesting thoughts all around.</description>
+		<content:encoded><![CDATA[<p>Yes, you can do quite virtually inject JavaScript into everything from the DOM. I provided a simple example so everyone understands the concept. Interesting thoughts all around.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Acidus</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3659</link>
+		<dc:creator>Acidus</dc:creator>
+		<pubDate>Fri, 09 Feb 2007 08:54:46 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3659</guid>
+		<description>Great article and good discussion all around.
+
+Just a couple of things:
+
+-You can use setInterval instead of eval or setTimeout. Downsides are it&#039;s one character longer and you need to have some code to turn it off when it runs.  However, if they are filtering, its good in a pinch
+
+-I know this is simpled for example, but remember not focus too much on &quot;&gt;&lt;script... attacks. You are attacking a known site, you know which tags the XSS is reflected in. Look for tag attributes that will execute script. It depends, but a simple &quot;onfocus=eval... could do the trick in less space. There are literally thousands of places in the DOM where JavaScript can execute, and only 2 of them are img+onerror and script. Trust me, commerical vendors are doing this :-).</description>
+		<content:encoded><![CDATA[<p>Great article and good discussion all around.</p>
+<p>Just a couple of things:</p>
+<p>-You can use setInterval instead of eval or setTimeout. Downsides are it&#8217;s one character longer and you need to have some code to turn it off when it runs.  However, if they are filtering, its good in a pinch</p>
+<p>-I know this is simpled for example, but remember not focus too much on &#8220;&gt;&lt;script&#8230; attacks. You are attacking a known site, you know which tags the XSS is reflected in. Look for tag attributes that will execute script. It depends, but a simple &#8220;onfocus=eval&#8230; could do the trick in less space. There are literally thousands of places in the DOM where JavaScript can execute, and only 2 of them are img+onerror and script. Trust me, commerical vendors are doing this :-).</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: MustLive</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3611</link>
+		<dc:creator>MustLive</dc:creator>
+		<pubDate>Thu, 08 Feb 2007 20:02:06 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3611</guid>
+		<description>Guys, you may use simple (without comment tag): &quot;&gt;
+It is only 46 characters. When you attacking through iframe you don&#039;t need to care about commenting some ending html code.
+
+In my practice of social security audits, I dealt with such cases with CSRF. For example I found a hole, where some data from form (from some fields) was save in cookie. And it was appear on site&#039;s pages (from cookie). So when you put XSS code to form&#039;s fields - to cookie - via CSRF, than you have XSS attacked the visitor of that site. It is persistent XSS ;-).
+
+P.S.
+
+Nice article, Pdp. I am also using such short XSS sting in my own practice of security audit. Because sometime you need to limit yourself in length of XSS string (because of server restriction).
+
+For example, when I need to show site&#039; owner, that his site is vulnerable, and I have limited XSS payload string I use such payloads:
+
+&lt;pre&gt;&lt;code&gt;&quot;&gt;alert(document.cookie)
+41 chars
+&quot;&gt;alert(&quot;XSS&quot;)
+31 chars
+Or such (if quotes is filtered):
+&quot;&gt;alert(/XSS/)
+31 chars
+Or the shortest one:
+&quot;&gt;alert(1)
+27 chars&lt;/code&gt;&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>Guys, you may use simple (without comment tag): &#8220;&gt;<br />
+It is only 46 characters. When you attacking through iframe you don&#8217;t need to care about commenting some ending html code.</p>
+<p>In my practice of social security audits, I dealt with such cases with CSRF. For example I found a hole, where some data from form (from some fields) was save in cookie. And it was appear on site&#8217;s pages (from cookie). So when you put XSS code to form&#8217;s fields &#8211; to cookie &#8211; via CSRF, than you have XSS attacked the visitor of that site. It is persistent XSS ;-).</p>
+<p>P.S.</p>
+<p>Nice article, Pdp. I am also using such short XSS sting in my own practice of security audit. Because sometime you need to limit yourself in length of XSS string (because of server restriction).</p>
+<p>For example, when I need to show site&#8217; owner, that his site is vulnerable, and I have limited XSS payload string I use such payloads:</p>
+<pre><code>"&gt;alert(document.cookie)
+41 chars
+"&gt;alert("XSS")
+31 chars
+Or such (if quotes is filtered):
+"&gt;alert(/XSS/)
+31 chars
+Or the shortest one:
+"&gt;alert(1)
+27 chars</code></pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3605</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Thu, 08 Feb 2007 18:28:46 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3605</guid>
+		<description>neat :)</description>
+		<content:encoded><![CDATA[<p>neat :)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: beNi</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3586</link>
+		<dc:creator>beNi</dc:creator>
+		<pubDate>Thu, 08 Feb 2007 15:12:12 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3586</guid>
+		<description>hey pdp, nice article.
+
+this is even smaller (51 characters)
+
+&lt;pre&gt;&lt;code&gt;&#039;&quot;&#x3E;&#x3C;&#x69;&#x6D;&#x67;&#x20;&#x73;&#x72;&#x63;&#x3D;&#x31;&#x20;&#x6F;&#x6E;&#x45;&#x72;&#x72;&#x6F;&#x72;&#x3D;&#x65;&#x76;&#x61;&#x6C;&#x28;&#x6C;&#x6F;&#x63;&#x61;&#x74;&#x69;&#x6F;&#x6E;&#x2E;&#x73;&#x75;&#x62;&#x73;&#x74;&#x72;&#x28;&#x39;&#x32;&#x29;&#x3E;&#x3C;&#x21;&#x2D;&#x2D;&lt;/code&gt;&lt;/pre&gt;
+
+cheers beNi</description>
+		<content:encoded><![CDATA[<p>hey pdp, nice article.</p>
+<p>this is even smaller (51 characters)</p>
+<pre><code>&#x27;&#x22;&#x3E;&#x3C;&#x69;&#x6D;&#x67;&#x20;&#x73;&#x72;&#x63;&#x3D;&#x31;&#x20;&#x6F;&#x6E;&#x45;&#x72;&#x72;&#x6F;&#x72;&#x3D;&#x65;&#x76;&#x61;&#x6C;&#x28;&#x6C;&#x6F;&#x63;&#x61;&#x74;&#x69;&#x6F;&#x6E;&#x2E;&#x73;&#x75;&#x62;&#x73;&#x74;&#x72;&#x28;&#x39;&#x32;&#x29;&#x3E;&#x3C;&#x21;&#x2D;&#x2D;</code></pre>
+<p>cheers beNi</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3514</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 07 Feb 2007 18:34:52 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3514</guid>
+		<description>They should by default. This article describes what to do when they don&#039;t.</description>
+		<content:encoded><![CDATA[<p>They should by default. This article describes what to do when they don&#8217;t.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: GE</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3509</link>
+		<dc:creator>GE</dc:creator>
+		<pubDate>Wed, 07 Feb 2007 17:30:28 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3509</guid>
+		<description>So this seems to just reinforce the idea that developers must remember not to trust the data coming from the client.  From each of the examples, if I validate the input to filter out &quot;</description>
+		<content:encoded><![CDATA[<p>So this seems to just reinforce the idea that developers must remember not to trust the data coming from the client.  From each of the examples, if I validate the input to filter out &#8220;</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3476</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 07 Feb 2007 07:47:30 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3476</guid>
+		<description>Kishor, thanks for the comment. I was thinking to put this in but then I thought that I will get quickly out of scope describing why this thing works. So I decided to go with the KISS principle.
+
+Anyway, good stuff.</description>
+		<content:encoded><![CDATA[<p>Kishor, thanks for the comment. I was thinking to put this in but then I thought that I will get quickly out of scope describing why this thing works. So I decided to go with the KISS principle.</p>
+<p>Anyway, good stuff.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Kishor</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3471</link>
+		<dc:creator>Kishor</dc:creator>
+		<pubDate>Wed, 07 Feb 2007 06:10:37 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3471</guid>
+		<description>That was a really nice technique pdp.
+
+Therefore I decided to save more bytes for you.
+You might already know that &lt;strong&gt;&lt;/script&gt;&lt;/strong&gt; tag is not required in most of the cases.
+
+Hence
+
+&lt;pre&gt;&lt;code&gt;&lt;body&gt;
+&lt;script src=http://localhost/script3.js &gt; &lt;!â€“
+WAHTEVER
+&lt;/body&gt;&lt;/code&gt;&lt;/pre&gt;
+
+Will still result in script getting executed. Although it requires that src attribute be present.
+
+Overall, this is larger than your vector by 2 bytes (which is not good), but with tinyurl, maybe it gets reduced further. But when src attributes are filtered by url white list, your technique still works and this one fails.</description>
+		<content:encoded><![CDATA[<p>That was a really nice technique pdp.</p>
+<p>Therefore I decided to save more bytes for you.<br />
+You might already know that <strong>&lt;/script&gt;</strong> tag is not required in most of the cases.</p>
+<p>Hence</p>
+<pre><code>&lt;body&gt;
+&lt;script src=http://localhost/script3.js &gt; &lt;!â€“
+WAHTEVER
+&lt;/body&gt;</code></pre>
+<p>Will still result in script getting executed. Although it requires that src attribute be present.</p>
+<p>Overall, this is larger than your vector by 2 bytes (which is not good), but with tinyurl, maybe it gets reduced further. But when src attributes are filtered by url white list, your technique still works and this one fails.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Joe</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3423</link>
+		<dc:creator>Joe</dc:creator>
+		<pubDate>Tue, 06 Feb 2007 16:41:22 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3423</guid>
+		<description>pdp,
+
+I see, thanks.
+
+I though you were saying you could use CSRF to do a set-cookie: foo 
+
+(Like CRLF)
+
+My bad :)
+
+Again, interesting article and food for thought!
+
+-Joe</description>
+		<content:encoded><![CDATA[<p>pdp,</p>
+<p>I see, thanks.</p>
+<p>I though you were saying you could use CSRF to do a set-cookie: foo </p>
+<p>(Like CRLF)</p>
+<p>My bad :)</p>
+<p>Again, interesting article and food for thought!</p>
+<p>-Joe</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3422</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 06 Feb 2007 16:33:53 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3422</guid>
+		<description>Joe, I am using hypothetical scenario for this article. However, setting cookies with CSRF are possible in situations where the application you are targeting reflects the data you are sending as cookies. It is confusing, I know. Here is an example.
+
+Let&#039;s say that the application ask you for the First and Last name and then stores that information on the server but also on the client (cookie) to eliminate the need for further requests send to the server. The attacker needs to craft a CSRF to set the name for the user and as such setting the cookie to whatever value he/she may need.</description>
+		<content:encoded><![CDATA[<p>Joe, I am using hypothetical scenario for this article. However, setting cookies with CSRF are possible in situations where the application you are targeting reflects the data you are sending as cookies. It is confusing, I know. Here is an example.</p>
+<p>Let&#8217;s say that the application ask you for the First and Last name and then stores that information on the server but also on the client (cookie) to eliminate the need for further requests send to the server. The attacker needs to craft a CSRF to set the name for the user and as such setting the cookie to whatever value he/she may need.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Joe</title>
+		<link>http://www.gnucitizen.org/blog/playing-in-large/comment-page-1/#comment-3421</link>
+		<dc:creator>Joe</dc:creator>
+		<pubDate>Tue, 06 Feb 2007 16:26:11 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/playing-in-large#comment-3421</guid>
+		<description>Hiya,
+
+Nice article. May seem like a stupid question but how do you set cookies with CSRF??
+
+I know it can be done with CRLF but didnt know CSRF could do it?
+
+Cheers,
+Joe</description>
+		<content:encoded><![CDATA[<p>Hiya,</p>
+<p>Nice article. May seem like a stupid question but how do you set cookies with CSRF??</p>
+<p>I know it can be done with CRLF but didnt know CSRF could do it?</p>
+<p>Cheers,<br />
+Joe</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

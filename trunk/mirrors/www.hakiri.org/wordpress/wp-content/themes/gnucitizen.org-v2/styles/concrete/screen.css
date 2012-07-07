@@ -1,0 +1,288 @@
+/* @definitions {
+	a: 221a40
+	c: d9c196
+	section: a6977b
+	separator: 1b1926
+	selection: 8c5454
+	highlight: 381212
+	foreground: 666666
+	background: 101010
+} */
+
+/* ---------------------------------------------- */
+
+body {
+	color: #666666;
+	background: #101010;
+	word-wrap: break-word;
+	font: 100 14px/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+hr {
+	border: 0px;
+	border-top: 1px solid #1b1926;
+}
+
+img {
+	border: 2px solid #202020;
+}
+
+object {
+	border: 2px solid #202020;
+}
+
+a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #666666;
+	background: #ffffff;
+}
+
+p > code {
+	background: #222222;
+}
+
+strong {
+	color: #bbbbbb;
+	font-weight: 800;
+	background: #381212;
+}
+
+code {
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	font-family: monospace;
+}
+
+pre > code {
+	padding: 10px;
+	color: #8C5454;
+	display: block;
+	overflow: auto;
+	line-height: 1em;
+	max-height: 200px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	border: 1px solid #666666;
+	-webkit-border-radius: 2px;
+}
+
+textarea, input {
+	padding: 10px;
+	border-radius: 2px;
+	background: #ffffff;
+	margin: 5px 0px 5px 0px;
+	-moz-border-radius: 2px;
+	border: 1px solid #ffffff;
+	-webkit-border-radius: 2px;
+}
+
+textarea:focus, input:focus {
+	outline: none;
+	border: 1px solid #ffffff;
+}
+
+h1 ,
+h2 ,
+h3 ,
+h4 ,
+h5 ,
+h6 {
+	color: #a6977b;
+	letter-spacing: -2px;
+	text-transform: uppercase;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1 {
+	/* pass */
+}
+
+h2 {
+	/* pass */
+}
+
+h3 {
+	font-size: 24px
+}
+
+h4 {
+	/* pass */
+}
+
+h5 {
+	/* pass */
+}
+
+h6 {
+	/* pass */
+}
+
+blockquote {
+	overflow: hidden;
+	padding-left: 10px;
+	border-left: 10px solid #381212;
+}
+
+ul > li ,
+ol > li {
+	list-style-position: inside;
+}
+
+ul > li > code ,
+ol > li > code {
+	background: #222222;
+}
+
+table {
+	padding: 10px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	border: 1px solid #666666;
+	-webkit-border-radius: 2px;
+}
+
+table thead {
+	border-bottom: 1px solid #666666;
+}
+
+table tbody {
+	color: #8C5454;
+}
+
+table th {
+	text-align: left;
+	background: #381212;
+}
+
+table th ,
+table td {
+	padding: 5px;
+}
+
+/* ---------------------------------------------- */
+
+::selection {
+	color: #ffffff;
+	background: #8c5454;
+}
+
+/* ---------------------------------------------- */
+
+#header > h1 {
+	margin-bottom: 0px;
+}
+
+#header > h1 > a {
+	width: 193px;
+	height: 40px;
+	display: block;
+	background: url("images/logo.png") no-repeat;
+}
+
+#header > h1 > a > span {
+	display: none;
+}
+
+#header > p {
+	margin: 0px;
+}
+
+/* ---------------------------------------------- */
+
+#navigation > h2 {
+	display: none;
+}
+
+#navigation > ul {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+
+#navigation > ul > li {
+	display: inline;
+	margin: 0px 5px 0px 0px;
+}
+
+#navigation > ul > li:last-child {
+	margin: 0px 0px 0px 0px;
+}
+
+/* ---------------------------------------------- */
+
+#footer {
+	margin: 50px;
+	font-size: 10px;
+	text-align: center;
+}
+
+/* ---------------------------------------------- */
+
+.initial-capital {
+	float: left;
+	margin: 0px 10px 10px 0px;
+}
+
+/* ---------------------------------------------- */
+
+.list  ,
+.list2 ,
+.list3 {
+	margin: 0px;
+	padding: 0px;	
+	list-style-type: none;
+}
+
+.list > li  ,
+.list2 > li ,
+.list3 > li {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.list2 > li {
+	width: 48%;
+	float: left;
+	margin-right: 2%;
+}
+
+.list3 > li {
+	width: 31.3%;
+	margin-right: 2%;
+}
+
+/* ---------------------------------------------- */
+
+.screen {
+	padding: 30px;
+	margin: 10px 0px 10px 0px;
+	border: 1px solid #1b1926;
+}
+
+/* ---------------------------------------------- */
+
+.cleared:after {
+	height: 0;
+	clear: both;
+	content: ".";
+	line-height: 0;
+	display: block;
+	visibility: hidden;
+}
+
+.cleared {
+	display: inline-block;
+}
+
+html[xmlns] .cleared {
+	display: block;
+}
+
+* html .cleared {
+	height: 1%;
+}

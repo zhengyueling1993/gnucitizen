@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Trapping HTTP Requests and Responses with Python</title>
+	<atom:link href="http://www.gnucitizen.org/blog/trapping-http-requests-and-responses-with-python/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/trapping-http-requests-and-responses-with-python/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/trapping-http-requests-and-responses-with-python/comment-page-1/#comment-126135</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 25 Feb 2009 10:07:51 +0000</pubDate>
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2603#comment-126135</guid>
+		<description>while it is true that twisted can provide a lot more solid base for this proxy server, the truth is that proxies are not that complicated. they are relatively simple actually.
+
+right now my code relies on pyOpenSSL but once the python team introduce SSL server support, it will be easy to switch and as such make the module run without any dependencies, which is my ultimate goal.</description>
+		<content:encoded><![CDATA[<p>while it is true that twisted can provide a lot more solid base for this proxy server, the truth is that proxies are not that complicated. they are relatively simple actually.</p>
+<p>right now my code relies on pyOpenSSL but once the python team introduce SSL server support, it will be easy to switch and as such make the module run without any dependencies, which is my ultimate goal.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Anon</title>
+		<link>http://www.gnucitizen.org/blog/trapping-http-requests-and-responses-with-python/comment-page-1/#comment-126096</link>
+		<dc:creator>Anon</dc:creator>
+		<pubDate>Tue, 24 Feb 2009 05:26:06 +0000</pubDate>
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2603#comment-126096</guid>
+		<description>Whoops, let me elaborate on my previous point - someone mentioned unit testing as a potential concern for this library. Twisted, although it does have its flaws, has constructs that allow you to simulate packet and connections and such with relative ease. Otherwise you&#039;re going to have to hack together something on your own for fully exercising the functionality of the library. 
+
+This is a good working script, but what&#039;s probably going to happen is that you&#039;re slowly going to tack more and more features onto until it becomes a nightmare to deal with until you decide to reimplement half of some existing networking lib from scratch in V2.
+
+http://twistedmatrix.com/trac/wiki/TwistedTrial
+
+Anyway, good work as has been said, i&#039;ll be keeping tabs on this.
+
+-Signed,
+Jaded Software Engineer</description>
+		<content:encoded><![CDATA[<p>Whoops, let me elaborate on my previous point &#8211; someone mentioned unit testing as a potential concern for this library. Twisted, although it does have its flaws, has constructs that allow you to simulate packet and connections and such with relative ease. Otherwise you&#8217;re going to have to hack together something on your own for fully exercising the functionality of the library. </p>
+<p>This is a good working script, but what&#8217;s probably going to happen is that you&#8217;re slowly going to tack more and more features onto until it becomes a nightmare to deal with until you decide to reimplement half of some existing networking lib from scratch in V2.</p>
+<p><a href="http://twistedmatrix.com/trac/wiki/TwistedTrial" rel="nofollow">http://twistedmatrix.com/trac/wiki/TwistedTrial</a></p>
+<p>Anyway, good work as has been said, i&#8217;ll be keeping tabs on this.</p>
+<p>-Signed,<br />
+Jaded Software Engineer</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Anon</title>
+		<link>http://www.gnucitizen.org/blog/trapping-http-requests-and-responses-with-python/comment-page-1/#comment-126095</link>
+		<dc:creator>Anon</dc:creator>
+		<pubDate>Tue, 24 Feb 2009 05:06:11 +0000</pubDate>
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2603#comment-126095</guid>
+		<description>Out of curiosity, why not use Twisted for this? It seems like you reimplemented a lot of functionality.</description>
+		<content:encoded><![CDATA[<p>Out of curiosity, why not use Twisted for this? It seems like you reimplemented a lot of functionality.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/trapping-http-requests-and-responses-with-python/comment-page-1/#comment-126012</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 18 Feb 2009 21:23:55 +0000</pubDate>
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2603#comment-126012</guid>
+		<description>Hi Jay,
+
+You don&#039;t want to mess with WSGI for just parsing simple requests and responses. &lt;code&gt;MessageClass&lt;/code&gt; is actually &lt;code&gt;mimetools.Message&lt;/code&gt; which is enough to parse headers and leave the rest to you as pure data. Also, I like that the functions work in raw as often we just want to perform simple regex operations without reconstructing the data.
+
+Thanks for the suggestions.</description>
+		<content:encoded><![CDATA[<p>Hi Jay,</p>
+<p>You don&#8217;t want to mess with WSGI for just parsing simple requests and responses. <code>MessageClass</code> is actually <code>mimetools.Message</code> which is enough to parse headers and leave the rest to you as pure data. Also, I like that the functions work in raw as often we just want to perform simple regex operations without reconstructing the data.</p>
+<p>Thanks for the suggestions.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Jay</title>
+		<link>http://www.gnucitizen.org/blog/trapping-http-requests-and-responses-with-python/comment-page-1/#comment-126009</link>
+		<dc:creator>Jay</dc:creator>
+		<pubDate>Wed, 18 Feb 2009 16:47:49 +0000</pubDate>
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2603#comment-126009</guid>
+		<description>Looks nice. You may want to consider the numerous WSGI objects / middleware for parsing request / response. 
+
+It&#039;s good that you can also get the data raw, but rather then writing &quot;yet another helper function&quot; I could see how being able to insert these standard components into your MITM stream would make it even more powerful.</description>
+		<content:encoded><![CDATA[<p>Looks nice. You may want to consider the numerous WSGI objects / middleware for parsing request / response. </p>
+<p>It&#8217;s good that you can also get the data raw, but rather then writing &#8220;yet another helper function&#8221; I could see how being able to insert these standard components into your MITM stream would make it even more powerful.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

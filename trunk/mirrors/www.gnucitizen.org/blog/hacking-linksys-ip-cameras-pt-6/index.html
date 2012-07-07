@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-6/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:21:56 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Hacking Linksys IP Cameras (pt 6)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Hacking Linksys IP Cameras (pt 6) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Dnsmap v0.30 is now out!' href='../dnsmap-v030-is-now-out/index.html' />
+<link rel='next' title='1ST European Edition of HITB Coming Up!' href='../1st-european-edition-of-hitb-coming-up/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index4548.html?p=3415' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-3415" class="post">
+	<div class="post-title"><h2><span>Hacking Linksys IP Cameras (pt 6)</span></h2></div>
+	<div class="post-date"><span>published:</span> February 24th, 2010</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p><em>This article is a continuation of the following GNUCITIZEN articles: <a href="../hacking-linksys-ip-cameras-pt-1/index.html">here</a>, <a href="../hacking-linksys-ip-cameras-pt-2/index.html">here</a>, <a href="../hacking-linksys-ip-cameras-pt-3/index.html">here</a>, <a href="../hacking-linksys-ip-cameras-pt-4/index.html">here</a> and <a href="../hacking-linksys-ip-cameras-pt-5/index.html">here</a>.</em></p>
+
+<p>As we know, there are several ways one could go about hunting for IP cameras on the net. The slowest way would be to portscan random IP addresses for certain ports and programmatically detect if the web interface of a given camera was available on the open ports found. This method definitely works, but it can be very time consuming as it consists of scanning random IP addresses hoping that we&#8217;ll eventually come across the type of device we&#8217;re interested in.</p>
+
+<p>The second method, which would be much faster in finding our target devices, would be to use a <a href="http://www.google.co.uk/search?ie=UTF-8&amp;q=inurl:/img/vr.htm">search engine</a> and query content that is unique to our target devices (e.g.: URLs, HTML title). This method, popularized by <a href="http://www.hackersforcharity.org/ghdb/?function=summary&amp;cat=18">GHDB</a> is simple and effective. The only issue I find with this strategy is that many of these IP cameras found happen to respond very slowly. This is probably due to other curious individuals running the same searches and accessing the same cameras.</p>
+
+<p>The third method which would allow you to find more hidden Linksys IP cameras (i.e.: not cached by search engines a.k.a. the <a href="http://www.ericdigests.org/2002-2/hidden.htm">hidden web</a>), would consist of bruteforcing subdomains within dynamic domain names (DDNS) used by our target devices (Linksys IP cameras in this case). For instance, the following are some of the dynamic domain names supported by the WVC54GCA and WVC80N Linksys IP camera models:</p>
+
+<ul>
+<li><code>linksys-cam.com</code></li>
+<li><code>mylinksyscamera.com</code></li>
+<li><code>mylinksyshome.com</code></li>
+<li><code>mylinksyscam.com</code></li>
+<li><code>mylinksysview.com</code></li>
+<li><code>linksysremotecam.com</code></li>
+<li><code>linksysremoteview.com</code></li>
+<li><code>linksyshomemonitor.com</code></li>
+</ul>
+
+<h3>Camera discovery process through subdomain bruteforcing</h3>
+
+<p>We first save the aforementioned domains in a file, <code>doms</code> in this case. Then we use <a href="http://code.google.com/p/dnsmap/">dnsmap</a> to bruteforce subdomains for each of the domains included in <code>doms</code>.</p>
+
+<p>Using dnsmap&#8217;s built-in wordlist:</p>
+
+<pre><code>$ for i in `cat doms`;do dnsmap $i -r ~/ -i 64.14.13.199,216.39.81.84&done;</code></pre>
+
+<p>Using a user-supplied wordlist, <code>wordlist_TLAs.txt</code> in this case, which is a three-letter acronym wordlist included with dnsmap v0.30:</p>
+
+<pre><code>$ for i in `cat doms`;do dnsmap $i -w wordlist_TLAs.txt -r ~/ -i 64.14.13.199,216.39.81.84&done;</code></pre>
+
+<p><em>Note: dnsmap&#8217;s <code>-i</code> option allows ignoring user-supplied IP addresses from the results. In this case, 64.14.13.199 and 216.39.81.84 belong to the <a href="http://www.tzo.com/">DDNS service provider</a>, and would therefore be regarded as false positives in this case (we&#8217;re only interested in IP cameras setup by their respective owners after all).</em> For more info on how to use dnsmap, checkout the <a href="http://code.google.com/p/dnsmap/source/browse/trunk/README.txt">README</a> file.</p>
+
+<p>We then parse the IP addresses of the subdomains discovered by dnsmap:</p>
+
+<pre><code>$ grep \# dnsmap*.txt | awk '{print $4}' | sort | uniq > ips.txt</code></pre>
+
+<p>Next, we scan for ports that could potentially be used by a Linksys IP camera web server. In this case, we choose TCP ports 80, 1024 and 1025 as candidates:</p>
+
+<pre><code>$ sudo nmap -v -T4 -n -P0 -sS -p80,1024,1025 -iL ips.txt -oA nmap_http_ports.`date +%Y-%m-%d-%H%M%S`</pre></code>
+
+<p>This leaves us with a lot of discovered services, but we don't quite yet know which of them correspond to actual Linksys IP cameras web interfaces. There are many ways to fingreprint the web server of a Linksys IP camera. In this case we chose to create our own <a href="http://freeworld.thc.org/thc-amap/">amap</a> response signature, and then scan the open ports with amap.</p>
+
+<p>Before amap is capable of identifying our target Linksys IP cams, the following response signature needs to be added to <code>appdefs.resp</code>, and amap then needs to be recompiled. Otherwise amap won't take the new signature into account:</p>
+
+<pre><code>http-linksys-cam::tcp::^HTTP/.*\nServer: thttpd/.*Accept-Ranges: bytes.*WVC</code></pre>
+
+<p>Please note that <em>the previous amap response signature was only tested against the WVC54GCA and WVC80N Linksys IP camera models.</em> So I'm not sure if it will work against other models. You've been warned!</p>
+
+<p>Once recompiled, amap can be used to identify Linksys IP cameras from nmap's open ports results. </p>
+
+<pre><code>$ amap -i nmap_http_ports.2010-02-22-102001.gnmap -R -S -o amap_results.`date +%Y-%m-%d-%H%M%S`</code></pre>
+
+<p>We finally parse the IP addresses and open ports for all discovered Linksys IP cameras:</p>
+
+<pre><code>$ grep http-linksys-cam amap_results.2010-02-22-102253 | awk '{print $3}' | cut -d \/ -f1
+x.x.167.245:1024
+x.x.228.231:1025
+x.x.228.231:80
+x.x.64.22:80
+x.x.206.70:1024
+x.x.31.4:1024
+x.x.164.28:1024
+<em>[snip]</em></code></pre>
+
+<p>At this point we have accomplished the task of creating a list of Linksys IP cameras without resorting to search engines or scanning random IP addresses. In order to discover more Linksys cameras, a more comprehensive wordlist would need to be used with dnsmap.</p>
+
+<p>Of course, even further automation would be possible. For instance, an attacker may wish to programmatically identify which Linksys cameras from the previous list allowing video viewing to unauthenticated users:</p>
+
+<pre><code>$ amapfile=amap_results.2010-02-22-102253;for i in `grep http-linksys-cam $amapfile | awk '{print $3}' | cut -d \/ -f1`;do url="http://$i/img/main.cgi?next_file=main.htm";if curl --connect-timeout 2 -s -I --url $url | grep ^"HTTP/1.1 501">/dev/null;then echo $url;fi;done;
+x.x.206.70:1024/img/main.cgi?next_file=main.htm
+x.x.105.221:1024/img/main.cgi?next_file=main.htm
+x.x.105.221:80/img/main.cgi?next_file=main.htm
+x.x.181.195:1024/img/main.cgi?next_file=main.htm
+x.x.243.154:1024/img/main.cgi?next_file=main.htm
+x.x.243.154:1025/img/main.cgi?next_file=main.htm
+x.x.30.196:1025/img/main.cgi?next_file=main.htm
+<em>[snip]</em></code></pre>
+
+<p><em>In addition to automatically checking for anonymous video viewing on all cameras found, other tasks such as checking for default credentials (<code>admin</code>/<code>admin</code>) could also be scripted, although this will NOT be included in this post (or any other at GNUCITIZEN).</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/bruteforcing/index.html" rel="tag">bruteforcing</a> | <a href="../../tags/camera/index.html" rel="tag">camera</a> | <a href="../../tags/discovery/index.html" rel="tag">discovery</a> | <a href="../../tags/dnsmap/index.html" rel="tag">dnsmap</a> | <a href="../../tags/linksys/index.html" rel="tag">linksys</a> | <a href="../../tags/privacy/index.html" rel="tag">privacy</a> | <a href="../../tags/subdomain/index.html" rel="tag">subdomain</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-128174">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/dbc9fe4f18aab307d580ef292b294426?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">raven</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128174">
+			February 24, 2010 at 10:10 pm</a>		</div>
+
+		<p>What an awesome and innovative discovery method.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128178">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c59b1fbcf86370469862f4961d07b275?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">packet_viper</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128178">
+			February 25, 2010 at 11:08 pm</a>		</div>
+
+		<p>Now seeing that I have found several of these that have no password, isn&#8217;t it possible to upload another piece of firmware and use this as an access point into a business or homes network? You know like DMS linux or a usb version of backtrack to continue an attack from there.  This is coming from a Pen-Tester and I am just curious at this point seeing as to how my brain is just running @ 1k a minute.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-128182">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128182">
+			February 26, 2010 at 9:12 pm</a>		</div>
+
+		<p>@packet_viper: the camera&#8217;s firmware is open source and available on the linksys site. so in theory you could modify the firmware and upload your own customized version.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128183">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/29debdfb33457d4ff7a01be81c94af89?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">what</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128183">
+			February 26, 2010 at 11:56 pm</a>		</div>
+
+		<p>I&#8217;ve written a simple Perl script that uses an HTTP method to accomplish the same thing a while back. It&#8217;s very interesting to see someone else go at these cameras. I found a few in people&#8217;s living rooms, and with IE/ActiveX, you can hear sound. Very creepy, and I am sure this breaks wiretapping laws, so I will say I did it for educational purposes only and not to monitor anyone.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128214">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/40fb2a4f6c88ac008a80b3ab235167c3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Paul</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128214">
+			March 8, 2010 at 6:51 pm</a>		</div>
+
+		<p>Anyone could tell me where I could find source code for WVC54GCA v 1.1, I really can&#8217;t find it anywhere.</p>
+<p>Thanks !</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128501">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/93ce59ea9096936b695d975bf4096e53?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://atom.us.to/' rel='external nofollow' class='url'>Longpoke</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128501">
+			April 28, 2010 at 6:47 am</a>		</div>
+
+		<p>If there is an upload firmware button you can upload firmware. As long as there is no digital signature (that&#8217;s properly validated) you can upload your own modified firmware.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-129195">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/27e52d3e4e67cd0afc696d5680872aee?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rapidshare.com/files/424551784/WVC54GCA.bin' rel='external nofollow' class='url'>L0RE</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129195">
+			October 12, 2010 at 8:37 am</a>		</div>
+
+		<p>Hi,</p>
+<p>I like Linux , I like it more open. If you would like to try <a href="http://rapidshare.com/files/424551784/WVC54GCA.bin" rel="nofollow">http://rapidshare.com/files/424551784/WVC54GCA.bin</a> No Warranty, you are self responsible for any Action&#8230;. usw&#8230;. Its now 1.1.01 Firmware  with Telnet enabled root password is toor for this firmware any comments are Welcome</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="3415"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="9a02c93aec" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-6/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:21:56 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

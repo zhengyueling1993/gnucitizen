@@ -1,0 +1,75 @@
+@import url("../../gnucitizen.org-v2/styles/screen.css");
+
+html {
+	background: #111111 url("images/background.png");
+}
+
+body {
+	background: transparent;
+}
+
+#header {
+	margin-bottom: 20px;
+}
+
+#header > h1 > a {
+	width: 110px;
+	height: 35px;
+	padding: 10px;
+	background: #111111 url("images/logo.png") no-repeat 50% 50%;
+}
+
+#header > p {
+	color: #ffffff;
+	display: inline;
+	background: #111111;
+	padding: 0px 10px 0px 10px;
+}
+
+#navigation {
+	background: #111111;
+	padding: 0px 10px 0px 10px;
+}
+
+#navigation a {
+	padding: 0px 20px 0px 0px;
+	border-bottom: 10px solid #381212;
+}
+
+#content {
+	border: 0px;
+	padding: 10px;
+	margin-top: 0px;
+	background: #111111 url("images/content.png");
+}
+
+#footer > p {
+	padding: 10px;
+	display: inline;
+	background: #000000;
+}
+
+.post-title > h2 {
+	font-size: 30px;
+}
+
+.post-title > h2 > a {
+	color: #666666;
+}
+
+.post-title > h2 > a:hover {
+	color: #666666;
+	background: #ffffff;
+}
+
+.post-title > h2 > a:hover .fancy-title-part {
+	color: red;
+}
+
+.post-title > h2 .fancy-title-part {
+	color: #ffffff;
+}
+
+body#home #entry .post-title {
+	display: none;
+}

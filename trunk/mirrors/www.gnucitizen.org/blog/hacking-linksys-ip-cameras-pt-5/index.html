@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-5/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:22:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Hacking Linksys IP Cameras (pt 5)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Hacking Linksys IP Cameras (pt 5) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Breaking Into a Home With an iPhone' href='../breaking-into-a-home-with-an-iphone/index.html' />
+<link rel='next' title='CVE-2009-1151: phpMyAdmin Remote Code Execution Proof of Concept' href='../cve-2009-1151-phpmyadmin-remote-code-execution-proof-of-concept/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index91a1.html?p=3229' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-3229" class="post">
+	<div class="post-title"><h2><span>Hacking Linksys IP Cameras (pt 5)</span></h2></div>
+	<div class="post-date"><span>published:</span> June 5th, 2009</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p><em>This article is a continuation of the following GNUCITIZEN articles: <a href="../hacking-linksys-ip-cameras-pt-1/index.html">Hacking Linksys IP Cameras (pt 1)</a>, <a href="../hacking-linksys-ip-cameras-pt-2/index.html">Hacking Linksys IP Cameras (pt 2)</a>, <a href="../hacking-linksys-ip-cameras-pt-3/index.html">Hacking Linksys IP Cameras (pt 3)</a>, <a href="../hacking-linksys-ip-cameras-pt-4/index.html">Hacking Linksys IP Cameras (pt 4)</a>.</em></p>
+
+<h3>Mounting the filesystem on your workstation</h3>
+
+<p>There are many ways to mount the camera&#8217;s filesystem using the firmware binary. In this post, we&#8217;ll explain one way to mount firmware version v1.00R24 which is the latest available for the WVC54GCA model.</p>
+
+<p>If you were to only use the firmware binary, things could be a bit difficult, as you don&#8217;t know the format of the binary at all. However, having the GPL firmware helps a lot as we&#8217;ll see next. I emailed Linksys back on Apr 23, 2009 informing them that although the GPL firmware was available on their site for other Linksys products, they hadn&#8217;t uploaded the one for the WVC54GCA camera. A few days later, on Apr 27, 2009, Linksys kindly made it available and <a href="http://www.linksysbycisco.com/US/en/supportgplcode">has been available</a> ever since (the file to download is <code>wvc54gca_v1.00R24.tgz</code>).</p>
+
+<p>Thanks to <a href="http://brooknet.no-ip.com/~lex/">Lex Landa</a>&#8216;s tips I was able to figure out the parameters required to mount the firmware binary, by analysing the data contained in the <code>./scripts/wvc54gc_usa_english/combine.cfg</code> file which is included with the <a href="http://downloads.linksysbycisco.com/downloads/wvc54gca_v1.00R24,5.tgz">GPL firmware</a>:</p>
+
+<pre><code>size = 00400000
+file = WVC54GCA.bin
+f1_name = loader
+f1_start = 00000000
+f2_name=loader.ver
+f2_start=00007FFE
+f3_name=<strong>kernel</strong>
+f3_start=<strong>00020000</strong>
+f4_name=<strong>filesystem</strong>
+f4_start=<strong>000E0000</strong>
+f5_name=PID
+f5_start=003FFFB2</code></pre>
+
+<p>I simply focused on the <code>kernel</code> and <code>filesystem</code> parameters. The previous settings show that then kernel starts at <code>0x20000</code> (131072 bytes / 128 KB), and the filesystem starts at <code>0xE0000</code> (917504 bytes / 896 KB). In order to start <a href="http://en.wikipedia.org/wiki/Dd_(Unix)">dd</a> reading at <code>0xE0000</code>, we need to keep 7 chunks of 131072 bytes. i.e.:<code>7*131072=917504 bytes=0xE0000</code> (the position we want)</p>
+
+<pre><code>$ dd if=DYFF08-402-1024.bin bs=<strong>131072</strong> of=fs.img skip=<strong>7</strong>
+25+0 records in
+25+0 records out
+3276800 bytes (3.3 MB) copied, 0.019424 s, 169 MB/s</code></pre>
+
+<p>We then verify that our image file is a valid <code>squashfs</code> filesystem:</p>
+
+<pre><code>$ file fs.img 
+fs.img:<strong> Squashfs</strong> filesystem, little endian, version 3.0, 2216311 bytes, 475 inodes, blocksize: 65536 bytes, created: Fri Nov  9 03:58:52 2007</code></pre>
+
+<p>A finally mount it on our hardrive:</p>
+
+<pre><code>$ sudo mkdir /mnt/test
+$ sudo mount -t <strong>squashfs</strong> fs.img /mnt/test -o ro,loop
+$ ls /mnt/test/
+bin  dev  etc  lib  mnt  proc  root  sbin  tmp  usr  var</code></pre><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2009/06/wvc54gca_fw_100r24_ls_ltr.txt">wvc54gca_fw_100r24_ls_ltr.txt</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/cameras/index.html" rel="tag">cameras</a> | <a href="../../tags/firmware/index.html" rel="tag">firmware</a> | <a href="../../tags/linksys/index.html" rel="tag">linksys</a> | <a href="../../tags/mount/index.html" rel="tag">mount</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-127643">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7936ef0dd045abb6e2987ea18d9964cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://josh.com/' rel='external nofollow' class='url'>josh</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127643">
+			July 24, 2009 at 6:05 pm</a>		</div>
+
+		<p>Here are some pictures of the insides of the Linksys WVC54GCA Webcam along with liks to the data sheets for some of the chips&#8230;</p>
+<p><a href="http://www.flickr.com/photos/bigjosh/3750837001/in/photostream/" rel="nofollow">http://www.flickr.com/photos/b.....otostream/</a></p>
+<p>&#8230;just to save oneone the time of taking thiers appart. </p>
+<p>-josh</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-127644">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127644">
+			July 24, 2009 at 7:01 pm</a>		</div>
+
+		<p>sweet, thanks for that josh!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127667">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/588eba37270fb74cfbf5769916be6dd6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">paul</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127667">
+			August 1, 2009 at 10:26 pm</a>		</div>
+
+		<p>So one you have mounted the bin, cant you edit that to setup some back door to let you in, or better yet to enable telnet???</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127979">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/28f059a0c51b50a25e4de146e9834a64?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://n/A' rel='external nofollow' class='url'>Ricardo</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127979">
+			November 8, 2009 at 3:33 pm</a>		</div>
+
+		<p>I have a question. The camera has a surveilance mode that lets you record event-driven video of up to 5 (yes, five) seconds before/after the event itself. Is there any way to have the camera record something like, maybe 10 minutes worth of video instead of 5 seconds?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127996">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d87e8180176a69ad1f937148d38f4663?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127996">
+			November 17, 2009 at 11:13 pm</a>		</div>
+
+		<p>Ricardo,</p>
+<p>Unlikely. The device only has 32MB of onboard RAM and a not very powerful processor. To be able to &#8220;record&#8221; 10 minutes worth of video at any useable resolution and then send that by ftp (forget email due to the size of the video file) would require processing power and RAM that the device just does not have. Best scenario is to use the video stream produced by the device and feed that into a PC running security software that would detect motion and record the event. Such software is available.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128050">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/56f904629fb4ecda24ea08d0ee1ac199?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bruno</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128050">
+			December 16, 2009 at 2:10 pm</a>		</div>
+
+		<p>You can disassemble the firmware binary and mount the filesystem. Q: can you assemble it back to a valid firmware binary?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128092">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/13a615814d6804e1b540a7abd4aa424b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">digger</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128092">
+			January 12, 2010 at 7:05 am</a>		</div>
+
+		<p>Sorry to bother you, but on my side of the planet <a href="http://ftp.linksys.com/" rel="nofollow">http://ftp.linksys.com</a> seems to be broken so I can&#8217;t find any download source for R22 and R24 releases (both firmware and gpl code). If either of you have them backed up please give me a link, torrent, rapidshare, megaupload &#8230; whatever.</p>
+<p>Thanks in advance.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128094">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76f87cf7f843121e20d8c6beb85858bd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">valex</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128094">
+			January 13, 2010 at 2:07 pm</a>		</div>
+
+		<p>The ftp site is down, anyone with a stashed copy of the R24 firmware + code ?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128095">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5954e66dc983aae37340fc26feb58aae?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://n/a' rel='external nofollow' class='url'>Luke</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128095">
+			January 13, 2010 at 3:57 pm</a>		</div>
+
+		<p>Very nice stuff you folks did but little beyond me. So could you help a mere mortal with what I think is a simple question. Would there be a command that would do a warm reboot of the camera (cf the reset to factory defaults). All the pieces seem to be there but I don&#8217;t know how to do that.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128215">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/40fb2a4f6c88ac008a80b3ab235167c3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Paul</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128215">
+			March 8, 2010 at 9:33 pm</a>		</div>
+
+		<p>The source code wvc54gca_v1.00R24.tgz is there&#8230; <a href="http://downloads.linksysbycisco.com/downloads/wvc54gca_v1.00R24.tgz" rel="nofollow">http://downloads.linksysbycisc......00R24.tgz</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128216">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d87e8180176a69ad1f937148d38f4663?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Nick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128216">
+			March 8, 2010 at 11:24 pm</a>		</div>
+
+		<p>Bruno,</p>
+<p>I had a go at doing this since I wanted hack the root password. However, the problem I had was that I could not generate a squashfs image that was the same size as the same size as the original. I gave up when the new firmware was made available, since seemed to solve the main issue I had with the previous f/w (motion detect ridiculously sensitive). Only problem I have with the camera at the moment is that it won&#8217;t stay on the wireless network for any length of time. Just drops off and has to be hard reset.</p>
+<p>Digger/Valex. Linksys site appears okay at present. Current f/w is Ver.1.1.00 build 02.</p>
+<p>Luke. I don&#8217;t know of a hack to reset the camera. When logged in with admin privs I thought that there was an option to reset it, but unfortunately, my camera is not online at the moment and I cannot get it to come up on the wi-fi network so I cannot check that &#8211; sorry.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128233">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5954e66dc983aae37340fc26feb58aae?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Luke</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128233">
+			March 10, 2010 at 9:41 am</a>		</div>
+
+		<p>In case anybody else needs it the command to software reset the camera:<br />
+<a href="http://ip_address:port/adm/reboot.cgi" rel="nofollow">http://ip_address:port/adm/reboot.cgi</a><br />
+The reboot command will respond with a simple OK.</p>
+<p>Sometimes the camera blacks-out (there is no image) but you still can access the the built-in webserver. If you are in luck the reboot will restore the image. However if the camera really locks-up (the webserver doesn&#8217;t respond) you need to unplug the camera.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128730">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/32b8d3fea35b14d50c9a1256bbb13b46?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Return Privacy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128730">
+			August 22, 2010 at 5:12 pm</a>		</div>
+
+		<p>Hi all, I need firmware v1.1.00 build 02 for wvc54gca. Linksys tech support had me update to v1.1.01 build 01 and it totally broke the motion detection recording function. I need the v1.1.00 build 02, that worked fine. I found the problem was a router, I should have never called them. The v1.1.00 build  02 worked great. I did find a copy of v1.00R24 on another site, but that won&#8217;t work with wpa2, and some other things don&#8217;t work right. If you have v1.1.00 build 02, please share it with me so I can get this camera working again. Thank you.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128731">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/32b8d3fea35b14d50c9a1256bbb13b46?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Return Privacy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128731">
+			August 22, 2010 at 7:07 pm</a>		</div>
+
+		<p>I found the firmware v1.1.00 build 02 and it fixed all the problems with this camera. Do NOT use the newer v1.1.01 build 01, it breaks the motion detection recording completely! If anyone else wants the download link, it is a german drivers site, here it is:<br />
+<a href="http://translate.google.com/translate?hl=en&amp;sl=de&amp;u=http://www.treiberupdate.de/treiber-download/download-182342-treiber-LinkSys-WVC54GCAWireless-G.html&amp;ei=LVZxTJHJL4P_8AbF_-T9DA&amp;sa=X&amp;oi=translate&amp;ct=result&amp;resnum=2&amp;ved=0CB0Q7gEwATiWAQ&amp;prev=/search%3Fq%3Dfirmware%2Bwvc54gca%26start%3D150%26hl%3Den%26client%3Dsafari%26sa%3DN%26rls%3Den" rel="nofollow">http://translate.google.com/tr.....26rls%3Den</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-129210">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a74a0f540ba907c625760a318f326162?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ryan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129210">
+			October 16, 2010 at 12:49 am</a>		</div>
+
+		<p>hello , </p>
+<p>I am trying to mount this firmware so I can explore the other cgi options available within. Why?</p>
+<p>I have a Sercomm wireless IP camera and the commands I HAVE unconvered are very similar to those in this article. Except, my firmware was already updated to prevent the exploits. </p>
+<p>Therefore, if I can mount it and explore the filesystem, I may have luck decoding more cgi commands for my camera &#8230;</p>
+<p>If anyone astill has access to or a copy of the firmware source code, I would love to host it publicly for all. All links provided in this comment thread no longer work as of the date of this post. Google turns up nothing. I see the BIN posted, but I need the source code!</p>
+<p>Thanks for any help!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="3229"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ec861a769e" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-5/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:22:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

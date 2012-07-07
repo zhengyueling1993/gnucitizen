@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/web-mayhem-firefoxs-jar-protocol-issues/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Web Mayhem: Firefox&#8217;s JAR: Protocol issues</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Web Mayhem: Firefox&#8217;s JAR: Protocol issues Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='ASX plus ClickOnce: Dangerous Combination' href='../asx-plus-clickonce-dangerous-combination/index.html' />
+<link rel='next' title='BT Home Flub: Pwnin the BT Home Hub (4)' href='../bt-home-flub-pwnin-the-bt-home-hub-4/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index193e.html?p=558' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-558" class="post">
+	<div class="post-title"><h2><span>Web Mayhem: Firefox&#8217;s JAR: Protocol issues</span></h2></div>
+	<div class="post-date"><span>published:</span> November 7th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>One of the things that we enjoy the most, here at GNUCITIZEN, is finding issues in features. Unlike bugs, insecure features tend to be more severe and usually last longer due to uneasy and rather long decision making process on whether the feature should be continued or discontinued once and for all. In my previous post I <a href="../bugs-in-the-browser-firefoxs-data-url-scheme-vulnerability/index.html">outlined</a> some of my concerns about the <code>data:</code> protocol. Today, I would like to draw your attention on the insecurities that come with my personal favorite: <code>jar:</code>.</p>
+
+<p>For those of you who have never heard of <code>jar:</code>, the protocol is nothing more but a mechanism for pulling content from compressed files. In its most basic usage form, the <code>jar:</code> protocol looks like this:</p>
+
+<pre><code>jar:<strong>[url to archive]</strong>!<strong>[path to file]</strong></code></pre>
+
+<p>Notice that the protocol embeds another URL in its body. This URL points to the location of the JAR(ZIP) archive from where the <strong>[path to file]</strong> will be read. The secondary URL can be of any kind, including but not only: chrome, file, ftp, https and even data (we will come back to this one latter). The <strong>[path to file]</strong> parameter usually starts with slash (/). This part of the URL specifies the relative path from the JAR root. In case we have a single file called <code>a.jpg</code> within the folder <code>Pictures</code>, the path will look like this: <code>/Pictures/a.jpg</code>. The full URL path may look like the following:</p>
+
+<pre><code>jar:<strong>https://domain.com/path/to/jar.jar</strong>!<strong>/Pictures/a.jpg</strong></code></pre>
+
+<p>If you want to learn more about the <code>jar:</code> protocol just look it up on the web. One thing that is very important to stress, and which we are going to use as a basis for the rest of this post, is that <code>jar:</code> content run within the scope/origin of the secondary URL. Therefore, a URL like this: <code>jar:https://example.com/test.jar!/t.htm</code>, will render a page which executes within the origin of <code>https://example.com</code>. It is very important to remember that.</p>
+
+<p><q>What does this all mean?</q> In simple terms, it means that any application which allows upload of JAR/ZIP files is potentially vulnerable to a persistent Cross-site Scripting. Potential targets for this attack include applications such as web mail clients, collaboration systems, document sharing systems, almost everything that smells like Web2.0, etc, etc, etc. Document formats are in particular very vulnerable. The OpenOffice file format (<code>odt</code>) and the less known Microsoft Office 2007 Open Document Format are both based on ZIP. If you create a simple document via either of these products and then you change the extension to <code>.zip</code>, you will be able to read all the files the document is made of. An attacker can simply add a malicious page, with a nasty client-side exploits, inside the archive and change back the extension to <code>.odt</code> or <code>.doc</code>. Who would have though that?</p>
+
+<blockquote>Once the malicious <code>Zip/Doc/Odt/Etc/Etc/Etc</code> file is uploaded/shared the attacker will be able to cross-script the origins in whatever way he likes. My research led to the discovery of many applications that are affected by this issue including some coming from top software vendors such as Google and Microsoft. Their number is so big that it makes almost no sense to try to list them all here or even be bothered to individually investigate all of the related issues in detail. The root cause is only one: the <code>jar:</code> URL protocol handler.</blockquote>
+
+<p>But this is not all! Jar URLs can be used to obfuscate malicious payloads to an extend which no Anti-virus software can recognize. The protocol handler can be nested (jars within jars within jars) and can encapsulate the <code>data:</code> protocol as well. Attackers can easily write a self extracting payload which is hidden behind multiple permutations of the both <code>jar:</code> and <code>data:</code> protocols and as such evade intrusion detection and prevention mechanisms that might be on place to guard the perimeter.</p>
+
+<h3>What shall we do to protect ourselves?</h3>
+
+<p>I haven&#8217;t thought well on this yet but the best way is to very carefully sanitize the types of files you allow your users to upload/share. Unfortunately, sometimes this is impossible, especially when it comes to formats such as <code>.odt</code> and <code>.doc</code>. You need to open these files and re-save them and as such to guarantee that there are no malicious leftovers. IDS, IPS and Ant-virus vendors should really start looking into how the <code>jar:</code> protocol works and come up with dynamic mechanism for uncompressing deeply nested URLs.</p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/firefox/index.html" rel="tag">firefox</a> | <a href="../../tags/jar/index.html" rel="tag">jar</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-66552">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2f6303f9095f59c14c3097ef4df566f5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kuza55.blogspot.com/' rel='external nofollow' class='url'>kuza55</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66552">
+			November 7, 2007 at 4:19 am</a>		</div>
+
+		<p>Nice find pdp!</p>
+<p>This could probably also be used to avoid protocol blacklists which blacklits data: URIs as well to avoid XSS filters, and not just IDS&#8217;.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-66553">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cfdf261e761cbfc46f2484abfc3218fa?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">severity</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66553">
+			November 7, 2007 at 4:21 am</a>		</div>
+
+		<p>I get document.domain = null with: jar:http&#58;//example.com/1.zip!/1.html</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-66566">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/189ea272538720c3222cc9b2aae1a6cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://english.gustavobittencourt.com/' rel='external nofollow' class='url'>Gustavo Bittencourt</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66566">
+			November 7, 2007 at 4:45 am</a>		</div>
+
+		<p>The bug 369814 became public after your disclosure.</p>
+<p><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=369814" rel="nofollow">https://bugzilla.mozilla.org/show_bug.cgi?id=369814</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-66695">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d025d43c89ca5da6b20fb27fdf6b73e9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rado</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66695">
+			November 7, 2007 at 8:46 am</a>		</div>
+
+		<p>it doesn&#8217;t work on Opera</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-66702">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66702">
+			November 7, 2007 at 9:06 am</a>		</div>
+
+		<div class="message">I would like to stress one more time that any file that is derivative of ZIP can be used as an attack vector. Moreover, if an archive contains dynamic content such as Flash or HTML, which are vulnerable to attacks, attackers will be able to use them for their benefit.</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-66718">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/82e83802592a7461af6aedf1a7d991fc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.firefoxdl.net.cn/' rel='external nofollow' class='url'>firefox</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66718">
+			November 7, 2007 at 9:29 am</a>		</div>
+
+		<p>wonderful,i like this blog</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-66771">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b33219b8c01e7bf5e352d614e26916cb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.wisec.it/' rel='external nofollow' class='url'>Wisec</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66771">
+			November 7, 2007 at 10:58 am</a>		</div>
+
+		<p>Nice find Pdp! Even if you discovered it independently, in Bugzilla.Mozilla.org, the developers found this issue on Fabruary 2007 (with a p0c too)! I think it&#8217;s unbelievable that such high impact issues take so much time to fix!!</p>
+<p>Just a suggestion to Moz-Devs:<br />
+At least as a quick and dirty fix, add in about:config a flag option which prevents remote site to use data: and jar: and chrome: and whatever. One option for each proprietary/odd uri scheme.</p>
+<p>oh, standards answers like &#8220;use noscript&#8221; will be redirected to /dev/null.</p>
+<p>Again kudos to Pdp :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-66966">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/290e868e00e8429bf1624a461b8ef81e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://noscript.net/' rel='external nofollow' class='url'>Giorgio Maone</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66966">
+			November 7, 2007 at 3:20 pm</a>		</div>
+
+		<p>Hi pdp,</p>
+<p>Latest NoScript development build took a quite drastic but reasonable (considering the behavior of other browsers) measure about JARs.<br />
+JAR resources can still be loaded as images, applet classes and the like, but they cannot be loaded as documents.</p>
+<p><a href="http://noscript.net/getit#devel" rel="nofollow">http://noscript.net/getit#devel</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-66975">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66975">
+			November 7, 2007 at 3:30 pm</a>		</div>
+
+		<p>good news as always! :) 10x Giorgio.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-67043">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/870419564f7ebe6cb4f631e98e14e5dd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://g-brain.sesoyo.com/' rel='external nofollow' class='url'>G-Brain</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67043">
+			November 7, 2007 at 5:06 pm</a>		</div>
+
+		<p>Very, very nice. Another place to use this kind of thing would be a forum that allows attachments.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-67068">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c2cb44abc9ad1c998cfe344160f76b21?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://nettingdotnet.blogspot.com/' rel='external nofollow' class='url'>Sam St-Pettersen</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67068">
+			November 7, 2007 at 5:35 pm</a>		</div>
+
+		<p>Maybe a local file restriction would be sensible. From my understanding, the only (justified) legitimate use for jar: is in Firefox extensions or XULRunner applications.</p>
+<p>Allowing their use in an online context can probably be avoided without any real backlash. Of course, I might be wrong. But I&#8217;ve only seen jar: used legitimately for the aforementioned purposes.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-67073">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c2cb44abc9ad1c998cfe344160f76b21?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://nettingdotnet.blogspot.com/' rel='external nofollow' class='url'>Sam St-Pettersen</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67073">
+			November 7, 2007 at 5:37 pm</a>		</div>
+
+		<p>BTW Is that a photograph of a young(er) Brenden Eich? :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-67077">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67077">
+			November 7, 2007 at 5:38 pm</a>		</div>
+
+		<p>heh, I don&#8217;t know but it would be funny if it is :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-67088">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/20d78c987cda1fec614e63ce857aa44d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kibitz</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67088">
+			November 7, 2007 at 5:55 pm</a>		</div>
+
+		<p>Regarding the nested jars within jars within jars that could contain a virus or other payload: what about A/V that scans at runtime? There are still lots of other considerations to be made, but this may be one small consolation to the huge list of issues that this discovery makes.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-67132">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/89886495b27cfdc78593e1f5c8810594?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://php-ids.org/' rel='external nofollow' class='url'>.mario</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67132">
+			November 7, 2007 at 6:51 pm</a>		</div>
+
+		<p>Reading the mozilla.org bug lists is like a Saturday noon shopping session ;) </p>
+<p>Anyway &#8211; as a developer you must _never_ trust user input especially when coming to uploads.</p>
+<p>1. Check MIME Type<br />
+2. Check image size<br />
+3. Check for HTML/PHP like patterns in the images source (<a href="http://phpfi.com/274478" rel="nofollow">http://phpfi.com/274478</a>)<br />
+4. Transform the image (other size AND other format)<br />
+5. Finally place the image in the upload folder</p>
+<p>Greetings,<br />
+.mario</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-67143">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67143">
+			November 7, 2007 at 7:09 pm</a>		</div>
+
+		<p>.mario yes, but I would like to stress one more time: any file can be used to carry the attack. Even TXT file can do the job. So for example, let&#8217;s say that your application allows export of documents as TXT files. This is a potential problem.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-67859">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8646bd4e904762c599e11665cc67f158?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://wasjournal.blogspot.com/' rel='external nofollow' class='url'>Kishor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67859">
+			November 9, 2007 at 1:37 am</a>		</div>
+
+		<p>Nice! as always..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-68506">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/513bd234e89071690de6ddad6c11cbab?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://beford.org/' rel='external nofollow' class='url'>beford</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-68506">
+			November 10, 2007 at 12:06 pm</a>		</div>
+
+		<p>pdp, this can also be abused if the site has an open redirect issue, I&#8217;ve posted a simple poc on my site. This makes the amount of &#8216;now&#8217; vulnerable sites bigger :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-68524">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-68524">
+			November 10, 2007 at 12:51 pm</a>		</div>
+
+		<p>beford, I wrote a new post just for you :) very nice find!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-69745">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/caaefeae15811188de49e613614c32ff?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.scarydevil.com/~peter/' rel='external nofollow' class='url'>Peter da Silva</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-69745">
+			November 12, 2007 at 5:19 pm</a>		</div>
+
+		<p>I see a few other issues here.</p>
+<p>First, there&#8217;s a problem in the basic design of the handler. Conceptually, the file is not accessed through a &#8220;jar:&#8221; protocol, the fact that the file can contain content is an attribute of the file. It&#8217;s the MIME type of the file that should result in the file being treated as a JAR file:</p>
+<p>http&#58;//example.com/path/to/file.jar#/path/inside/jar/file.html&#8230;</p>
+<p>This would have avoided this problem right from the start.</p>
+<p>Second, allowing arbitrary access to the contents of untrusted archives in any context is dangerous. Apple&#8217;s been burned by this, Microsoft&#8217;s been burned by this. What is the benefit of this handler that makes the risk worthwhile?</p>
+<p>Third: assuming this is allowed, the file should be treated as part of the directory tree of the hosting site. If it&#8217;s redirected, that&#8217;s the site in the redirect, not the site in the original URL. Are there other situations in Firefox where the original URL rather than the redirected URL are used for this purpose?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-70144">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/943a78f7f3deac36033688f95c4a889e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.opera.extra.hu/' rel='external nofollow' class='url'>opera11</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70144">
+			November 13, 2007 at 4:25 pm</a>		</div>
+
+		<p>It is interesting issue :) Good, that i dont use FF :)))</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115743">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b6202ccdf0d30afd1d3eff7e9270b455?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.1up-games.com/' rel='external nofollow' class='url'>sanjuro</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115743">
+			February 29, 2008 at 2:17 pm</a>		</div>
+
+		<p>Never heard of that &#8220;jar:&#8221; protocol. I wonder if this issue has been fixed by Google, Microsoft and everyone else since this post.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127883">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/344c9a2663aaab035315b8dac9277901?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">corrector</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127883">
+			October 1, 2009 at 9:35 pm</a>		</div>
+
+		<p>&#8220;Never heard of that â€œjar:â€ protocol. I wonder if this issue has been fixed by Google, Microsoft and everyone else since this post.&#8221; Hug? What is this nonsense all about? There is not/was not, &#8220;a Google, MS and every one else&#8221; bug. There is (was) an awful, ridiculous, crazy, MS-sh*tware-style exploit-invitation-by-design FF obscenity. No one needs to fix anything except Mozilla. Someone needs to be fired, and that someone is actually so many people. FF credibility is ruined *forever* (or until this team is fired for good).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="558"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ef5b7030d3" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/web-mayhem-firefoxs-jar-protocol-issues/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

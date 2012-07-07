@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/ad-jacking-xssing-for-fun-and-profit/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:19:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Ad-Jacking &#8211; XSSing for Fun and Profit</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Ad-Jacking &#8211; XSSing for Fun and Profit Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Landing Securls.com' href='../landing-securlscom/index.html' />
+<link rel='next' title='Co-authoring Google Hacking for Penetration Testers, Volume 2' href='../co-authoring-google-hacking-for-penetration-testers-volume-2/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index67bc.html?p=269' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-269" class="post">
+	<div class="post-title"><h2><span>Ad-Jacking &#8211; XSSing for Fun and Profit</span></h2></div>
+	<div class="post-date"><span>published:</span> July 1st, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>How to XSS is often the topic of conversation among security professionals; however, the reason or motivation for why an attacker might want to exploit an XSS vulnerability is often limited to stealing cookies or hijacking credentials. This post takes an almost sensationalist point of you as we take you on a journey to a possible web 2.0 XSS worm armed with an Ad-Jacking payload; an attack I introduced a short time ago.</p>
+
+<p>Ad-Jacking is a term I coined to categorise covert Ad hacking or Ad hijacking schemes. </p>
+
+<p>The traditional Ad hacking system was called, <a href="http://en.wikipedia.org/wiki/Click_fraud">click fraud</a>. This malicious system would exploit PPC (pay-per-click) advertising in some obvious manners. In my opinion the name itself is almost inviting people to be malicious, especially when the beneficiary realises its not &quot;pay per click&quot; but &quot;get paid per click&quot;. Ad providers now have a plethora of techniques and wonderful equations to detect and punish click fraud offenders. I believe Ads are also moving away for PPC schemes and more toward PPA (pay-per-action) schemes.</p>
+
+<p>The current Internet Ad schemes generally fall into one of these categories:</p>
+
+<table>
+<thead>
+<tr><th>acronym</th><th>name</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td>CPC</td><td>cost-per-click</td><td>Money per click</td></tr>
+<tr><td>CPM</td><td>cost-per-thousand</td><td>Money per thousand impressions</td></tr>
+<tr><td>CPA</td><td>cost-per-action</td><td>Money per action (i.e. a sale, survey etc)</td></tr>
+<tr><td>Affiliates</td><td>Affiliate programs</td><td>Custom &#8211; can involve any of the above and more.</td></tr>
+</tbody>
+</table>
+
+<p>So what are our payload ideas here? It is possible to exploit CPC and CPM, but I think this would be fairly noisy and quickly picked up on by the Ad provider and as I mentioned earlier these may be the last days for PPC Ads; however, a suitable malicious algorithm utilising multiple Ad providers might prove effective. CPA on the other hand is more subtle in my opinion, and I can see attackers leaning more toward this approach.</p>
+
+<p>I don&#8217;t want to repeat myself to much, as I have discussed some proof of concept attacks in the following articles:</p>
+
+<ul>
+<li><a href="http://michaeldaw.org/papers/paper-020607/">Ad-Jacking Affiliate Anchor Tags</a></li>
+<li><a href="http://michaeldaw.org/papers/paper-290507/">XSS for Fun and Profit</a></li>
+</ul>
+
+<p>The danger with Ad-Jacking is that it requires little or no user intervention from the attackers point of view. It should also be understood that although my ideas are centered around an XSS engine, the reality is that anything from a backdoored browser plugin or greasemonkey script, to a heap spray or buffer overflow payload could be used. Imagine the possibilities of a client-side Ad-Jacking worm! It inserts the attackers Ads onto pages&#8230; it rewrites affiliate IDs&#8230; the malicious potential here is apparent. Also, because the attack is client-side based, it is much more difficult to detect.</p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/dkza/index.html" title="Posts by dkza" rel="author">dkza</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/adds/index.html" rel="tag">adds</a> | <a href="../../tags/exploits/index.html" rel="tag">exploits</a> | <a href="../../tags/xss/index.html" rel="tag">xss</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-33151">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-33151">
+			July 1, 2007 at 9:47 am</a>		</div>
+
+		<p>I agree. The further we go the more we are going to see stuff along these lines. Usually, there is no profit from attacking the user directly. I mean, what&#8217;s the worse thing that can happen? Maybe steal their account and probably find some sensitive information. Although, sure, this is not a good thing, it usually involves a lot of effort mainly because the attacker needs to look for this information and then find a way to use it. Unless the attacker is really dedicated they wont do it. They need a framework. Ad programs have already this framework. All attackers need to do is start using it and eventually abusing it. Ad-Jacking is definitely here to come.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-33158">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/dk.html' rel='external nofollow' class='url'>David Kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-33158">
+			July 1, 2007 at 10:34 am</a>		</div>
+
+		<p>pdp, thanks for the comment. I was thinking how future spyware might utilise attacks along these lines. Definately an area for progressive badness :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="269"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="030e2705be" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/ad-jacking-xssing-for-fun-and-profit/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:19:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

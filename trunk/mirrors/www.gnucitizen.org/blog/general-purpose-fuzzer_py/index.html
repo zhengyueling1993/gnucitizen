@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/general-purpose-fuzzer_py/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; General Purpose Fuzzer.py</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; General Purpose Fuzzer.py Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Unveiling shoulder skimming' href='../unveiling-shoulder-skimming/index.html' />
+<link rel='next' title='Bulletproof Rich-content Filters' href='../bulletproof-rich-content-filters/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index7867.html?p=619' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-619" class="post">
+	<div class="post-title"><h2><span>General Purpose Fuzzer.py</span></h2></div>
+	<div class="post-date"><span>published:</span> December 17th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Fuzzing is a quite important for security researchers mainly because it helps going through the boring stuff quickly. Generally speaking, fuzzers are tools for automation. Unfortunately most moderns fuzzers are a lot more then automation tools. They are big, bloated and most of all, highly unusable, imho. And if you want to do some fuzzing, first of all you have to learn how they were built, and this is not a trivial thing.</p>
+
+<p>Due to my frustration with modern fuzzers and the simple fact that I need them in my day-to-day work, I decided to write my own in Python, because Python rocks. The fuzzer, which I developed this afternoon, is contained within a single python module. This makes it very portable and easy to use. On the other hand, the fuzzing subroutines do not use anything fancy but the standard python functionalities (generators and closures), which improves the learning curve quite drastically. Last but not least it is really fun to use it from the command line. If you don&#8217;t trust me, just give it a try. The following is the actual source code of the tool:</p>
+
+<pre><code><a href="../../static/blog/2007/12/fuzzer.py" rel="inline-text">http://www.gnucitizen.org/static/blog/2007/12/fuzzer.py</a></code></pre>
+
+<p>When prototyping the fuzzer I realized that I need a very good way to separate generated data from logic. Therefore, I came up with the concepts of generators (the stuff I&#8217;ve used in my <a href="../web-client-fuzzer_py/index.html">previous work</a> on fuzzers) and actuators. Generators simply <strong>yield</strong> data while actuators consume it and do something useful with it. The following is an example of a dummy generator and actuator, also available within the fuzzer source code. Keep in mind that you can input external modules within the fuzzer by using the <code>-i</code> or <code>--import</code> command line options and as such modularize your work a bit more:</p>
+
+<pre><code>#
+# GENERATORS
+#
+def generator_dummy(globals):
+    """ the dummy generator outputs all numbers between 0 and 99 """
+
+    def run():
+        for i in range(0, 100):
+            yield i
+
+    return run
+
+#
+# ACTUATORS
+#
+def actuator_dummy(globals):
+    """ the dummy actuator returns all supplied values """
+
+    def run(value):
+        return value
+
+    return run</code></pre>
+
+<p>As you can see, very simple stuff really. The simpler the better, I say! Unfortunately, the tool is only self documented (check the usage). There is no other external documentation how to use it. If you are willing to help with putting some basic tutorials together, you are more then welcome. Please, let me know. Of course, credits will be given where are due.</p>
+
+<p><em>So, there you go. General Purpose fuzzing can be actually a simple task.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/12/fuzzer.py">fuzzer.py</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-87803">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/54dc38bc9fc58b7b010a4b780fafedbe?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.unprotectedhex.com/' rel='external nofollow' class='url'>nnp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-87803">
+			December 17, 2007 at 12:30 pm</a>		</div>
+
+		<p>No offence mate but your fuzzer is about 3 years behind the times and not particularly original. There is a reason modern fuzzers have all that extra fluff. Also, a quick google would have saved you the hassle of writing this I think. There are plenty of scripts out there that do the same thing. From what I can see the reason your script is so short is that it basically does nothing. It&#8217;s a watered down version of peach (which also has the idea of generators etc) without all the useful &#8216;bloat&#8217;. </p>
+<p>Now I&#8217;m not saying fuzzers need to be huge behemoths of applications. Obviously experience has shown that often a simple script with a clear aim can find bugs quickly but if you want things like crash detection, logging, monitoring etc then all that bloat is necessary. Fuzzing can have a steep learning curve for a reason, to do it properly is a skill. Sure at the moment any idiot can still fuzz a couple of bugs in some obscure application but to do it properly isn&#8217;t a 5 minute quick hack.</p>
+<p>What you have there is pretty much what most hackers had themselves a couple of years ago. I&#8217;m not saying it&#8217;s not useful, just that it&#8217;s not as much of an original idea as you might think. </p>
+<p>The only reason I bothered to reply is that I&#8217;m kind of surprised as most of the stuff found here is usually pretty cool and off the beaten track ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-87807">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-87807">
+			December 17, 2007 at 12:48 pm</a>		</div>
+
+		<p>nnp, no one claims to be original, however, what I do claim is that by using something like this, you have a lot better chances to get your head around various problems without becoming a slave of them and wasting your time too much. and this to me matters <strong>a lot</strong>.</p>
+<p>many tools out there just try to be too clever, including <strong>peach</strong>, tools should not be clever. I think that we are clever enough to figure it out on our own. What tools should do is to automate the boring stuff. In my case, repetition is quite boring. so you should really take this tool from that prospective.</p>
+<p>on your last note, well, I love simplicity. I believe that simple is better and more affective. If I can find a problem, like fuzzing technology, which is extremely bloated and I can simplify it to the extend where it does the same but in a minimalistic way, then I considered it as an accomplishment. it is as simple as that. :)</p>
+<p>so, although you might not use this fuzzer, I believe that there are tones of people who will use it and will find it very interesting and better suited for the job then <strong>peach</strong>. They might even use some of the concepts to construct their own fuzzers. There is nothing better then custom tools!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-88543">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/54dc38bc9fc58b7b010a4b780fafedbe?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.unprotectedhex.com/' rel='external nofollow' class='url'>nnp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-88543">
+			December 18, 2007 at 11:12 pm</a>		</div>
+
+		<p>My point though is that this extra cleverness is what seperates an excellent fuzzer from an average one. Sure your script in its current incarnation could be hacked on to find some bugs but to really exercise a protocol/application you&#8217;re going to have to put in a lot of work. So while you might be saving yourself effort in the short term, in the long term you would have been better off spending 15 minutes getting to grips with a fuzzing framework like Sulley and working from there. </p>
+<p>And 15 mins is the most it would take. After that you just map out your protocol in block form and you magically have a much more powerful fuzzer because of all that &#8216;bloat&#8217;. Of course if its you&#8217;re first time fuzzing anything you might wonder about &#8216;block based fuzzing&#8217; or whatever but there&#8217;s the same learning curve with what you have, just less of a pay off at the end.</p>
+<p>I agree that Peach is over complex. It was after using Peach for the first time that I wrote something quite similar to your script, but I wouldn&#8217;t be so quick to write off all fuzzing frameworks because of it. There are plenty out there that are easy to understand for beginners yet offer the power a more advanced user might need (Sulley is a perfect example)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-88545">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-88545">
+			December 18, 2007 at 11:22 pm</a>		</div>
+
+		<p>I think writing your own fuzzer is one of those things that every hacker/security enthusiast should do at some point.</p>
+<p>I do agree with nnp that frameworks sometimes offer fuzzing features that are required. However, after having talked to some guys who have found impressive number of security holes I&#8217;ve learned  most holes were found with very simple fuzzing scripts or through source code audits.</p>
+<p>Not to be biased, but like pdp, I&#8217;m in love with simple tools that do something specific.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-88559">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/54dc38bc9fc58b7b010a4b780fafedbe?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.unprotectedhex.com/' rel='external nofollow' class='url'>nnp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-88559">
+			December 18, 2007 at 11:57 pm</a>		</div>
+
+		<p>Of course making something as simple as possible is desirable but it is possible to whip up a very straight forward fuzzer using Sulley (excuse my overuse of this particular framework as an example but its quite good) which has a massive library of fuzz strings. If that doesn&#8217;t find any holes you can then easily expand it using Sulley&#8217;s primitives and modifiers. Using a framework with this kind of support allows you to start out small and simple and work upwards. On the other hand if you start with something small and simple and unfortunately you don&#8217;t find anything&#8230; where to then? Modify your framework? Start from scratch?</p>
+<p>Sulley also comes with other tools that are very useful such as process monitoring tools which allow you to start/monitor/restart a program as well as logging a memory dump of the process that crashed and the fuzz file that caused it to crash. On top of that it can also chain single fuzz tests to fuzz deep into a protocol. These extras can safely be ignored if you manage to knock over the process initially but if you need their support you have it.</p>
+<p>I guess in the end your choice of tool comes down to how much resistance the target program puts up weighed against how much you want to kill it via a fuzzer as opposed to getting into a code audit/RE session.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-96582">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f2d7c9f3033aeeee10edf2c46a75aa03?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Strongarm</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-96582">
+			January 7, 2008 at 8:16 pm</a>		</div>
+
+		<p>pdp! sure Python rocks but Ruby takes drugs and has lots of sex with plenty of women. I&#8217;d hope you would have written it in Javascript, js being your baby in all.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-96819">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-96819">
+			January 8, 2008 at 6:53 am</a>		</div>
+
+		<p>hihi</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="619"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="25fba3ed64" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/general-purpose-fuzzer_py/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

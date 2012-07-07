@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/strategic-hacking-geoip/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:00:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Strategic Hacking: GEOIP</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Strategic Hacking: GEOIP Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='0day: Hacking secured CITRIX from outside' href='../0day-hacking-secured-citrix-from-outside/index.html' />
+<link rel='next' title='Snippets of defense Pt.II' href='../snippets-of-defense-ptii/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexda6e.html?p=502' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-502" class="post">
+	<div class="post-title"><h2><span>Strategic Hacking: GEOIP</span></h2></div>
+	<div class="post-date"><span>published:</span> October 12th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Not that long time ago, ap and I did a good play around with GEOIP: ip to country, country to ip mappings, geo locating the IP addresses from the Holy See, etc (yep we&#8217;ve done that). Nothing major, really! We find this topic quite interesting and largely educational, especially around the methodologies and tricks that we have developed in order to find the IP ranges/blocks of entire countries.</p>
+
+<p>Although we&#8217;ve build a quite solid database over the time, we are planning to keep it private and use it for research purposes only. However, if you dig deep into some of our public research <a href="../../static/blog/2007/10/country2ip.ppt">materials</a>, you should be able to to create a tiny subset of our database by using some of the described techniques and also <a href="../../static/blog/2007/10/create-db.sh">this bash script</a>.</p>
+
+<p><em>You can also download a <a href="../../static/blog/2007/10/digest-2007-10-12.zip">database digest</a> created with the bash script above.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/10/country2ip.ppt">country2ip.ppt</a>, <a href="../../static/blog/2007/10/create-db.sh">create-db.sh</a>, <a href="../../static/blog/2007/10/digest-2007-10-12.zip">digest-2007-10-12.zip</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/geoip/index.html" rel="tag">geoip</a> | <a href="../../tags/security/index.html" rel="tag">security</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-57694">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/34733fa7b29bcbc0760b65ae5d288d41?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Dfcnvt</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57694">
+			October 12, 2007 at 9:59 pm</a>		</div>
+
+		<p>Now that you have the country of all it&#8217;s ip address. What about the state in US or perhap the county in state?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57695">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/34733fa7b29bcbc0760b65ae5d288d41?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Dfcnvt</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57695">
+			October 12, 2007 at 10:00 pm</a>		</div>
+
+		<p><a href="http://www.maxmind.com/app/city" rel="nofollow">http://www.maxmind.com/app/city</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-57698">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57698">
+			October 12, 2007 at 10:04 pm</a>		</div>
+
+		<p>yep, this is the one. although, as I mentioned in the post, the database is not 100% accurate, not to mention the fact that the interesting ranges are simple not even included.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57738">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2fbd3fcfa626bd4301c18cdbd207a7bb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">vindic</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57738">
+			October 13, 2007 at 1:09 am</a>		</div>
+
+		<p>pdp will you sell this, or make a new service? if you can make more accurate db, then why you dont use it for protection of websites? i will be first in list who will buy it, because is very very usefull</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-57867">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57867">
+			October 13, 2007 at 9:38 am</a>		</div>
+
+		<p>vindic, what do you need this for? I mean Maxmind have a free database you can use for most things that come to mind.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-58050">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2fbd3fcfa626bd4301c18cdbd207a7bb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">vindic</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58050">
+			October 13, 2007 at 6:44 pm</a>		</div>
+
+		<p>pdp i have theyr&#8217;s db, have too bins of cc. i am providing payments services and trying protect us for fraud. i am looking for any way or stuff which can more protect ours customers.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-58112">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d58934255c84ad1da6e10b5dc474fd6f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.critical.lt/' rel='external nofollow' class='url'>cybergoth</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58112">
+			October 13, 2007 at 9:42 pm</a>		</div>
+
+		<p>I&#8217;m using ripe.net Europe RIRâ€™s db to extract net blocks for entire country. You can check it at  <a href="ftp://ftp.ripe.net/pub/stats/ripencc/2007" rel="nofollow">ftp://ftp.ripe.net/pub/stats/ripencc/2007</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-58281">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58281">
+			October 14, 2007 at 7:18 am</a>		</div>
+
+		<p>cybergoth, cool&#8230; I need to look at this!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-76923">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/39bb25abda30ecd13e91c0b53163a607?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">RHW</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-76923">
+			November 25, 2007 at 8:32 pm</a>		</div>
+
+		<p>This is a cool idea.  I scanned around for about 10 minutes and found about 5 boxes with open ports.  What is the default user/pass for the slingboxes?  I can&#8217;t find any info on their website.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115012">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8c8d38091ac5bee13439a3ed7fa88ab4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ricky</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115012">
+			February 17, 2008 at 11:05 am</a>		</div>
+
+		<p>Seems some changes on how the ip database is being held has been made since the last time I ran the script my files come out in the form of</p>
+<pre><code>country-11.0.0.0.csv
+country-112.63.162.116.csv
+country-112.63.162.120.csv
+country-112.63.162.148.csv
+country-114.0.0.0.csv
+country-116.0.0.0.csv
+country-116.0.128.0.csv
+country-116.0.16.0.csv
+country-116.0.24.0.csv
+country-116.0.32.0.csv
+country-116.0.64.0.csv
+country-116.0.64.128.csv
+country-116.0.64.192.csv
+country-116.0.64.224.csv
+country-116.0.64.240.csv
+country-116.0.64.64.csv
+country-116.0.65.0.csv</code></pre>
+<p>If only I had backed them upbefore like I ment to.</p>
+<p>./R B</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-115015">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115015">
+			February 17, 2008 at 11:13 am</a>		</div>
+
+		<p>ok, I have to look into this. I think that they have changed the positions of the CSV columns. Just rearrange the columns or better yet modify the script to outline these changes.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124402">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8c8d38091ac5bee13439a3ed7fa88ab4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ricky</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124402">
+			November 20, 2008 at 4:42 pm</a>		</div>
+
+		<p>Links seem to be broken on this page for the script an ppt file</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-124404">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124404">
+			November 20, 2008 at 6:24 pm</a>		</div>
+
+		<p>yes, there are tones of bugs laying around since we moved. I will fix this now. thanks for the feedback.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-125696">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125696">
+			January 29, 2009 at 11:14 pm</a>		</div>
+
+		<p>all fixed now!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128244">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8051a7a2ed85308fe45d2b938d7c4cea?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.morningstarsecurity.com/' rel='external nofollow' class='url'>Andrew Horton</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128244">
+			March 11, 2010 at 6:49 am</a>		</div>
+
+		<p>I&#8217;ve published a tool that uses this technique and only just found out about your similar research from a post on the full disclosure mailing list.</p>
+<p>GeoIPgen is a tool for country to IP resolution written in ruby. It can produce IPs for 1 or a set of countries in ascending or random order, producing unique IPs with low overhead :)</p>
+<p>It has proved useful when penetration testing to reverse resolve an entire country in order to discover networks or IPs the client forgets to mention.</p>
+<p>It&#8217;s available here, <a href="http://www.morningstarsecurity.com/research/geoipgen" rel="nofollow">http://www.morningstarsecurity.....h/geoipgen</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-128251">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128251">
+			March 11, 2010 at 11:49 pm</a>		</div>
+
+		<p>@Andrew: thank you for sharing your project with us! please keep us up to date with any significant feature additions to GeoIPgen.</p>
+<p>You might also be interested in taking a look at <a href="http://www.country2ip.com/" rel="nofollow">http://www.country2ip.com/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="502"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="0337c938e2" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/strategic-hacking-geoip/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:00:56 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

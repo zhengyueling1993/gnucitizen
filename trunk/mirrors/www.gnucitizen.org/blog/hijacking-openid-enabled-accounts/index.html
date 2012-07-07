@@ -1,0 +1,551 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/hijacking-openid-enabled-accounts/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Hijacking OpenID enabled Accounts</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Hijacking OpenID enabled Accounts Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Hacking Video Surveillance Networks' href='../hacking-video-surveillance-networks/index.html' />
+<link rel='next' title='Router Hacking Challenge' href='../router-hacking-challenge/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexb4ec.html?p=679' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-679" class="post">
+	<div class="post-title"><h2><span>Hijacking OpenID enabled Accounts</span></h2></div>
+	<div class="post-date"><span>published:</span> February 3rd, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>It has been a long time since I last <a href="../openid-a-security-story/index.html">spoke</a> about OpenID. Today I would like to draw your attention to a tiny problem, which I found among several OpenID solutions. The problem is indeed tiny but the overall outcome is concerning.</p>
+
+<p>CSRF &#8211; It comes very handy. It seams that no matter how much you talk about it, very few pay attention on the problem. And it is not a problem that you can afford to have. And among the XSS issues, which most OpenID libraries have, CSRF (Cross-site Request Forgery) seams to be the most pervasive form of attack.</p>
+
+<p>When it comes to OpenID, it seams that developers forget about CSRF, or they just don&#8217;t want to simply deal with it, mainly because OpenID is not straightforward type of technology. As you probably know, the OpenID authentication stage happens over two channels: one hidden from the user, and one top (visible) channel for authorization purposes mainly. Because the process seems to be kind of obscured, CSRF issues are often taken very lightly and widely ignored.</p>
+
+<p>Instead of showing you examples with real, live systems, rather unethical as you may guess, I would like to show you an example of an account hijack technique which is currently present inside one of the few WordPress OpenID plugins. However, keep in mind that I am trying to outline a widely-spread issue rather then to disclose a bug. Therefore, you can safely assume that this form of attack is also applicable to many other systems. This is how it goes.</p>
+
+<p>Once you login into the WordPress OpenID plugin user page, you can add an OpenID url for the current user login. This URL can be used later to login into the WordPress instance, without typing your username and password, bur rather using a 3rd party server, your OpenID provider, to verify who you are. Unfortunately, the user administration form is vulnerable to CSRF attack. Saying that, attackers can easily, add their own OpenID url and as such authenticate without the need for credentials. Let&#8217;s examine the form structure:</p>
+
+<pre><code>&lt;form method="post"&gt;Add identity:
+    &lt;input id="openid_url" name="openid_url" /&gt;
+    &lt;input type="submit" value="Add" /&gt;
+    &lt;input type="hidden" name="action" value="add_identity" &gt;
+&lt;/form&gt;</code></pre>
+
+<p>It is obvious that there is nothing there to prevent CSRF attacks. Once the attacker supplies a URL for the openid_url field, the page will redirect to the OpenID provider specified by that URL, authenticate and return back to the original position. Given the fact, that the OpenID provider is controlled by the attacker, btw. everyone can host their own OpenID provider, the attack is very trivial to pull. Once this URL is stored within the plugin database, the attacker will be able to authenticate with the attacked blog without any sort of authorization whatsoever.</p>
+
+<p><em>I hope that you understand the impact of this issue as it is one of the main things you will see when you deal with OpenID enabled systems. OpenID does make life easier bur if you don&#8217;t implement the infrastructure properly, you are asking for some serious trouble. BTW, the vulnerability, which I so lightly covered in this post, is not due to a coding mistake within the plugin itself, bur rather then a bug that exists within the main support library, which is one of the most popular OpenID libraries available in the wild.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/openid/index.html" rel="tag">OpenID</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/web20/index.html" rel="tag">web2.0</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-108641">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9509edb3b8aecd89b16384938a3f696b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.sal-e.net/' rel='external nofollow' class='url'>sal-e</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-108641">
+			February 3, 2008 at 8:10 pm</a>		</div>
+
+		<p>Hi pdp,</p>
+<p>I&#8217;d like to make sure that I understand correctly the problem you bringing to our attention. In order this vector of attack to succeed the following conditions have to be met:</p>
+<p>1. I need to visit site controlled by attacker and I have to decide to use my OpenID.<br />
+2. The attacker&#8217;s web site should redirect me to fake site that works like my OpenID provider site. (Very similar to phishing attack). In order to still my username and password for my OpenID account.</p>
+<p>When I discover OpenID some time ago I had the same idea. My research back then proved that most of OpenID providers are vulnerable for this type of attack. I have found that only MyOpenID.com is taking this problem seriously and they have implemented some features to address the problem.</p>
+<p>For example you can enable &#8216;secure mode&#8217; that will force you to open new and connect directly to MyOpenID site in order to get authenticated. This  should protect you in most cases. Unfortunately this is not the end of the story because if you workstation is compromised (or your router) and the hacker has change your DNS server you still going to end up on attackers OpenID server. Against this problem MyOpenID has setup authentication by pre-exchanged certificates instead of username/password.</p>
+<p>My question is the MyOpenID approach will prevent the problem you have described?</p>
+<p>And the main conclusion is that risk never disappears. Using OpenID protects you against the problem of using the same username/password on many websites, but at the same time moves the risk to you OpenID provider. So it become important to select good OpenID provider that takes this issues  very seriously.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-108645">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d147130cd01d801ad46d096383ff6754?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">bugmenot</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-108645">
+			February 3, 2008 at 8:21 pm</a>		</div>
+
+		<p>Huh? Isn&#8217;t this by design? OpenID isn&#8217;t for identity verification. It&#8217;s like saying that a registration form e-mail address is for identity verification and that it is vulnerable because it (correctly) accepts arbitrary domains, which may be under the control of the attacker.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-108692">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c971f6fc59029d1fa54a3fc680f2fc52?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://mx.thirdvisit.co.uk/' rel='external nofollow' class='url'>Mark Cross</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-108692">
+			February 3, 2008 at 9:41 pm</a>		</div>
+
+		<p>Hi,</p>
+<p>Check this out, which came in v2 before Christmas? <a href="http://openid.net/specs/openid-provider-authentication-policy-extension-1_0-01.html" rel="nofollow">http://openid.net/specs/openid....._0-01.html</a></p>
+<p>I am not a security expert, but clearly users are free to pick their providers. Personally I have no idea why people buy Ford motor cars &#8211; but they do. You may lecture people about the cost benefit analysis of buying another car brand X. But in the main they&#8217;ll always pick the cheapest, not looking at the MTBF stats.</p>
+<p>With OpenID, people may choose the ease of the use a username and Password pair &#8211; it&#8217;s understood, accepted, and the slightly more tricky two-factor authentications overhead will be chosen by the educated. People effectively wishing to pay more.</p>
+<p>I think it&#8217;s our job (geeks) to educate John Doe to make better security choices?</p>
+<p>So whilst you may see problems with OpenID, it would be good if you highlighted the plus points to the security which has already been discussed and put forward for the protocol?</p>
+<p>Cheers Mark</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-108765">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ec000b82f543f0236d5af5d30286a3c2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">James</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-108765">
+			February 4, 2008 at 1:03 am</a>		</div>
+
+		<p>Interesting. Thinking more generically, I wonder if this method could be used to change user passwords on your typical agile Web 2.0 site?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109047">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1e6f3dd86f5715780070cbe72c44f345?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rattus</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109047">
+			February 4, 2008 at 9:42 am</a>		</div>
+
+		<p>What this means is that you can register, and authenticate without need to supply anything except the URL. I don&#8217;t know wordpress so does this form add OpenID account for currently logged in user account ? Meaning attacker tricks user into submitting the form, and if user is logged in the wordpress instance, it will add attacker&#8217;s OpenID url to his account?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-109073">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109073">
+			February 4, 2008 at 10:11 am</a>		</div>
+
+		<p>too many comments for the night :) let me cover each one by one:</p>
+<p>sal-e, </p>
+<blockquote><p>1. I need to visit site controlled by attacker and I have to decide to use my OpenID.</p></blockquote>
+<p>Incorrect! The idea is that because OpenID enabled sites treat the OpenID technology as a captcha of some sort, ignoring the fact that the OpenID authentication and authorization stages can be completely automated by a simple OpenID identity provider server written in python or any other language, when the identity management page of the OpenID enabled device is vulnerable to CSRF, attackers can add their own identity there and use that to get access to the account. Since they use their own identity and their own identity provider, they don&#8217;t need credentials.</p>
+<blockquote><p>My question is the MyOpenID approach will prevent the problem you have described</p></blockquote>
+<p>No, the problem is unrelated to the way MyOpenID handles the authentication or authorization processes.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-109078">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109078">
+			February 4, 2008 at 10:12 am</a>		</div>
+
+		<p>bugmenot, OpenID is exactly for identity verification rather then authorization although it has been widely used for that in general.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-109092">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109092">
+			February 4, 2008 at 10:19 am</a>		</div>
+
+		<p>Mark,</p>
+<blockquote><p>So whilst you may see problems with OpenID, it would be good if you highlighted the plus points to the security which has already been discussed and put forward for the protocol?</p></blockquote>
+<p>Point taken. Although I brag about OpenID security far too often, I am personally a big fan of the concepts and technologies involved. The simple fact is that your OpenID identity provider can be secured pretty well, like for example by using RSA tokens, etc. Using this identity for all your online presence will be far more secure then using individual passwords, from password management prospective only. Though, there are a bunch of other things which come into place that needs to be taken into consideration. One of the main things is that if OpenID makes it so easy to login anywhere you want, most people will be logged in all the time. And from Web security point of view, with all these XSS and CSRF attacks popping everywhere, it is a really bad idea.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-109097">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109097">
+			February 4, 2008 at 10:20 am</a>		</div>
+
+		<p>James,</p>
+<p>yes, it can be used though most Web2.0 sites learned the lesson and they ask you for the current password in order to reset it. This effectively demobilizes CSRF issues that may occur in this area.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-109100">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109100">
+			February 4, 2008 at 10:22 am</a>		</div>
+
+		<p>rattus, correct!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109194">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f134d6601aeef5cbf24677463c43af61?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ipsec.pl/' rel='external nofollow' class='url'>kravietz</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109194">
+			February 4, 2008 at 1:00 pm</a>		</div>
+
+		<p>FYI &#8211; Drupal seems to protect against this type of attacks using an uniform Forms API, which adds hidden random tokens for each form generated using this API. </p>
+<p>As I&#8217;ve just looked, the &#8220;Add OpenID identity&#8221; form in &#8220;Edit My Account&#8221; contains the anti-CSRF token.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-109312">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/506736a78317043bbdd6ab4ea9e7a587?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://idself.cn/' rel='external nofollow' class='url'>Michael Yang</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109312">
+			February 4, 2008 at 5:14 pm</a>		</div>
+
+		<p>rattus &amp; pdp</p>
+<p>The point is how can attacker&#8217;s OpenID be added at user&#8217;s side. If I were the attacker, even I tell you my OpenID and let you tie it to your WP account, it can&#8217;t be done. Because according to my understanding, the authentication does not require nothing but URL, it requires your prove of the ownership to that URL.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-109316">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109316">
+			February 4, 2008 at 5:17 pm</a>		</div>
+
+		<p>kravietz, cheers for the info</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-109317">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109317">
+			February 4, 2008 at 5:21 pm</a>		</div>
+
+		<p>Michael, I am not sure whether you understand the concepts of the attack. Because OpenID is nothing but a URL the attacker can register their own OpenID service. It is very simple really. All you need is a dynamic DNS name and a python script that consists of 5 lines of code. Through CSRF the attacker can add his/her OpenID URL from the dynamic DNS server. Once the attacker&#8217;s OpenID url is tied to the victim&#8217;s account, the game is over. Now he/she can login without authentication because he/she is running/controls the malicious OpenID identity service.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109385">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9509edb3b8aecd89b16384938a3f696b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.sal-e.net/' rel='external nofollow' class='url'>sal-e</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109385">
+			February 4, 2008 at 6:56 pm</a>		</div>
+
+		<p>Hi pdp,</p>
+<p>Thank you for clarification. Now I have better understanding of the issue. In your initial post you stated:</p>
+<blockquote><p>BTW, the vulnerability, which I so lightly covered in this post, is not due to a coding mistake within the plugin itself, bur rather then a bug that exists within the main support library, which is one of the most popular OpenID libraries available in the wild.</p></blockquote>
+<p>I am making some assumptions. First you are referring to WordPress plugin and the second is that you are referring to PHP library supporting OpenID. Based on those assumptions I was about to ask you did you run test on other popular software like Drupal and Joomla. At the same time I saw the comment from kravietz about Drupal. So I am little confused again. If Drupal can protect against this issue, why WP-pluging don&#8217;t deploy the same protection? </p>
+<p>And can the library be fixed or the OpenID protocol needs to be modified?</p>
+<p>Thanks,<br />
+SAL-e</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-109387">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109387">
+			February 4, 2008 at 7:01 pm</a>		</div>
+
+		<p>yes, the vulnerability is within a popular PHP OpenID library. However, it does not mean that it is used by Drupal. In fact, I have no idea what Drupal is using. The library can be fixed as well you can add some extra precocious steps to guarantee that the request cannot be forged.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109606">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5eaead55caecbae97e258bb81c7bf023?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Johnny Bufu</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109606">
+			February 4, 2008 at 11:52 pm</a>		</div>
+
+		<p>I don&#8217;t see how this attack is specific to OpenID, or caused/addressable in the OpenID library. </p>
+<p>As I understand it, it&#8217;s a general CSRF attack against an administrative form; the form&#8217;s controller should make sure it&#8217;s still talking to the ligitimate user (owner of the username/password) *before* taking any OpenID action.</p>
+<p>Johnny</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-109947">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/48a46885f123e514933d8271299c1e96?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>Oliver</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109947">
+			February 5, 2008 at 10:44 am</a>		</div>
+
+		<p>Hi,</p>
+<p>the whole attack scenario/example will only work, if the relying party (in your example WordPress) will trust each OpenID provider. And this will be indeed a real security problem of the whole OpenID concept.</p>
+<p>It can be compared with the PKI world: OpenIDs are like certificates and the OpenID provider acts like a Certificate Authority (CA). If you trust every CA in the world, the whole PKI concept will not be effective. I can&#8217;t believe that services like WordPress or Yahoo will trust every OpenID provider &#8230; or do they?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-109948">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109948">
+			February 5, 2008 at 10:49 am</a>		</div>
+
+		<p>Oliver, why shouldn&#8217;t they? OpenID is an open technology which means that I can become my own OpenID provider.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-109966">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/48a46885f123e514933d8271299c1e96?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>Oliver</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109966">
+			February 5, 2008 at 11:21 am</a>		</div>
+
+		<p>Hi pdp,</p>
+<p>I don&#8217;t want to get this topic a &#8220;Open ID&#8221; discusssion, but if the whole concept is based on trusts between the OpenID provider, the relying party and the end user and if the relying party trusts every OpenID provider &#8220;per default&#8221;, then there is no security benefit. If I think about this concept (and if I get it right), an successfull (CSRF) attack can have a very high impact. I wonder whether the OpenID concept/protocol has no function/process to check whether a OpenID provider can be trusted or not &#8211; although it&#8217;s a open technology. Strange.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-109971">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109971">
+			February 5, 2008 at 11:26 am</a>		</div>
+
+		<p>Oliver, I can see your point, which is very good btw. But this is how it is. You can tighten up the service that uses OpenID only to support a certain number of OpenID providers, but there is nothing within the protocol to enforce that. So yes, you can implement it yourself, but the specs wont help you. And in general, you will loose a portion of the user base.</p>
+<p>However, keep in mind that even if there is a trust mechanism, like the one you pointed out, implemented, the attack that I describe will still work. The reason why I pointed out this CSRF based attack is because I&#8217;ve seen in on more then one place. Developers get lost into the complexity and tangled nature of OpenID and forgot to make some basic checks that lead to problems.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-110087">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9509edb3b8aecd89b16384938a3f696b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.sal-e.net/' rel='external nofollow' class='url'>sal-e</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110087">
+			February 5, 2008 at 3:09 pm</a>		</div>
+
+		<p>Hi Oliver,</p>
+<p>OpenID is modeled after the DNS. Every one can select own server to handle the task. I have lost the link for the OpenID presentation, but the author of OpenID clearly stated that the OpenID do not have function of establishing trust like CA. The only function is to id the user. That is way the OpenID providers supports multiple personalities. You can choose how much data you want the OpenID provider to send to each individual site. You have responsibility to select your OpenID provider and it is your responsibility to which site you are sign in with your OpenID and the level of information you want to share with that site. In other words to establish of level of trust! As I understand the goal of the OpenID protocol is to help the user with all those websites that collect information from us and help maintain this information.</p>
+<p>After all that I can see your point also. Thank you for raising the issue. I agree that OpenID is not full solution. It provides identification, but not trust. As you say the CA is design for establishing the trust. What I&#8217;d like to see from OpenID provider is integration between CA and OpenID. I should be able to upload different public key for each of my personality. Then the web site can accept only data encrypted by private key and this effectively will eliminate a lot of the potential attacks.  </p>
+<p>SAL-e</p>
+<p>p.s. pdp, thank for the info. Over the weekend Iâ€™ll try to find out how Drupal is implementing the OpenID and which library is using. Also I will try to contact the author of the OpenID plugin for Drupal and draw his/her attention to our discussion.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-110669">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7806629160a492b05d21fd738953a4cf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://adblockplus.org/' rel='external nofollow' class='url'>Wladimir Palant</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110669">
+			February 6, 2008 at 2:49 pm</a>		</div>
+
+		<p>I mentioned this article in my blog post: <a href="http://adblockplus.org/blog/vulnerability-or-feature" rel="nofollow">http://adblockplus.org/blog/vu.....or-feature</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-110685">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110685">
+			February 6, 2008 at 3:14 pm</a>		</div>
+
+		<p>Wladimir, I am surprised that you still donâ€™t understand the point of the article even after reading the comments where I personally responded to everyone who has doubts about it. Letâ€™s get back to the key sentences from the post:</p>
+<p><strong>quote 1</strong></p>
+<blockquote><p>When it comes to OpenID, it seams that developers forget about CSRF, or they just donâ€™t want to simply deal with it, mainly because OpenID is not straightforward type of technology.</p></blockquote>
+<p><strong>quote 2</strong></p>
+<blockquote><p>Instead of showing you examples with real, live systems, rather unethical as you may guess, I would like to show you an example of an account hijack technique which is currently present inside one of the few WordPress OpenID plugins.</p></blockquote>
+<p><strong>quote 3</strong></p>
+<blockquote><p>Once the attacker supplies a URL for the openid_url field, the page will redirect to the OpenID provider specified by that URL, authenticate and return back to the original position. Given the fact, that the OpenID provider is controlled by the attacker, btw. everyone can host their own OpenID provider, the attack is very trivial to pull. Once this URL is stored within the plugin database, the attacker will be able to authenticate with the attacked blog without any sort of authorization whatsoever.</p></blockquote>
+<p>Is it still unclear what is the article all about? And if not, do you mind updating your post to outline that?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-110793">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ec575a5bb601b070f93a244203a7c602?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://will.norris.name/' rel='external nofollow' class='url'>Will Norris</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110793">
+			February 6, 2008 at 5:31 pm</a>		</div>
+
+		<p>Wow, I must say I&#8217;m a bit surprised by where this conversation has gone&#8230; questioning the security of OpenID in general.  </p>
+<p>I&#8217;m the author of the OpenID implementation in question.  It is indeed a bug, but it is in my code, not the JanRain library.  It was a minor oversight that didn&#8217;t verify that the add_identity request was indeed coming from the correct form.  This has been corrected in v2.1.3 by using WordPress&#8217;s built-in nonce functionality.  (Props to Sam Alexander for showing me this post and providing the simple patch.)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-110795">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110795">
+			February 6, 2008 at 5:36 pm</a>		</div>
+
+		<p>Will, this is how we go in the security field. We start with something and we end up with something completely different. But that&#8217;s the fun and most valuable part which most people don&#8217;t realize.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-111045">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/08b1d4dd76c3fe723e2ef415152399bb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">otze</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111045">
+			February 7, 2008 at 2:36 am</a>		</div>
+
+		<p>Don&#8217;t know if this is the right place, and maybe I just didn&#8217;t grok OpenID completely, but I see a another problem &#8211; not for the OpenID user but for people deploying OpenID support in their website.</p>
+<p>As I understand OpenID, it breaks the widely supportet double-opt-in principle. Without OpenID, nearly every forum or other web service validates the given email addresses of new users by sending an email with an activation key. </p>
+<p>With OpenID, only the OpenID provider is supposed to check the email address this way, but OpenID-enabled services rely on the information of the provider &#8211; which could stand completely under the control of an attacker.</p>
+<p>So wouldn&#8217;t it be posssible to setup your own OpenID server which doesn&#8217;t verify your email addresses and so lie to other web services regarding your email? This way you could easily impersonate other people, maybe to annoy them by registering to various mailing lists. (Or make people think that you don&#8217;t verify addresses on your lists.)</p>
+<p>Or you could use this for Social Engineering. Just register accounts at other peoples&#8217; blogs or forums with email addresses that belong to people normally trusted by the admin and use this to fake a conversation.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-111690">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9509edb3b8aecd89b16384938a3f696b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.sal-e.net/' rel='external nofollow' class='url'>sal-e</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111690">
+			February 8, 2008 at 12:46 pm</a>		</div>
+
+		<p>Otze,<br />
+My short experience with OpenID is that I don&#8217;t have to come with new combination of username/password for each site I decide to sign-on. The issue you are taking is how to establish trust between the site and the user. The current &#8216;standard&#8217; by sending the activation key works with OpenID. Here is how:<br />
+1. The user request access with its OpenID.<br />
+2. The site connects with you OpenID provider and asks confirmation.<br />
+3. You will be asked by you OpenID provider to approve the request and select you &#8216;persona&#8217;. The persona contains all information that you want to share with requesting site. The site can send the minimum level of information like: username, e-mail, full-name and etc.<br />
+4. Once you approve the request the website sends you an activation key to your e-mail and from here process is very familiar for every one.</p>
+<p>Note. I have over simplified the steps. In real world OpenID have to make additional steps to work securely and that is what pdp refers as &#8220;the process seems to be kind of obscured&#8221;.</p>
+<p>If OpenID makes process more difficult why anyone wants to use it? Well there is many reasons, but the main advantage in discussed example is that in case you e-mail get compromised you can change it quickly at your OpenID provider and the new e-mail address will propagate to all OpenID enabled sites when you login next time.</p>
+<p>ps. I am not security expert and I am just learning about OpenID. So if some one with better knowledge on the subject sees something wrong or incorrect please speak up! :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="679"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="15a4cc8f33" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/hijacking-openid-enabled-accounts/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:40 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

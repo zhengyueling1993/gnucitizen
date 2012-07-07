@@ -1,0 +1,374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/social-networks-evil-twin-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:52:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Social Networks Evil Twin Attacks</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Social Networks Evil Twin Attacks Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Reconsidering the Side-jacking Attack' href='../reconsidering-the-side-jacking-attack/index.html' />
+<link rel='next' title='WiFi Infestations &#8211; Viral Wardriving' href='../wifi-infestations-viral-wardriving/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index8bfb.html?p=721' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-721" class="post">
+	<div class="post-title"><h2><span>Social Networks Evil Twin Attacks</span></h2></div>
+	<div class="post-date"><span>published:</span> February 18th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>What will happen if someone impersonates you on a social network? Will that person be able to fool your friends and as such gain access to resources, which only you are entitled to?&#8230; or are social network protected enough to guarantee the credibility of the social participants.</p>
+
+<h3>Introduction to Social Networks Evil Twin Attacks</h3>
+
+<p>Lets have a look at a social network like <a href="http://www.linkedin.com/">LinkedIn</a>. For those of you who don&#8217;t know what LinkIn is, let me say that it is probably the largest professional social network available today. Once you give information about your place of work and the education centers you used to attend, LinkedIn will try its best to hook you up to everyone else that have been associated with your employer, university, etc. The benefit is obvious: you keep in touch with people who may help you in the future. However, nothing stops someone to register an account on the name of John Dawson, a reputable IT security expert, currently employed by HSBC, Canary Wharf, London. If the evil twin of John Dawson inhabits LinkedIn, how many people will trust that shady persona and as such be fooled into one of the biggest scams? I find this question very interesting and quite fascinating.</p>
+
+<p><strong>The hack</strong> here is not technical but rather psychological and definitely of a social nature. Remember, hacking could be considered is the action of outsmarting others and as such it may take any form. Fooling people&#8217;s believes is an important craft that have been with us since the dawn of humanity, yet we often fail to acknowledge it effectiveness. These are what Evil Twin attack are all about. From WiFi security prospective the evil twin is the rogue access point that pretends to be a friendly network. From the social networks point of view, the evil twin is a hacker or a bot disguising itself as the real person.</p>
+
+<p><strong>Social Networks Evil Twin Attacks</strong> work both ways. First, the impersonator will be given the chance to trick the victim&#8217;s current friends into a trap. Second, he will trick people, who will try to contact the real person along the way, into a trap as well. Therefore, if the evil John Dawson is approached by someone who is looking for work in his sector, he will be in a very comfortable position to gain internal insights of the company of that person as very often people tend to serve any juicy information on the interviewing process.</p>
+
+<p><em>Social Networks are huge threat whether you realize it or not. The bad guys are not restricted in terms of types of tools for their malicious activities, like whitehats do as this seams to be part of technical eliteness. The bad guys will break into the targeted network by any means necessary. This includes fooling people, laying and cheating on their way towards their goal.</em></p>
+
+<p><em>This post is kept fairly light as it is a raw idea which haven&#8217;t been materialized into any form but nevertheless it is important to be considered, especially today, when we are surrounded by the Social Networks phenomenon. The whole idea about this post is to introduce you to a concept, which you may or may not have already given any thoughts about.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/evil-twin/index.html" rel="tag">Evil Twin</a> | <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/introduction/index.html" rel="tag">introduction</a> | <a href="../../tags/social-networks/index.html" rel="tag">Social Networks</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-115141">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/04b8fca2c8dde2ed82373ade37e9789d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://manicode.blogspot.com/' rel='external nofollow' class='url'>Jim Manico</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115141">
+			February 19, 2008 at 6:51 am</a>		</div>
+
+		<p>1) It&#8217;s very labor intensive to create a linkedIn profile, it will take time before an active profile will gain traction with your friends &#8211; giving you a significant chance to spot it &#8211; assuming you are already an active user<br />
+2) Upon finding that someone is impersonating your identity, contact LinkedIn, possible sending them proof of identity</p>
+<blockquote><pre>If you have questions or comments about this privacy policy, please email us at <a href="mailto:privacy@linkedin.com">privacy@linkedin.com</a> or contact us at:
+
+LinkedIn Corporation
+Attn: Privacy Policy Issues
+2029 Stierlin Court
+Mountain View, CA 94043</pre>
+</blockquote>
+<p>3) Networks as well as information is mostly porous. These kinds of consumer information issues can only be protected via intrusion detection and/or identity protection. It&#8217;s to late, your info is out there.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115152">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115152">
+			February 19, 2008 at 10:14 am</a>		</div>
+
+		<p>Jim, on your first point, I disagree. It is pretty straight forward. You open an account and then contact people that want to be part of your social network. Second, sending additional information about yourself to a social network which is designed to trade this information with others is pretty bad idea. On your final point, I completely agree. My information is out there and it is quite easy to impersonate me as well as many, many, many others. I am sure that it is extremely easy to impersonate you as well, given the fact that you have a blog.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115160">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/04b8fca2c8dde2ed82373ade37e9789d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://manicode.blogspot.com/' rel='external nofollow' class='url'>Jim Manico</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115160">
+			February 19, 2008 at 2:53 pm</a>		</div>
+
+		<p>On 1) Fair enough<br />
+on 2) Still disagree; once someone has hijacked your identity, you can contact the owners of LinkedIn to prove your identity and get the offending account removed. You do not need do give them all your biometrics, passport etc. I&#8217;m sure a simple license will do. And if you are in a position where you are overly concerned about identity theft &#8211; you should get identity theft insurance and monitoring.<br />
+On 3) Sure, impersonate me, and while you are it please help debug and/or work on some of my code. I also have a few project proposals you can help me work on&#8230;. ;-)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115161">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f1bb89072d693d5c41cc8b1d8ae30b3a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://spylogic.net/' rel='external nofollow' class='url'>agent0x0</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115161">
+			February 19, 2008 at 3:37 pm</a>		</div>
+
+		<p>Good post guys.  I agree with pdp that blogging, and social networking use in general will make you vulnerable to impersonation.  I believe it depends on how much personal information you give out on these types of networks.  In my LinkedIn profile I don&#8217;t make my profile public, and only allow connections from people I know directly.  For me, I feel the career benefit of LinkedIn is worth a bit of risk with my personal information.  I have a blog as well but I keep it as anonymous as I can&#8230;I guess I am a bit security paranoid and don&#8217;t like my real name even on my blog.  However, I have talked to other bloggers and they will say that to them it&#8217;s worth the risk to have their real name on their blog.  It&#8217;s all comes down to your own &#8220;personal risk assessment&#8221;. :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115163">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3fba96b337094d552ac9b4b5a741c920?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rokerias.blogspot.com/' rel='external nofollow' class='url'>roko</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115163">
+			February 19, 2008 at 7:42 pm</a>		</div>
+
+		<p>Some weeks ago I was thinking in this &#8220;social network&#8221; fanatic movement and how people trust (blindy) in the information showed in this kind of website&#8230; and I was wondering, what would happen if someone hacks a social network like facebook, linkedin, etc and take control on some (or all) these online profiles. Good article.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115166">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9f77754de386562174ceb7f78d3b9aa7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">EC</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115166">
+			February 19, 2008 at 11:44 pm</a>		</div>
+
+		<p>Great article pdp. Take a look to this paper related to your thinking about social networks.<br />
+<a href="http://www.enisa.europa.eu/doc/pdf/deliverables/enisa_pp_social_networks.pdf" rel="nofollow">http://www.enisa.europa.eu/doc.....tworks.pdf</a></p>
+<p>Regards.<br />
+EC</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115198">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/743cc902b3f381f67a480bcb1c472072?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ibneko.livejournal.com/' rel='external nofollow' class='url'>Benjamin Juang</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115198">
+			February 20, 2008 at 8:37 am</a>		</div>
+
+		<p>Lurker here &#8211; I&#8217;ve actually experienced a shadow of this lately.  I&#8217;m one of the administrators and developers of a facebook application, and someone took my profile picture and changed their facebook name to match mine, and started posting in the application forums.  Thankfully, facebook has things set up so that posts by application developers show up in light-green&#8230; so no one could have been fooled, unless they weren&#8217;t aware of the normal light-green system.</p>
+<p>But it would have been easy for him to go through my friend list, messaging them&#8230;</p>
+<p>Also, what about creating the profile of your victim on a social network before they establish their connections there?  Then building off a list of the victim&#8217;s friends found on one social network, they could connect to the victim&#8217;s friends on the other social network.</p>
+<p>(Badly worded, sorry &#8211; it&#8217;s getting late)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115199">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115199">
+			February 20, 2008 at 8:41 am</a>		</div>
+
+		<p>Benjamin, exactly. If the attack creates twin profile on a social network where their victim hasn&#8217;t been registered already, it will be trivially easy to fool the victim&#8217;s friends on other social networks.</p>
+<p>EC, let me have a look at that paper&#8230; 10x for sharing.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115216">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8f7a5af04ec915ffa68d8c59dded5fc5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://100essays.blogspot.com/' rel='external nofollow' class='url'>James</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115216">
+			February 20, 2008 at 1:23 pm</a>		</div>
+
+		<p>There is some work being done in this arena at Carnegie Mellon University&#8217;s Heinz School of Management.  In particular, see Becker&#8217;s paper on identity theft via social network profile theft, and Acquisti&#8217;s papers on identifying social security numbers from Facebook profiles.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115227">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/04b8fca2c8dde2ed82373ade37e9789d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://manicode.blogspot.com/' rel='external nofollow' class='url'>Jim Manico</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115227">
+			February 20, 2008 at 2:54 pm</a>		</div>
+
+		<p>This has nothing to do with social networks &#8211; it has to do with the open nature of web and personal information. What is to stop me from posting information about you on a blog? Or setting up an email address that looks like your name? This is similar to the argument &#8220;Ajax makes you more insecure&#8221; &#8211; it&#8217;s the same web 1.0 transparency of information problem &#8211; only faster with Social networks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-115229">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115229">
+			February 20, 2008 at 2:59 pm</a>		</div>
+
+		<p>The simple fact that social networks make you more connected with your peers and the fact that people use social networks to do business is a significant change which raises some interesting questions, like the one in the article above. As for AJAX, AJAX does introduce some security problems!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115233">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d6695d6db4532c883dfa3804a3333830?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">jerry shenk</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115233">
+			February 20, 2008 at 3:35 pm</a>		</div>
+
+		<p>I&#8217;ve been a little slow to get into the &#8220;social networks&#8221; phenomenon.  Privacy has been my main concern but as has been stated&#8230;there is SO MUCH information about me out there already, what&#8217;s the big deal&#8230;so I gave in about 2 weeks ago.</p>
+<p>Listening to the discussion between Jim and pdp, perhaps there is more danger in NOT getting involved.  If I am not involved, then an attacker has plenty of time to impersonate me, build trust relationships and &#8220;do bad things&#8221;.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115235">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/04b8fca2c8dde2ed82373ade37e9789d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://manicode.blogspot.com/' rel='external nofollow' class='url'>Jim Manico</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115235">
+			February 20, 2008 at 3:44 pm</a>		</div>
+
+		<p>Ajax does not introduce security problems any more than Web 1.0 introduces security problems. That is, unless of course, you are pushing business logic to the client &#8211; which is a no no independent of Ajax. Ajax just introduces more endpoints. The same security web 1.0 implications apply, nothing new.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115236">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115236">
+			February 20, 2008 at 3:47 pm</a>		</div>
+
+		<p>jerry, I agree.</p>
+<p>Jim, it does. :) For example, due to AJAX CSRFing JSON calls practically exploded as a preferred attack vector for exploiting AJAX application. Some people know this as JavaScript hijacking but I don&#8217;t like that name.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115241">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/04b8fca2c8dde2ed82373ade37e9789d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://manicode.blogspot.com/' rel='external nofollow' class='url'>Jim Manico</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115241">
+			February 20, 2008 at 3:53 pm</a>		</div>
+
+		<p>JSON is not specific to AJAX (specifically, asynchronous communication with a web server). It&#8217;s a very old-school (decade or more) way of representing data in JavaScript. And still, you need to secure your JSON service endpoints the same way you would secure those 1.0 endpoints. Web 1.0 security. CSRF is also very old school, it was called &#8220;Session riding&#8221; in the past and has been around since the dawn of the dynamic web.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115242">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115242">
+			February 20, 2008 at 3:57 pm</a>		</div>
+
+		<p>Jim, can we move this discussion to a private channel or maybe even a separate post? It is kind of unrelated to the content and a lot of people will get confused. I do agree on some of your points but maybe I should rephrase my statement a bit to be more accurate. Thanks for the comments.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120693">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fd766f2d06e9a3515c560a61760c5760?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">toppleganger</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120693">
+			May 4, 2008 at 5:27 pm</a>		</div>
+
+		<p>Well what is the craic my people, I am nuts and i thought i would have a look to see if i could pick my victim out. i love it and in the next veiw days you will see your twins</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="721"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="3b5dff6d1a" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/social-networks-evil-twin-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:52:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

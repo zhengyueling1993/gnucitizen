@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/owning-outlook-web-access-owa-users/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Owning Outlook Web Access (OWA) users</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Owning Outlook Web Access (OWA) users Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Flash Cookie Object Tracking' href='../flash-cookie-object-tracking/index.html' />
+<link rel='next' title='Security and hacking scene in London' href='../security-and-hacking-scene-in-london/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexce2e.html?p=606' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-606" class="post">
+	<div class="post-title"><h2><span>Owning Outlook Web Access (OWA) users</span></h2></div>
+	<div class="post-date"><span>published:</span> December 8th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>What is this post about? Well, this is something that <a href="../../about/pdp.html">pdp</a> and I were playing with a few years ago. As you might already know, although we also do a vulnerability research at GNUCITIZEN, what we like the best is <em>insecurity by design</em>. There is nothing better than finding an attack vector that won&#8217;t be resolved by the vendor simply because the product is designed to follow certain behavior. Personally, from a security research point of view, I think that these attacks are the best.</p>
+
+<p>In this case, we forwarded our ideas along with an attack walk-through to Microsoft but they didn&#8217;t consider it an issue. <q>Even better!</q> I thought, as it&#8217;s one of those things that will always work on Outlook Web Access 2003 which means that you could always flag it when doing an authenticated pentest on a <a href="http://en.wikipedia.org/wiki/Outlook_Web_Access">OWA</a> site. The following describes how to perform advanced phishing attacks on OWA 2K3 (might also work on older versions) <em>without</em> relying on any bugs.</p>
+
+<p>The following is the recipe for our attack. Needless to say, if any other webmail product meets the following conditions, its users can be owned in the same manner:</p>
+
+<ul>
+<li>Same-domain post authentication redirects are allowed</li>
+<li>URLs that display email attachments can be predicted</li>
+</ul>
+
+<p>Let me explain with more detail. When a user checks an email and clicks on the attachment, a URL such as the following is visited:</p>
+ <pre><code>https://victim-domain.foo/exchange/pgriffin/Inbox/HELLO%20THERE.EML/1_multipart_xF8FF_2_cool-file.html/C58EA28C-18C0-4a97-9AF2-036E93DDAFB3/cool-file.html?attach=1</code></pre>
+
+<p>At first look, the URL looks non-predictable, especially when it comes to the unique long hexadecimal string. Surprisingly though, we can get rid of the hex string and the attach parameter, and still be able to access the file sent as an attachment:</p>
+
+<pre><code>https://victim-domain.foo/exchange/pgriffin/Inbox/HELLO%20THERE.EML/1_multipart_xF8FF_2_cool-file.html</code></pre>
+
+<blockquote>I think that the hex string is the UID value which is unique to each user, however, I have not confirmed this yet.</blockquote>
+
+<p>A more careful look at the URL reveals that all the variables can actually be predicted by the attacker:</p>
+
+<pre><code>https://victim-domain.foo/exchange/&lt;username&gt;/Inbox/&lt;email-subject&gt;.EML/1_multipart_xF8FF_2_&lt;attachment-filename.extension&gt;</code></pre>
+
+<p>Let&#8217;s review these variables for a second:</p>
+
+<ul>
+<li><strong>username</strong> &#8211; can be extracted from the victim&#8217;s email address (everything before the at <code>@</code> sign)</li>
+<li><strong>email subject</strong> &#8211; chosen by the attacker who sends the email to the victim</li>
+<li><strong>attachment filename</strong> &#8211; also chosen by the attacker who sends the email to the victim</li>
+</ul>
+
+<p>Now we have all components for a successful attack. The idea is the following. The attacker sends an email with a HTML attachment to the victim. After that, he performs a phishing attempt against the victim via an exploit URL such as the following:
+
+<pre><code>https://victim-domain.foo/exchweb/bin/auth/owalogon.asp?url=https://victim-domain.foo/exchange/pgriffin/Inbox/MY%20SUBJECT.EML/1_multipart_xF8FF_2_attachment-filename.html</code></pre>
+
+<p>After logging in successfully, the victim is redirected to the URL specified within the same domain (the url parameter) which actually opens the HTML attachment sent by the attacker. Such attachment is a HTML file that looks exactly like the original OWA login page. The spoofed login page displays an error such as <q>An error has occurred, please try logging in again</q>. The spoof login page has been manipulated by the attacker so that the  action attribute points to a third-party site, where the username and password are captured by the attacker.</p>
+
+<blockquote>It might also be possible to use a relative path for the url parameter but I haven&#8217;t tested it.</blockquote>
+
+<p>If you ever try to probe for XSS  via HTML attachments on OWA, you&#8217;ll notice that the script tags are being filtered. However, plain HTML is allowed. This means that all the tags used by the spoof login form will be rendered properly by the browser, and the username and password will be sent to the attacker&#8217;s site correctly. The only one thing that OWA does change in plain HTML attachments, is that forms&#8217; method attributes are changed from POST to GET. However, the form fields are still allowed to be of type password which means that the spoofed login page will look 100% legitimate. I still don&#8217;t quite get why OWA doesn&#8217;t filter action attributes within HTML attachments in order to stop these type of phishing attacks.</p>
+
+<p>The beauty of this attack is that the spoof login page is actually located within the legitimate site hosting the OWA application. No bugs are exploited whatsoever, but rather, the attacker has worked out a way to host the malicious login page in the OWA site where the victim checks his email remotely.</p>
+
+<p>Now, there are a few tips that can be taken into account in order to increase the chances of the attack to be successful. First of all, the victim might notice the malicious attachment and delete it before falling for the phishing attack via the exploit URL. In order to solve this problem, one could create the email to send in such a way that it&#8217;s picked up by the spammer filter and moved to the &#8220;junk&#8221; folder. Another trick to avoid the victim seeing the attachment is to send the phishing email with a <code>Date</code> header equal to a very old date, that way the email won&#8217;t appear after logging in. Also, it&#8217;s beneficial to choose a unique subject in the evil email. Provided that the email sent by the attacker has a subject equals to any of the previous emails, the email subject part of the exploit URL will have a dash and a digit after it. i.e.:</p>
+
+<pre><code>MY%20TEST%20SUBJECT-2.EML</code></pre>
+
+<p>My final tip is regarding discovering if the target company&#8217; uses OWA for webmail access. Discovering such sites is trivial via <a href="http://unknown.pentester.googlepages.com/dnsmap-latest.tar">subdomain bruteforcing</a>. Checking headers like the following within emails from the target domain might also help:</p>
+
+<pre><code>X-MimeOLE: Produced By Microsoft Exchange V6.5</code></pre>
+
+<p><em>Please find the POC attached to this post.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/12/owapoc.tar.gz">owapoc.tar.gz</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-83672">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/44c5e290ccf283471210752d0b1ed6df?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.packetguru.org/' rel='external nofollow' class='url'>djteller</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-83672">
+			December 9, 2007 at 10:59 am</a>		</div>
+
+		<p>Great post, very informative.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-84364">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bd8ac47a2a650bc3add0502686f33e39?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Matt</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-84364">
+			December 10, 2007 at 5:43 pm</a>		</div>
+
+		<p>Just thought I would add a note about the long hex-style string. When I tested this on my corporate OWA installation, I got the exact same string as in your post. I also tested with two other colleagues and they also received the same string.</p>
+<p>Although our installation generates an error on the server from owaauth.dll, just thought I would alert you to the string issue.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-84512">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/35de4e43c45dcc0c2148e3bec6d50458?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">maotx</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-84512">
+			December 10, 2007 at 11:54 pm</a>		</div>
+
+		<p>Does not work with Exchange 2007.  OWA requires .html attached files be saved to disk first.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-84526">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-84526">
+			December 11, 2007 at 12:29 am</a>		</div>
+
+		<p>content disposition attachment can be forced to open inside object elements in some browsers</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-84755">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-84755">
+			December 11, 2007 at 12:42 pm</a>		</div>
+
+		<p>@djteller &#8211; thanks for such kind comment!</p>
+<p>@Matt &#8211; if the hex string is NOT not a unique variable, but rather a constant, then crafting the exploit URL would become even easier. I&#8217;m not sure what you mean by the error. Is this an error generated when accessing the specially-crafted URL?</p>
+<p>@maotx &#8211; it&#8217;d be cool to make it work on OWA2K7 as well. Unfortunately, I don&#8217;t have access to a OWA2K7 installation to find out if there is a way to replicate this phishing attack.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-84833">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bd8ac47a2a650bc3add0502686f33e39?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Matt</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-84833">
+			December 11, 2007 at 3:49 pm</a>		</div>
+
+		<p>@Adrian &#8211; Yes the error is returned when accessing the specially crafted URL. The process is that I get the normal Basic Auth pop-up to enter credentials, enter my valid credentials, and then I get another older looking login page. (Can send you screen shots if interested). Then after entering my creds on this new page (and verifying that the url has not changed and I am still on my companies OWA site), I get the owaauth.dll error.</p>
+<p>Let me know if you want screenshots for your review.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-85395">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-85395">
+			December 12, 2007 at 3:45 pm</a>		</div>
+
+		<p>@Matt &#8211; If you paste the real URL (with domain name hidden for privacy) I should be able to reconstruct the exploit URL. One thing I&#8217;m thinking of is that the inbox folder&#8217;s name has been customized. In that case you need to use the customized value.</p>
+<p>I&#8217;ll contact you to see the screenshots. Can&#8217;t understand why you get the authentication prompt after you have logged in. What&#8217;s described on this post has been tested on 3 different OWA2K3 installations with no problem. It&#8217;d be quite useful if other GC readers tested it on their installations.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-85550">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bd8ac47a2a650bc3add0502686f33e39?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Matt</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-85550">
+			December 12, 2007 at 9:05 pm</a>		</div>
+
+		<p>Thanks, Adrian. I have all the screen shots ready. I have confirmed that our OWA and Exchange servers in prod are 2003.</p>
+<p>Another thing that I have noticed though is that none of my URLs have the &#8220;1_multipart_xF8FF_2_&#8221; at the beginning of attached file names. Could this be an issue?</p>
+<p>P.S. I have tried the URL with this string in front of the attachment name,m but to no avail.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-86939">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-86939">
+			December 15, 2007 at 2:40 pm</a>		</div>
+
+		<p>@Matt &#8211; perhaps you don&#8217;t even need &#8220;1_multipart_xF8FF_2_&#8221; in your case? Best thing is just post the original path of a URL that accesses an attachment, and we&#8217;ll show you what to do. Anyway, we&#8217;ll be in touch via email.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-87835">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a42a84163d3921e0f5ec7617a40b9842?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.flossyourmind.com/' rel='external nofollow' class='url'>Raffi</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-87835">
+			December 17, 2007 at 2:29 pm</a>		</div>
+
+		<p>I tested on a client&#8217;s OWA server and removed the UID. pretty scary. If you don&#8217;t have your status line in view, and looked there, you wouldn&#8217;t notice that the logon button points to someplace else. holy spear phishing batman</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-87837">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-87837">
+			December 17, 2007 at 2:32 pm</a>		</div>
+
+		<p>this is exactly what we thought :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-88368">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-88368">
+			December 18, 2007 at 3:42 pm</a>		</div>
+
+		<p>pretty interesting discovery. Too bad, i cant test it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-88528">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-88528">
+			December 18, 2007 at 10:49 pm</a>		</div>
+
+		<p>Hi Raffi, this is the same result we got on 3 different OWA installations. Glad to hear to find this attack as neat as we do!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-95912">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ecba29751333cb64231eb2a109721323?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mike</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-95912">
+			January 5, 2008 at 11:31 pm</a>		</div>
+
+		<p>Very cool hack!  I&#8217;m not surprised that Microsoft doesn&#8217;t take it seriously. I think this flaw can be made even more serious by using flash and the crossdomain.xml file as described in this hack presented at Defcon 15: <a href="http://www.defcon.org/images/defcon-15/dc15-presentations/Rios/Whitepaper/dc-15-rios-WP.pdf" rel="nofollow">http://www.defcon.org/images/d.....ios-WP.pdf</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-98236">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98236">
+			January 10, 2008 at 11:53 pm</a>		</div>
+
+		<p>Hey Mike. I just read most of the paper and love it. Very simple yet effective technique. These are the kind of hacks I really love!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118289">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f97b424c5b255846de9495c77f5ea445?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://owningoutlook/' rel='external nofollow' class='url'>Jan</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118289">
+			April 7, 2008 at 6:33 pm</a>		</div>
+
+		<p>Ok I have been playing with this all morning and I am stuck.</p>
+<p>The server used is OWA2003. I have tried sending it to myself from my private mail doing it a few different ways. Not exactly sure what I am doing wrong. Not sure if it is because I am at home and logging into the OWA from here remotely. Would you be willing to help me out with this? After the victim enters the cred where do I view them at, I post the url, but just get the sign in sheet.</p>
+<p>Any help would be very appreciated. I am a bit new to this, but love the challange. Just stuck</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-121051">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/896af640bb7078f474ca359486730538?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.drs.co.za/' rel='external nofollow' class='url'>chrisb</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121051">
+			May 7, 2008 at 11:36 am</a>		</div>
+
+		<p>Hi, Im in quite slow, but explain the get-credentials.php file please. Must I still write this and host it on my website?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-123641">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123641">
+			September 9, 2008 at 11:53 pm</a>		</div>
+
+		<p>Just tested this attack again successfully on a OWA 2K3 installation during a pentest. It&#8217;s good to see it still works!</p>
+<p>However, I  would like to know why it doesn&#8217;t work on all OWA 2K3 installations. Reading our readers&#8217; comments on this post shows that the exploit doesn&#8217;t seem to work for everyone. Perhaps there is something configuration-specific that would make this attack not work?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-129313">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/654c2bb555502b981c22c51c203f0283?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">sillentbot007</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129313">
+			December 9, 2010 at 6:54 pm</a>		</div>
+
+		<p>Is this method still effective anyone?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="606"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="19b07ecc8d" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/owning-outlook-web-access-owa-users/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/javascript-remoting-dangers/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:21:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; JavaScript Remoting Dangers</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; JavaScript Remoting Dangers Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='WormX' href='../wormx/index.html' />
+<link rel='next' title='Technika' href='../technika/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexd7d8.html?p=153' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-153" class="post">
+	<div class="post-title"><h2><span>JavaScript Remoting Dangers</span></h2></div>
+	<div class="post-date"><span>published:</span> January 30th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><div class="message">This month our guest blogger is <a href="http://www.memestreams.net/users/Acidus">Billy Hoffman</a>, the lead researcher at <a href="http://www.spidynamics.com/">SPI Dynamics</a> and author of <a href="http://stripesnoop.sourceforge.net/">StripeSnoop</a>, an application which analyzes data on magnetic stripes. Billy has been a frequent speaker at industry events including Interz0ne, Toorcon, Black Hat Federal, PhreakNIC, FooCamp, O&#8217;Reilly Media Emerging Technology Conference and ShmooCon. In this post Billy is taking us on a quite interesting trip into the dangerous world of JavaScript remoting.</div>
+
+<p>I&#8217;d like to thank pdp for giving me the opportunity to write a blog post. I&#8217;d like to use this post to discuss the various methods JavaScript can use to make HTTP requests. Each method has its own pros and cons that lend themselves to be used in different situations. We will ignore using JavaScript coupled with extra technologies such as Java applets or Flash and focus entirely on native JavaScript objects (or objects provided through ActiveX) and the DOM environment. I&#8217;m sure there are others and I hope this post can serve as a starting point for a larger project to collect information and techniques about how JavaScript is used to perform various malware tasks like propagating worms and instigating data theft.</p>
+
+<p>One method JavaScript can use to send HTTP requests is creating HTML tags using the <code>document.createElement</code> function. There are all sorts of HTML tags/attributes pairs that will issue an HTTP request when rendered by the browser. There are the obvious ones like IMG+src, but also obscure ones like TABLE+background or INPUT+src. All of these tags issue a so-called â€œblindâ€ request, meaning that JavaScript is not capable of seeing the response. This method can also be used only to issue GET requests. This makes the method is a good way to send information in the query string one way to a 3rd party such as a 3rd party site to collect stolen cookies. However, blind GETs are limited in the amount of data they can send to a 3rd party through the query string by the allowed length of a URL. While there are no explicit limits defined in any RFC, anything more than 2K to 4K is pushing it. This method can also be used as an XSRF attack vector. JavaScript could be used with a timer to create multiple blind GET requests that are necessary to walk through a multiple stage process such as a money transfer.</p>
+
+<p>JavaScript can also use the <code>document.createElement</code> method to dynamically create FORM and INPUT tags and use them to send POSTs to arbitrary domains. If the domain the JavaScript is POSTing to is the same as the domain it came from, JavaScript will be able to access the response. This is a handy method to use when you need JavaScript to send a very large amount of data to a 3rd party that would exceed the amount of data you can safely put in the query string of a URL.</p>
+
+<p>In addition to using HTML tags, JavaScript has a native object which can issue HTTP requests. The Image object is supplied by the DOM environment and allows JavaScript to dynamically request images from any web server. As soon as you set the src property on the image object, a blind GET is issued to the URL you assigned. This tends to be a better method to send blind GETs than creating HTML tags because you avoid the overhead of instantiating DOM elements. Also, when using an Image object the response is not entirely blind. Events can be set to trap when the image has finished loading and what the size of the image is. This creates a side channel for JavaScript to communicate with certain 3rd party hosts using the dimensions of the image. In practice, XBM images tend to work best because you can specify arbitrary lengths and widths up to a 15bit integer without actually needing an image of that size. You can also use the time domain as a side channel by varying when an image loads. Both these methods have several limitations and it is better to use an alternate method such as remote scripting to exchange certain information between 3rd party sites that the JavaScript author controls.</p>
+
+<p>Finally, there are IFRAME remoting and XmlHttpRequest. These methods are interesting because they allow JavaScript to access the response (if sent to the domain the JavaScript came from). Specifically, they allow JavaScript to proactively fetch pages asynchronously and in a hidden fashion. Because the browser will automatically add the appropriate cookies and HTTP authentication info to the requests (as is does for all requests), these methods are very useful for malware authors to actively steal specific data from a user that is stored on a website.</p>
+
+<p>So which method to use? Many people believe XmlHttpRequest doesn&#8217;t help XSS malware authors. They argue attacker have already been able to proactively fetch content using IFRAME remoting.</p>
+
+<p>There are several problems with IFRAME remoting which XmlHttpRequest solves. First of all, IFRAMEs were never designed to be used in the fashion, making this a fairly clunky procedure. Remember that an attacker doesnâ€™t have control of the content thatâ€™s been returned by the IFRAME. This means that the response that populates the IFRAME is not going to contain JavaScript which will execute a callback function in the attackerâ€™s payload which is inside of the parent document for the IFRAME. The response that is in the IFRAME is simply whatever information the attacker is trying to steal. To extract any data from the IFRAME an attacker would create the IFRAME and then hook the onload event, as shown in the following code:</p>
+
+<pre><code>var iframe = document.createElement('IFRAME');
+//have the IFRAME download the content we want to steal
+iframe.src = 'http://site.com/AddressBook.php);
+//make the IFRAME invisible
+iframe.style="width:0px; height:0px; border: 0px"
+//set our function to call when the IFRAME is done loading
+iframe.onload = callbackFunction;
+//now add the IFRAME to the DOM.
+Document.body.appendChild(iframe);</code></pre>
+
+<p>In the above code, the attacker is dynamically creating an IFRAME whose SRC attribute points to AddressBook.php. AddressBook.php is a web page which contains all the email addresses in a userâ€™s address book. The attacker also styles the IFRAME sothat it takes up no visible space and does not have a border surrounding it. This styling renders the IFRAME invisible to the user.</p>
+
+<p>So how does the attacker access the data they wish to steal? As we noted before the markup of AddressBook.php is not going to contain code that would notify the attacker or pass the contents of AddressBook.php to the attacker. This only makes sense as AddressBook.php is not accessed in this way when the application is functioning normally. Instead, the attacker has to register a JavaScript function to execute once the IFRAME has finished loading the content specified in its SRC attribute. Here lies the problem. The attacker is only interested in stealing the email addresses. These email addresses will appear as text inside of the HTML that is returned by AddressBook.php. The HTML will also link to images, external style sheets, JavaScript files, Flash objects and other resources that are so common place on todayâ€™s Internet. Unfortunately for the attacker, the IFRAME does not call the function specified in its onload attribute until after all the external resources referenced by the document in the IFRAME have been downloaded and instantiated.</p>
+
+<p>How bad is this for the attacker? Consider CNNâ€™s website http://www.cnn.com/. Using the View Dependencies extension for Firefox, we see that to display CNN fully, an astonishing 363 kilobytes (KB) of data must be downloaded to a userâ€™s machine. Only 23 KB of this, about 6% of the total data, is the HTML representing the text on the web page. Since the attacker is trying to extract text they care about downloading the HTML. However, because of the way IFRAMEs and the onload event work, the entire page must be downloaded before the attacker can extract data. Letâ€™s put this in prospective. Downloading 363KB of data over a 1 Mbps connection takes approximately 3 seconds. Downloading 23KB over the same link takes 0.17 seconds, or is 15 times faster. While 3 seconds may not seem like a whole lot of time you should focus on the 15 times figure. In this scenario, an attacker could request and siphon data from 15 pages using the XmlHttpRequest method for every 1 page retrieved using IFRAME.</p>
+
+<p>In the interest of fairness, it should be noted that the entire 363 KB of CNN are not downloaded each and every time. CNN implements caching to ensure that the certain files do not need to be requested again. However, the browser does still send conditional GET requests. That is, the browser sends a complete GET request which includes an HTTP header telling CNN to return only the resource if it is newer than the version the browser has cached locally. Even if the browserâ€™s resource is still valid, the server must respond with an HTTP 304 message. This tells the browser to use its local copy. Even if all the local copies of the resources are fresh, some amount of network traffic still has to occur. From the attackerâ€™s point of view all of this traffic is a waste because they cannot use it and donâ€™t care about it. The bottom line is using IFRAME remoting to extract content from a web page is always slower than using an XmlHttpRequest. Thus, while IFRAME remoting can be used to siphon confidential data from a user without their knowledge, XmlHttpRequest makes this a much more realistic attack vector. Add on the fact the XmlHttpRequest allows access to response headersa and (some) modification of the request headers and XmlHttpRequest is the clear winner over IFRAME remoting for an attackers toolkit when used for data theft. This may be why nearly all the XSS malware to date uses XmlHttpRequest instead of IFRAME remoting to propagate.</p>
+
+<p>Remember that JavaScript has many different ways to send HTTP requests. If you are in a situation where some are not allowed or filtered, chances are there is another method you can use. Even if all methods are explicated filtered, JavaScript is so dynamic you can probably get around it. For example, if the function <code>document.createElement</code> cannot be used, assemble your function call character by character in a string and then <code>eval</code> it. If <code>eval</code> is not allowed, use a <code>setTimeout</code>, which can also eval strings. JavaScript is far more powerful and people are always underestimating it. Much like Perl, there are many way to do the same thing.</p>
+
+<p>Thanks again to pdp for providing this chance, and happy hacking.</p>
+
+<p>To help you out, here is a table summarizing the pros and cons for the different methods JavaScript can use to send HTTP requests.</p>
+
+<table>
+<thead>
+<tr>
+<th>Method</th><th>HTTP methods</th><th>Can access response</th><th>Can see response headers</th><th>Can communicate with any domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dynamically created HTML Tags</td><td>GET</td><td>No</td><td>No</td><td>Yes</td>
+</tr>
+<tr>
+<td>Dynamically built FORM tag</td><td>GET, POST</td><td>Only if FORM posts to same domain as JavaScript code</td><td>No</td><td>Yes</td>
+</tr>
+<tr>
+<td>Image Object</td><td>GET</td><td>Yes, but only image dimensions</td><td>No</td><td>Yes</td>
+</tr>
+<tr>
+<td>Remote Scripting</td><td>GET</td><td>Yes, if response is JavaScript</td><td>No</td><td>Yes</td>
+</tr>
+<tr>
+<td>iFrame Remoting</td><td>GET</td><td>Only if iframe src is in same domain as JavaScript code</td><td>No</td><td>Yes</td>
+</tr>
+<tr>
+<td>XmlHttpRequest Object</td><td>Any</td><td>Yes</td><td>Yes</td><td>No</td>
+</tr>
+</tbody>
+</table><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/billy-hoffman/index.html" rel="tag">Billy Hoffman</a> | <a href="../../tags/javascript/index.html" rel="tag">javascript</a> | <a href="../../tags/xss/index.html" rel="tag">xss</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-3033">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ikwt.com/' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-3033">
+			January 30, 2007 at 11:56 pm</a>		</div>
+
+		<p>Nice job Acidus! This is a very nice summary of different ways to craft nasty HTTP requests using JavaScript.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-3061">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-3061">
+			January 31, 2007 at 10:28 am</a>		</div>
+
+		<p>very interesting summary. good stuff.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-3110">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f23b9ef5bd79326e8f77393579a94cea?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">busin3ss</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-3110">
+			February 1, 2007 at 7:07 am</a>		</div>
+
+		<p>awesome article&#8230; you guys rock! Keep up the good work</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122422">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d4518e6223a1a82f53dc4919d0165151?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://blog.opensourceopportunities.com/' rel='external nofollow' class='url'>James</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122422">
+			June 2, 2008 at 7:19 pm</a>		</div>
+
+		<p>Hello, </p>
+<p>Can you please clarify how this example works:</p>
+<pre><code>var iframe = document.createElement('IFRAME');
+//have the IFRAME download the content we want to steal
+iframe.src = 'http://site.com/AddressBook.php);
+//make the IFRAME invisible
+iframe.style="width:0px; height:0px; border: 0px"
+//set our function to call when the IFRAME is done loading
+iframe.onload = callbackFunction;
+//now add the IFRAME to the DOM.
+Document.body.appendChild(iframe);</code></pre>
+<p>From what I can tell, the above code will only work if this script is included on the site.com domain.  iframes prevent access to their data by parent windows of different domain names.  Therefore, I don&#8217;t see how an attacker can access this data?  </p>
+<p>I use this technique in one of my applications to pass data from one website to another, but I have control of both websites.  I placed a script tag on domainA from domainB.  without access to domainA, I don&#8217;t see how this can be accomplished.</p>
+<p>I hope my question is clear.  Please email me if it&#8217;s not as I feel it&#8217;s important that I understand the security implications of this technique for my product.</p>
+<p>Thanks,<br />
+James</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128491">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1e4e7e58ea7ac7d01e32829962732fda?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://onsec.ru/' rel='external nofollow' class='url'>Vladimir</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128491">
+			April 22, 2010 at 9:04 pm</a>		</div>
+
+		<p>One small addition &#8211; IMG vector can also get the image size in IE8 and IE9 through the attribute fileSize. More here: <a href="http://seclists.org/fulldisclosure/2010/Apr/288" rel="nofollow">http://seclists.org/fulldisclosure/2010/Apr/288</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="153"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ba018f270f" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/javascript-remoting-dangers/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:21:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

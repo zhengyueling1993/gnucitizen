@@ -1,0 +1,633 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/dumping-the-admin-password-of-the-bt-home-hub/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:30:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Dumping the admin password of the BT Home Hub</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Dumping the admin password of the BT Home Hub Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Promo Videos' href='../promo-videos/index.html' />
+<link rel='next' title='Dumping the admin password of the BT Home Hub (pt 2)' href='../dumping-the-admin-password-of-the-bt-home-hub-pt-2/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index2487.html?p=846' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-846" class="post">
+	<div class="post-title"><h2><span>Dumping the admin password of the BT Home Hub</span></h2></div>
+	<div class="post-date"><span>published:</span> May 21st, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>So BT added a new security feature on the <a href="http://snipurl.com/29w9o">latest version</a> of the BT Home Hub firmware (6.2.6.E at time of writing) which changes the default admin password from admin to the serial number of the router. From <a href="http://snipurl.com/29oo4">BT Support and Advice</a> site:</p>
+
+<blockquote>Firmware 6.2.6.E introduces the following improvements: Change default Hub Manager access password from &#8216;admin&#8217; to your unique Hub serial number&#8221;</blockquote>
+
+<p>When I first noticed this new feature I thought it was quite cool and definitely a good move from BT. This is why:</p>
+
+<ul>
+<li>It would make CSRF attacks launched by third-party sites much more difficult since the attacker wouldn&#8217;t be able to predict the admin password of the Home Hub in the exploit code. An exception to this is the attacker combining a CSRF with a authentication bypass bug. In such case, knowing the admin password wouldn&#8217;t be required. Another exception would be a CSRF attack which originates from the Home Hub itself via persistent XSS on a page on which the admin must be authenticated to view (i.e.: logs page). In such case, the admin password would NOT be required in the CSRF exploit code.</li>
+<li>Performing a password cracking attack would be less likely to be successful</li>
+</ul>
+
+<p>As you can see, changing the default admin password to a value which is specific to each Home Hub would make password guessing/cracking attacks much harder. At least, this is <i>usually</i> the case. Well, it turns out that you can get the serial number of the Home Hub by simply sending a Multi Directory Access Protocol (MDAP) multicast request in the network where BT Home Hub is located. Yes, you must already be part of the LAN where the Home Hub is present, either via ethernet or via Wi-Fi. However, at GNUCITIZEN, we have <a href="../default-key-algorithm-in-thomson-and-bt-home-hub-routers/index.html">demonstrated</a> trivial ways to predict the WEP encryption key of the Home Hub if you know what you are doing. In summary, there are two ways to break into a BT Home Hub Wi-Fi network:</p>
+
+<ul>
+<li>arp replays injection plus weak IVs cracking. This attack is typically launched using airodump-ng + aireplay-ng + aircrack-ng (I highly recommend using <a href="http://www.remote-exploit.org/backtrack_download.html">Backtrack 2</a> plus the Alfa USB AWUS036S Wi-Fi adaptor for this attack)</li>
+<li><a href="../default-key-algorithm-in-thomson-and-bt-home-hub-routers/index.html">Predict the Home Hub&#8217;s default WEP key</a> by bruteforcing a list of potential candidates which are derived from the SSID (the SSID can be obtained by anyone of course)</li>
+</ul>
+
+<p>The following is what a MDAP ANT-SEARCH request looks like. Such request would be sent to the multicast IP address 224.0.0.103 and port 3235 (UDP):</p>
+
+<pre><code>ANT-SEARCH MDAP/1.1
+46</code></pre>
+
+<p>Which causes the BT Home Hub to respond with its serial number (<code>ANT-ID</code> parameter) among other information. i.e.:</p>
+
+<pre><code>REPLY-ANT-SEARCH MDAP/1.1
+ANT-ID:0633EHPSL
+ANT-NAME:SpeedTouch BTHH
+ANT-MAC:00-14-7F-AA-BB-CC
+ANT-HOSTSETUP:auto
+TO-HOST:192.168.1.70:2317
+TP-VERSION:2.0.0
+MDAP-VERSION:1.2
+43</code></pre>
+
+<p>The only difference between the ANT-ID parameter and the serial number of the Home Hub is that the serial number is prefixed with &#8216;CP&#8217;. So in this example, the corresponding serial number &#8211; which is the default admin password &#8211; would be <code>CP0633EHPSL</code> (see the screenshot for more information)</p>
+
+<p>Obviously, this is not a vulnerability within the MDAP protocol, but rather a design flaw introduced by BT with the new unique admin password feature. The assumption behind this insecure implementation is that the serial number can only be obtained by the legitimate owner of the router. As we have seen, this is <i>not</i> the case! Nevertheless, there are some security issues inherited with the MDAP protocol which I will cover in a new post.</p>
+
+<p>The following Python script dumps MDAP multicast requests:</p>
+
+<pre><code><a href="../../static/blog/2008/05/mdap-dump.py_.txt" rel="inline-text">http://www.gnucitizen.org/static/blog/2008/05/mdap-dump.py_.txt</a></code></pre>
+
+<p>And the following one sends the MDAP ANT-SEARCH requests which causes the Home Hub to return its serial number:</p>
+
+<pre><code><a href="../../static/blog/2008/05/mdap-send-ant-search.py_.txt" rel="inline-text">http://www.gnucitizen.org/static/blog/2008/05/mdap-send-ant-search.py_.txt</a></code></pre>
+
+<p>You have to run <code>mdap-send-ant-search.py</code> while <code>mdap-dump.py</code> is still running. i.e.:</p>
+
+<pre><code>pagvac@gnucitizen$ python mdap-dump.py&amp; python mdap-send-ant-search.py</code></pre>
+
+<p>For some reason the scripts don&#8217;t work under Python for Windows or even Python for Cygwin. It should work on GNU/Linux (I tried it on Backtrack 2).</p>
+
+<div class="screen"><a href="../../static/blog/2008/05/change-default-pwd.png"><img src="../../static/blog/2008/05/change-default-pwd-234x150.png" alt="" title="Change Default Pwd PNG" width="234" height="150" class="alignleft size-thumbnail wp-image-3918" /></a> <a href="../../static/blog/2008/05/MDAP-ANT-SEARCH-fu.png"><img src="../../static/blog/2008/05/MDAP-ANT-SEARCH-fu-331x150.png" alt="" title="MDAP-ANT-SEARCH-fu PNG" width="331" height="150" class="alignleft size-thumbnail wp-image-3917" /></a></div>
+
+<p><em>Finally, I just wanted to thank Mark Livesey for brainstorming ideas with me which led me to explore the MDAP protocol further.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2008/05/mdap-dump.py_.txt">mdap-dump.py</a>, <a href="../../static/blog/2008/05/mdap-send-ant-search.py_.txt">mdap-send-ant-search.py</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/bthh/index.html" rel="tag">bthh</a> | <a href="../../tags/bthomehub/index.html" rel="tag">bthomehub</a> | <a href="../../tags/embeddeddevices/index.html" rel="tag">embeddeddevices</a> | <a href="../../tags/leak/index.html" rel="tag">leak</a> | <a href="../../tags/password/index.html" rel="tag">password</a> | <a href="../../tags/router/index.html" rel="tag">router</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-122182">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cf8e190883e12b1ef1df32007659dacd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mark Livesey</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122182">
+			May 21, 2008 at 2:27 pm</a>		</div>
+
+		<p>Cheers mate. Is the MDAP proprietary Thomson like CLI? Could this protocol lead to a UDP attack? Anyway, it gets harder with each firmware revision so at least BT 2 million plus HomeHub users are eventually getting a secure product.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122195">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122195">
+			May 21, 2008 at 11:30 pm</a>		</div>
+
+		<p>Good work guys at finding another hole in the BT Home Sieve.  I can confirm this works from the LAN on my BTHH v15.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-122200">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122200">
+			May 22, 2008 at 12:20 pm</a>		</div>
+
+		<p>@Mark: yes, MDAP is a Thomson proprietary protocol. I will talk more about it in a upcoming post. Getting harder? At this moment all BT Home Hubs can be turned into zombie routers via relaxed UPnP port-forwarding functionalities. All you need is to get a Home Hub user visit your evil page. Furthermore, there are about 3 million BT Home Hub Wi-Fi networks that can be broken into trivially.</p>
+<p>@Stephen: thanks a lot for testing this attack. We can now confirm that it works on the latest firmware for both the BT Home Hub v1 and v1.5. I&#8217;m assuming that you&#8217;re running firmware version 6.2.6.E?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122211">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1a7936bde6a37825bb2976e313172af1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mohclips</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122211">
+			May 22, 2008 at 9:41 pm</a>		</div>
+
+		<p>I take it this is a wired attacked rather than a wireless one?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-122223">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122223">
+			May 23, 2008 at 8:19 pm</a>		</div>
+
+		<p>@mohclips: copied and pasted from this post:</p>
+<p>&#8220;Yes, you must already be part of the LAN where the Home Hub is present, either via ethernet or via Wi-Fi. However, at GNUCITIZEN, we have demonstrated trivial ways to predict the WEP encryption key of the Home Hub if you know what you are doing. In summary, there are two ways to break into a BT Home Hub Wi-Fi network: [snip]&#8220;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122228">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d89d81f673dac06b16cade5b4bf19954?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">^o^</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122228">
+			May 24, 2008 at 1:42 am</a>		</div>
+
+		<p>Amazing, may i ask how did you find this vulnerability? was it by sniffing?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122266">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/88b87698be0bc461f3cacf1f080929d5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Daily Telegraph</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122266">
+			May 26, 2008 at 2:27 pm</a>		</div>
+
+		<p>Your BT home hub pwning made the front page of today&#8217;s Daily telegraph in the uk.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-122268">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122268">
+			May 26, 2008 at 3:37 pm</a>		</div>
+
+		<p>are you talking about <a href="http://www.telegraph.co.uk/news/uknews/2028687/Millions-of-BT-internet-users-%27open-to-hackers%27.html" rel="nofollow">this</a> one?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-122269">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122269">
+			May 26, 2008 at 3:46 pm</a>		</div>
+
+		<p>obviously this is a marketing stunt initiated by the NCC group, omitting the voice of the real researchers as usual&#8230; and of course BT is just plain silly and their anti-crisis team does not know what they are doing. very amateur for BT I must say.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-122272">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122272">
+			May 26, 2008 at 7:17 pm</a>		</div>
+
+		<p>this is ridiculous, all the vulnerability research publicly-released affecting the BT Home Hub has been published on <a href="../../index.html" rel="nofollow">http://www.gnucitizen.org</a> . The only Home Hub research published on other sources is related to _unlocking_ the Hub, rather than _breaking into it_. I can only hope that NCC did mention us in the original press release but the final Daily Telegraph article filtered our name out.</p>
+<p>Summary of vulnerability research published for the BT Home Hub here: <a href="http://en.wikipedia.org/wiki/BT_Home_Hub#Security_concerns" rel="nofollow">http://en.wikipedia.org/wiki/B.....y_concerns</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-122273">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122273">
+			May 26, 2008 at 7:26 pm</a>		</div>
+
+		<p>it is a NCC&#8217;s marketing stunt (payed ad)! :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122276">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cf8e190883e12b1ef1df32007659dacd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mark Livesey</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122276">
+			May 26, 2008 at 8:56 pm</a>		</div>
+
+		<p>This is ridiculous. It says about the software easily available for &#8220;bad guys&#8221; but not about it being easily available from BT themselves. Oh, and V1.5 is safer apparently.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-122277">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122277">
+			May 26, 2008 at 9:08 pm</a>		</div>
+
+		<p>@^o^: yes, you&#8217;re right. the vulnerability was found by analyzing traffic.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122279">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cf8e190883e12b1ef1df32007659dacd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mark Livesey</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122279">
+			May 26, 2008 at 9:58 pm</a>		</div>
+
+		<p>Sorry, very true, the key to open the door so to speak.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122285">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/44c5e290ccf283471210752d0b1ed6df?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">djteller</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122285">
+			May 27, 2008 at 9:12 am</a>		</div>
+
+		<p>This is indeed ridiculous, but it&#8217;s nice to see that BT are aware, too bad the implementation was bad. I think that Home router vendors should disable deviced until proper installation when the device is purchased. Using a simple wizard the user will change his/her password to something other than &#8216;admin&#8217; and that&#8217;s it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-122286">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122286">
+			May 27, 2008 at 9:45 am</a>		</div>
+
+		<p>BT&#8217;s statement is just ridiculous. Check this out:</p>
+<blockquote><p>BT disputed the claim, saying the risk was &#8220;theoretical&#8221; and that hackers would have to &#8220;win the computer cracking equivalent of the National Lottery&#8221; to succeed.</p></blockquote>
+<p>Right&#8230;. Cracking 40BIT WEP is exactly like winning the National Lottery.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-122293">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122293">
+			May 27, 2008 at 1:22 pm</a>		</div>
+
+		<p>After having observed BT&#8217;s reaction to several Home Hub vulnerabilities published in the past, it&#8217;s easy to notice BT&#8217;s PR template. It kind of goes like this:</p>
+<blockquote>
+<p><q>We do not believe any of our customers have been affected by this attack.</q></p>
+<p><q>Such security research describes a theoretical attack.</q></p>
+</blockquote>
+<p>In reality this translates to: </p>
+<blockquote>
+<p><q>We are not aware of any attack performed in a _mass fashion_ which uses such vulnerabilities. Of course this doesn&#8217;t mean such vulnerabilities have not been exploited in the wild. We know that most likely they *have* been exploited as they are practical. However, we don&#8217;t want mainstream users (i.e: non-technical) to know this.</q></p>
+<p><q>We want the public to think that such attack is not possible in real life, so they do not realize how bad the current state of the security of the Home Hub really is.</q></p>
+</blockquote>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122298">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122298">
+			May 27, 2008 at 5:14 pm</a>		</div>
+
+		<p>To confirm from my post near the top &#8211; yes I&#8217;m on 6.2.6.E on a v1.5</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122385">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/29063f9ef087584a4ab1e96c5d58ec59?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">joe</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122385">
+			May 30, 2008 at 9:39 pm</a>		</div>
+
+		<p>I&#8217;m running bthomehub-bb59 firmware version 6.2.6.E. where do i get the programs from to get it to work. will this work on windows xp or backtrack 3</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122461">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/08aa70e0d60620da43c4104af4b3390e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.go4contract.com/' rel='external nofollow' class='url'>Robbie</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122461">
+			June 6, 2008 at 11:25 am</a>		</div>
+
+		<p>for those on windows an easy way id say is to download <a href="http://static.btopenworld.com/broadband/adhoc_pages/drivers/Windows_recovery_626E.zip" rel="nofollow">http://static.btopenworld.com/.....y_626E.zip</a> when it asks you for a username and password you can see next to the box with the serial number next to it <a href="http://i30.tinypic.com/35l82a9.jpg" rel="nofollow">http://i30.tinypic.com/35l82a9.jpg</a> and voila you have the password for the hub</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122462">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/08aa70e0d60620da43c4104af4b3390e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.go4contract.com/' rel='external nofollow' class='url'>Robbie</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122462">
+			June 6, 2008 at 12:28 pm</a>		</div>
+
+		<p>just looking for some reason the home hub im testing has 6.2.6H  firmware . It&#8217;s a new hub so i presume it must be 1.5 and its had fon opted in. any one else messed with this firmware?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-122492">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122492">
+			June 8, 2008 at 10:36 am</a>		</div>
+
+		<p>@joe: the Python scripts we provided only seem to work in Linux (we tested them on backtrack 2 but should also work on bt3).</p>
+<p>If you just want to get the Hub&#8217;s serial number prior to authenticating without using the MDAP protocol, then simply check &#8216;OU&#8217; field of the SSL certificate as mentioned by Aaron on <a href="../dumping-the-admin-password-of-the-bt-home-hub-pt-2/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....-hub-pt-2/</a></p>
+<p>You should be able to examine the Hub&#8217;s SSL certificate by accessing: <a href="https://api.home/" rel="nofollow">https://api.home/</a> or <a href="https://192.168.1.254" rel="nofollow">https://192.168.1.254</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123752">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bce2a57a23a1353f92593304e6a599ef?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Craig</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123752">
+			September 17, 2008 at 9:13 pm</a>		</div>
+
+		<p>I&#8217;m attempting to run this on backtrack 3. I&#8217;ve run the scripts as you have said yet I get no feedback in Konsole.</p>
+<pre><code>bt ~# cd /tmp
+bt tmp # python mdap-dump.py &amp;
+[1] 6763
+bt tmp # python mdap-send-ant-search.py
+ANT-SEARCH MDAP/1.1
+46
+bt tmp #</code></pre>
+<p>That is all I get. I&#8217;m connect as follows: Windows XP machine (192.168.1.164) &gt; VMWare Bridge &gt; backtrack 3 (192.168.1.78). Does this mean the network is secure?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123753">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bce2a57a23a1353f92593304e6a599ef?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Craig</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123753">
+			September 17, 2008 at 9:24 pm</a>		</div>
+
+		<p>No matter, I have used aaron&#8217;s way of finding the SN by viewing the SSL certificate.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124259">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/140a6b1b91cdbd247e7da13df2b21302?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">john smith</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124259">
+			November 3, 2008 at 3:33 pm</a>		</div>
+
+		<p>It worked on python for windows for me. The standard 2.6 installer. I just ran the dump script by double-clicking. Then ran the fetch script by double-clicking. It took a couple of tries for the fetch but worked in the end. Of course, that password is only the admin password until the owner visits the hub&#8217;s homepage, whereupon they are required to set a new one immediately.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-124270">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124270">
+			November 5, 2008 at 11:03 pm</a>		</div>
+
+		<p>@john smith: cool, nice to see it worked on Win for u. :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126366">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7bea8e5af83dbfd43db926c40f0caaab?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://thisislegal.com/' rel='external nofollow' class='url'>thomas smith</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126366">
+			March 24, 2009 at 6:14 pm</a>		</div>
+
+		<p>I can still confirm that bt homehubs are very insecure. I went to the router page and noticed that it shows you everyone who has logged on to your network going by computer name and mac address. My computer name kind of gives me away, so i looked at this for getting the admin password.</p>
+<p>I can confirm the python scripts do work on windows using the method john smith said, but also confirm Robbies method works as well, and is a lot easier to do. You now have to go here to download the scripts: <a href="http://lab.gnucitizen.org/projects/bt-home-hub-s-n-dumper" rel="nofollow">http://lab.gnucitizen.org/proj.....s-n-dumper</a></p>
+<p>the software version is now 6.2.6H and even though i got the unique ID, I cant log on using it (with CP in front) someone said it prompts you to change it straight away now? I think im stuck or is there anything i can do to get it now?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126462">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1958b7e629d49b3f2f0c068ab0f119f2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jakey</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126462">
+			April 8, 2009 at 1:20 pm</a>		</div>
+
+		<p>Just go here and click on &#8220;Schedule your BT Home Hub upgrade&#8221; and you see your serial: <a href="http://pbteu.bt.motive.com/ElectiveFWUpgradePortal/" rel="nofollow">http://pbteu.bt.motive.com/Ele.....adePortal/</a></p>
+<p>Simple!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128063">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1e460f0aeffe8fe7e0a526e11e956bcc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Nagi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128063">
+			December 20, 2009 at 3:35 am</a>		</div>
+
+		<p>Hi guys, I decided to stop using bthh. So I bought a drytek 2820n router. I was trying to get it to work but failed. At some stage of router installation it asks me for a username and password for WAN1, which, it says, I should had been given by my ISP &#8211; BT. Now, I don&#8217;t know where to get this details from? Any advice most appreciated.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128068">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f8924f96c742386baa861522d17736f7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ross</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128068">
+			December 25, 2009 at 5:03 pm</a>		</div>
+
+		<p>Using BT 3 I get the following (mdap-dump.py is running)</p>
+<pre><code>python mdap-send-ant-search.py
+File "mdap-send-ant-search.py", line 1</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128071">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f8924f96c742386baa861522d17736f7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ross</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128071">
+			December 25, 2009 at 6:08 pm</a>		</div>
+
+		<p>Please Ignore my previous post. Works perfectly on Winxp and BT3.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128088">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/17616e5d5079c60e8cd66026bb13e2b5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.securityfocus.com/tools/7695' rel='external nofollow' class='url'>Homeseer</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128088">
+			January 8, 2010 at 11:09 pm</a>		</div>
+
+		<p>This is security through obscurity at it&#8217;s finest.  Gotta love the lottery comment &#8211; perhaps if each attempt was the equivalent to purchasing a ticket, but since there&#8217;s zero cost to attempt it&#8217;s not exactly a robust analogy.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128732">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1b3f0eccd776aecd069badccc7bf19a2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ash</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128732">
+			August 23, 2010 at 1:17 am</a>		</div>
+
+		<p>Jakey haha thats just excelent, how did you figer that out lol</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-129250">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cfac80da21fcea934e943f89c332b373?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">point</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129250">
+			October 30, 2010 at 6:30 am</a>		</div>
+
+		<p>Iused three methods so far nothing good I tryed with recovery get serial but then i enter it i got wrong serial number then i use gdi i get 12 numberer and guy dont know what router is so it gonna be long waiting. anu suggestions</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="846"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="90acb3c926" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/dumping-the-admin-password-of-the-bt-home-hub/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:30:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

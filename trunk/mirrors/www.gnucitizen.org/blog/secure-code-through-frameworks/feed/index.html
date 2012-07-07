@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Secure Code Through Frameworks</title>
+	<atom:link href="http://www.gnucitizen.org/blog/secure-code-through-frameworks/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/secure-code-through-frameworks/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: hrrm</title>
+		<link>http://www.gnucitizen.org/blog/secure-code-through-frameworks/comment-page-1/#comment-128074</link>
+		<dc:creator>hrrm</dc:creator>
+		<pubDate>Wed, 30 Dec 2009 08:02:29 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/secure-code-through-frameworks#comment-128074</guid>
+		<description>i have been developing php commercially since php3 around 10 years back, and over the years have done lots of far out stuff with it.  visualisation, cron jobs, VOIP/fax/SMS systems integration, web spiders, diskless workstation single sign-on environments, etc.
+
+all my development is based on a custom, heavily modular framework, since every time i evaluate an off the shelf open source one i find massive issues, typically in areas like suitability for alternate execution paths (unix shell or cron-based executions), and real extensibility (eg: hooks defined in framework core / existing modules).  a lot of them are also bloated and irritate me by integrating crappy templating languages or defining only one, always-available optimisation/caching model.  but to get back to the story of the post, security is also a concern.
+
+the real problem is - the web is complex.  managing application-specific database state, http state and caching (browser, user proxy, frontend load-balancing proxy), application-internal multi-level caching (database, memcache?, filesystem?) each layer with its own automated expiry rules, multi-frontend node web server farms, multi-node database backends, failures, live migrations, different browsers, mobile devices with differing capabilities, user input....... and every few years a new piece of the puzzle.  &quot;flash vLATEST&quot; &quot;ajax&quot; &quot;silverlight&quot; &quot;javascript library #9999&quot; &quot;php vLATEST&quot; &quot;XML standard #99999&quot;
+
+The life of any serious web developer is just too busy to perform code audits.  They should be writing good code up front.  Perhaps automated audits through SVN commit hooks or similar are a good solution.  Probably there&#039;s good room for a well considered product in this area.
+
+Right now I audit the code of new coders I hire as I train them with the framework.  Eventually I just trust them.  There&#039;s not enough hours in the day...</description>
+		<content:encoded><![CDATA[<p>i have been developing php commercially since php3 around 10 years back, and over the years have done lots of far out stuff with it.  visualisation, cron jobs, VOIP/fax/SMS systems integration, web spiders, diskless workstation single sign-on environments, etc.</p>
+<p>all my development is based on a custom, heavily modular framework, since every time i evaluate an off the shelf open source one i find massive issues, typically in areas like suitability for alternate execution paths (unix shell or cron-based executions), and real extensibility (eg: hooks defined in framework core / existing modules).  a lot of them are also bloated and irritate me by integrating crappy templating languages or defining only one, always-available optimisation/caching model.  but to get back to the story of the post, security is also a concern.</p>
+<p>the real problem is &#8211; the web is complex.  managing application-specific database state, http state and caching (browser, user proxy, frontend load-balancing proxy), application-internal multi-level caching (database, memcache?, filesystem?) each layer with its own automated expiry rules, multi-frontend node web server farms, multi-node database backends, failures, live migrations, different browsers, mobile devices with differing capabilities, user input&#8230;&#8230;. and every few years a new piece of the puzzle.  &#8220;flash vLATEST&#8221; &#8220;ajax&#8221; &#8220;silverlight&#8221; &#8220;javascript library #9999&#8243; &#8220;php vLATEST&#8221; &#8220;XML standard #99999&#8243;</p>
+<p>The life of any serious web developer is just too busy to perform code audits.  They should be writing good code up front.  Perhaps automated audits through SVN commit hooks or similar are a good solution.  Probably there&#8217;s good room for a well considered product in this area.</p>
+<p>Right now I audit the code of new coders I hire as I train them with the framework.  Eventually I just trust them.  There&#8217;s not enough hours in the day&#8230;</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: deadonarrival</title>
+		<link>http://www.gnucitizen.org/blog/secure-code-through-frameworks/comment-page-1/#comment-1463</link>
+		<dc:creator>deadonarrival</dc:creator>
+		<pubDate>Sun, 24 Dec 2006 17:46:26 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/secure-code-through-frameworks#comment-1463</guid>
+		<description>Yes, we need more security baked into the frameworks. But the by far biggest contribution will come through:
+* Education - developers need to learn how to create secure software. Universities etc. need to focus much more on security
+* Software customers - budget for security and demand secure products.</description>
+		<content:encoded><![CDATA[<p>Yes, we need more security baked into the frameworks. But the by far biggest contribution will come through:<br />
+* Education &#8211; developers need to learn how to create secure software. Universities etc. need to focus much more on security<br />
+* Software customers &#8211; budget for security and demand secure products.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/secure-code-through-frameworks/comment-page-1/#comment-1424</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Sat, 23 Dec 2006 07:15:29 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/secure-code-through-frameworks#comment-1424</guid>
+		<description>kl, well yes but it is essential to understand that such an approach is not very flexible and you need to be very specific with the specs at a very early stage. Moreover, if you are planning to extend upon your application in the future you need design a schema/method for achieving this task. This is extremely long and time consuming process which not that many applications undertake. Not today. Not even in the future.
+
+In the open source world everything is pretty much build upon quick hacks that are glued together with some code. PHP applications are trivial to extend with .htaccess and mod_rewrite for example. IMHO, PHP is the most agile language for web development currently available. There is nothing else that gives you so much power in such a tiny core.
+
+I agree that applications need to be very specific in what they take as input and what they output but again this is a matter of finding the balance between accessibility and security. Usually we prefer accessibility over security because it works better in the long term.</description>
+		<content:encoded><![CDATA[<p>kl, well yes but it is essential to understand that such an approach is not very flexible and you need to be very specific with the specs at a very early stage. Moreover, if you are planning to extend upon your application in the future you need design a schema/method for achieving this task. This is extremely long and time consuming process which not that many applications undertake. Not today. Not even in the future.</p>
+<p>In the open source world everything is pretty much build upon quick hacks that are glued together with some code. PHP applications are trivial to extend with .htaccess and mod_rewrite for example. IMHO, PHP is the most agile language for web development currently available. There is nothing else that gives you so much power in such a tiny core.</p>
+<p>I agree that applications need to be very specific in what they take as input and what they output but again this is a matter of finding the balance between accessibility and security. Usually we prefer accessibility over security because it works better in the long term.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: kl</title>
+		<link>http://www.gnucitizen.org/blog/secure-code-through-frameworks/comment-page-1/#comment-1408</link>
+		<dc:creator>kl</dc:creator>
+		<pubDate>Fri, 22 Dec 2006 22:31:38 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/secure-code-through-frameworks#comment-1408</guid>
+		<description>True, true. I think the biggest problem are environments where code is created from bits of text. 
+The article praises ASP.Net for detection of HTML injection. I&#039;m not familiar with this feature, but its description sounds to me like a patch on poor architecture (like PHP&#039;s magic quotes), rather than solid long-term solution.
+
+If it used templates that aren&#039;t just bunch of echoed bytes, but really a tree of HTML/XML elements (where it&#039;s explict when application outputs tag, attribute or text - preventing you from creating ill-formed HTML/XML), programmer would have to work hard just to make XSS possible.</description>
+		<content:encoded><![CDATA[<p>True, true. I think the biggest problem are environments where code is created from bits of text.<br />
+The article praises ASP.Net for detection of HTML injection. I&#8217;m not familiar with this feature, but its description sounds to me like a patch on poor architecture (like PHP&#8217;s magic quotes), rather than solid long-term solution.</p>
+<p>If it used templates that aren&#8217;t just bunch of echoed bytes, but really a tree of HTML/XML elements (where it&#8217;s explict when application outputs tag, attribute or text &#8211; preventing you from creating ill-formed HTML/XML), programmer would have to work hard just to make XSS possible.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

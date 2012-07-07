@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/airport-kiosks-security/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Airport Kiosks Security</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Airport Kiosks Security Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Network Communication API Editor&#8217;s Draft' href='../network-communication-api-editors-draft/index.html' />
+<link rel='next' title='Step One: become an Insider' href='../step-one-become-an-insider/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index01e4.html?p=582' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-582" class="post">
+	<div class="post-title"><h2><span>Airport Kiosks Security</span></h2></div>
+	<div class="post-date"><span>published:</span> November 24th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I had to change at Dublin from London for San Francisco and then San Jose when I was going for the <a href="../owasp-usa-2007-appsec-conference/index.html">OWASP USA event</a>. My flight was early in the morning so I needed to give myself a slack of a couple of hours so that I feel safe that I wont miss the joy of the long and rather exhausting flight. So, having about 3 hours to waste, I decided to go around and see if there is anything interesting to do inside the terminal. Keep in mind that it was like 4am GMT.</p>
+
+<p>The only thing that worked at that time of the day were the vending machines and the kiosks. I grabbed a bottle of Sprite (free ad here) and started exploring some of the kiosk. I was not looking for security bugs or anything like that. I simply wanted to find something that would allow me to kill a couple of hours. <q>Games would be perfect! Unfortunately, my profession always hunts me down. As soon as I get to some kind of device, I cannot do anything else but to explore, explore, explore.</q></p>
+
+<p>I had done tones of Kiosk hacking in the past (all legally of course) so I had a very good idea how these systems work. However, I did not have any permissions to perform any security tests whatsoever on these boxes so the only thing I could legally do is to click on buttons. So this is all I did. Sometimes, clicking on buttons is sufficient enough to get onto some interesting stuff. So, this is what I&#8217;ve found:</p>
+
+<ol>
+<li><strong>I started exploring some of the free services loaded around the chrome of the Kioask.</strong> One of them took me to a PHP script placed inside a directory named <q>kioskscripts</q>. I simply uped one level in the directory structure and stumbled inside a folder which have some interesting files. This is where I stopped!</li>
+<li><strong>Curiosity is a virtue.</strong> Again, I started exploring some of the free services and ups&#8230; what do you know&#8230; here is the admin interface. This is where I stopped!</li>
+<li><strong>How many people will click on the home button?</strong> Apparently not that many. Well, I did! The home button took me to an ASP error page and guess what? Debugging mode is enabled? <q>No way! Get out of here!</q></li>
+<li><strong>Yes, debugs are turned on and that gives us all the sources.</strong> This is where I stopped!</li>
+</ol>
+
+<p><em>Again, all of these is based on exploration and simple observation without doing anything funky. I&#8217;ve got some pictures as well which I cannot share for obvious reasons. I wonder what will happen if someone tries to push the limits of these boxes.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-76539">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/251be7ca34c483d9d7ab130ba89624dd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://nettingdotnet.blogspot.com/' rel='external nofollow' class='url'>Sam</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-76539">
+			November 25, 2007 at 12:31 am</a>		</div>
+
+		<p>Interesting stuff. Reminds me of the time I saw the BoSoD on an ATM and the Windows XP desktop on a scan yourself checkout.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-76577">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6e962b3e879575f509d99b0ff85dfc68?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">naom</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-76577">
+			November 25, 2007 at 2:23 am</a>		</div>
+
+		<p>3 minutes killed out of 3 hours. Not bad.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-76659">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8497a99a54da652a1a5bc617c62f4000?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hmmm.co.za/' rel='external nofollow' class='url'>Daniel</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-76659">
+			November 25, 2007 at 8:20 am</a>		</div>
+
+		<p>Don&#8217;t forget, under UK law you would have been persecuted for doing what you did. </p>
+<p>The issue isn&#8217;t you just pressing buttons, but the fact you never had permission to make that computer perform that function, which is the crux of section 1a of the computer misuse act.</p>
+<p>Good to see kiosk security is still as crap as ever though :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-76679">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-76679">
+			November 25, 2007 at 9:15 am</a>		</div>
+
+		<p>Daniel, this section of the UK law should get a lot more specific. Otherwise, the bad guys can use it for their own good. First of all how do we know that this is not the intendet feature when the only input device that was used was the m-pointer. In USA for example, if u r hiding drugs in your car and u get caught when being searched by a cop who did not had any reason to, then you can get away and attack back the legal system. Same with IT. The law is vague but often based on case studies, which are even more vague. In IT sec we are constantly playing with fire even when all the work we do is legal. I can get into a lot more details but I will stop here.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-76892">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d58934255c84ad1da6e10b5dc474fd6f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.critical.lt/' rel='external nofollow' class='url'>cybergoth</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-76892">
+			November 25, 2007 at 7:32 pm</a>		</div>
+
+		<p>Some sitekiosks are connected to company&#8217;s lan, few times I have successfully found intranet sites using your javascript port scanner.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-77600">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a3e91850fb798a4a5b8ce5c2e8b5c588?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">n</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-77600">
+			November 27, 2007 at 12:03 pm</a>		</div>
+
+		<p>Nice, how did you use the debug functionality to get the source code listing?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-77606">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bd59844b754ef4f8e7183faea98c115d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.systemwebservice.ch/' rel='external nofollow' class='url'>sws</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-77606">
+			November 27, 2007 at 12:12 pm</a>		</div>
+
+		<p>oh no&#8230; so great ;) funny article&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-77739">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-77739">
+			November 27, 2007 at 5:27 pm</a>		</div>
+
+		<p>@n &#8211; just click on &#8220;Show Complete Compilation Source&#8221; on the .NET error page (see screenshot).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-77742">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d58934255c84ad1da6e10b5dc474fd6f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.critical.lt/' rel='external nofollow' class='url'>cybergoth</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-77742">
+			November 27, 2007 at 5:29 pm</a>		</div>
+
+		<p>n, try some asp tricks like | and ~ , example: login|.aspx</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="582"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="a46636ff2a" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/airport-kiosks-security/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

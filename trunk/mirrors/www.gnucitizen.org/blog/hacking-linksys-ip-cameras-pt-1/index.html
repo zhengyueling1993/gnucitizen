@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:22:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Hacking Linksys IP Cameras (pt 1)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Hacking Linksys IP Cameras (pt 1) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Exploit Development Framework Design' href='../exploit-development-framework-design/index.html' />
+<link rel='next' title='Hacking Linksys IP Cameras (pt 2)' href='../hacking-linksys-ip-cameras-pt-2/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexc71e.html?p=2899' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-2899" class="post">
+	<div class="post-title"><h2><span>Hacking Linksys IP Cameras (pt 1)</span></h2></div>
+	<div class="post-date"><span>published:</span> April 20th, 2009</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>During the easter break, I was playing with my my wireless Linksys IP camera which, although I bought several months ago, I hadn&#8217;t taken my time to give the attention this beauty deserves until now! :)</p>
+
+<p>The model in particular is the <a href="http://www.linksysbycisco.com/US/en/products/WVC54GCA">WVC54GCA</a>, which I would say is one of the most affordable Wi-Fi IP cameras out there (about GBP 80 in the UK), making it a great toy to tinker with. I found the camera to be quite good functionalities-wise, although I&#8217;ve experienced availability problems with it. It seems the camera freezes every once in a while. Well, this is true at least when you heavily customized its configuration which is what I&#8217;ve ultimately done after playing so much with it.</p>
+
+<p>I&#8217;ve loved playing with embedded devices for a while, and as a security researcher I find it quite an interesting topic as many <q>de facto</q> security principles that are usually (attempted to be) followed when designing other types of systems are <em>not</em> often applied to embedded devices. This, I believe is due to lack of limitations in hardware resources, and lack of awareness on consequences of getting a miscellaneous device compromised. i.e.: <q>who cares if my IP camera gets owned?</q></p>
+
+<p><em>During the next days, I&#8217;ll be posting some vulnerabilities I&#8217;ve found. Some of them are fun and serious, while others you might find kind of boring</em>.</p>
+
+<h3>Meet the target</h3>
+
+<p>You can learn a lot about the specs of a device by simply reading the product&#8217;s literature. However, sometimes not enough info is provided in these documents. The following are some of the specs I confirmed by interacting with the camera in various ways:</p>
+
+<ul>
+<li>CPU: <code>Faraday FA526id(wb) rev 1 (v4l)</code> according to <code>/proc/cpuinfo</code></li>
+<li>OS: <code>Linux version 2.4.19-pl1029</code> according to <code>/proc/version</code> plus Busybox (confirmed as the file <code>/bin/busybox</code> exists on the filesystem)</li>
+<li>HTTPD: <code>thttpd 2.25b</code> (extracted from banner returned on default html error pages and &#8216;Server:&#8217; HTTP headers)</li>
+<li>Memory: 30908kB (32 MB?) according to <code>/proc/meminfo</code></li>
+<li>Firmware Version: V1.00R22 and <a href="http://downloads.linksysbycisco.com/downloads/WVC54GCA_FW_100R24,0.zip">V1.00R24</a> (latest version available as on 16th April 2009)</li>
+</ul>
+
+<p>It also comes with a telnet daemon (<code>/usr/sbin/telnetd</code>) but unfortunately for hackers out there, the daemon is disabled as the following line is commented out on <code>/etc/init.d/rcS</code>:</p>
+
+<pre><code># ---- Start Telnet Server (debug) ---- #<br />
+#/usr/sbin/telnetd &#038;</code></pre>
+
+<p>I have not yet managed to get a remote root shell by enabling the telnet daemon but have found some vulnerabilities which might help accomplishing this goal. I will be releasing these vulnerabilities in the next days. Please let me know if you know how to enable the telnet daemon on Linksys IP cameras! Ideally, I&#8217;d like to accomplish this without physically connecting to the camera or flashing the firmware.</p>
+
+<h3>Remote admin compromise by unauthenticated attackers due to wizard design error</h3>
+
+<p>I found this vulnerability while investigating <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2008-4390">CVE-2008-4390</a>. I wanted to know if CVE-2008-4390 affected my camera, even though it was reported to affect a different Linksys IP camera firmware and model. The CVE entry states:</p>
+
+<blockquote>The Cisco Linksys WVC54GC wireless video camera before firmware 1.25 sends cleartext configuration data in response to a Setup Wizard remote-management command, which allows remote attackers to obtain sensitive information such as passwords by sniffing the network.</blockquote>
+
+<p>So I started trying to figure out if the WVC54GCA also discloses sensitive information when communicating with the <a href="http://downloads.linksysbycisco.com/downloads/WVC54GCA-CD-Content-10-25-2007_SetupWiz.zip">wizard</a>. <a href="http://www.kb.cert.org/vuls/id/MAPG-7HJKSA">According to the vendor</a>, the issue has been fixed:</p>
+
+<blockquote>Solution: 2300 and 210 have encrypted data and have no such issue. To decode the data, an administrator username/password is a MUST.</blockquote>
+
+<p>At first sight, when capturing the traffic between the wizard and the cam, I couldn&#8217;t see the data traveling in human readable form. While trying to figure out how the data is sent over the network (i.e.: encoded/encrypted), I realized there was something seriously wrong with the handshake mechanism.</p>
+
+<p>The following is a very generic (and possibly inaccurate) description of the handshake</p>
+
+<ol>
+<li>Wizard (<code>SetupWizard.exe</code>) sends UDP request to <code>255.255.255.255:916</code></li>
+<li>Camera responds back to <code>255.255.255.255</code> using the <a href="http://en.wikipedia.org/wiki/DCE/RPC">DCERPC</a> protocol and presents itself with identity info such as the value of the <code>defname</code> variable which looks like <code>LKXXXXXX</code>, where <code>X</code> is a hex digit. This identity info is picked up by <code>SetupWizard.exe</code>. Some of this info such as MAC address, IP address and subnet mask is shown in the wizard.</li>
+<li>From now on, <code>SetupWizard.exe</code> uses the camera&#8217;s <code>defname</code> variable when talking to it, so that the camera knows what requests submitted to <code>255.255.255.255:916</code> it should respond to.</li>
+</ol>
+
+<p>At this point the wizard has discovered the camera and the user can go through the setup procedure. For security reasons, the user needs to enter the admin username and password, before the setup process can start. Otherwise anyone could make changes to the camera without authenticating.</p>
+
+<p>Now, here is the important bit. If you capture the network traffic while running <code>SetupWizard.exe</code>, you&#8217;ll notice that when the user is asked to enter the admin username and password after the camera is discovered, there are NO requests sent from the wizard to the camera in order to verify that the entered username/password combination is correct!</p>
+
+<p><q>How is this possible? What the heck is going on?!</q> I thought. I was terrified to confirm my worst fear: the wizard already knows the camera&#8217;s admin username and password at this point, thus there is no need to ask the camera again. Indeed, at this point &#8211; <em>before the user enters the admin username and password</em> that is &#8211; the camera&#8217;s credentials are already loaded into the memory of the <code>SetupWizard.exe</code> process. This is because the camera  has previously transfered the admin credentials along with other configuration data!</p>
+
+<p>In case I didn&#8217;t explain myself properly I&#8217;ll summarize the issue by saying that the camera transfers the admin username and password to the wizard before the user enters them. The following steps demonstrate how an unauthenticated attacker can remotely obtain the camera&#8217;s admin username and password:</p>
+
+<ol>
+<li>Download the <a href="http://downloads.linksysbycisco.com/downloads/WVC54GCA-CD-Content-10-25-2007_SetupWiz.zip">setup wizard</a>. You might need to download a different wizard if you want to test this vulnerability on a different Linksys IP camera model</li>
+<li>Run <code>SetupWizard.exe</code></li>
+<li>Click on <code>Click Here to Start / Setup Camera / Next</code> (after accepting EULA) / <code>Next</code> (4 more times in total)</li>
+<li>The discovery process is quite flaky, so if the wizard hasn&#8217;t found your camera yet, click on <code>Search Again</code> as many times as required until it works</li>
+<li>You should now see your camera&#8217;s name under the <code>Camera List</code> column and also various configuration data under the <code>Status</code> column:
+<div class="screen"><img src="../../static/blog/2009/04/wizard_cam_discovery-300x225.png" alt="Wizard Cam Discovery" title="Wizard Cam Discovery" width="300" height="225" class="alignnone size-medium wp-image-2922" /></div></li>
+<li>You now need to dump the process memory of <code>SetupWizard.exe</code> using your favorite <a href="http://www.ntsecurity.nu/toolbox/pmdump/">tool</a>:
+<div class="screen"><img src="../../static/blog/2009/04/setupwizardexe_mem_dump_21-300x166.png" alt="setupwizardexe Mem Dump 2" title="setupwizardexe Mem Dump 2" width="300" height="166" class="alignnone size-medium wp-image-2926" /></div></li>
+<li>Then open the memory dump file using your favorite <a href="http://www.chmaas.handshake.de/delphi/freeware/xvi32/xvi32.htm">hex editor</a></li>
+<li>Now you can either search for <em>admin</em> and find the admin password after a few null bytes, or tell your hex editor to go to decimal position 75058 (<code>Address / Goto ...</code> menu on XVI32). In my case the admin password would always fall within this position:
+<div class="screen"><img src="../../static/blog/2009/04/admin_password_extraction1-300x217.png" alt="Admin Password Extraction 1" title="Admin Password Extraction 1" width="300" height="217" class="alignnone size-medium wp-image-2945" />
+<img src="../../static/blog/2009/04/admin_password_extraction_2-300x216.png" alt="Admin Password Extraction 2" title="Admin Password Extraction 2" width="300" height="216" class="alignnone size-medium wp-image-2947" /></div></li>
+<li>Have fun! (the most important step really)</li>
+</ol>
+
+<p>It is somehow ironic that a free tool provided by the vendor of a product can be used as a hacker tool against their own product.</p>
+
+<p><em>As far as I know, this vulnerability cannot be exploited over the Internet, since the camera only responds to wizards located in the same LAN. Never say never though, so if you find a way to exploit this vulnerability over the Internet, please <a href="../../contact/index.html">contact</a> us.</em></p>
+
+<p><strong>UPDATE</strong>: CPU and additional OS info added.</p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/camera/index.html" rel="tag">camera</a> | <a href="../../tags/embedded/index.html" rel="tag">embedded</a> | <a href="../../tags/linksys/index.html" rel="tag">linksys</a> | <a href="../../tags/project/index.html" rel="tag">project</a> | <a href="../../tags/research/index.html" rel="tag">research</a> | <a href="../../tags/vulnerability/index.html" rel="tag">vulnerability</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-126584">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/590273fa1d26b0cbd5c09692e2a8ae73?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.planb-security.net/' rel='external nofollow' class='url'>Tod</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126584">
+			April 20, 2009 at 1:48 pm</a>		</div>
+
+		<p>Aw man, no pcap? Don&#8217;t make me go out and buy one of these things just to see if I can&#8217;t decode the handshake&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126586">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c54afccedcda011701643b3c0a1a01b2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://zachrogers.net/' rel='external nofollow' class='url'>ZachR</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126586">
+			April 20, 2009 at 2:24 pm</a>		</div>
+
+		<p>Very nice. Keep up the great work!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-126590">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126590">
+			April 20, 2009 at 4:58 pm</a>		</div>
+
+		<p>@Tod: the only reason i didnt post the pcap file is because the handshake (whether truly encrypted or not) will include config data that&#8217;s specific to my camera (i.e.: MAC address). call me paranoid, but i rather not post it. besides, these cameras are relatively affordable.</p>
+<p>@ZachR: thanks for the nice comment :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126605">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/012b82c152a3df5f6870638701a232a5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.j-zero.de/' rel='external nofollow' class='url'>j-zero</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126605">
+			April 21, 2009 at 9:06 am</a>		</div>
+
+		<p>yeah linksys. epic fail.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126610">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b70a46f09148634901fa6e442fca8201?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">CERT</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126610">
+			April 21, 2009 at 3:46 pm</a>		</div>
+
+		<p><a href="http://www.kb.cert.org/vuls/id/528993" rel="nofollow">http://www.kb.cert.org/vuls/id/528993</a></p>
+<p>Old news</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-126614">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126614">
+			April 21, 2009 at 9:28 pm</a>		</div>
+
+		<p>ahhhhhhh, r u sure this is the same vuln?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126618">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9c2dbe4b2f5214590ceb3f0a9c1a920a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Justin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126618">
+			April 22, 2009 at 3:07 am</a>		</div>
+
+		<p>Ok I just ordered one to try this myself. <a href="mailto:justin@wastate.net">justin@wastate.net</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-126621">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126621">
+			April 22, 2009 at 7:34 am</a>		</div>
+
+		<p>@CERT: the US-CERT note you mentioned (VU#528993) is the same as CVE-2008-4390 which I *did* talk about in this post. It might not be the same exact issue but it&#8217;s hard to tell as there is very little info provided by CVE-2008-4390/VU#528993.</p>
+<p>Please note that:</p>
+<p>1) a different model (WVC54GC) was reported to be vulnerable on CVE-2008-4390/VU#528993</p>
+<p>2) the data didn&#8217;t seem to travel unencrypted in the case of the WVC54GCA during communications with the setup wizard (maybe just encoded/obfuscated?). VU#528993 mentions: &#8220;This packet is sent over the network unencrypted&#8221;, which doesn&#8217;t appear to be true for the WVC54GCA (at least at first sight, further digging might reveal otherwise)</p>
+<p>3) there is no fix available for the WVC54GCA at time of writing, while Linksys did release a fix for the WVC54GC</p>
+<p>I tried contacting Andre Protas and Greg Linares who found the issue you mentioned (CVE-2008-4390/VU#528993) in order to gather more details, but I received no response.</p>
+<p>It might be possible that Linksys did fix the issue of sensitive data traveling in the clear when the wizard communicates with the camera, but might have still left unfixed a fundamental flaw: the camera sends the admin password to the wizard before the user even enters them on the wizard. I guess the developer(s) didn&#8217;t think of someone examining the memory of the wizard process?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126685">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e6db5cd515ae82eda3d5e9845672e9a3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">shawnmer</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126685">
+			April 28, 2009 at 3:42 am</a>		</div>
+
+		<p>Looks like the Linksys Setup utility has been pullled from the link you provided above: WVC54GCA-CD-Content-10-25-2007_SetupWiz.zip</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-126908">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126908">
+			May 7, 2009 at 6:38 pm</a>		</div>
+
+		<p>@shawnmer: Linksys updated the wizard URL. The new link is <a href="http://downloads.linksysbycisco.com/downloads/WVC54GCA-CD-Content-10-25-2007_SetupWiz,0.zip" rel="nofollow">http://downloads.linksysbycisc.....pWiz,0.zip</a></p>
+<p>FYI:</p>
+<pre><code>$ md5sum SetupWizard.exe
+1c7cb77e906152376102b88604650577  SetupWizard.exe</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126974">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/080ff49f2b30e1b9432f2ab176fc7201?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">---</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126974">
+			May 10, 2009 at 4:50 pm</a>		</div>
+
+		<p>Has anyone tried to sniff and playback the video stream (probably mpeg4) of these IP cameras?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127426">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2065ef03a417daa9b3affe38a8f716df?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.sothcott.co.uk/' rel='external nofollow' class='url'>Wayland</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127426">
+			June 5, 2009 at 9:09 pm</a>		</div>
+
+		<p>I can confirm that the camera does lock up on occasion but clears itself and it&#8217;s light sensitivity is not as good as a Sitecom Wifi camera. However it&#8217;s an excellent price and works very well with Go1984. </p>
+<p>It would be interesting to turn a router or a print server into a mini USB camera server.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127487">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/38de284147db9f4311379749056913b2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.rmadeat.com/' rel='external nofollow' class='url'>rmadeat</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127487">
+			June 13, 2009 at 11:25 am</a>		</div>
+
+		<p>Very nice. </p>
+<p>Thank you</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-133756">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b769899d399ba865214bdc67b91b5d2e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">william c</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-133756">
+			June 22, 2011 at 2:01 am</a>		</div>
+
+		<p>if its running linux why hasn&#8217;t anyone written a replacement os like dd-wrt for the routers. the cameras credentials for the plugin are out of date so the only way to view it with out the pc software is to make your browser vulnerably to unsigned content. so why doesnt some code genius do just that and write a more updated os for the camera i mean look what dd-wrt did for the wrt54g</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="2899"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="eae8aeab81" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:22:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

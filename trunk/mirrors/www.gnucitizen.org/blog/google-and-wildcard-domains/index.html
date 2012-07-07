@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/google-and-wildcard-domains/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:25:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Google and Wildcard Domains</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Google and Wildcard Domains Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='OWASP Europe 2008 Ghent' href='../owasp-europe-2008-ghent/index.html' />
+<link rel='next' title='Landing Blogsecurify' href='../landing-blogsecurify/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexe1f1.html?p=877' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-877" class="post">
+	<div class="post-title"><h2><span>Google and Wildcard Domains</span></h2></div>
+	<div class="post-date"><span>published:</span> June 23rd, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Basically, Google allows you to use custom domains for your Google for Applications, Blogspot, Mashup Editor and of course App Engine accounts. I think this is an excellent feature and I use it for several of my domains. Although, some of the Google applications ask you to verify the ownership of the domain you are about to use by instructing you to place a special CNAME record on your nameserver, others don&#8217;t. They simply assume that if a domain points back to them it must have been authorized by the owner and this is exactly the case with Blogspot.</p>
+
+<p>This is a very interesting situation and I must say it can be used for some very nasty phishing and defamation attacks, smear campaigns among other things especially today when <a href="../most-attractive-targets-saas/index.html">most of the businesses move to SaaS</a>. It is interesting, because many companies/organizations, from what I can see when doing some basic queries, are using wildcards to point back to Google. The wildcard domain instructs the nameserver to resolve any random domain to whatever details you specify. In case of Google, nameserver admins simply wildcard to <code>ghs.google.com</code>.</p>
+
+<p>This might seam a good decision from administrative point of view but it is a horrible misconfiguration problem if you think about it. The problem is that as soon as you wildcard to Google&#8217;s SaaS, you allow attacker to register subdomains under your domain. For example if we have <code>*.acme.com</code> pointing to <code>ghs.google.com</code> attacker will be able to register <code>blog.acme.com</code> and use that to confuse the crap out of everybody.</p>
+
+<p><em>This is somewhat a big problem people and you better start taking into consideration the entire system (not just the individual components) more seriously.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/domains/index.html" rel="tag">domains</a> | <a href="../../tags/google/index.html" rel="tag">google</a> | <a href="../../tags/misconfiguration/index.html" rel="tag">misconfiguration</a> | <a href="../../tags/nameserver/index.html" rel="tag">nameserver</a> | <a href="../../tags/saas/index.html" rel="tag">SaaS</a> | <a href="../../tags/secure/index.html" rel="tag">secure</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/warning/index.html" rel="tag">warning</a> | <a href="../../tags/wildcard/index.html" rel="tag">wildcard</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-122648">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2f6303f9095f59c14c3097ef4df566f5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kuza55.blogspot.com/' rel='external nofollow' class='url'>kuza55</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122648">
+			June 23, 2008 at 1:22 pm</a>		</div>
+
+		<p>I&#8217;m of the opinion that wildcards are simple a bad idea for security in general, and pointing them at IP addresses you don&#8217;t control is just plain stupid.</p>
+<p>So have you seriously seen an administrator who thinks it&#8217;s a good idea to let someone control subdomains that are under their DNS?</p>
+<p>The ghs.google.com domain doesn&#8217;t seem to suffer this problem, however if you were to point the wildcard at a working domain then you are also trusting that that domain does not have xss holes.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122658">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/98f25f9a7f97a386501c988aaa5bad7b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">NurBo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122658">
+			June 24, 2008 at 1:16 am</a>		</div>
+
+		<p>This isn&#8217;t anything knew Ive seen tricks done to get access to a domain gmail account. Such as @whatever.com you just trick your way into verifying and now you have the a email address with somebodys domain you can do alot of things with just a bit of that. And the image is cool in my book.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122659">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aaf6458b296bd09d5f21a8c05b7f13ac?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://dyndns.com/' rel='external nofollow' class='url'>jtyrrell</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122659">
+			June 24, 2008 at 1:21 am</a>		</div>
+
+		<p>I haven&#8217;t used Blogspot, but from the services I&#8217;ve seen, you must first tell Google the value of the CNAME before creating the record.  If you enter a wildcard into that field, it tells you that *&#8217;s aren&#8217;t allowed.</p>
+<p>This is so that ghs.google.com can respond to an HTTP query properly according to the Host: header that the client sends.  If an unknown Host is submitted, Google simply sends back a 404 error.</p>
+<p>So you&#8217;re saying this really isn&#8217;t the case with Blogspot?  Oversight indeed&#8230;.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122752">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/de37b9dc788b0268d438591e085e4496?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://sirdarckcat.blogspot.com/' rel='external nofollow' class='url'>sirdarckcat</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122752">
+			June 30, 2008 at 5:52 pm</a>		</div>
+
+		<p>jtyrrell is right, <a href="http://help.blogger.com/bin/answer.py?answer=55373" rel="nofollow">http://help.blogger.com/bin/answer.py?answer=55373</a></p>
+<p>I Notes they say:</p>
+<p>You can use this feature with domains (e.g. mysite.com) or subdomains (e.g. name.mysite.com). However, you cannot specify subdirectories (e.g. mysite.com/blog/) or wildcards (e.g. *.mysite.com).</p>
+<p>Greetz!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122867">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b482000b6e3554ee69d69fddea82cf4e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Albert</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122867">
+			July 6, 2008 at 6:49 pm</a>		</div>
+
+		<p>Pdp means that if *.acme.com points to Blogspot, you can go to Blogspot and occupy blog.acme.com. The wildcard is entered in the DNS, and not at Blogspot.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122878">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aaf6458b296bd09d5f21a8c05b7f13ac?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://dyndns.com/' rel='external nofollow' class='url'>jtyrrell</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122878">
+			July 7, 2008 at 1:31 pm</a>		</div>
+
+		<p>Right, but Google doesn&#8217;t have to respond to that hostname.  Through HTTP, they could choose to give you a 404 error, as I&#8217;m sure they do.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="877"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="715f53393b" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/google-and-wildcard-domains/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:25:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

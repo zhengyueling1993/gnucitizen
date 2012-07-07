@@ -1,0 +1,645 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/google-search-api-worms/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Google Search API Worms</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Google Search API Worms Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Web Pages from Hell' href='../web-pages-from-hell/index.html' />
+<link rel='next' title='Backdooring MP3 Files' href='../backdooring-mp3-files/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexae74.html?p=72' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-72" class="post">
+	<div class="post-title"><h2><span>Google Search API Worms</span></h2></div>
+	<div class="post-date"><span>published:</span> September 14th, 2006</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>One of the main disadvantages of AJAX is the lack of cross domain request capabilities. In simple words, a web object from one site cannot access another one from a different site. The reason for this security feature is hidden deeply inside every modern browser security sandbox which is responsible for keeping your personal information private and safe.</p>
+
+<p>Unfortunately, with the rise of AJAX enabled application the need to break out the security sandbox receives a lot of enthusiastic support among AJAX developers.  Even Google, one of the biggest AJAX evangelist today, provides <a href="http://code.google.com/">JavaScript APIs</a> to allow developers to mashup their services with Google&#8217;s enormous computing capabilities. As a result Google unconsciously enables various types of worms to craw and exploit the web.</p>
+
+<p>The service that concerns me the most is <a href="http://code.google.com/apis/ajaxsearch/">Google AJAX Search API</a>, the new JavaScript powered search widget. In this article I will cover how to mashup with Google&#8217;s new service in a very simple way and explain why and how it can be used by web malware to propagate. The source code provided in this article will be available in the next <a href="../attackapi/index.html">AttackAPI 0.7</a> release.</p>
+
+<p>First of all it is essential to understand how to use the API. The technique is quite simple actually. It involves the usage of a SCRIPT element which carries a request to Google the <a href="http://www.json.org/">JSON</a> way. For example:</p>
+
+<pre><code>&lt;script&gt;
+  function myCallback(a, b, c, d) {
+    alert(b.results[0].title);
+  }
+&lt;/script&gt;
+&lt;script src="http://www.google.com/uds/GblogSearch?callback=myCallback&#038;context=0&#038;lstkp=0&#038;rsz=small&#038;hl=en&#038;q=Google&#038;key=internal-documentation&#038;v=0.1" src="text/javascript"&gt;&lt;/script&gt;</code></pre>
+
+<p>Upon execution the code above returns the title of the first section from the result set and displays it in an alert box. The reader may expand on that technique.</p>
+
+<p>Going back to my example, the entire logic is carried by the SCRIPT element. There are several important bits in the SCRIPT URL that need to be understood. The first one is the callback field. This is the name of the function that handles the request. The second important field is the key. Google has flexible system where keys are issued per URL. In this example the key is the generic one that can be found in all examples from Google. The last important bit is the actual query. This holds the terms that will be evaluated by Google. When loaded by the browser the SCRIPT element evaluates the content pointed by the URL in its src attribute. This results in a function call to the callback.</p>
+
+<p>That is all that is required in order to make Google queries via JavaScript. There is a minor restriction introduced by Google though. There is no way to go deeper into the result set. Google will give you only the results that it believes are the most interesting and nothing more. However, this restriction can be easily circumvented by introducing diversity in the query terms. For example <q>intranet ext:aspx</q>, <q>admin ext:aspx</q> and <q>aspx ext:asxp</q> produce different results and they all refer to *.aspx files. So by using query fuzzer which randomizes the search phrase more results can be extracted.</p>
+
+<p>Knowing how to use Google AJAX Search API is only one side of the story. The other one and probably the most interesting one is how this can be used by web worms. Let&#8217;s have a look at a couple of examples.</p>
+
+<p>Web worms can use Google&#8217;s infrastructure to propagate. If a malicious mind finds a vulnerability in <a href="http://www.wordpress.org/">WordPress</a> for example and this vulnerability allows SQL Injection, a worm may be written to craw blogs in search for this vulnerability and embed itself into everything that is vulnerable. Once a user visits an infected blog the worm starts another cycle.</p>
+
+<p>Another worm might be able to craw random sites and run generic Cross-site Scripting and SQL Injection checks and send the results to their master who will use them to release more advanced worms.</p>
+
+<p>Malicious minds can use Google technology and recently discovered vulnerabilities to create a BotNet that can be used for computational tasks, attacks, information gathering and pretty much everything else that the masters can come up with.</p>
+
+<p>Unfortunately, I am just the messenger. Although I am not aware of any worms available that make use of this technique I won&#8217;t be surprised if I see some in the near future. Malicious content in <a href="../backdooring-web-pages/index.html">Web Pages</a>, <a href="../backdooring-flash-objects-receipt/index.html">Flash<a/>, <a href="../backdooring-quicktime-movies/index.html">QuickTime</a> and <a href="http://michaeldaw.org/md-hacks/backdooring-pdf-files/">PDF</a> has suddenly become one of the most common threats we face today.</p>
+
+<p><em>In my mind I picture a protection system similar to what we have with today&#8217;s AntiVirus agents; a signature scanner that goes through every page we visit. A Firefox extension that can do that can be quite handy.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-76">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/796fd127c2eb2c99e2b35101ced59870?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.devurandom.org/' rel='external nofollow' class='url'>Deryck Hodge</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-76">
+			September 15, 2006 at 11:12 pm</a>		</div>
+
+		<p>So what is the actual security threat?  Just being able to search Google for WordPress blogs if they were vulnerable is not a threat.  You can do that a la normal Google search or via the SOAP search API, too.</p>
+<p>Seems like much ado about nothing to me here.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-77">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-77">
+			September 15, 2006 at 11:27 pm</a>		</div>
+
+		<p>The threat is that this can be done from JavaScript without the need of a request proxy. This enables worms such as the Samy and Yamaner to infect not only the platform they were written for but other platforms as well.</p>
+<p>By using Google&#8217;s AJAX Search API, malicious JavaScript code can discover potential targets and exploit them. I believe that this is a threat.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-78">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/796fd127c2eb2c99e2b35101ced59870?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.devurandom.org/' rel='external nofollow' class='url'>Deryck Hodge</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-78">
+			September 15, 2006 at 11:41 pm</a>		</div>
+
+		<p>I&#8217;m sorry, but I still don&#8217;t see it.  You say the threat is that &#8220;*this* can be done from JavaScript&#8221;.  What is the &#8220;this&#8221;?  Searching Google?  So just searching Google via JavaScript is a threat?  How?  How can a worm propogate via a search query?</p>
+<p>If I&#8217;m misunderstanding you, please forgive.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-80">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a76918495461f3412e4c5efc435393e7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">JD</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-80">
+			September 16, 2006 at 5:42 am</a>		</div>
+
+		<p>The Sammy worm was able to propogate through myspace because it was embedded in a page that ran from the same domain as the target (i.e. another myspace page.) So the security restrictions against cross site scripting were not overcome, they were simply not relevent.</p>
+<p>In the example you outline, malicious code would be able to search for vulnerabilities, for instance in wordpress. But when it comes to attacking these resources, the script would still have be able to make an attack on a different domain, (such as the domain hosting the blog.) It would not be able to do this, because of the security sandbox.</p>
+<p>The ability of a piece of malicious code to do a search and find a vulnerability doesn&#8217;t mean that it can be exploit it. And running a search on a domain through google (which is all that &#8220;Google&#8217;s infrastructure&#8221; allows you to do through the api) will have no actual effect on that domain, so Google have not opened up a security hole here.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-81">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-81">
+			September 16, 2006 at 8:23 am</a>		</div>
+
+		<p>JD and Deryck,</p>
+<p>I think that you guys don&#8217;t understand that making POST and GET requests from JavaScript is quite simple. For example, let&#8217;s make a GET request.</p>
+<pre><code><img src="http://vulnerable.com/?params=sql_injection_here"/></code></pre>
+<p>Let&#8217;s make a POST request.</p>
+<pre><code>&lt;form name="postform" method="POST" action="http://vulnerable.com"&gt;
+  &lt;input type="hidden" name="params" value="sql_injection_here"/&gt;
+  &lt;input tyoe="submit"/&gt;
+&lt;/form&gt;
+&lt;script&gt;
+  postform.submit();
+&lt;/script&gt;</code></pre>
+<p>Put that into an iframe and than you can make the request. So, how hard is that?</p>
+<p>JD made a very good point. There is a security restriction, so, although I can make POST and GET requests I cannot see the result. But worms are usually not interested in that. They can search for targets and blindly exploit them.</p>
+<p>Because in theory JavaScript cannot read information that is coming from a different DOMAIN, it is hard for worms such as Samy and Yamaner to discover targets outside of their own. However, this restriction is bypassed by using the Google Search API which provides every AJAX developer with programable search facilities. Now worms can discover targets outside of their current DOMAIN and exploit them.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-82">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a76918495461f3412e4c5efc435393e7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">JD</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-82">
+			September 16, 2006 at 11:31 pm</a>		</div>
+
+		<p>I see, everything makes sense now. Of course, the worm doesn&#8217;t have to see the response, it just moves on to the next target etc. Very nasty.</p>
+<p>In this case, the yahoo search api is also a threat, as it also has the possibility of working via JSON.</p>
+<p>Also, I believe that google are more on the ball when it comes to blocking url searches that expose weaknesses than yahoo are (they often return a message like &#8220;a virus is running searches from your machine&#8221; or something like that), which is another reason why a worm might make use of the yahoo api.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-84">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1fc2615c6a803c4f95c1e5cba7e837de?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.rsio.org/' rel='external nofollow' class='url'>srvzro</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-84">
+			September 17, 2006 at 1:13 am</a>		</div>
+
+		<p>But searching Google has been used many times to find victims for various types of dynamic websites. This now makes self propagation easier. Imagine everytime a compramised page is visited, the worm searches google api and attempts to infect a different victim.</p>
+<p>While reviewing the weblogs to one of my sites, I found a curious GET / POST activity and when I checked deeper I found a Google referrer link that tried to use an SQL injection exploit for phpBB forums.</p>
+<p>I&#8217;ll add the geocities site here for everyone&#8217;s review. I&#8217;ve tried to contact geocities&#8217; abuse information, but its been several months now and this site is still up.</p>
+<p><a href="http://geocities.com/oase_peace/" rel="nofollow">http://geocities.com/oase_peace/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-85">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/796fd127c2eb2c99e2b35101ced59870?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.devurandom.org/' rel='external nofollow' class='url'>Deryck Hodge</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-85">
+			September 17, 2006 at 2:45 am</a>		</div>
+
+		<p>Dude, you insult me by saying I don&#8217;t understand that POST and GET is possible via JavaScript.  Please.</p>
+<p>But so what?  In your last examples, I don&#8217;t even need JavaScript.  Just do the GET or POST directly on the vulnerable site.  And again, it&#8217;s the *site* that&#8217;s vulnerable not Google&#8217;s API.</p>
+<p>And your argument that Google&#8217;s API could someone propogate worms that take advantage of a group of sites&#8217; vulnerabilities is hypothetical at best.  Show me the code.  Prove it.</p>
+<p>I don&#8217;t mean to be harsh, but you&#8217;re the one who posted this to a set of security lists.  So back it up.  And honestly, it just plain bothers me when people decry the security risk of running JavaScript when there&#8217;s nothing there.  JavaScript has been used to cause problems in the past and will so again, I&#8217;m sure, but please don&#8217;t scream foul when there&#8217;s nothing there.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-87">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-87">
+			September 17, 2006 at 9:06 am</a>		</div>
+
+		<p>JD, good point. I am working on the Yahoo Search API already.</p>
+<p>srvzro, yes Google has been used for that purpose many times in the past but never from JavaScript. The thing that attacked your website looks to me like the technique used several years ago where you can make Google hack into pages on behalf of the attacker. All the attacker needs to do is to place several links on a page and wait for Google to craw them. This is still possible today.</p>
+<p>Deryck, my respond wasn&#8217;t meant to insult you in any way. I was trying to make a point. Did I ever say that Google Search API is vulnerable? Nope, I don&#8217;t think so. Google search API is not vulnerable, however it provides facilities that can be used by JavaScript worms to propagate.</p>
+<p>I am sorry Deryck but I am not planning to write a JavaScript worm just to prove my point. Go to <a href="../attackapi/index.html" rel="nofollow">AttackAPI project page</a> and write one yourself, or maybe you can prove me wrong by presenting at least <strong>3 points</strong> why Google Search API <strong>CANNOT</strong> be used by JavaScript worms. :)</p>
+<p>Are you really saying that Google Search API cannot be used by JavaScript worms? Seriously, how many worms were written in the past that were making use of Google search facilities? Yes, they all were written in Perl and C. Now this search facility is brought to JavaScript as well. Is it so hard to understand that this can be used in a malicious way?</p>
+<p>This respond wasn&#8217;t meant to insult you or flame you but to prove my point. You are the only guy I know who is claiming that Google Search API is not a threat. My post to FD was meant to send a message, a security notice if you like. We fight against all sorts of malware and those written in JavaScript will be the ones that are harder detect and remove.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-88">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/796fd127c2eb2c99e2b35101ced59870?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.devurandom.org/' rel='external nofollow' class='url'>Deryck Hodge</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-88">
+			September 17, 2006 at 2:22 pm</a>		</div>
+
+		<p>Believe me, I&#8217;m not mad.  And I don&#8217;t mean to continue what seems a pointless debate.  I believe you are as stubborn as I am. :-)</p>
+<p>However, I don&#8217;t think it&#8217;s accurate to say I&#8217;m the only one disagreeing with you.  I&#8217;m the only one on this blog saying this, and there&#8217;s only three of us here.  And in fact, I&#8217;m *not* disputting that you could use a search engine to discover information about websites and use that info to exploit vunerable sites.  I&#8217;m disputing that a JavaScript API makes this any more possible than any other programming language or API, or even using Google itself &#8220;by hand&#8221; so to speak.</p>
+<p>And I also question your example.  If I run the JavaScript search API on my site, and I use it to find info about a site &#8212; that info is in JavaScript object or variables in my browser.  Okay, so I&#8217;ve got a list of urls that I believe are vulnerable.  Now what?  I can&#8217;t use XMLHttpRequest to do anything with those URLs from my site.  I can&#8217;t use an iframe.  I&#8217;d have to navigate to that site either directly or via document.location.href manipulation, and by that point, I&#8217;m just executing a regular GET or POST.  And any info I had in JavaScript form is lost, unless I used some server-side programming to persist it.  You seem to be suggesting that the API allows me to traverse the web in some way.  If it did, that would be a bug either in the API or the browser and a security risk.  I&#8217;m saying you haven&#8217;t proved this is possible.</p>
+<p>I may be stubborn, but I&#8217;m offering technical examples here.  Show me something different, and I promise I&#8217;ll admit I&#8217;m wrong and go away.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-89">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-89">
+			September 17, 2006 at 4:34 pm</a>		</div>
+
+		<p>You are right that you cannot use XMLHttpRequest. You are wrong about the iframe though. You don&#8217;t need server side language to persist what so ever. </p>
+<p>Let&#8217;s say the user has just visited a web page that contains malicious code; a worm if you like. The first thing the worm will do is to perform some malicious activity. Let&#8217;s say that this is a harmless worm and it is designed to annoy the user. So here is the first piece of code.</p>
+<pre><code>&lt;script&gt;
+  alert('this page has been compromised by a worm');
+&lt;/script&gt;</code></pre>
+<p>The next thing the worm will do is to find other vulnerable targets to exploit. The worm uses Google AJAX Search API for that purpose.</p>
+<pre><code>&lt;script&gt;
+  function callback(results) {
+    ...
+    ...
+    ...
+  }
+  AttackAPI.GoogleSearch.search(callback, query);
+&lt;/script&gt;</code></pre>
+<p>What the callback function does is to handle the results provided by Google AJAX Search API. So let&#8217;s say that 10 vulnerable applications are found:</p>
+<ol>
+<li>http&#58;//www.example.com/app</li>
+<li>http&#58;//www.bla.com/path/to/app</li>
+<li>&#8230;</li>
+<li>&#8230;</li>
+<li>&#8230;</li>
+<li>&#8230;</li>
+<li>http&#58;//www.alabala.com/hidden/path/to/app</li>
+<li>&#8230;</li>
+<li>&#8230;</li>
+<li>&#8230;</li>
+</ol>
+<p>The worm takes the results and puts them into a loop that infects all of them with new copies of itself.</p>
+<pre><code>&lt;script&gt;
+  for (var index = 0; index &lt; URLs.length; index++)
+    infect(URLs[index]);
+&lt;/script&gt;</code></pre>
+<p>What the infect function does is to send a POST or GET request, <strong>NOT VIA XMLHttpRequest</strong>, to the vulnerable target.</p>
+<p>Let&#8217;s say that in the first scenario we need to send a GET request. How do we do that bypassing the browser security sandbox?</p>
+<pre><code>&lt;script&gt;
+function infect(URL) {
+  var img = new Image();
+  img.src = URL + '?var1=[sql_injection put a javascript payload here]';
+}
+&lt;/script&gt;</code></pre>
+<p>Since var1 is vulnerable to SQL Injection when the Image object tries to fetch an IMAGE (MAKE a GET request) a JavaScript payload is sent to the vulnerable APP. Let&#8217;s say that this request results in JavaScript code injection into the top blog entry. This means that users accessing the attacked website will come across the same worm and the cycle will restart.</p>
+<p>Let&#8217;s say that instead of GET a POST is needed. So how do we do that? We don&#8217;t want to redirect the user, do we? The solution is very simple:</p>
+<ol>
+<li>Make a hidden iframe</li>
+<li>Make a form inside setting its method to POST</li>
+<li>Make a field and set its name to var1 and its value to <strong>[sql_injection put a javascript payload here]</strong></li>
+<li>Call form submit() method.</li>
+</ol>
+<p>Upon execution the iframe will redirect to the URL to which the POST is made. Since it is hidden the user cannot see what is happening in the background. Again, the actual redirection after submitting the form happens inside an iframe, not in the current document.</p>
+<p>I am not going to present source code how to do that in practice&#8230; it will be a bit longer than the first example. However please go ahead an read on this topic and it will get a lot clearer. Research <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery" rel="nofollow">Cross-site request forgery</a>.</p>
+<p>If Google AJAX Search API wasn&#8217;t there on first place, the worm propagation would not be possible simply because JavaScript is not able to read content that does not successfully passes the same origin checks. This means that a worm can propagate only on resources that matches the current protocol, domain and port.</p>
+<p>Thanks for your stubborness :). I believe that the situations is a lot clearer now for the readers of this blog.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-90">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/796fd127c2eb2c99e2b35101ced59870?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.devurandom.org/' rel='external nofollow' class='url'>Deryck Hodge</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-90">
+			September 17, 2006 at 7:33 pm</a>		</div>
+
+		<p>Thanks for the detailed example.  That&#8217;s all I wanted, not an actual worm.  And no, I&#8217;m not doing anything stupid. :-) Feel free to Google my name, and I&#8217;ll think you&#8217;ll find I have a solid history of building websites and web tools, not exploiting weak ones.</p>
+<p>As for your example, it&#8217;s clearer now what you mean, but really just more of what you said earlier.  I don&#8217;t know how to make my argument any clearer.  Your just illustrating classic XSS &#8211;</p>
+<p>1) Find a list of vulnerable sites<br />
+2) Insert malicious JavaScript<br />
+3) Rinse and repeat :-)</p>
+<p>The vulnerability is with the site(s) you discover, not the API.  So how does being able to search for the list of sites via JavaScript pose any more of a threat than being able to search for vulnerable sites by more &#8220;traditional&#8221; means?  That&#8217;s all I&#8217;m suggesting&#8230; that this is a hypothetical case, and not a real threat to very many, if anyone.  It depends on a) an already existing vulnerablility, and b) those vulnerable sites to be running the Google search API.</p>
+<p>I hope my point, like yours, in now clear.  I don&#8217;t want to take up more of your blog than I already have (and I appreciate your discussion.)  Feel free to take this off list with me &#8212; deryck AT samba DOT org &#8212; if you want to discuss further.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-91">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-91">
+			September 17, 2006 at 8:08 pm</a>		</div>
+
+		<p>No worries mate. Deryck, actually I am glad that we had this discussion.</p>
+<p>You are right that this is a classical example of a worm and by nature is not any different. However, what is different about Google AJAX Search API Worms is that they are written in JavaScript. Yes, there are other worms written in JavaScript but they were all restricted to the same SITE/DOMAIN.</p>
+<p>As I said earlier I am just the messenger. There are no available solutions right now to fight against this kind of worms. Moreover, JavaScript is quite powerful language which allows code to morph which makes detection quite hard.</p>
+<p>There is one more thing that I would like to make clear as well. You are saying there are two requirements for such worms.</p>
+<blockquote><p>a) an already existing vulnerablility, and b) those vulnerable sites to be running the Google search API.</p></blockquote>
+<p>You are right for the first one but not for the second one. :)</p>
+<p>Thanks for you comments.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-92">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/db65e714126388ef4b54fa3982f528dc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.blad3.ro/' rel='external nofollow' class='url'>Blad3</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-92">
+			September 18, 2006 at 8:01 am</a>		</div>
+
+		<p>Hey, I finally got it also :P Thanks Deryck Hodge. Sometimes, stubborness is a quality.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-94">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/dff7d8b6c240962aecc4dfa95e99005a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">bedo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-94">
+			September 19, 2006 at 7:22 am</a>		</div>
+
+		<blockquote><p>In my mind I picture a protection system >similar to what we have with today’s >AntiVirus agents; a signature scanner that goes through every page we visit. A Firefox >extension that can do that can be quite handy.</p></blockquote>
+<p>Interesting as they are getting Browser Shield for IE into life sooner. Although they claim to prevent the &#8220;malicious content&#8221; (0 day or unpatched exploits for IE) in web sites, this may also mean &#8220;javascript malware&#8221;, as they put it nowadays.</p>
+<p>So, that means that the effort to write a tool is worthed. After all, this is not about writing a solid browser, or is it?</p>
+<p>Nice work.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-158">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/47cccad696f74037522590502bea5f3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">chown</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-158">
+			September 27, 2006 at 5:13 am</a>		</div>
+
+		<p>You guys are missing something. I&#8217;m not sure about IE, but Firefox certainly doesn&#8217;t allow scripts to access iframes. And also, you seem to be relying on some extremely abundant SQL injection vulnerability. Not only that, but the ability to exploit it &#8211; with javascript. SQL injection is pretty much impossible to automate.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-165">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/47cccad696f74037522590502bea5f3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">chown</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-165">
+			September 29, 2006 at 5:12 am</a>		</div>
+
+		<p>&#8220;SQL injection vulnerability can be exploited with a single URL.&#8221;</p>
+<p>That&#8217;s not possible. You cannot exploit multiple different vulnerabilities with a single attack. Nearly all databases are completely different, and saying you can gain access to any database with a single URL is quite simply ludicrous.</p>
+<p>Believe me, if it were at all possible, in any way, shape or form, to create an effective Javascript worm &#8211; one that could effect multiple domains, it would have been done a long time ago.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-167">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-167">
+			September 29, 2006 at 7:43 am</a>		</div>
+
+		<p>Ok, let’s imagine that there is popular blogging software that is vulnerable to SQL Injection. The vulnerability occurs when SQL meta characters are submitted into an unsanitized hidden field from a submit comments form. In that respect if someone inputs single quote into this field, the resulting page will be an error dump.</p>
+<p>Is it possible for a JavaScript worm to propagate via this vulnerability? I am saying that it is absolutely possible. Let&#8217;s have a look in the test scenario specified above.</p>
+<p>The worm can enumerate blogs by using Google AJAX Search API. Once the blog is found the worm will blindly submit a comment with special SQL statements inside to tamper the backend database. This can be quite simple or complex depending how the application is written. The worm is spreading! :) Yey! </p>
+<p>How do we submit comments you may ask? The answer is via GET and POST. Can JavaScript applications do blind GET and POST? Yes! Some blogging software accept only POST, others accept both. If it is a Java Servlet application there is high chance for the second. But this doesn’t matter. Both GET and POST can be performed from JavaScript. Not to mention that the entire process can be automated absolutely 100% because the application is known and its behavior can be studied in order to make the worm more stable.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-170">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b68ba0214a81b5047c73afad92b4b62c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">atomic1fire</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-170">
+			September 29, 2006 at 11:43 pm</a>		</div>
+
+		<p>idiot style:<br />
+  worm sees hole<br />
+  worm uses google to find more copys of that hole</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-180">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0db34b60ad5f1dc9601e1a1dc7689bee?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">pato</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-180">
+			October 4, 2006 at 4:51 am</a>		</div>
+
+		<p>If a browser sandbox doesn’t allow to obtain data from a different domain, how can any site show dynamic google content? How does Google AJAX API works? Isn’t it using XMLHTTP?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-181">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-181">
+			October 4, 2006 at 4:55 am</a>		</div>
+
+		<p>Google AJAX Search API works with SCRIPT elements. This technique is also known as JavaScript on demand or JSON. Basically, a dynamic SCRIPT element is created that points to a remote URL which upon visit generates JavaScript that is evaluated inside the current browser. Since there are no restrictions on SCRIPT elements, this mechanism is quite suitable for implementing cross-domain functionalities.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-195">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8646bd4e904762c599e11665cc67f158?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://wasjournal.blogspot.com/' rel='external nofollow' class='url'>wasnewbie</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-195">
+			October 5, 2006 at 2:27 pm</a>		</div>
+
+		<p>I wonder if XSS on victim sites have to be persistent XSS types in order for this worm to spread on a much larger scale.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-199">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-199">
+			October 6, 2006 at 2:29 am</a>		</div>
+
+		<p>wasnewbie, persistency is definitely a big plus. However, worms that abuse Google AJAX Search API can use some sort of semi persistent method with dynamically generated <a href="../backdooring-quicktime-movies/index.html" rel="nofollow">MOV</a>, <a href="../backdooring-mp3-files/index.html" rel="nofollow">MP3</a> or <a href="../backdooring-flash-objects-receipt/index.html" rel="nofollow">SWF</a> objects through the method I discussed <a href="../self-contained-xss-attacks/index.html" rel="nofollow">here</a>.</p>
+<p>For example the worm can generate dynamic SWF that mimics Google Video or YouTube video player. After the movie is previewed the user will be asked to share the object with others or blog it on their website. I know that it requires user interaction but let&#8217;s me honest, people will happily do what they are asked for.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-677">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/450cc356e5393d46b96ff00196ba8712?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.concepthue.com/blog' rel='external nofollow' class='url'>Tom</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-677">
+			November 16, 2006 at 7:07 pm</a>		</div>
+
+		<p>A lot of Joomla sites were compromised by a series of attacks lately. Using GET/POST methods. It wasn&#8217;t Joomla actually &#8211; it was several 3rd party components for the popular CMS. My point is&#8230;I do believe that a single attack can effect multiple sites&#8230;or let&#8217;s say a single attack running over and over automated. Someone just unleashes it and it crawls the web like a search engine finding vulnerable sites&#8230; however to the point of chown, it has to be the SAME EXACTLY circumstance&#8230; To the point of pdp, that&#8217;s not really all too uncommon &#8211; especially because of the one example I just made about the CMS.</p>
+<p>All this means is developers need to be more careful. Generally speaking &#8211; the worm that would run SQL injection is probably easier to cut off at the head than other attacks&#8230;because a pattern can VERY easily be established and developers can fix the problem. Hopefully no one is using a compromised application for anything important such as payment transactions, etc. &#8230;if there was a vulnerability with say a paypal site and someone was able to inject some SQL to change around where money is being sent&#8230; Well not hard to catch the person but WOW what a mess.</p>
+<p>There is a big potential for disaster, but it&#8217;s not a reason to not use Google&#8217;s APIs. It&#8217;s just you need to understand you are advertising your system to the world&#8230;which many people want to do anyway- we all want more web traffic&#8230;just not the malicious kind.</p>
+<p>Of course google&#8217;s code search also presents dangers too. Though I&#8217;m sure that takes more of a manual labored approach for the script kiddies&#8230;where&#8217;s the fun in that?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-695">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f01e8fb667d877d5c81023426f8e8a86?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">anyone</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-695">
+			November 18, 2006 at 7:42 am</a>		</div>
+
+		<p>hi, thankx for the useful info :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-116079">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/beeb30672fdfd79dd4bf4fcf3afc6de2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://infiniteinjury.org/blog/' rel='external nofollow' class='url'>TruePath</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116079">
+			March 9, 2008 at 2:42 am</a>		</div>
+
+		<p>So I have to admit still being confused.  Are you advocating that client side scripting languages be denied *ANY* means of retrieving search data?  After all the way you stated your example it doesn&#8217;t matter in the slightest how the JS gets the information so the only way to protect against this would be to deny ANY kind of google query from JS (or require user input or something).</p>
+<p>I agree the ability to get search results makes JS worms slightly more dangerous but only slightly.  After all the author of the worm could merely release 50-100 worms into the wild each of them containing their own subset of compressed search queries (does search beforehand).  </p>
+<p>Additionally I would thin the API key would prevent this sort of attack from going very far.  If you are trying to run this as a worm you will need a new API key for every domain you infect no?  (And if somehow you can use the same one won&#8217;t google notice and shut you down?).  I suppose there is some chance you could try to grab the API key from the website you are attacking if it has one but that sounds mega-hard and less efficient than just preloading the data.</p>
+<p>Moreover, if you have a server vulnerable to an SQL injection attack discoverable via google any number of baddies can attack it directly so the extra risk seems like not much to worry about.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-116085">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116085">
+			March 9, 2008 at 9:41 am</a>		</div>
+
+		<p>TruePath, you have some valid point here although I believe that this is just the beginning of the exploration. The more versatile AJAX technology become the more often it will be used for malicious activities.</p>
+<p>P.S. you can use Google&#8217;s own internal key. They use that key for all their examples. That one works everywhere on every domain.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-116189">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/beeb30672fdfd79dd4bf4fcf3afc6de2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://infiniteinjury.org/blog/' rel='external nofollow' class='url'>TruePath</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116189">
+			March 11, 2008 at 8:30 pm</a>		</div>
+
+		<p>Ahh, I stand corrected on the key point. Thanks for letting me know.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124362">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d7a32f5c166100be791dde7b57ab6435?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mr-Yellow</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124362">
+			November 18, 2008 at 5:32 am</a>		</div>
+
+		<p>Problem: The results returned on each interation are the same results, no viral spread. The worm would have to integrate new keywords into it&#8217;s search on each new target so as to get a fresh set of targets. While the point of it&#8217;s search is looking for specifically exploitable paths/signatures. Additional keywords could be used to limit down results and get some fresh URLs but not easily.</p>
+<p>JSON makes this a little easier but isn&#8217;t something that was impossible before. Hitting pages and parsing results from HTML response is exactly the same as hitting some XML and parsing that, just a little more code.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127849">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/ba3c74ca6fd8ca7d5958fd84f0948e80?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://martiendejong.nl/' rel='external nofollow' class='url'>Martien de Jong</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127849">
+			September 16, 2009 at 2:23 pm</a>		</div>
+
+		<p>I have seen code like this in action, the result is pretty devastating. Anyway, I think the fault is not Google&#8217;s. Website just should not have vulnerabilities. If you have a dark room with all your belongings in it, will you blame someone that hands you a flashlight?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="72"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="4debbf13ec" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/google-search-api-worms/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

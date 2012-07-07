@@ -1,0 +1,623 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/google-chrome/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:24:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Google Chrome</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Google Chrome Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Let&#8217;s fix the Web' href='../lets-fix-the-web/index.html' />
+<link rel='next' title='Rethinking the Desktop Model' href='../rethinking-the-desktop-model/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index9aa6.html?p=1187' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-1187" class="post">
+	<div class="post-title"><h2><span>Google Chrome</span></h2></div>
+	<div class="post-date"><span>published:</span> September 2nd, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>It is true what many of you have heard. Google is releasing their own browser. Google Chrome, as they call it, is based on WebKit rendering engine and introduces some novel approaches to interacting with web technologies. I must say, it is very exciting to see all of this happening.</p>
+
+<p>What makes Google Chrome different is its architecture. The browser is no longer single-threaded process. Each tab is actually a separate process with own memspace. I am not sure if we are talking about threads or actual program instances but what is more important is that when you close a tab, you are virtually terminating the process. At least, this is what Google says.</p>
+
+<p>This seams to have some interesting implications on the security of the browser. If you corrupt the tab&#8217;s memspace then you will crash only that particular process. The browser and all other tabs should continue working just fine like nothing ever has happened. This approach has its own advantages and disadvantages. The advantages are obvious: the user experience is intact. The disadvantages are that pwning might get easier. It is very early to me to say more on this topic because I haven&#8217;t seen Google Chrome in action, but I have the slight suspicion that there will be some security consequences as a result of this security model.</p>
+
+<p>Google Chrome also implements a new privacy feature. I think they call it incognito or something. Basically if you browser while being in <q>incognito</q> mode, nothing ever gets logged. I think that this is a cool feature and I believe that the IE8 team is working on something similar.</p>
+
+<p>Another interesting feature which I need to mention is that popups are not blocked but they open in a minimized window. If you want to see them you just drag the popup icon and there you go. Again, this is very interesting but I can already see how this may be abused. For example, it will make a huge difference if the rendering engine has already processed the content of the popup even if it is minimized. If this is the case, then this feature could turn into a very handy mechanism of hiding malicious activities. For example, if during the attack, the page flickers or the attacker is rendering too many corrupted media files, then certainly, hiding it behind a minimized popup will be a great way of avoiding detection by casual observation. Of course these are pure speculations.</p>
+
+<p>Google Chrome also provides sandboxing functionalities. Apparently each process is sandboxed but I have no details how was that implemented. So taking over a process may not result into an immediate pwnage but it will certainly give the attackers some advantage. I am very interested to learn how this sandboxing mechanism is implemented for the various operating systems if the browser is cross-platformed of course, which I believe is the case.</p>
+
+<p>If everything is implemented correctly, which I hardly doubt (I am a sceptic by heart), then Google Chrome may turn into a very nice technology I may consider using it in the near future. However, none of these security features interest me as much as those that allow me to prevent poorly coded web applications leaking my details over unencrypted channels. Or even features which will prevent certain types of CSRF and XSS attacks. I&#8217;ve said it before! Most of my data does not reside on my computer any more. Of course this philosophy <a href="../targeted/index.html">had some bad side effects on me</a>, but my point is that the data is on the Web and therefore I am concerned how my browser protects me when it comes down to Web related bugs. I believe that Google Chrome lacks mostly that and if Google decide to <a href="../lets-fix-the-web/index.html">implement any of recommendations</a> then in my eyes, I will certainly have a winner in the upcoming browser wars.</p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/browser/index.html" rel="tag">browser</a> | <a href="../../tags/google/index.html" rel="tag">google</a> | <a href="../../tags/google-chrome/index.html" rel="tag">google chrome</a> | <a href="../../tags/security/index.html" rel="tag">security</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-123477">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0f4e97844f21276b6edb054404db8289?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Browser War</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123477">
+			September 2, 2008 at 1:23 pm</a>		</div>
+
+		<p>So is it the Third Browser War or the Second Browser War?</p>
+<p>Which is it?</p>
+<p>I read a few days ago in this blog gameshogun.ws that its Browser War 2 (under the feature tab)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123478">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fee778a87c72dfd3dc36f3b4f19765b7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">just me</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123478">
+			September 2, 2008 at 1:36 pm</a>		</div>
+
+		<p>Grammar mistake?</p>
+<p>You said: <q>If you corrupt the tab&#8217;s memspace then you will cache only that particular process</q><br />
+You probably mean: <q>If you corrupt the tab&#8217;s memspace then you will crash only that particular process</q></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-123480">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123480">
+			September 2, 2008 at 2:45 pm</a>		</div>
+
+		<p>thanks, all fixed now!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123482">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d697e0b3ae6b8c7de255e1bf4dcf4c7b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Geoffrey Lee</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123482">
+			September 2, 2008 at 2:54 pm</a>		</div>
+
+		<p>What is less-secure about a security model that isolates each tab in its own process?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-123483">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123483">
+			September 2, 2008 at 3:12 pm</a>		</div>
+
+		<p>who said it is less secure? though, you have to admit that now the browser game has totally changed. I marely speculate on what I think might be a problem but only time will tell. therefore, you cannot say it is more secure either.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123484">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5918767f8a59bf17636f3736454aca7f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://blog.lbi-netrank.co.uk/will-googles-new-browser-heat-up-the-second-browser-wars/' rel='external nofollow' class='url'>Ian Macfarlane</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123484">
+			September 2, 2008 at 4:06 pm</a>		</div>
+
+		<p>Interesting that they&#8217;ve gone with WebKit rather than Gecko &#8211; reportedly it was on the recommendations of the Android developers.</p>
+<p>WebKit is LGPL (so effectively LGPL/GPL) whereas Mozilla is MPL/LGPL/GPL. That makes Gecko-to-Webkit code contributions possible, but not WebKit-to-Gecko. Makes you wonder if Mozilla will ever drop the MPL and switch just to the (L)GPL &#8211; if they want to take advantage of this new code (such as the V8 JavaScript VM) they&#8217;ll have to.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123485">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ec7f1e3ec3b50d2adda5b0ad6ccff841?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Aris</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123485">
+			September 2, 2008 at 4:54 pm</a>		</div>
+
+		<p>Although you have to admit that the built-in anti-phishing and anti-malware protections seem interesting at first, and definitely promising.<br />
+And for the moment being, they affect a much larger part of the Internet population than do XSS and CSRF (being mostly targeted to a single person and not to a group o people).</p>
+<p>The thing is, all we can do for the moment is speculate, not having any executables to run and test.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123490">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b13746dcf951ff8ad5548002bd27623c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.techielife.com/' rel='external nofollow' class='url'>Aditya</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123490">
+			September 2, 2008 at 9:03 pm</a>		</div>
+
+		<p>The browser is a good concept, but a little shaky. Some of the fonts rendered are not clear, making it unusable.</p>
+<p>The rest of the sites which load fine look good. The browser seems fast, and it a sure firefox killer.<br />
+<a href="http://www.techielife.com/google-chrome-initial-review-and-comments/browsers/aditya/2008-09-02/" rel="nofollow">http://www.techielife.com/goog.....008-09-02/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123492">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7ebe4576435db53cd42ded7f270d647c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.thejunglemap.com/' rel='external nofollow' class='url'>Corey Creed</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123492">
+			September 2, 2008 at 9:21 pm</a>		</div>
+
+		<p>The real reason they are doing this was actually admitted during the Q&amp;A today.</p>
+<p>I quote:<br />
+“Our hope is that by adding our voice, more users will realize there is a choice.”</p>
+<p>In other words, “We don’t care if they use Firefox or Google Chrome. We just don’t want them to use IE”</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123494">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cb7f933f4a6ac13aa2a1bfc2f6d762b7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.certbible.org/what-chrome-means-for-microsoft/' rel='external nofollow' class='url'>google chrome</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123494">
+			September 2, 2008 at 11:47 pm</a>		</div>
+
+		<p><a href="http://www.certbible.org/googlechromewinnersand-losers/" rel="nofollow">http://www.certbible.org/googl.....nd-losers/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123495">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2faac1f4d03ba88b481aa3a94b46b504?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.kogmedia.com/' rel='external nofollow' class='url'>media buff</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123495">
+			September 3, 2008 at 12:06 am</a>		</div>
+
+		<p>i&#8217;m willing to try it out just to see if it works more efficiently than FireFox&#8230; if it&#8217;s faster than Firefox, has tabs and isn&#8217;t IE, then i&#8217;ll use it</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123499">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4dcfd151a533c6b7061aa909062783a5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.google-chrome.com/' rel='external nofollow' class='url'>Google Chrome</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123499">
+			September 3, 2008 at 3:24 am</a>		</div>
+
+		<p>The new browser by Google is extremely fast compared to the other browser out there so that alone is a major improvement really. I recommend to download it and try it out, it&#8217;s very smooth to use. I posted a speed test and some graphics at <a href="http://google-chrome.com/?p=104" rel="nofollow">http://google-chrome.com/?p=104</a> so you can compare.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123500">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/41d99443fd7fabaaad4f53fcd6acc719?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Farhan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123500">
+			September 3, 2008 at 4:58 am</a>		</div>
+
+		<p>Its very interesting that Google has decided to take on a project like this. They obviously have such an interest in how people access the web, it was only a matter of time before they took things into their own hands. It is going to be very interesting to see how this pans out.</p>
+<p>Google Chrome browser Screenshots<br />
+<a href="http://www.tonesall.com/computers-internet/google-chrome-screenshots.html" rel="nofollow">http://www.tonesall.com/comput.....shots.html</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123503">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0f166e8949883b1b3ba1f7f49e372cec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://chromespot.com/' rel='external nofollow' class='url'>Google Chrome</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123503">
+			September 3, 2008 at 6:01 am</a>		</div>
+
+		<p>This catch will catch on like wildfire once plugins are released. I&#8217;m following all the Chrome  news/updates at <a href="http://chromespot.com/" rel="nofollow">http://ChromeSpot.com</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123505">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/37b5ef749ebd516e99541d628fb21311?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.morganstorey.com/' rel='external nofollow' class='url'>Morgan Storey</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123505">
+			September 3, 2008 at 7:35 am</a>		</div>
+
+		<p>Well posting this via chrome as it is so damn fast. There are issue with it is it; seems to die on ssl sites through our proxy server, where as all other browsers are fine. I also miss my no-script and adblock plus&#8230; but I am sure plugins will come. It is by and away faster and more responsive than Firefox3 and IE7.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123506">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/140038f170eb1973d9c1145e68ff8ee8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Nick Night</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123506">
+			September 3, 2008 at 7:43 am</a>		</div>
+
+		<p>Well, I wonder why some people are so excited about Google Chrome. The only add-ons (by now) are Web Inspector (from WebKit), Chrome’s own Task Manager, and Chrome’s own Java Debugger. The Google Updater software it installs runs as a separate process, it is not a service, and installs itself into the registry to startup at boot. And what about Privacy policy???? This and default configuration should scare all of us worse than Mozilla. Also Google has now an easy way to spy on the users&#8217; surfing behavior. Oh my gosh&#8230;..who needs such a browser?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123513">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d46b5d5ae495c2c49d4b9432404bb408?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Foil</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123513">
+			September 3, 2008 at 12:20 pm</a>		</div>
+
+		<p>Great browser, but not that great for a powerhouse like Google. One great feature in Firefox is the NoScript add on, block unwanted ads, pop ups, and tracking tools used by Google. Maybe these technologies were why Google decided to create its own browser as it posed a direct threat to the primary revenue stream. Look forward to others thoughts.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123516">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2871fba81bed440aec3cbfc2086348ff?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">roamer</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123516">
+			September 3, 2008 at 2:19 pm</a>		</div>
+
+		<p>Heheh you and your Chrome xD I&#8217;ll just continue using my Firefox until Google Bronze comes out. That is gonna be the Browser with the big B!<br />
+<a href="http://ch4ng3d.brb.cz/index.php?lang=enus&amp;page=detail&amp;id=95" rel="nofollow">http://ch4ng3d.brb.cz/index.ph.....#038;id=95</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123518">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3eda6fcd3204ef285fa52176c28c4d3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">treser</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123518">
+			September 3, 2008 at 3:19 pm</a>		</div>
+
+		<p>I just checked out Google Chrome&#8230;i honestly hope it doesnt catch on&#8230;im a flash game developer and chrome gets lousy frame rates&#8230;compared to FireFox and MS IE. one game im working on gets a solid 25 fps on both FireFox and IE&#8230;but in Chrome i get 15 fps.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123520">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/be3b138352dc100c9459e612b275b413?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mindcorrosive</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123520">
+			September 3, 2008 at 5:25 pm</a>		</div>
+
+		<p>I am usually conservative against a browser that installs itself wherever it pleases, without any options to customize my installation. The additional Google Updater is simply a PITA. If it is needed to install Chrome, then I certainly would appreciate being told *in advance*. </p>
+<p>That said, the browser rendering is impressive, and memory footprint is lower than a FF 3.0. A large *BUT* here &#8211; the feature list of Chrome leaves something yet to be desired, especially on the side of security and customization options (SSL certificates, JS controls, plugin/addon management, RSS capabilities first come to mind). When all those features are in place, *then* we can compare performance among browsers. </p>
+<p>In an interesting twist &#8211; are we going to see an ad-blocking plugin blessed by Google that&#8217;s going to block their ads? ?hose that bothered to read the EULA might be confused by the fact that Google might be free to push those promotions directly to the browser..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123522">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/db99833c908a9c6811d162ee45538d48?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.starruby.in/' rel='external nofollow' class='url'>The Star Ruby Shop</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123522">
+			September 3, 2008 at 6:00 pm</a>		</div>
+
+		<p>Really.. Google is getting everywhere!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123526">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9625838cf89df06ecf1cd02e8748c2ff?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.computersake.com/' rel='external nofollow' class='url'>brandon miles</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123526">
+			September 3, 2008 at 8:59 pm</a>		</div>
+
+		<p>Google Chrome has 2 very very important security holes. Which can let some bad webmasters upload exe files to your computers without your prompt !! Go ahead and continue loving Google Chrome. When your computer suddenly shuts down and when you realize all your data is gone dont blame anybody but Google Chrome..</p>
+<p>go and read <a href="http://www.computersake.com/2008/09/google-chrome-security-hole/" rel="nofollow">http://www.computersake.com/20.....rity-hole/</a> and be aware of that kind of security issues !!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123534">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5843f6624044d5717ee07d5e87e5516b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">chrisbdaemon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123534">
+			September 4, 2008 at 8:45 am</a>		</div>
+
+		<p>Yes Chrome does sound pretty good, however I&#8217;d recommend checking out this blog post as well as it points out some of the defects (granted it is beta but some of their points are valid imo)</p>
+<p><a href="http://blog.ncircle.com/blogs/vert/archives/2008/09/the_browser_with_bling.html" rel="nofollow">http://blog.ncircle.com/blogs/.....bling.html</a></p>
+<p>Also make sure to pay attention to the snippet of the EULA statement quoted in the post.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123542">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c17253c7c45e8e12f0fff930e1463caa?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">chi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123542">
+			September 4, 2008 at 9:54 pm</a>		</div>
+
+		<p>mock of google cartoons.</p>
+<p><a href="http://www.surfchrome.com/index.php/gallery/chrometoon-googleville-satire/59-initial-mock-google-cartoons-emerge" rel="nofollow">http://www.surfchrome.com/inde.....ons-emerge</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123557">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/98f25f9a7f97a386501c988aaa5bad7b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://naughtynurbo.com/' rel='external nofollow' class='url'>NurBo</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123557">
+			September 5, 2008 at 10:39 pm</a>		</div>
+
+		<p>The new Google Chrome browser is very nice and is surprising really fast. I can&#8217;t wait to see the final addition of this browser maybe a darker skin and some new add ons and perhaps a spell check. If so I will be using this browser alot. Keep it up Google!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123599">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6cd17903bb60e6e468368b21e17d96d7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://chromekb.com/' rel='external nofollow' class='url'>Google Chrome Knowledge Base</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123599">
+			September 8, 2008 at 5:39 am</a>		</div>
+
+		<p>I can&#8217;t believe how quiet all the browser bug hunters are at the moment. I was positive Ronald would have put something together for us by now or Rsnake would have found a post in something bad about the whole Google influence&#8230; but nothing. I guess its just a matter of time before ppl get through with analyzing the source code and bam, we will have a flood of 0days.</p>
+<p>Anyways atm, the 1 common theme I&#8217;m seeing from the bugs coming out is that there doesn&#8217;t seem to be enough data validation (i.e.checking string lengths etc) in its routine processing which seems to be cause for most issues. </p>
+<p>Finally, I plan to document all the bugs/spoilts for Chrome as they come out and you can keep up to date on them here &#8211; <a href="http://chromekb.com/vulnerabilities/" rel="nofollow">http://chromekb.com/vulnerabilities/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-123606">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123606">
+			September 8, 2008 at 9:35 am</a>		</div>
+
+		<p>there are vulnerabilities, just we haven&#8217;t publicly disclosed them just yet. :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123623">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6cd17903bb60e6e468368b21e17d96d7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://chromekb.com/' rel='external nofollow' class='url'>Google Chrome Knowledge Base</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123623">
+			September 9, 2008 at 4:51 am</a>		</div>
+
+		<p>haha I new you wouldn&#8217;t let us down. I&#8217;m working on some stuff myself atm and have had mild success in bypassing a few restrictions imposed by the browser but nothing worthy of a post just yet.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123631">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8a839ef12d6a0680d40645f2707d9709?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Synergy6</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123631">
+			September 9, 2008 at 7:48 pm</a>		</div>
+
+		<p>Looks good so far, but a lack of Adblock is an issue. </p>
+<p>Discussion forum at <a href="http://wearechrome.com/" rel="nofollow">http://wearechrome.com</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123734">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/afd892d58752ea922d66d81d281c8b37?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">katy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123734">
+			September 16, 2008 at 2:23 pm</a>		</div>
+
+		<p>A few more words on the speed :we&#8217;ve measured the speed of our aplication (<a href="http://www.taskwriter.com/" rel="nofollow">http://www.taskwriter.com</a>) on Google Chrome, and it&#8217;s just a bit faster than Firefox 3.0 . IE is well behind. The graphs are here : <a href="http://www.taskwriter.com/blog/how-good-chrome-really-is" rel="nofollow">http://www.taskwriter.com/blog.....-really-is</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123788">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76aa356488c99deb61bcbbff5f968d76?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.syjournal.com/' rel='external nofollow' class='url'>Andy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123788">
+			September 19, 2008 at 3:00 pm</a>		</div>
+
+		<p>As a new comer, Chrome is good and its right, I&#8217;d tried it by myself. Compare to the others internet browser,Chrome apparently take a high position level. toptenreviews.com had reviewed &amp; done the survey and the result is Chrome take 2nd position between Firefox 3 at 1st &amp; IE 8 at 3rd position</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123827">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/efbc8d65a0ce489b01e7ff3d6a9d1a9d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">PaulusDev</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123827">
+			September 22, 2008 at 10:04 pm</a>		</div>
+
+		<p>If anyone cannot scroll up, I released a program to quickly and automatically fix the &#8220;cannot scroll up using certain touch pads&#8221; issue for Google Chrome (until Chrome is fixed officially). Just run chrome_patch.exe. It will modify chrome.dll to fix the issue. You can download/read about it at <a href="http://digg.com/software/Google_Chrome_68" rel="nofollow">http://digg.com/software/Google_Chrome_68</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123841">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3bf0f578b75759d6e091089f83f7d283?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Lucian</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123841">
+			September 23, 2008 at 8:12 pm</a>		</div>
+
+		<p>All new Google Chrome tricks at </p>
+<p>http&#58;//mygooglechrome.blogspot.com</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123901">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c99c65168b09f2d670de8b4cc1fb5533?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://yahoo.com/' rel='external nofollow' class='url'>joseph</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123901">
+			September 30, 2008 at 2:29 pm</a>		</div>
+
+		<p>google chrome is awsom.</p>
+<p>weeeeeeeeeeeeeeeeeeeeeeeeee.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123944">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/277101af14086733781fa428d25d5213?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.ledbazar.com/' rel='external nofollow' class='url'>led</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123944">
+			October 7, 2008 at 12:01 am</a>		</div>
+
+		<p>well chrome is a great user experience, as it goes, and it has added tabs which will help a novie user to go back to his pre-page as quikcley as possible</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124036">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/971afea252d392f3bed4527581d5792d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.netage.co.za/' rel='external nofollow' class='url'>Marketing Man</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124036">
+			October 13, 2008 at 1:01 pm</a>		</div>
+
+		<p>I think the launch of Google Chrome is going to sink firefox in the long run, and it makes it much more painful for web developers because another browser means another platform they&#8217;ll have to test their websites on. But I actually like Chrome, it&#8217;s very robust.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124359">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0e01b23697b6664097d69db3748f72c2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pitstopmedia.com/' rel='external nofollow' class='url'>Traian Neacsu</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124359">
+			November 17, 2008 at 11:49 pm</a>		</div>
+
+		<p>Hi,</p>
+<p>I am still curious if the launch of Chrome was something &#8220;unintentional&#8221;. I wrote a little piece of article about this, called <a href="http://www.pitstopmedia.com/sem/googles-chrome-coincidence" rel="nofollow">Google&#8217;s Chrome, a coincidence?</a>. I also kept a log on <a href="http://www.pitstopmedia.com/sem/google-chrome" rel="nofollow">how Chrome evolved from search engines point of view</a>.</p>
+<p>Thanks,<br />
+TraiaN</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="1187"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8b04f38e7c" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/google-chrome/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:24:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

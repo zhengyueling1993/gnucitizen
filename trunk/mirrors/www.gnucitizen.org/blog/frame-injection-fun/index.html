@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/frame-injection-fun/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Frame Injection Fun</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Frame Injection Fun Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Compliance' href='../compliance/index.html' />
+<link rel='next' title='Script Kiddies' href='../script-kiddies/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index6217.html?p=1568' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-1568" class="post">
+	<div class="post-title"><h2><span>Frame Injection Fun</span></h2></div>
+	<div class="post-date"><span>published:</span> October 10th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Frame injection vulnerabilities, although some people might consider them the same as HTML injection/XSS or even a subset, they really are not the same. Here is why:</p>
+
+<ul>
+<li>There is no need to inject special control characters such as angle brackets (unlike HTMLi/XSS)</li>
+<li>HTMLi/XSS filtering routines will not project against frame injection since the attacker only needs to insert a URL in the non-sanitized parameter</li>
+</ul>
+
+<p>The best way to explain what I mean is to show an example. Most frame injection issues occur in web applications because dynamic <a href="http://www.w3.org/TR/html4/present/frames.html">frameset/iframe</a> insertion is not implemented with enough filtering. For instance, say that we have the following URL on the target site:</p>
+
+<pre><code>https://www.victim.foo/index.php?<strong>targeturl</strong>=/contact.php</code></pre>
+
+<p>A malicious user with intentions of launching a phishing attack will try tampering the <code>targeturl</code> parameter. His goal is to insert a third-party page that is under his control, rather than the original contact page. Indeed, <code>index.php</code>, although is not allowing HTML or JavaScript to be assigned to <code>targeturl</code>, is happy to process an absolute URL rather than a relative one:</p>
+
+<pre><code>https://www.victim.foo/index.php?<strong>targeturl</strong>=http://evil.foo/login.php</code></pre>
+
+<p>I thought that showing a live example would help our readers get an idea of what frame injection looks in action. For that purpose, I prepared a rather not elegant proof of concept which takes advantage of the Google Images service. What&#8217;s neat is that although the legitimate URL would normally use the <code>images.google.com</code> domain, Google also allow us to use other google.com subdomains such as <code>mail.google.com</code> which is used by Gmail. This is ideal, as we&#8217;re trying to accomplish a frame injection attack which can be used to perform phishing attacks against Gmail users.</p>
+
+<pre><code>http://mail.google.com/imgres?imgurl=http://SecureGoogleMail&amp;<strong>imgrefurl</strong>=http://mail.google.com/imgres?imgurl=http://SecureGoogleMail&#038;imgrefurl=%68%74%74%70%3a%2f%2f%73%6e%69%70%75%72%6c%2e%63%6f%6d%2f%67%6e%77%62%6f</code></pre>
+
+<div class="screen"><img src="../../static/blog/2008/10/frame-injection-fun-poc-300x210.png" alt="Frame Injection Fun POC" title="Frame Injection Fun POC" width="300" height="210" class="alignnone size-medium wp-image-2366" /></div>
+
+<p>The previous PoC URL will cause the entered credentials to be submitted to www.gnucitizen.org when clicking on Sign in, so please do NOT submit any real credentials!</p>
+
+<blockquote>pIn short:p The attacker has managed to display a non-legitimate third-party page, while the legitimate domain (mail.google.com in this case) is shown in the address bar.The beauty of frame injection attacks is that the attacker is able to impersonate a trusted entity without needing to bypass XSS/HTMLi filters or even break into the target server.</blockquote>
+
+<p><em>Needless to say, in real-life the attacker would most likely automate the process of obtaining the harvested credentials by using a tool such as our <a href="http://lab.gnucitizen.org/projects/x-php-data-theft-script">x.php</a> data-theft script.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2008/10/frame-injection-fun-poc.png">frame-injection-fun-poc.png</a>, <a href="../../static/blog/2009/04/servicelogin.html">servicelogin.html</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/frame-injection/index.html" rel="tag">frame injection</a> | <a href="../../tags/google/index.html" rel="tag">google</a> | <a href="../../tags/password-theft/index.html" rel="tag">password theft</a> | <a href="../../tags/phishing/index.html" rel="tag">phishing</a> | <a href="../../tags/web-app/index.html" rel="tag">web app</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-123989">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/47a09067b6f494a5df24a2cfd22586ba?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">dmitrisec</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123989">
+			October 10, 2008 at 9:16 am</a>		</div>
+
+		<p>as part of the input filtering/validation, the URLs &#8211; link addresses &#8211; need to be treated specially: you most likely don&#8217;t want to echo on the page javascript:  or data: URLs for the user to click even though they don&#8217;t contain any tags or quotes!  As part of that validation, it is best to verify that the URL belongs to the intended domain, and substitute it with the default value or give an error otherwise.  Additionally, it may make sense to add a digital signature to make sure the parameters are issued by the site and not inserted by an attacker.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124007">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3cd9e1a95cac0410ba48344191f53125?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://whatsmypass.com/' rel='external nofollow' class='url'>will</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124007">
+			October 11, 2008 at 7:41 am</a>		</div>
+
+		<p>even fools LastPass into thinking you want to log into google mail</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-124021">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124021">
+			October 11, 2008 at 8:18 pm</a>		</div>
+
+		<p>I was not suggesting that filtering quotation marks or angle brackets is enough to stop all forms of XSS! Of course it&#8217;s not enough, as it will only avoid very-vanilla XSS attacks. Think of XSS vulns where the injected payload is echoed within an already-existing JavaScript snippet (within existing &#8216;script&#8217; tags). In this case, common blacklisting techniques will NOT help. This is why I always recommend applying *white-listing* filtering whenever possible.</p>
+<p>Take the example of a frame injection vuln. If you already know what URLs should be allowed to be inserted, then you should reject anything other than that. For instance, you could add the list of the trusted URLs in the backend DB, and assign a different ID to each of them. So that the URL only takes IDs as an argument. i.e.:</p>
+<p><a href="https://www.site.foo/index.php?targetframe=1" rel="nofollow">https://www.site.foo/index.php?targetframe=1</a></p>
+<p>If &#8216;targetframe&#8217; is assigned an integer value which doesn&#8217;t exist in the DB, then no frame is inserted whatsoever. The beauty is that the attacker cannot now manipulate the inserted frames. However, some sites cannot predict what URLs should be allowed to be inserted as frames. An example is the Google Images frame injection problem mentioned before.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124037">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cee8fa5a0cebc016c4c2414f64f033a6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://owasp.org/' rel='external nofollow' class='url'>Daniel</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124037">
+			October 13, 2008 at 1:42 pm</a>		</div>
+
+		<p>Whilst &#8216;some&#8217; people consider them to be different, in reality they are not. </p>
+<p>I know it&#8217;s the rage at the moment to think up new and exciting names for vulnerabilities, but let&#8217;s try and keep this simple. </p>
+<p>When we did the OWASP Top 10, we decided it would be easier to group them all under the same banner; Injection Flaws</p>
+<p><a href="http://www.owasp.org/index.php/Injection_Flaws" rel="nofollow">http://www.owasp.org/index.php/Injection_Flaws</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124042">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/efc2397130ab3dc07844ae1f45e8c5d7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">frank</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124042">
+			October 13, 2008 at 7:22 pm</a>		</div>
+
+		<p>i think that this one <a href="http://www.securiteam.com/securitynews/5WP0Y00PFE.html" rel="nofollow">http://www.securiteam.com/secu.....00PFE.html</a> was a big security problem in google and no one was talking about it!</p>
+<p>bye<br />
+frank</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124049">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b7d451520329ec470f6ac886b1ccd3bb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Chintan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124049">
+			October 14, 2008 at 3:16 am</a>		</div>
+
+		<p>Hi, I don&#8217;t think its any thing different from URL Redirection (except that it is now wrapped with a new shiny marketing lingo). I still don&#8217;t understand where the frame gets injected! It&#8217;s just getting loaded from an external source.</p>
+<p>Instead of loading Fake Gmail page, you can load any page instead. The following loads yahoo :P</p>
+<p><a href="http://mail.google.com/imgres?imgurl=http://yahoo.com&amp;imgrefurl=http://yahoo.com" rel="nofollow">http://mail.google.com/imgres?...../yahoo.com</a></p>
+<p>Can some one please explain me the rationale for calling it a frame injection?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124058">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/04b8fca2c8dde2ed82373ade37e9789d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://manicode.blogspot.com/' rel='external nofollow' class='url'>Jim Manico</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124058">
+			October 14, 2008 at 7:00 pm</a>		</div>
+
+		<p>RE: Comments about about input validation above : you do NOT defend against XSS by input validation &#8211; thats one of the biggest misnomers in AppSec. You solve it via ENCODING data before presenting it to your users. ESAPI, for example, provides a variety of data encoding functions depending on context: encodeForHTML, encodeForHTMLEntity, encodeForJavascript, etc.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-124066">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124066">
+			October 16, 2008 at 8:10 am</a>		</div>
+
+		<p>@Chintan: sure it IS different. In a redirection attack, the URL in the browser&#8217;s address bar changes to a non-trusted third-party site once the &#8220;evil&#8221; URL is visited. In a frame injection attack, the address bar remains showing the legitimate domain after the &#8220;evil&#8221; URL is visited.</p>
+<p>It is called frame injection because the third-party content is inserted via a dynamically generated frame. Check the &#8216;frame&#8217; tags in the source code for more info.</p>
+<p>@Daniel: I&#8217;m actually against creating new vulnerability names, it just complicates things. The only reason I mentioned the term &#8220;frame injection&#8221; is because: 1) it&#8217;s NOT a new term. 2) the filtering solution needed is different to the one required for &#8220;pure&#8221; XSS/HTMLi vulnerabilities as the attacker doesn&#8217;t need to inject &#8220;dangerous&#8221; characters. At least generally speaking.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124104">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6bc251d78823efaf5458068b33503d7a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Chintan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124104">
+			October 19, 2008 at 5:32 pm</a>		</div>
+
+		<p>@Adrian &#8211; I appreciate your explanation. But i still think an attacker is not adding any frame into victim&#8217;s page. I think it can be termed as url redirection via frames. </p>
+<p>The reason the address bar reflects new url in a traditional url redirection attack is because the redirection is direct one (i.e. @page level). </p>
+<p>Since in this case the the functionality of the frame is to load an external url- which is abused to load an arbitrary page inside that frame, it will never show up in address bar (not even for the legitimate page). </p>
+<p>I repeat, an attacker is not injecting any frame into victim&#8217;s webpage. Only the content of the existing frame changes as the domain is not restricted. Then how can one call it frame &#8220;Injection&#8221;?</p>
+<p>I think the debate may be endless. Instead i give it up here. Feel free to call it anything you want. </p>
+<p>None the less, not a bad catch (just that it has been overhyped to reflect as a new kind of attack). I have always appreciated GNU Citizen for their innovations, but i cannot give credit for this one atleast.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-124113">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124113">
+			October 21, 2008 at 8:07 am</a>		</div>
+
+		<p>@Chintan: this is a problem of semantics, we could talk about it forever. It doesn&#8217;t matter what you call it, the issue is still the same: you can insert third-party content while still showing mail.google.com in the address bar.</p>
+<p>We did NOT come up with the term &#8220;frame injection&#8221; (just do a Google search), neither did we claim we came up with a new technique. The only reason why there has been some media interest is because Google is something everyone can relate to.</p>
+<p>Thanks a lot for your feedback again btw.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126528">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ee09627552731c7d6b9abf41b76a4329?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://facehooklabzandothers../' rel='external nofollow' class='url'>p3lo</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126528">
+			April 15, 2009 at 4:20 pm</a>		</div>
+
+		<p>I have worked to developp this technique, and i have constated that we can break the frame with:</p>
+<pre><code>if (top.frames.length!=0) top.location=self.document.location;</code></pre>
+<p>and</p>
+<pre><code>document.location="http://evil.foo/login.php";</code></pre>
+<p>The first script can be used to secure the page framed&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-129668">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7f5672a17fa1df7927bd7949ab2aa288?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">JD</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129668">
+			January 20, 2011 at 3:52 pm</a>		</div>
+
+		<p>Filtering is not the best defense against XSS and HTMLi. Encoding output is. Filtering must prevent all possible combinations of mallicious input. Encoding encodes all output. Encoding is simpler and covers more of the threat domain naturally.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="1568"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="cec6aeb8f6" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/frame-injection-fun/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

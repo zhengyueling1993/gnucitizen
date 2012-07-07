@@ -1,0 +1,1619 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/default-key-algorithm-in-thomson-and-bt-home-hub-routers/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:49:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Default key algorithm in Thomson and BT Home Hub routers</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Default key algorithm in Thomson and BT Home Hub routers Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Content Injection: Hack the Hacker' href='../content-injection-hack-the-hacker/index.html' />
+<link rel='next' title='Reverse Shell with Bash' href='../reverse-shell-with-bash/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index60e8.html?p=804' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-804" class="post">
+	<div class="post-title"><h2><span>Default key algorithm in Thomson and BT Home Hub routers</span></h2></div>
+	<div class="post-date"><span>published:</span> April 14th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Yes, we&#8217;re back with more embedded devices vulnerability research! And yes, we&#8217;re also back with more security attacks against the BT Home Hub (most popular DSL router in the UK)!</p>
+
+<p>As you know, we encourage folks in the community to team up with us in different projects as we&#8217;ve had very successful experiences doing so. This time it was Kevin Devine&#8217;s turn. Kevin, who is an independent senior security researcher, did an awesome job at reverse engineering the <strong>default WEP/WPA key algorithm</strong> used by some Thomson Speedtouch routers including the BT Home Hub. Kevin noticed that all the public vulnerability research conducted in the past for the BT Home Hub had been <a href="http://www.google.co.uk/search?q=site:gnucitizen.org+bt+home+hub&amp;num=100&amp;hl=en&amp;filter=0" target="_blank">released</a> by GNUCITIZEN, so he decided to share his findings and work with us in this fascinating project.</p>
+
+<h3>Confirmed suspicions</h3>
+
+<p>Many of us involved researching the security of wireless home routers have always suspected that routers that come with default WEP/WPA keys follow predictable algorithms for practical reasons. Yes, I&#8217;m talking about routers that come with <a href="http://www.belkin.com/support/dl/assets/uk-labels/bthomehub2.jpg" target="_blank">those stickers</a> that include info such as S/N, default SSID, and default WEP/WPA key. Chances are that if you own a wireless router which uses a default WEP or WPA key, such key can be predicted based on publicly-available information such as the router&#8217;s MAC address or SSID. In other words: it&#8217;s quite likely that the bad guys can break into your network if you&#8217;re using the default encryption key. Thanks to Kevin, our suspicion that such issue exists on the BT Home Hub has been confirmed (keep reading for more details!). Our advice is: <strong>use WPA rather than WEP and change the default encryption key now!</strong></p>
+
+<h3>Brief history of default WEP/WPA key algorithms research</h3>
+
+<p>As far as I know, Kevin and james67 were the first researchers to publicly crack a default encryption key algorithm of a Wi-FI home router. Kevin <a href="http://h1.ripway.com/kevindevine/wep_key.html" target="_blank">cracked</a> the algorithm used by Netopia routers which are shipped Eircom in Ireland and AT&amp;T in the US (the second ISP was never reported, 0day!). On the other hand <a href="http://www.skyuser.co.uk/forum/blogs/james67/" target="_blank">james67</a> <a href="http://www.skyuser.co.uk/forum/sky-broadband-help/20295-breaking-terms-conditions-your-views-welcome-2.html#post128738" target="_blank">targeted</a> the Netgear DG834GT router shipped by SKY in the UK. Unfortunately, james67 did <a href="http://www.theregister.co.uk/2008/02/21/sky_broadband_wi_fi_keys_unpicked/" target="_blank">not</a> publish the details of the algorithm he cracked which is a shame as it means that we cannot learn from his research.</p>
+
+<h3>The Thomson Speedtouch default WEP/WPA algorithm</h3>
+
+<p>Unlike james67, Kevin&#8217;s strategy to crack default WEP/WPA algorithms involve debugging setup wizards shipped by some ISPs, as opposed to debugging the router which uses the default key algorithm. Kevin obtained a copy of such wizard (&#8220;stInstall.exe&#8221;) provided by Orange in Spain &#8211; which can be found on broadband customers&#8217; installation CDs. Such setup utility allowed him to figure out the default key algorithm.</p>
+
+<p>In short we have: <code>S/N -&gt; hash -&gt; default SSID and encryption key</code> which can be read as: a hashed version of the router&#8217;s serial number is generated which is then used to derive both, the default SSID and the default encryption key. This is just a high-level overview of the algorithm. More specifically we have (quoted from Kevin&#8217;s stkeys tool source code comments):</p>
+
+<blockquote><p>Take as example: &#8220;CP0615JT109 (53)&#8221;<br/>
+Remove the CC and PP values: CP0615109<br/>
+Convert the &#8220;XXX&#8221; values to hexadecimal: CP0615313039<br/>
+Process with SHA-1: 742da831d2b657fa53d347301ec610e1ebf8a3d0<br/>
+The last 3 bytes are converted to 6 byte string, and appended to the word &#8220;SpeedTouch&#8221; which becomes the default SSID: SpeedTouchF8A3D0<br/>
+The first 5 bytes are converted to a 10 byte string which becomes the default WEP/WPA key: 742DA831D2</p></blockquote>
+
+<p>In the case of the BT Home Hub, the only difference that is we only take the last two bytes (rather than 3 bytes) from the SHA1 hash to derive the SSID:</p>
+
+<pre><code>S/N: CP0647EH6DM(BF)
+Remove CC and PP values: CP06476DM
+"XXX" values hex-encoded: CP064736444D
+SHA1-ed: 06f48a28eba1ab896a396077d772fd65503b8df3
+Default SSID: BTHomeHub-8DF3
+Default encryption key: 06f48a28eb</pre></code>
+
+<p>By brute-forcing possible serial numbers and deriving the default SSID and encryption key, we can find possible keys for a given default SSID, which is exactly what Kevin's <a href="http://weiss.u40.hosting.digiweb.ie/stech/stkeys.zip" target="_blank">stkeys</a> tool does.</p>
+
+<p>The bigger the number of hexadecimal digits the target SSID has, the smaller the number of generated possible keys is. For instance, if the target SSID is "SpeedTouchF8A3D0", we can narrow down the number of possible keys to only two. On the other side, a target SSID with only 4 hex digits (2 bytes) such as "BTHomeHub-20E3" would give us 80 possible keys <i>on average</i>.</p>
+
+<p>We've tested ST585v6 which is shipped by Orange in Spain. Thomson Speedtouch routers provided by Orange in Spain come with WPA enabled by default. Being able to <strong>narrow down the number of possible default WPA keys to only two</strong> using Kevin's tool is quite remarkable.</p>
+
+<p>In the case of the BT Home Hub in the UK (which only comes with 40 bits WEP encryption by default by the way), we can narrow down the number of possible keys to about 80. In order to avoid the brute-forcing computation time required by the stkeys tool, I created "BTHHkeygen" which looks up the possible keys for a given SSID from a pre-generated <code>SSID-&gt;keys</code> table. Think of it as a rainbow table for cracking the BT Home Hub's default WEP encryption key. Once the list of around 80 keys is obtained, the second step in the attack is to try each of them automatically, until the valid key is identified. For this purpose I created "BTHHkeybf" which is a fancy wrapper around the "iwconfig" Linux tool. Unfortunately, in order to prevent abuse, we're not publishing such tools. We tested three different BT Home Hubs, and the the attack seems to work fine.</p>
+
+<p>There is one thing that I want to mention regarding this attack when launched against a BT Home Hub: breaking into a BT Home Hub Wi-Fi network which uses default settings (40 bits WEP) has always been possible in a matter of minutes (if packet injection attacks are used) since the Home Hub was released into the market. Therefore, this predictable-default-key attack doesn't change the current state of the BT Home Hub's Wi-Fi insecurity. It's always been known that BT Home Hub Wi-Fi networks can be easily broken into by <a href="http://www.hackernotcracker.com/2007-06/using-aircrack-ngaireplay-ng-under-injection-monitor-mode-in-windows.html" target="_blank">cracking the WEP key</a>!</p>
+
+<p><strong>UPDATE</strong>: we decided not to publish BTHHkeygen and BTHHkeybf for now, although they might be released at a certain upcoming conference.</p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/bt-home-hub/index.html" rel="tag">bt home hub</a> | <a href="../../tags/homehub/index.html" rel="tag">homehub</a> | <a href="../../tags/orange/index.html" rel="tag">orange</a> | <a href="../../tags/spain/index.html" rel="tag">spain</a> | <a href="../../tags/speedtouch/index.html" rel="tag">speedtouch</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-118794">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e0f595cbc8f1811233adce10ac6c5d3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.awesomeandrew.net/' rel='external nofollow' class='url'>Awesome AnDrEw</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118794">
+			April 14, 2008 at 2:15 pm</a>		</div>
+
+		<p>Pretty interesting post, Adrian. Cryptography and encryption schemes are not my strong point, but I would imagine this took a lot of work, and is quite impressive.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118799">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Steve</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118799">
+			April 14, 2008 at 4:15 pm</a>		</div>
+
+		<p>I never fail to be amazed by the fact companies are willing to ship to millions of customers routers which have WEP rather than WPA by default, but it is even more astonishing that the default key (which lets face it most people will never change, knowing nothing about computer security) can be derived from the default SSID (which is public knowledge)!</p>
+<p>Good work guys on continuing to keep the pressure on BT and other companies to wise up. I mean how hard can it be for them?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-118802">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c970dee63fb8c2f40d17e04454742964?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jonas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118802">
+			April 14, 2008 at 4:39 pm</a>		</div>
+
+		<p>As always, a high quality post. Thank you very much for this information and thank you kevin for making this possible ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118817">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c1fe74403e1edfc1a3465a23874373e2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.ursexi.co.uk/' rel='external nofollow' class='url'>david</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118817">
+			April 15, 2008 at 6:43 am</a>		</div>
+
+		<p>This information is dynamite, and brings to mind the info posted on <a href="http://www.rfidupdate.com/articles/index.php?id=1563&amp;from=rss" rel="nofollow">http://www.rfidupdate.com/arti.....8;from=rss</a> where rfids can be cloned, this is the basis of the UK Goverment ID cards!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-118819">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118819">
+			April 15, 2008 at 8:29 am</a>		</div>
+
+		<p>Thanks a lot for your feedback guys. As you know we never hide anything at GNUCITIZEN. We truly believe this benefits everyone (including consumers) in the long run. And of course, thank you Kevin: this project wouldn&#8217;t have been possible without your help!</p>
+<p>Stay tuned for HITB Dubai 2008!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118820">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4e10859082f7c65cb37600032ef54733?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sasank Borua</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118820">
+			April 15, 2008 at 9:54 am</a>		</div>
+
+		<p>Good Job! I tried with bot my new and old hub&#8230;.Works perfectly!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-118827">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118827">
+			April 15, 2008 at 12:32 pm</a>		</div>
+
+		<p>Great article. I just tried this at home (several of my neighbours appear to have Home Hubs), and it works perfectly.</p>
+<p>I might buy a BT Home Hub 1.5, see if I can&#8217;t beat you to the plate next time ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118829">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/62435b20a027dad7e1c37279fb20bf0d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Simon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118829">
+			April 15, 2008 at 1:55 pm</a>		</div>
+
+		<p>This works for my SpeedTouch!! I just checked it. My question is: I use an 128bit key, generated by my SpeedTouch. Can this be found out as well?</p>
+<p>Sorry for my English.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-118840">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/814aaca7f2ffb892b4694cca7fb6dc09?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://./' rel='external nofollow' class='url'>Mark</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118840">
+			April 15, 2008 at 8:28 pm</a>		</div>
+
+		<p>Thanks very much, Ill continue evangelising WPA and non trivial passwords.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-118896">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118896">
+			April 16, 2008 at 8:45 pm</a>		</div>
+
+		<p>Wohoo, you guys have been getting very good results with this attack! As you can see it works quite wonderfully!</p>
+<p>btw, I&#8217;m releasing BTHHkeygen with the rainbow tables tomorrow at HITB Dubai 2008: <a href="http://conference.hackinthebox.org/hitbsecconf2008dubai/?page_id=186" rel="nofollow">http://conference.hackinthebox.....age_id=186</a></p>
+<p>Using such tool you&#8217;ll be able to generate the (about 80) possible keys for the BT Home Hub instantly, thus saving bruteforcing time. BTHHkeybf which allows you to identify the valid key *will* also be released with the rest of my presentation materials.</p>
+<p>Additionally, I will also release &#8220;axis-defacer&#8221;: a PoC tool to demo video stream replacement attacks (hijacking surveillance video) for Axis IP cameras.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-118913">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/375c0284a6efd8899f2bc69dbf99d6e3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Hubert Seiwert</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118913">
+			April 17, 2008 at 4:00 pm</a>		</div>
+
+		<p>I have ported Kevin Devine&#8217;s stkeys.c to Python if anyone&#8217;s interested. My script uses Python 2.5&#8242;s hashlib for sha1. It&#8217;s a lot shorter than the C version.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118914">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/62435b20a027dad7e1c37279fb20bf0d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Simon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118914">
+			April 17, 2008 at 4:34 pm</a>		</div>
+
+		<p>Hey, I just found out the 128bit-key in my router wasn&#8217;t generated by my speedtouch.. Only the first characters are the ones from the 64bit key</p>
+<p>Great tool, thanks!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-118968">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/564e44b6b33cc73b9bb444ea8f22694c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Marchiner</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118968">
+			April 18, 2008 at 4:19 pm</a>		</div>
+
+		<p>Adrian Pastor, </p>
+<p> Again.. wonderful post!!!!</p>
+<p>I am finishing a (how-to &#8211; step by step-)  secure your wireless networks&#8230; </p>
+<p>Using firewalls, Vpns, TKIP, corrects cryptos like WPA2, wireless IPS, fakeaps,  and more&#8230;</p>
+<p>This new kind of atack will be mentioned inside the how-to with all authorÂ´s credits!</p>
+<p>Thx to gnucitizen and other independent research&#8217;s! </p>
+<p>It will be available soon!<br />
+-If possible i will post something here.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-119026">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119026">
+			April 19, 2008 at 1:16 pm</a>		</div>
+
+		<p>@Marchiner: please let us know when you publish such article. It sounds interesting!</p>
+<p>@Simon: if the key is the default one, then it&#8217;s quite likely that it will work. The vulnerability has nothing to do with the encryption type or strength, but rather with the fact that they key value is predictable. Your best bet is to simply try out the attack.</p>
+<p>@Hubert: that sounds really cool. Can you please post the link to the python port please?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119328">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cb9ced4c0cc17f5fcb1ba0b552b955a5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://defcon69.googlepages.com/home' rel='external nofollow' class='url'>Def 69</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119328">
+			April 21, 2008 at 5:36 pm</a>		</div>
+
+		<p>Hi dudes!<br />
+ I hope it will help u!</p>
+<p><a href="http://weiss.u40.hosting.digiweb.ie/stech/" rel="nofollow">http://weiss.u40.hosting.digiweb.ie/stech/</a></p>
+<p>And this is KeyGen for SpeedTouch THOMSON!<br />
+<a href="http://www.mediafire.com/?svyenmddzm3" rel="nofollow">http://www.mediafire.com/?svyenmddzm3</a></p>
+<p>See u dudes! 8)</p>
+<p>Def 69</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-119345">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119345">
+			April 21, 2008 at 8:49 pm</a>		</div>
+
+		<p>thanks for the heads-up</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119371">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/375c0284a6efd8899f2bc69dbf99d6e3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Hubert Seiwert</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119371">
+			April 22, 2008 at 1:45 am</a>		</div>
+
+		<p>Kevin has added my ssid2key.py Python script to <a href="http://weiss.u40.hosting.digiweb.ie/stech/stkeys.zip" rel="nofollow">http://weiss.u40.hosting.digiw.....stkeys.zip</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119487">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119487">
+			April 22, 2008 at 8:32 pm</a>		</div>
+
+		<p>For the script kiddie in all of us, I&#8217;ve created a Windows XP version of &#8220;BTHHkeybf&#8221;.</p>
+<p>In the name of responsible disclosure, I&#8217;ll release it after Adrian has done his talk and makes his code available.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-119497">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119497">
+			April 22, 2008 at 10:17 pm</a>		</div>
+
+		<p>BTHHkeygen (including rainbow tables) and BTHHkeybf can be found here: <a href="http://conference.hitb.org/hitbsecconf2008dubai/materials/D2T1%20-%20Adrian%20Pastor%20-%20Cracking%20Into%20Embeded%20Devices%20and%20Beyond.zip" rel="nofollow">http://conference.hitb.org/hit.....Beyond.zip</a></p>
+<p>(located on the &#8220;\BT Home Hub\demo_exploits\Default WEP key cracking\&#8221; folder)</p>
+<p>@Edward: you can now go ahead and post a link to your WinXP port :) Thanks for waiting for our release first.</p>
+<p>@Hubert: thanks for letting us know!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119517">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cba1b51f32d41861aa8bca46114dea0f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://decerebrain.weblogs.dg-sc.org/articles/2008/04/22/default-wep-key-generation-algorithms' rel='external nofollow' class='url'>DecereBrain</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119517">
+			April 23, 2008 at 2:47 am</a>		</div>
+
+		<p>hahaha, thatâ€™s a good work :).</p>
+<p>A similar algorihtm exist for the generation of the defaut WEP key in the Hitachi AH4021 and AH4222, used in France by Club-Internet and Alice.</p>
+<p>In fact, the default WEP key is the beginning of the SHA-1 hash of the default SSID, which is derived from the serial number of the device (which is derived form the MAC address of the Wi-Fi interface).</p>
+<p>We went on that conclusion thanks to the marvelous work of Club-Internet, who just released a Windows GUI tool named WEPtool. WEPtool takes a Club-Internet.box SSID and generate the corresponding WEP key (yes, our #@! government vote for fascit laws against the citizens while ISP help wardrivers and outlaws). What is really fun is that we did not need to perform any sort of reverse engineering to understand the generation process : the WEPtool relies entirely upon a DDL called FSHash (for File String Hash), and the source code of that library is open source !</p>
+<p>What you need is a SHA-1 computing program, and you can hack into any of these.</p>
+<p>The WEPtool binary and the source code of the FSHash DLL can be found on my humble website). A reverse engineering work has been made by a member of the FRET group, and all of this was originally published in the 2600 Lille meeting reports along the year 2007 and in this thread, thanks to my friend oxyde.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119584">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4d8b67be6eed5a71ba35e470827351dd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.crackspace.com/' rel='external nofollow' class='url'>Ricky "Hexy" Small</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119584">
+			April 23, 2008 at 3:41 pm</a>		</div>
+
+		<p>Edward Pearson when will u be releasing your win32 version of BTHHKeygen n BF Thanks</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119607">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0cf764260cc28ff0a66aa100e90e3eb5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ruslan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119607">
+			April 23, 2008 at 7:45 pm</a>		</div>
+
+		<p>What are the CC, PP and XXX values? You lost me there&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119674">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119674">
+			April 24, 2008 at 9:41 am</a>		</div>
+
+		<p>@Ricky &#8220;Hexy&#8221; Small</p>
+<p>Probably when I get home tonight. Last night I forgot.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119709">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5879dc2cc8ac1f5cb8c18a4a8918b6c4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Elfist</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119709">
+			April 24, 2008 at 4:37 pm</a>		</div>
+
+		<p>Would be very interesting seeing the win32 version. Great job guys! BT Sucks!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120086">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120086">
+			April 27, 2008 at 10:39 am</a>		</div>
+
+		<p>Right. Sorry about the delay, I&#8217;ve had a very busy couple of days.</p>
+<p>As requested, here is the Windows XP version of BTHHkeybf</p>
+<p><a href="http://facecrook.net/BTHHkeybf.zip" rel="nofollow">http://facecrook.net/BTHHkeybf.zip</a></p>
+<p>This code isn&#8217;t elegant, optimized, well written, or pretty, but it works well. It was 2am and I needed an Internet Connection, best practice wasn&#8217;t an issue.</p>
+<p>There&#8217;s always a chance you&#8217;ll have to make a few changes to the script (different network auth type perhaps, higher DCHP timeout maybe.)</p>
+<p>Please feel free to do whatever you want with this, use it, edit it, distribute it.</p>
+<p>Look inside BTHHkeybf.vbs for additional help.</p>
+<p>(P.S. This probably won&#8217;t work on Vista, for those interested, I suggest you investigate the built in &#8220;netsh&#8221; utility, by the looks of things it could be used as a drop in replacment for Engl&#8217;s zwlancfg.exe.)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-120124">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5879dc2cc8ac1f5cb8c18a4a8918b6c4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Elfist</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120124">
+			April 27, 2008 at 7:29 pm</a>		</div>
+
+		<p>Cannot get this the win32 version to work. Anyone fancy making a guide or step by step? Cheers x</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120159">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120159">
+			April 28, 2008 at 8:24 am</a>		</div>
+
+		<p>Elfist,<br />
+One step-by-step, coming up.</p>
+<p>For this example, we&#8217;re using BTHomeHub-CD07</p>
+<p>First use stkeys to generate a list of possible keys, use the -o option to output these to a file:</p>
+<p>stkeys -i CD07 -o keys.txt</p>
+<p>Then, in command prompt, run my script against this file, thus:</p>
+<p>cscript BTHHkeybf.vbs BTHomeHub-CD07 keys.txt</p>
+<p>Provided you&#8217;re NOT connected to any wireless networks when you run it, and the Wireless Zero Config service is running and enabled, it&#8217;ll crack the password.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-120313">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5879dc2cc8ac1f5cb8c18a4a8918b6c4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Elfist</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120313">
+			April 29, 2008 at 8:22 pm</a>		</div>
+
+		<p>Lovely!</p>
+<p>But abit of a problem. I know this isnt a support site or anything but i think alot of people would have the same problems as im having. So sorry if im annouying! I managed to output the keys file from the stkeys. Then I type cscript BTHHkeybf.vbs BTHomeHub-CD07 keys.txt and not alot happends&#8230; Is it meant to automatically connect to the network after i hit enter? or wait awhile until it finds the right key? And also it should be compatible with xp sp3? And in the outputted txt file are the 1st 10 digs 1 possible key? then the next 10 the next possible key etc etc? thanks again! x</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120330">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120330">
+			April 29, 2008 at 11:30 pm</a>		</div>
+
+		<p>I need more than &#8220;not a lot happens&#8221;. What does it say when you run BTHHkeybf.vbs?</p>
+<p>You need WZC enabled as I said before. You also need to replace BTHomeHub-CD07 with the SSID you&#8217;re trying to crack.</p>
+<p>Yes, the keys are what you used stkeys for. RTFA!!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-120438">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5879dc2cc8ac1f5cb8c18a4a8918b6c4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Elfist</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120438">
+			May 1, 2008 at 2:25 pm</a>		</div>
+
+		<p>I was using the CD07 as an example ovi. WZC is enabled. When I run the BTHHkeybf.vbs its comes up with the Usuage and the the example (Example: cscript BTHHkeybf.vbs BTHomeHub-CD07.txt )in cmd but doesn&#8217;t actually crack it or does anything.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120564">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d96a99cc231f067a5b7024124b53d1bb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">niteman</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120564">
+			May 2, 2008 at 2:58 pm</a>		</div>
+
+		<p>Any progress on the windows version of bthhkeygen?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-120566">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f85cf22f0afcd4ee1dcec85df45fd3d9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Slinx</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120566">
+			May 2, 2008 at 3:59 pm</a>		</div>
+
+		<p>I have made a WinXP version. I will email it to anyone interested.</p>
+<p>-S</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120569">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120569">
+			May 2, 2008 at 5:04 pm</a>		</div>
+
+		<p>The win32 version is linked above&#8230;</p>
+<p>It works perfectly for me, I can only assume Elfist is doing something wron.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-120570">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120570">
+			May 2, 2008 at 5:07 pm</a>		</div>
+
+		<p>Oh sorry, you want the keygen.</p>
+<p>Adrian&#8217;s precomputes the keys into a Rainbow table type configuration. This allows the lookups to be instant.</p>
+<p>You can use the stkeys program detailed above if you don&#8217;t care about the crypt speed (My Centrino does it in a matter of seconds)</p>
+<p>RTFA!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-120676">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5879dc2cc8ac1f5cb8c18a4a8918b6c4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Elfist</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120676">
+			May 4, 2008 at 1:05 pm</a>		</div>
+
+		<p>Slinx whats your email?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-120721">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d71835387ec48081dea582f602720175?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Slinx</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-120721">
+			May 4, 2008 at 10:48 pm</a>		</div>
+
+		<p><em>files.slinx</em> <strong>(at)</strong> <em>googlemail</em> <strong>[dot]</strong> <em>com</em></p>
+<p>-S</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-121191">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f32fcdf896db95ba347a3602e9841dc1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">NoName</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121191">
+			May 8, 2008 at 7:42 pm</a>		</div>
+
+		<p>ive got a ps3 and there&#8217;s a few bt home hubs around me is there any way to hack them </p>
+<p>thx for much if u can help</p>
+<p>plz email me the answer or post here</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-121199">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121199">
+			May 8, 2008 at 9:24 pm</a>		</div>
+
+		<p>there are many ways but you are on your own in this business :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-121261">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e96d247eb7e87eddf421c09e363e6de1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121261">
+			May 9, 2008 at 9:42 am</a>		</div>
+
+		<p>For the third time: RTFA.</p>
+<p>It&#8217;s not exactly cryptic, it&#8217;s practically a step by step.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-121362">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121362">
+			May 10, 2008 at 12:20 pm</a>		</div>
+
+		<p>It&#8217;s funny, when someone is so focused on breaking into a computer network and not interested in the learning experience, he will fail to see how it can be done even when the information is right in front of his eyes!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-121364">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121364">
+			May 10, 2008 at 12:26 pm</a>		</div>
+
+		<p>@Simon: this attack has only been tested with the factory-default keys used by Thomson Speedtouch/BTHH routers. In some cases (can depend on ISP) the default it&#8217;s a WPA key, in others, it&#8217;s a WEP key. </p>
+<p>In the case of the BT Home Hub which is widely used in the UK, the default key is a a 40bits WEP key.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-121374">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f32fcdf896db95ba347a3602e9841dc1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">noname</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121374">
+			May 10, 2008 at 1:59 pm</a>		</div>
+
+		<p>thx for the info</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-121887">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/85e25cb74cac01638066902b96817bc7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Rob</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121887">
+			May 15, 2008 at 7:06 pm</a>		</div>
+
+		<p>Hi all.</p>
+<p>A very interesting article showing just how weak wep encryption is.  I thought i&#8217;d give it a go so I dug out my old homehub router.  I ran stkeys and outputted the txt file, i looked and checked my wep key was listed, which it was.  But when I came to run the BTHHkeybf.vbs file, i got the following message;</p>
+<pre><code>Trying key: 1234567890
+C:\BTHHkey.vbs(27,2) (null): This application failed to start because the application configuration is incorrect.  Reinstalling the application may fix this problem.</code></pre>
+<p>Am I doing something blatently wrong or do I need to go in and change the script?</p>
+<p>regards</p>
+<p>Rob.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122402">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4bc92033eeeaf44ae6a2e13159550d83?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ellis goward</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122402">
+			June 1, 2008 at 1:49 pm</a>		</div>
+
+		<p>i wouuld ,ike to log on 2 my neighbours BT-HomeHub but the way this is set out is well confusing i just need the pass key </p>
+<p>can some 1 please help me out with some step by step instructions or sumin   please!!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-122414">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122414">
+			June 2, 2008 at 9:30 am</a>		</div>
+
+		<p>ellis, we don&#8217;t like to moderate comments but please, don&#8217;t post these kind of questions here. this is not a script-kiddish forum. many thanks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122420">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122420">
+			June 2, 2008 at 6:54 pm</a>		</div>
+
+		<p>The BT HH v1.5 uses this algorithm as well: I just tried it on mine &#8211; your article states that it uses a different algorithm: why did you say that?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122423">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef5e34c391e4bf0ad962221cbbe9f72e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">noob</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122423">
+			June 2, 2008 at 7:37 pm</a>		</div>
+
+		<p>Nice work. So does BTHHkeybf.vbs only work for 40 bits WEP keys only?</p>
+<p>Reason i ask is I used the step by step posted by Edward Pearson(many thanks)at which the keys generated does have my key in the list but the key found by BTHHkeybf.vbs is not correct.</p>
+<p>My default is 64 bit wep.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122427">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122427">
+			June 2, 2008 at 10:54 pm</a>		</div>
+
+		<p>Okay so I followed your method in the post and it seemed to work in that typing:</p>
+<pre><code>echo -n '' | openssl sha1</code></pre>
+<p>Gives a hash which has the first 10 characters as the default WEP key and the last 4 characters as the suffix to the SSID.</p>
+<p>But when I look at the entry in BTHH-Keys.csv from the zip archive of your conference presentation the correct key is not found in the row corresponding to the default SSID of my HH.  perhaps I have misunderstood what the files BTHH-Keys is for?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122437">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a6c287cd491b879cf5a28a836766511f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">jimjamsunny</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122437">
+			June 3, 2008 at 12:24 pm</a>		</div>
+
+		<p>Hi all&#8230; I&#8217;m confused.</p>
+<p>Are these tools only to generate the WEP/WPA keys or are they to find out what the SERIAL NUMBER of the router is?</p>
+<p>Depending on which is which would depend on how much of an impact this would have on BTs customers?</p>
+<p>Thanks</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122438">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122438">
+			June 3, 2008 at 1:39 pm</a>		</div>
+
+		<p>Just to clarify my response above: between the &#8221; in the echo command should be the modifed serial number according to the method in the main post(i.e. with CC and PP removed and XXX changed to hex).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122465">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8becbd5b0879ac5f676a1fc906b8959?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ginjon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122465">
+			June 6, 2008 at 1:23 pm</a>		</div>
+
+		<p>i have tried all sorts of ways to access my pals home hub. i used the bthhkeygen and gathered the list of keys but thats as far as i got i dont understand the rest. where do i type commands i  it in the command prompt? if so i have tried several comands stated by this article and also some of the comands within the documentation attached with the software. as i have no understanding of how this works i fail to see how the home hub is vulnerable to attack the home hub is bthomehub-0CED and as a result of knowing jack about this subject i resorted to painstakingly  trying each key individually all 76. none of which worked will someone please help? is the status of the connection changed visually on my screen e.g. should (padlock) Security Enabled Wireless Network be changed so it tells me i am connected to the network. could someone possibly help and or either provide me with the key or how to obtain it. i am an ultimate beginner to the scene of security for my computer. mant thanks in advance 8)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122466">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8becbd5b0879ac5f676a1fc906b8959?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ginjon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122466">
+			June 6, 2008 at 1:25 pm</a>		</div>
+
+		<p>Oh and what is stkeys supposed to do? how the hell am i supposed to output my keys to a .txt file? HHHMMMMMMM</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122486">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4bc92033eeeaf44ae6a2e13159550d83?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ellis goward</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122486">
+			June 7, 2008 at 8:25 pm</a>		</div>
+
+		<p>fair nuff m8 itz all kl  ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122491">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122491">
+			June 8, 2008 at 1:08 am</a>		</div>
+
+		<p>Hi again</p>
+<p>Just took a look at the stkeys source code &#8211; I presume this is what you used to get your database of potential keys as included in conference presentation? If so the reason that my router&#8217;s default key isn&#8217;t in your database is that stkeys inly defaults to keys for units produced in &#8217;05 &amp; &#8217;06 &#8211; my unit is produced (from serial no.) in &#8217;07. So to cover v1.5 units (if my guess that this is the problem proves correct) you need to increase the upper limit in stkeys and thus enlarge the database.</p>
+<p>Thanks again for the good work!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122494">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d2bd9e1ed3163e36f156c13cc1db51b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Rafik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122494">
+			June 8, 2008 at 10:48 pm</a>		</div>
+
+		<p>Hi. I have a small problem. i have a bt hub, but its on my ex girlfriends adress, and i need to know what is she doing with it cos the last bills are inormess. i there any chance that someon would help me out with getting access to my bt home hub throu internet? and ofcourse getting acces to the devices sonnected to the hub ?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-122525">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122525">
+			June 15, 2008 at 10:38 am</a>		</div>
+
+		<p>@noob: 40 bits WEP encryption is usually advertised as 64 bits. They&#8217;re both the same encryption type and strength.</p>
+<p>@jimjamsunny: the tools allow you to find the default WEP/WPA key of the BT Home Hub and Thomson Speedtouch routers.</p>
+<p>@Stephen: To answer all your questions: you&#8217;re probably right the the BT Home Hub v1.5 ALSO follows the same algorithm, but we probably misreported that the attack doesn&#8217;t work on v1.5. This is because the rainbow tables (BTHH-keys.csv) were created using the default stkeys.exe tool which only generates keys for routers manufactured in the year 2005 and 2006. When attacking the BTHH v1.5, just change the following line in the source code from:</p>
+<pre><code>for(year = 5;year &lt;= 6;year++) {</code></pre>
+<p>to:</p>
+<pre><code>for(year = 5;year &lt;= 8;year++) {</code></pre>
+<p>and recompile.</p>
+<p>I&#8217;d be a good idea to regenerate BTHH-keys.csv adding 2007 and 2008 for attacking the BTHH v1.5. However, the number of possible keys would be increased from 80 to 160 approximately I believe.</p>
+<p>stkeys.exe (live generation of keys): <a href="http://weiss.u40.hosting.digiweb.ie/stech/stkeys.zip" rel="nofollow">http://weiss.u40.hosting.digiw.....stkeys.zip</a></p>
+<p>BTHH-keys.csv (pre-generated keys): <a href="http://conference.hitb.org/hitbsecconf2008dubai/materials/D2T1%20-%20Adrian%20Pastor%20-%20Cracking%20Into%20Embeded%20Devices%20and%20Beyond.zip" rel="nofollow">http://conference.hitb.org/hit.....Beyond.zip</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122526">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/151aa5852da77e782a5ec02fcb904bc1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://weiss.u40.hosting.digiweb.ie/' rel='external nofollow' class='url'>Kevin Devine</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122526">
+			June 15, 2008 at 3:10 pm</a>		</div>
+
+		<p>@stephen</p>
+<p>Since i passed the info to Adrian, i take responsibility for the mis-reporting..there was a lack of valid S/N&#8217;s and other information in initial tests which is why i believed v1.5 was safe.</p>
+<p>stkeys worked for 2005 &#8211; 2006 because the router i had was manufactured in 2006.. and some S/N&#8217;s collected from hrodgar were from 2005.</p>
+<p>more people gave hrodgar S/N&#8217;s for 2004 up to 2008, and a different version was written to try speed things up.</p>
+<p>If you look at <a href="http://weiss.u40.hosting.digiweb.ie/stech/x_stkeys.c" rel="nofollow">http://weiss.u40.hosting.digiw.....x_stkeys.c</a> &#8211; it generates all known years, but only for routers using 24 bit SSID.</p>
+<p>exclusion of BT HH SSID is because too many keys were generated with only 16 bit input.. also Thomson routers by default in Spain use WPA which is obviously much harder to crack than WEP.</p>
+<p>for this reason, BT HH keys were never really tested afterwards and it was still believed v1.5 used a different algorithm.</p>
+<p>interesting to know it worked for you.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122529">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/414f4a19eb82974e5aa2cd14e653a604?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">alias</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122529">
+			June 16, 2008 at 1:29 pm</a>		</div>
+
+		<p>Just a small query for Edward Pearson, I have followed your method, and i must say it is a lot easier for windows. </p>
+<p>I encounter a problem though, i have WZC enabled and  follow the process.</p>
+<p>But I get an error </p>
+<pre><code>"Trying Key:
+2BE704DA74
+
+C:\Documents and Settings\me\Desktop\BTHHkeybf\BTHHkeybf.vbs(27, 2) (null): This
+ application has failed to start because the application configuration is incorr
+ect. Reinstalling the application may fix this problem."</code></pre>
+<p>Any help would be much appreciated</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122538">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/16aee736b5337361fa5c927873ad3368?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">sirius</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122538">
+			June 18, 2008 at 2:45 am</a>		</div>
+
+		<p>Ok, awesome find guys, thanks for all the effort.</p>
+<p>With regards to the step by step written by Edward, I have followed all the steps, got all possible keys to output to a file and then when I execute &#8220;cscript BTHHkeybf.vbs BTHomeHub-xxxx key.txt&#8221; (or whatever outputted files name was) it displays:</p>
+<pre><code>" Trying Key: xxxxxxxxxx (first key in outputted file)
+Alive"</code></pre>
+<p>And just sits there seemingly doing nothing, it doesn&#8217;t seem to attempt to connect to a network, or really do anything for that matter,  WZC is enabled and started and I&#8217;m sure I&#8217;ve done everything to a t, can anyone offer any help at all please?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122542">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Edward Pearson</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122542">
+			June 18, 2008 at 11:37 am</a>		</div>
+
+		<p>Guys,</p>
+<p>As I explained, this is something I wrote late at night so I could check my e-mail. </p>
+<p>Have a look at the VBScript, there&#8217;s plenty that could go wrong.</p>
+<p>To reiterate:<br />
+This will not work on Vista.</p>
+<p>This will not work unless the Windows &#8220;Wireless Zero Config&#8221; is active. Not a 3rd party program.</p>
+<p>This relys on &#8220;zwlancfg.exe&#8221; to automate WZC, if it doesn&#8217;t work, then neither will this script.</p>
+<p>Before you run the script, you must first disconnect any and all wireless networks. &#8220;Automatic&#8221; networks, must be set to &#8220;Manual&#8221;.</p>
+<p>The script works by adding a new Automatic wireless profile to WZC, at which point Windows should automatically try to connect, if automatic connections are off, then this script will fail.</p>
+<p>When the script displays &#8220;Alive&#8221;, it means it has added the profile to WZC, and is waiting for a wireless connection to be established (it does this by checking signal strength). Open WZC and look at the target network, what is it&#8217;s status?</p>
+<p>Once a connection has been established, a normal Windows install will attempt to get an IP through DHCP, again, this must be enabled for this to work.</p>
+<p>My script will wait 3 seconds (ample time for DHCP to respond on my machine), and then attempt to ping Google, it that fails, it&#8217;ll disconnect and move onto the next key.</p>
+<p>0days of old often contained deliberate mistakes to deter script kiddies. If you don&#8217;t understand what&#8217;s going on here, then try and learn rather than hoping somebody will come up with instructions you can blindly follow.</p>
+<p>If you&#8217;re not capable of understanding what the script is doing, and where it may go wrong, then you don&#8217;t deserve free internet. Do what most of us did and work it out for yourselves, it&#8217;s not that hard.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122546">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/16aee736b5337361fa5c927873ad3368?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">sirius</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122546">
+			June 18, 2008 at 10:24 pm</a>		</div>
+
+		<p>Hi, </p>
+<p>Thank you for the reply and all you&#8217;re work. Just to clear this up, I am not attempting to get free Internet, I am attempting to progress my knowledge of network security and am trying to use this script on my own BTHomehub, my WEP key is in the genrated list however I wanted to see how the script operates and watch it in action, I apologize if I have offended you with my questions, however I was just looking to learn as research can only get you so far, I was looking for some input from someone experienced on this field, which you have given me in your last post, I will check everything over and have another attempt, thank you for your info!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122556">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Edward Pearson</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122556">
+			June 19, 2008 at 10:35 am</a>		</div>
+
+		<p>To be quite honest sirius I didn&#8217;t mean you. There are a number of people above who just can&#8217;t be bothered</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122558">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/414f4a19eb82974e5aa2cd14e653a604?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">alias</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122558">
+			June 19, 2008 at 11:02 am</a>		</div>
+
+		<p>@Edward</p>
+<p>I have checked everything, and what I get is It sits at alive then i fail to get an IP and it says limited connectivity.</p>
+<p>I know its frustrating getting all these questions, but I am just curious to why it doesnt want to work</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122562">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/95caa0f0c038ae6c2517980866dd5672?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kevin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122562">
+			June 19, 2008 at 2:10 pm</a>		</div>
+
+		<p>When I come to run the BTHHkeybf.vbs file, i got the following message;</p>
+<pre><code>Trying key: 1234567890
+C:\BTHHkey.vbs(27,2) (null): This application failed to start because the application configuration is incorrect. Reinstalling the application may fix this problem.</code></pre>
+<p>Am I doing something blatently wrong or do I need to go in and change the script?</p>
+<p>cheers</p>
+<p>kev</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122567">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0cabc6668abb92a070dd425b20e3556d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nic</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122567">
+			June 19, 2008 at 9:19 pm</a>		</div>
+
+		<p>I get the same hanging problem after it prints &#8216;Alive&#8217;<br />
+I&#8217;m runnin XP SP3 though, so maybe that&#8217;s the problem?<br />
+The waitToDie function never exits&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122568">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0cabc6668abb92a070dd425b20e3556d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nic</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122568">
+			June 19, 2008 at 9:22 pm</a>		</div>
+
+		<p>I think updating to the latest version of Zwlancfg might solve the SP3 problem :-<br />
+<a href="http://www.engl.co.uk/products/zwlancfg/history.htm" rel="nofollow">http://www.engl.co.uk/products.....istory.htm</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122572">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/16aee736b5337361fa5c927873ad3368?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">sirius</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122572">
+			June 20, 2008 at 1:24 am</a>		</div>
+
+		<p>Ok, with some additional research and a slight edit to the script I have got this up and running. Just for anyone who is interested I had to update the xp install on my laptop with a specific hotfix which updated wireless settings/files on the machine. I also downloaded the latest version of the zwlancfg, I also changed the dhcp timeout to 7 seconds as the 3 didnt seem enough for my connection for some reason. </p>
+<p>After these changes the script successfully run and connected to my network! </p>
+<p>Thank you for releasing this as I have learned a fair bit of knowledge during the pursuit of getting this up and running.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122582">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Edward Pearson</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122582">
+			June 20, 2008 at 11:31 am</a>		</div>
+
+		<p>Glad you guys managed to get it working, good call as well, it never occured to me that Microsoft may have broken it when SP3 arrived.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122638">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8cd8da2f18b3e04761793d543691b73?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Tomashavenger</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122638">
+			June 22, 2008 at 11:05 am</a>		</div>
+
+		<p>When will the default algorithm for Sky routers come out</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122666">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/95caa0f0c038ae6c2517980866dd5672?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kevin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122666">
+			June 25, 2008 at 9:07 am</a>		</div>
+
+		<p>Ok &#8211; i&#8217;ve got the script working, yet i cant seem to find out where to change the dhcp timeout from 3 seconds to 7 seconds?</p>
+<p>Script runs and shows trying key &#8220;************&#8221; with ALIVE under it &#8211; then just sits there -hanging about &#8211; doesnt try and connect or anything &#8211; WZC is enabled and have latest version of zwlancfg, also ran the xp hotfix etc without sp3.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122667">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/77865884e4250194babc00f74d128740?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ninjamin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122667">
+			June 25, 2008 at 10:00 am</a>		</div>
+
+		<p>Sirius what was the hotfix that you used? As I&#8217;m having the same problem with XP Sp3</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122679">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8becbd5b0879ac5f676a1fc906b8959?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ginjon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122679">
+			June 26, 2008 at 2:29 pm</a>		</div>
+
+		<p>does anyone run xp media center edition i cant seem to get the zwcnfig to run when i attempt to run the newer version liked above i get a mesage stating that i need vista or xp pro sp2 or sp3 i downloadd sp3 bot when instaling i am told it is not a valid win32 apliation is it possible to actually do this attck with media center or not</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122740">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aff482679d294d0959aa872233548643?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Simon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122740">
+			June 30, 2008 at 10:23 am</a>		</div>
+
+		<p>Edward (or anyone who can assist)</p>
+<p>I have successfully managed to get your VB script working, in that if I edit the key file to conmtain my key as the first line it will connect.</p>
+<p>When I put my key as the second line (either in the string or making the file line by line) it fails to read it and hangs at the &#8220;Alive&#8221; prompt showing the first key.</p>
+<p>I have read the script and can understand the process being followed, but cannot see why it would hang&#8230;.. I know it works (as proven above) but cannot get the loop to loop&#8230;.</p>
+<p>Also just to note for all others that this will work on a non BT HH router(the script to connect) but you need a different way to generate the keys. (anyone figured out any other alogrithms yet&#8230; I have tried but seemingly failed miserably).</p>
+<p>Thanks for any assistance.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122750">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122750">
+			June 30, 2008 at 3:39 pm</a>		</div>
+
+		<p>Kevin: To change the DCHP timeout, look for &#8220;3000&#8243; in the code, change this to Seconds * 1000.</p>
+<p>As stated, there isn&#8217;t that much that can go wrong, I suggest all of you having problems go here: <a href="http://www.engl.co.uk/products/zwlancfg/index.html" rel="nofollow">http://www.engl.co.uk/products/zwlancfg/index.html</a> and download the latest copy of zwlancfg.</p>
+<p>One problem I have experianced in Vista (as stated, this WILL NOT WORK in Vista), is that you can&#8217;t use my method to query the WMI, and check the wireless is up, as this will cause it to hang BEFORE displaying &#8220;Alive&#8221;. If it&#8217;s hanging after this I sugget you look at the &#8220;waitToDie&#8221; method, although if &#8220;waitToStart&#8221; works, I don&#8217;t see why &#8220;waitToDie&#8221; wouldn&#8217;t.</p>
+<p>The only other thing I suggest is you add a few: WScript.Echo &#8220;Reached line X&#8221; in some choice places, and find out where its failing from.</p>
+<p>Why not try and execute zwlancfg yourself, try and add a profile? Think outside of the box people.</p>
+<p>I have done my best to support this script, in the past comments I have outlined, in detail, exactly how it works, if you can&#8217;t do some simple debugging on a basic VBScript, then too bad.</p>
+<p>Game Over, its up to you lot now.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122936">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/086a9a8e83f1b5a88b77c9c76085c170?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Gary</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122936">
+			July 12, 2008 at 7:46 pm</a>		</div>
+
+		<p>I&#8217;ve made a Vista version of Edward&#8217;s script.<br />
+It&#8217;s available here: <a href="http://www.mediafire.com/?xt2ntupftty" rel="nofollow">http://www.mediafire.com/?xt2ntupftty</a></p>
+<p>It will be slower as I can&#8217;t be bothered to figure out the Vista equivalent of the WMI part.</p>
+<p>But it works :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122949">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/47da65c87f2881eea7422bb7458dc8f0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">gavin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122949">
+			July 13, 2008 at 7:41 pm</a>		</div>
+
+		<p>is there some kind of step by step as i dont no how 2 run the script any one with any info on this would b great and sorry if im asking dum stuff but i like finding out new things</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122953">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8becbd5b0879ac5f676a1fc906b8959?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ginjon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122953">
+			July 14, 2008 at 10:54 am</a>		</div>
+
+		<p>@gavin</p>
+<p>there is a step by step at the top of the thread posted by edward pearson. which i am afraid is the only one you will find. </p>
+<p>i have also noticed that ppl on here like not to be asked questions. i have posted twice already and got no reply to any of my questions. </p>
+<p>i personally just went on to use backtrack linx and sorted it that way if you ask me personally it sucks to not get a reply in a forum but this ones a bit strange. </p>
+<p>any way good luck on finding some info. by the way i believe running the scripts within linux it the answer.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122983">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122983">
+			July 17, 2008 at 11:00 am</a>		</div>
+
+		<p>ginjon,</p>
+<p>I read thirteen posts from me above this one. Almost all of them are answering questions put to me by people who COULDN&#8217;T BE BOTHERED to either read the article, code, comments or all three. Not to mention the others who are also doing their very best to answer your inane questions.</p>
+<p>To suggest we&#8217;ve not tried to be helpful is both untrue, and frankly rather rude. Some commercial products receive less support than you lot are getting.</p>
+<p>If you can&#8217;t understand the processes described above, then you WON&#8217;T make any progress with this. Give up.</p>
+<p>I only came here to mention the new BTHomeHub 2.0 and to ask if anybody has one yet, but seeing comments like yours from ungrateful people who have made NO effort to understand the subject matter really does annoy me.</p>
+<p>You can bet your bottom dollar that if you DO get it working, you won&#8217;t bother posting your solution and we&#8217;ll never hear from you again.</p>
+<p>Weak guys, real weak.</p>
+<p>Ed</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122988">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8becbd5b0879ac5f676a1fc906b8959?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ginjon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122988">
+			July 17, 2008 at 2:58 pm</a>		</div>
+
+		<p>ed my friend you can bet your bottom dollar and even your wife,house and car for that matter. when i get up to speed with this i &#8220;WILL&#8221; post my solution and you &#8220;WILL&#8221; hear from me again. </p>
+<p>as a 100% noob to any sort of pentesting and to linux fullstop. then being able to understand what they are for will take a little more time than is expected. as compared to a person who is a veteran such as yourslf. you, i suppose have been running and writing script for years and i however have been learning for like three months starting from the very beginning. </p>
+<p>i do believe there was a time in your life where you knew absloutley nothing about programming or pentesting. only problem is i just wanted to learn how to make my ap more secure. but now the realisation of just how much there is to learn about, not only the bthh but about all aspects of programming, pentesting and remote exploitation has got me studying perl, c++, backtrack, ubuntu and anything else i find and feel that is relevent. i diddnt mean to sound twatish but i got no direct replies which is what bothered me. so sorry for being upperty but as i say all i wanted was to make my ap real secure. i thought there would be a simple explaination of how to do this but i was wrong. as there is (which i know now) no simple explaination as without knowlege of what hackers can do then basically your screwed. </p>
+<p>so i appologise once again if i offended.</p>
+<p>if i had of gotten an answer when i first posted that these tests were written to be used within linux then i would of not asked such rediculouse questions.</p>
+<p>is there a forum on gnu citizen you could suggest i take a look at. like a newbie area or similar. something basic to build my knowledge.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123067">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef5e34c391e4bf0ad962221cbbe9f72e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">noob</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123067">
+			July 24, 2008 at 12:05 pm</a>		</div>
+
+		<p>Well after week after week of trying to get this great script working.<br />
+I have finally got this working on my hub thanks to Edward Pearson and Gary for his vista script.</p>
+<p>I followed everything to a &#8220;T&#8221; and could not get the script working with win xp.<br />
+I tried various methods to get this script working but nothing was having it.</p>
+<p>I put it down to zwlancfg not working for me although it does work manually.</p>
+<p>So i tried this vista script which uses netsh commands for making wifi profiles and lo and behold after 3-4minutes im here typing this.<br />
+many many thanks to all involved.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123073">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123073">
+			July 24, 2008 at 2:26 pm</a>		</div>
+
+		<p>Sorry bout the delay in my reply, I&#8217;ve been in Croatia.</p>
+<p>Glad to hear people are making progress.</p>
+<p>ginjon, I obviously misjudged your intentions, and perhaps I was a tad harsh. It was 8:45, pre-coffee, and you caught the vitriol that was really aimed at the minimum-effort crowd above you.</p>
+<p>I&#8217;m feeling guilty about losing my rag, so here&#8217;s my MSN messenger whatsit, if you still need help msg me and we&#8217;ll sort it out then and there.</p>
+<p>MSN: eddypearson{at}gmail{dot}com</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123129">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f40fbb0369d33d209afee6478f930e29?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">toby</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123129">
+			July 29, 2008 at 10:38 pm</a>		</div>
+
+		<p>can you plz email me the windows xp vesion for the 2 files at<br />
+(tattootroy(at)gmail(dot)com</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123133">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ae106c6a501e564b0f932e5c6a52c8c7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jordan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123133">
+			July 30, 2008 at 9:36 am</a>		</div>
+
+		<p>Dam THANK YOU EDWARD! very skillfull and works great! thank you for your help, very much apreciated!!!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123134">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123134">
+			July 30, 2008 at 9:43 am</a>		</div>
+
+		<p>I&#8217;m feeling rather sheepish.</p>
+<p>It would appear that the zwlancfg.exe I packaged with my last release was missing some vital libraries, as a result it wouldn&#8217;t have worked unless you had the bright idea of downloading them.</p>
+<p><a href="http://www.facecrook.net/BTHHkeybf.zip" rel="nofollow">http://www.facecrook.net/BTHHkeybf.zip</a></p>
+<p>Zip updated, sorry for the inconvenience.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123141">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8becbd5b0879ac5f676a1fc906b8959?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ginjon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123141">
+			July 31, 2008 at 12:41 pm</a>		</div>
+
+		<p>does any one else run xp media center? i am having the same hanging problem as some of the other guys.also i get this.</p>
+<p>trying key: *******<br />
+alive<br />
+key:******</p>
+<p>then a return to my command line.</p>
+<p>i am wondering if it is something to do with my system setup. i have been working along with ed to try and get this working on my system. (thanks ed you the boy-o all your help is superb) afte trying various methods it just wont work lol WELL IT WILL but i am missing somthing. although not sure what. ed has enlightened me in so many ways that i can now actually understand whats happening with the sript :D YEY. does any one have any suggestion.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123143">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f40fbb0369d33d209afee6478f930e29?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">troy troy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123143">
+			July 31, 2008 at 4:11 pm</a>		</div>
+
+		<p>can you please upload the working files for windows xp. plz</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123144">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8becbd5b0879ac5f676a1fc906b8959?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ginjon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123144">
+			July 31, 2008 at 5:45 pm</a>		</div>
+
+		<p>hi guys, ive got the script to run but thing is it takes like 10 mins to try the next key????????????<br />
+in some instances it has just hung until the comp goes into hibernate after being left for a goood while then it checks the next key when it comes out of hibernation. i have change the dhcp time out to 10 seconds and even to 20. i can see visably that the key is tried and wzc is trying to connect. after sed time when it is supposed to try the next key it hangs. as i say after a while it does try the next key:</p>
+<p>i get :</p>
+<p>trying key:******<br />
+alive<br />
+dead<br />
+failed.<br />
+trying key:*****(next in the list)<br />
+alive</p>
+<p>problem is at this rate it will probs take like three weeks to get in to he hub. and no way am i waiting for the computer to hibernate before it tries the next key. i know i have got something wrong some where.</p>
+<p>my setup is:<br />
+acer aspire 3690, 1.73ghz intel celeron m, 1gig ram, atheros ar5005g wireless chip.  windows xp media center edition sp3 with hotfix KB928366 for wzc, latest version zwlancfg, stkeys and BTHHkeybf.vbs </p>
+<p>i have changed the script bthhkeybf.vbs several times (with eds help) and some of my own. i just dont understand why the keys are&#8217;nt moving properly is there any sugestions on getting the loop to loop properly.       </p>
+<p>many thanks in advance</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123147">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Edward Pearson</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123147">
+			August 1, 2008 at 12:40 am</a>		</div>
+
+		<p>I&#8217;ll will write a proper Windows XP/Vista version with all the bells and whistes. Tomorrow.</p>
+<p>I really don&#8217;t like Vista&#8230;at all. If somebody running it could MSN me at some point during the next few days, so I can test it on their system, it would save me a lot of time and effort.</p>
+<p>MSN: eddypearson{at}gmail{dot}com</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123149">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9237b870254b7034f55ad4c22bba20fe?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.nickkusters.com/articles/79/Online_SpeedTouch_WPA_Key_Lookup.aspx' rel='external nofollow' class='url'>Nick Kusters</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123149">
+			August 1, 2008 at 9:11 am</a>		</div>
+
+		<p>I&#8217;ve used the PoC code and created an ASP.NET version of it, dumped all info in a database and put a small page online to allow you to do lookups for the Dutch SpeedTouch modems.</p>
+<p>I&#8217;ve added a link back here aswel.</p>
+<p>For those interested: <a href="http://www.nickkusters.com/articles/79/Online_SpeedTouch_WPA_Key_Lookup.aspx" rel="nofollow">http://www.nickkusters.com/art.....ookup.aspx</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123151">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123151">
+			August 1, 2008 at 10:01 am</a>		</div>
+
+		<p>Nick,<br />
+I like it, would be nice if you&#8217;d allow for other ISPs network SSIDs, BTHomeHub-6950 for example.</p>
+<p>Ed</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123153">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7622859279504bc941265d41b0cc60da?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='https://www.cm9.net/skypass/' rel='external nofollow' class='url'>anon</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123153">
+			August 1, 2008 at 10:38 am</a>		</div>
+
+		<p>This site will calculate the default WPA key for Sky routers, it will only give the Netgear white router. Try it!! <a href="https://www.cm9.net/skypass/" rel="nofollow">https://www.cm9.net/skypass/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123155">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9237b870254b7034f55ad4c22bba20fe?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.nickkusters.com/articles/79/Online_SpeedTouch_WPA_Key_Lookup.aspx' rel='external nofollow' class='url'>Nick Kusters</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123155">
+			August 1, 2008 at 10:58 am</a>		</div>
+
+		<p>Dear Edward,</p>
+<p>First of all: thank you for your positive response!</p>
+<p>I will be back from holiday in 2 weeks. I&#8217;ll modify my code to store the full hash, allowing any kind of lookup you want.</p>
+<p>I&#8217;ll be looking into creating a tool that wil auto-probe available WiFi networks (BT/SpeedTouch) and auto connect to any available router. This will take me some more time (havn&#8217;t worked with the wlanapi yet), but I&#8217;m sure it will all work out :)</p>
+<p>Greetings,</p>
+<p>Nick Kusters.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123159">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123159">
+			August 1, 2008 at 4:21 pm</a>		</div>
+
+		<p>Nick,<br />
+Nice idea! I&#8217;ve been working on a Python framework for automating the process of &#8220;hacking&#8221; various bits of hardware. It&#8217;s very extensible, adding new target systems involves implementing a very simple interface. It&#8217;s growing every day, will probably never be &#8220;finished&#8221; and may well remain private depending on how effective it is.</p>
+<p>That said, I&#8217;ve been using the wlanapi during today&#8217;s rewrite of my VBScript (in C#), and I think I&#8217;ve got my head around it. Are you up for a little collaboration on your AutoPwn-Wireless prog? I have several *much* less well known exploits for popular hardware, and would rather like to build a Wireless specific app of this sort, I know I&#8217;d use it.</p>
+<p>If you&#8217;re interested, please see my MSN address above.</p>
+<p>Best Wishes</p>
+<p>Ed</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123161">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f40fbb0369d33d209afee6478f930e29?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">troy troy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123161">
+			August 2, 2008 at 4:06 am</a>		</div>
+
+		<p>hello Edward Pearson<br />
+thanks for your hard work. by any chance is the windows xp software you are working on finish as  yet?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123164">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5b2dc0a9dbf0c99b85ac0a621b94ccb3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Hans</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123164">
+			August 2, 2008 at 6:28 pm</a>		</div>
+
+		<p>The link to Kevinâ€™s stkeys.zip tool does not exist anymore. Please provide correct one.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123176">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/151aa5852da77e782a5ec02fcb904bc1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://weiss.u40.hosting.digiweb.ie/' rel='external nofollow' class='url'>Kevin Devine</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123176">
+			August 3, 2008 at 8:05 pm</a>		</div>
+
+		<p>stkeys..etc are now archived in nosmoht_stuff.tar.gz</p>
+<p>this is because the hosting provider asked me to remove the links to netopia/thomson vulnerability info..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123198">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8becbd5b0879ac5f676a1fc906b8959?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ginjon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123198">
+			August 5, 2008 at 4:07 pm</a>		</div>
+
+		<p>hi guys: the script is finally working!!!! </p>
+<p>after a lot of complications, a long drawn out period of time and a lot of effort. but what was the solution you may ask! </p>
+<p>well it&#8217;s this, </p>
+<p>the original bthhkeybf.vbs wouldnt work so Eddy pearson gave me an updated one. still, nothing happened. it got to the point of trying key: ****** and just hung. after a few choice commands inserted in a few choice places (courtiously provided by Ed) there was still no action.</p>
+<p>Eddy pearson and I worked on and off for like a week or more to get this thing going.Eddy pearson tried, tried and tried again to work out what was wrong, but no matter what he or myself tried we got nothing. I eventually put it down to a Picnic problem on my part (Problem in chair not in computer P.I.C.N.I.C). However the script just wouldnt work. I tried running this script against various networks and hubs and got nothing. after Eddy provided me with even more script edits and had me run various checks on my system, Eddy was ready to admit defeat!!!! yes thats right poor Eddy was P***ed right off and spitting feathers.</p>
+<p>now i was playing around at like 11.30pm or so maybe midnight and fuck me it was working.</p>
+<p>now then the network i was connected to was an unsecured network that had a better signal than the hub. for some unknown reason this network was disallowing the script to run properly. although, the prefered network list had been cleared it caused the script to crash and just hang. the cause of this was the checkbox along side &#8220;Automaticly Connect To Non Prefered Networks&#8221; within WZC. </p>
+<p>People DO NOT check this box. </p>
+<p>i had this set up from a while ago when i was an installer for sky (travelled a lot you see needed a conection) and i diddnt know anything about &#8220;offensive security&#8221;. this was causing my wireless to automaticly connect to the network with the best signal. so as the script tried to connect, so did the non preferred network thingy. thus causing them to cancel each other out. i unticked it and bang there it was. a working script.   </p>
+<p>man was i pleased. and Eddy welllll.. Eddy was no longer spitting feathers, he stuck them in his cap and danced round the camp fire, half naked, till it rained. (Not literally lol)</p>
+<p>any way i got a good nights sleep without waking up thinking about getting the script to work and Eddy received my confirmation of a working script pre-coffee so hopefully it give him a good start to the day.</p>
+<p>see look another happy ending.</p>
+<p>I hope this might be some help to someone out there.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123234">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5cadbdb53d09b8eca838ab769d0f8a27?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">securio</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123234">
+			August 10, 2008 at 4:13 pm</a>		</div>
+
+		<p>Brilliant article ,BT have released a version 2.0 homehub now , with WPA encryption they are advertising high security although it still comes with &#8220;sticker&#8221; encryption default codes , do you think this can also be reverse engineered , the examining of the security certificate using <a href="https://api.home" rel="nofollow">https://api.home</a> still works to get the serial number although the &#8220;sticker&#8221; ssid now contains non hex characters , have tried the stkeys gen and due to non hex characters unfortunatley does not work , have they finally locked it up good and proper due to your hard work and research or can you show them up again ? Any help I can be which isn&#8217;t much without direction in trying to reverse engineer the new codes would be greatfully undertaken.  Perhaps this will be a new direction considering this is going to be the must have router for the media driven consumers in the uk.</p>
+<p>Good Work guys</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123247">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9fb0dccdb63d79f445b757928a33fdc4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.facecrook.net/' rel='external nofollow' class='url'>Edward Pearson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123247">
+			August 12, 2008 at 4:17 pm</a>		</div>
+
+		<p>Well, it&#8217;s something to shoot for.</p>
+<p>Please post:</p>
+<p>A) Serial Number<br />
+B) MAC Address<br />
+C) Default SSID<br />
+D) Default Key</p>
+<p>and we&#8217;ll see if we can make sense of it all.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123248">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aff482679d294d0959aa872233548643?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Anon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123248">
+			August 12, 2008 at 5:21 pm</a>		</div>
+
+		<p>If you could provide details of a V2 hub of<br />
+MAC address<br />
+SSID<br />
+Serial No<br />
+WPA key</p>
+<p>I&#8217;llhappily run this through the conversion I know of for other WPA algorithms.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"><a href="comment-page-2/index.html#post-comments" >newer comments</a></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="804"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="987356ee6b" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/default-key-algorithm-in-thomson-and-bt-home-hub-routers/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:49:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

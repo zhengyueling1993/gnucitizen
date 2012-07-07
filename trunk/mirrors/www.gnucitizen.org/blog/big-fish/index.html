@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/big-fish/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Big Fish</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Big Fish Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Preventing CSRF' href='../preventing-csrf/index.html' />
+<link rel='next' title='Username Enumeration Vulnerabilities' href='../username-enumeration-vulnerabilities/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index9e8b.html?p=188' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-188" class="post">
+	<div class="post-title"><h2><span>Big Fish</span></h2></div>
+	<div class="post-date"><span>published:</span> April 3rd, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>We are nearly finished with the long awaited <a href="../author-of-the-xss-book/index.html">XSS book</a> and I am really happy with the way it builds up. Everyone who is interesting in learning about the so called <q>WEB2.0 hacking</q> that raises the concerns of the masses today should definitely get a copy of the book.</p>
+
+<p>I have a few more things to say. First of all Billyâ€™s <a href="http://news.com.com/2100-1002-6170223.html?tag=tb">Jikto</a> code was leaked. Well that shouldnâ€™t come as a surprise to anyone. Iâ€™ve got my copy latter on the same day when Jikto was presented on the annual East coast hacker convention <a href="http://www.shmoocon.org/">Shmoocon</a>. Although the details of how Jikto was leaked are a bit vague and unclear, the truth is that it is assembled from components already available in the wild.</p>
+
+<p>Billy announced the code leak on <a href="http://portal.spidynamics.com/blogs/spilabs/archive/2007/04/02/Jikto-in-the-wild.aspx">SPI portal</a> on also on <a href="http://www.webappsec.org/lists/websecurity/archive/2007-04/msg00005.html">Webappsec</a> mailing list. In response to his announcement I wrote the following email:</p>
+
+<blockquote><p>I saw Jikto&#8217;s code probably on the same day when you did your presentation. The truth is that, although it is possible for someone to use Jikto to vuln assess a server, at the moment this is very unlikely. Probably I am making too big statement here but this is what I think. :)</p>
+
+<p>Today, it is a lot easier to scan someone through TOR then using browser issues. Why? Well, it will take some time for the bad guys to pick the new ideas, which efficiency is not proved, and not only that,&#8230; but also to create a big enough infrastructure to support Jikto&#8217;s mobility.</p>
+
+<p>This is why I believe that Jikto should be made free for everyone to see. As you mentioned, the code is largely constructed from various snippets which are available anyway. It took you 24h to assemble the code from scratch&#8230;</p>
+
+<p>So my suggestion is to make it free. I am working myself on something similar. It is up to the vendors and the community to decide what to do with it&#8230;</p></blockquote>
+
+<p>I feel strong about my statements. After being commercially involved in the security industry for the last 4 years, I realize that there is a lot bullshitting going on. Often, security vendors sell fears. Why? For a number of reasons. The first one is that the more afraid you are the higher the chances to buy the vendor&#8217;s product or service. The second reason is that security experts spend enormous time researching about issues which are not very piratical in reality. In order to justify their wasted time they often exaggerate. <strong>I am guilty too!</strong></p>
+
+<p>In this industry everybody exaggerates. Have you been on a hacker con? No? Well pick one and give it a try. Most hacker conferences are usually places where security experts, but not only, show who has the biggest&#8230;hum&#8230;aaaa&#8230;gun, of course.</p>
+
+<p>Security companies are also like that but they play for much bigger stakes. There is nothing wrong with their business model. However, keep in mind that behind these companies there are marketing engines which know very well how propaganda works. So, yes&#8230; they do sell fears very often.</p>
+
+<p>The most recent example of how fears are sold to the masses is the <a href="http://www.fortifysoftware.com/news-events/releases/2007/2007-04-02.jsp">paper</a> presented by Fortify Software. I don&#8217;t have anything personal about these guys and I don&#8217;t usually criticize but I don&#8217;t know for what reasons I decided to <a href="http://www.schneier.com/blog/archives/2007/04/javascript_hija.html">share my thoughts</a> on Schneier&#8217;s blog and I&#8217;ve got into trouble. This is what I said:</p>
+
+<blockquote><p>IMHO, this paper does not show anything that is new. In order to get any of the examples running you need to have access to the page DOM via XSS or some sort of browser bug. If the attacker has access to the page and the page DOM, of course they can hijack whatever they want.</p>
+
+<p>So the title &#8220;JavaScript Hijaking&#8221; does not make sense at all, at least not to me. It is almost like saying Python hijacking or Perl hijacking. If someone has access to Python or Perl&#8217;s dynamic environment they will be able to hijack all of the objects.</p>
+
+<p>This paper is primarily based on using JavaScript capabilities as programming language to show fictitious problems. Every AJAX programmer knows how to overwrite prototype methods and properties but this does not make the programming feature a security problem<strong>, unless you allow 3rd party code to run inside your trusted code</strong>.</p>
+
+<p>It is time to look at JavaScript the same way you look at other programming languages. There is nothing different about.</p></blockquote>
+
+<div class="message">I admit that I hadn&#8217;t read the paper at the time when I posted this. I just skimmed over it. Latter, I found that that I did make a huge mistake. I tried to correct myself with the following message:</div>
+
+<blockquote><p>Again, IMHO, this paper is more like marketing/PR campaign rather then actual security research because the vulnerabilities and issues are already disclosed and widely discussed in many blogs, mailing lists, etc.</p>
+
+<p>The authors of the paper assume that every framework that supports JSON is directly vulnerable to the attack they describe but that is not true. Most AJAX applications use JSON but a lot of them use {} instead of [] and therefore are protected.</p>
+
+<p>Moreover, the paper provides a protection mechanism that is flawed from top to bottom. I don&#8217;t want to get too much into JavaScript programming internals in this comment but the general truth is the following&#8230; if the attacker load code before yours and they properly overwrite the prototype of several objects they can as well put the rest of the application in totally transparent sandbox, which means&#8230; no matter what kind of protection mechanisms you have there&#8230; they wont work.</p>
+
+<p>To sum up: I cannot see the purpose of this paper. I cannot understand why it is called JavaScript hijacking? JSON Hijacking is much better. I disagree completely that all the frameworks they mention are vulnerable. Again, if the framework exports results as [] or provide a callback without some sort of CSRF protection mechanism, then yes&#8230; this is a problem.</p></blockquote>
+
+<div class="message">I admit that till this point I hadn&#8217;t actually read the paper. Why? Well because I skimmed over it and saw the code snippets which were quite self explanatory. The paper is about how attackers can perform CSRF on JSON services to get sensitive data out by overriding the Array or Object class prototype. I tried to correct myself one more time with the following comment:</div>
+
+<blockquote><p>I am still confused with the way the paper turns JSON a vulnerability. JSON is not perfect, for reasons you&#8217;ve mentioned, but it is not that bad. If properly used, JSON could be quite powerful and very fast because, in its most purest form, the code evaluates directly into the JavaScript interpreter (<strong>not that this is a good idea in general</strong>). This way the developer does not need to care about parsing the data structure.</p>
+
+<p>The only reason JSON Hijacking works is because by default the interpreter handles anonymous Arrays which I don&#8217;t think that have any purpose at all. Maybe I am wrong.</p>
+
+<p>So yes ['John', 'Fred'] evaluates properly and can be hijacked via CSRF but {names:['John', 'Fred']} will trigger an error.</p>
+
+<p>Why don&#8217;t u call the paper JSON Hijacking. JavaScript hijacking is too vague and usually refers to a technique that describes how to create a sandbox around the application for monitoring purposes.</p></blockquote>
+
+<p>However, I wanted to make a valid point which was related to the way Fortify presented their research. First of all, I think that their entire research was highly exaggerated. Why? Check this out: <a href="http://www.regdeveloper.co.uk/2007/04/03/javascript-hijacking/">New vulnerability strikes heart of Web 2.0</a>. What about this: <a href="http://www.cbronline.com/article_news.asp?guid=484BC88B-630F-4E74-94E9-8D89DD0E6606">Web 2.0 is vulnerable to attack</a> or even <a href="http://digg.com/tech_news/Web_2_0_Ajax_Attack">Web 2.0 Ajax Attack</a>, <a href="http://digg.com/programming/Your_Ajax_Applications_is_Under_Attack_If_You_Are_Using_Any_Ajax_Framework">Your Ajax Applications is Under Attack If You Are Using Any Ajax Framework</a>, <a href="http://digg.com/security/New_Javascript_Hijacking_Vulnerability_affects_ALL_major_Ajax_toolkits">New Javascript Hijacking Vulnerability affects ALL major Ajax toolkits</a>, <a href="http://digg.com/security/AJAX_Under_Siege">AJAX Under Siege!!</a> and <a href="http://digg.com/security/Javascript_Hijacking_Discovered_in_Google_Yahoo_and_Microsoft_AJAX_APIs">Javascript Hijacking Discovered in Google, Yahoo, and Microsoft AJAX APIs!</a></p>
+
+<div class="message">After reading all these I get the idea that the web is indeed falling apart. Actually I don&#8217;t use browsers any more. I ask someone else to use them for me.</div>
+
+<p>Jokes aside, I find all these articles including the entire paper presented from Fortify Software over exaggerated. I don&#8217;t really care about the noise various companies generate in order to promote their products but this one particularly bugged me because, being deeply involved into this type of research I understand the security problems that are present today. All AJAX frameworks flagged by Fortify as vulnerable are not vulnerable by default at all. This means that applications coded on the top of the these frameworks cannot be attacked unless the developer coded irresponsibly.</p>
+
+<p><em>Enough said, let&#8217;s move on.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-22489">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/15db261f33ddc2cc1d91d8b6c6e124a5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Manuel Jasso</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-22489">
+			May 18, 2007 at 7:41 pm</a>		</div>
+
+		<p>Hi, I just wanted to send you a note to tell you that I am in complete agreement with you. I think it is even dirty that Fortify used this kind of scare tactics to position themselves and generate business, shame on them.</p>
+<p>The security concerns that they raised are valid and serious. I am not bothered by WHAT they say, but HOW they said it: a bunch of poorly grounded assessments.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="188"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="23c4f34337" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/big-fish/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,8 @@
+/*
+Theme Name: gnucitizen.org-v2
+Version: 0.1
+Author: Petko D. (pdp) Petkov
+*/
+
+@import url("styles/print.css") print;
+@import url("styles/screen.css") screen;

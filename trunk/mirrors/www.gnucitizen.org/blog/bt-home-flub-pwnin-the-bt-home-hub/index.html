@@ -1,0 +1,503 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:01:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; BT Home Flub: Pwnin the BT Home Hub</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; BT Home Flub: Pwnin the BT Home Hub Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Snippets of defense Pt.I' href='../snippets-of-defense-pti/index.html' />
+<link rel='next' title='Remote Desktop Command Fixation Attacks' href='../remote-desktop-command-fixation-attacks/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index28bc.html?p=495' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-495" class="post">
+	<div class="post-title"><h2><span>BT Home Flub: Pwnin the BT Home Hub</span></h2></div>
+	<div class="post-date"><span>published:</span> October 8th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>OK, let me get to the point. The <a href="http://en.wikipedia.org/wiki/BT_Home_Hub">BT Home Hub</a>, which is probably the most popular home router in the UK, is susceptible to critical vulnerabilities.</p>
+
+<p>BT&#8217;s plan is to sneak one of these boxes into every UK home. Not only does the BT Home Hub support broadband but also VoIP (BT Broadband Talk), <a href="http://en.wikipedia.org/wiki/Generic_Access_Network">UMA</a> mobile telephony (<a href="http://en.wikipedia.org/wiki/BT_Fusion">BT Fusion</a>), and digital TV (<a href="http://www.btvision.bt.com/vision/index.htm">BT Vision</a>). Additionally BT will give users the option to use their BT Home Hub to join <a href="http://blog.wired.com/gadgets/2007/10/fon-and-bt-in-i.html">FON</a>, a community-shared Wi-Fi. An unofficial source has reported us that there are <em>2+ million BT Home Hub users</em> in the UK.</p>
+
+<p>If you&#8217;re thinking: <q>well I&#8217;m not based in the UK so this research doesn&#8217;t concern me</q>, then think again! The BT Home Hub is just a Thomson/Alcatel <a href="http://ugolini.com.au/speedtouch/routers/7G/GENERIC%20DOCUMENTATION/Picture/7G.jpg">Speedtouch 7G</a> router. Furthermore, the vulnerabilities we found are most likely present in other Speedtouch models due to code reuse (more on that later).</p>
+
+<p>So what can we do? Well, we can fully own the router remotely. At the moment we have three demo exploits which do the following:</p>
+
+<ul>
+<li>enable backdoor in order to control the router remotely</li>
+<li>disable wireless completely (can only be re-enabled if the user is technically capable)</li>
+<li>steal the WEP/WPA key</li>
+</ul>
+
+<p>Of course there other other attacks you could launch! We can hijack any action with full admin privileges or steal any info returned by a router&#8217;s page. This means evilness of the exploits are only limited by the attacker&#8217;s imagination. Other examples of evil attacks include evesdropping VoIP conversations (change &#8216;sip config primproxyaddr&#8217; statement in config file), stealing VoIP credentials, exposing internal hosts on the DMZ, change the DNS settings for stealing online banking credentials, disable auto updates (change <code>cwmp.ini</code> section in config file), etc &#8230;</p>
+
+<p>The only requirement for the router to be owned is that a victim user visits a (malicious) website. The good news is that our exploits do NOT require knowledge of the admin password! How can that be? Well, we rely on a authentication bypass bug we discovered!</p>
+
+<p>Even though I&#8217;ve been the owner of a BT Home Hub for quite a while, I never bothered to try to find vulnerabilities in it. However, on the last <a href="http://dc4420.org/">dc4420</a> meeting, after I gave a talk on <a href="http://www.procheckup.com/Vulnerability_Axis_2100_research.pdf">breaking into Axis cameras</a>, some of the guys there inspired me to research the BT Home Hub. After poking with it for a while, pdp and I couldn&#8217;t believe how vulnerable the web interface of the device was! I remember pdp sarcastically saying: <q>wow, it&#8217;s really locked down man!</q>, We discovered issues such as:</p>
+
+<ul>
+<li>authentication bypass (any admin action can be made without username/password!)</li>
+<li>system-wide CSRF</li>
+<li>several persistent XSS</li>
+<li>several non-persistent XSS</li>
+<li>privilege escalation</li>
+</ul>
+
+<p>We&#8217;re now in the process of contacting BT and Thomson. However, I don&#8217;t have high hopes for BT. Last year, I <a href="http://unknown.pentester.googlepages.com/bt-voyager-unauth-access.txt">found</a> a way to dump the BT Voyager 2091&#8242;s config file without credentials. Even though I forwarded them my findings they never responded at all.</p>
+
+<div class="screen"><object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/i4tkM3UtF1Y"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/i4tkM3UtF1Y" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object></div>
+
+<p><em>Enjoy the demo video which was kindly prepared by pdp. We misspelled some words on the chat conversation, so please forgive us! In the video, the attacker social-engineers the victim to visit a malicious website. The malicious website in turn enables remote assistance on the victim&#8217;s router with a password chosen by the attacker. After that, the attacker gains full privileges to the router remotely, and steals the config file and WEP key.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/10/bt-home-flub-movie.wmv">bt-home-flub-movie.wmv</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-56500">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56500">
+			October 8, 2007 at 11:21 pm</a>		</div>
+
+		<p>here comes the stage6 video: <a href="http://stage6.divx.com/user/gnucitizen/video/1722388/BT-Home-Flub" rel="nofollow">http://stage6.divx.com/user/gn.....-Home-Flub</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56565">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/375c0284a6efd8899f2bc69dbf99d6e3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Hubert</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56565">
+			October 9, 2007 at 3:23 am</a>		</div>
+
+		<p>Nice work. A configuration interface that&#8217;s not web-based at all, like on my Apple Airport Extreme router might be a good idea after all.</p>
+<p>The web and telnet interface on the Thomson router I&#8217;ve used was better designed and had more features than those I&#8217;ve seen on Belkin and Netgear devices, but obviously they have some work to do towards making it secure.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56604">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cf3ff7853a134bfba57f96be896b037a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://devloop.lyua.org/blog/' rel='external nofollow' class='url'>devloop</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56604">
+			October 9, 2007 at 7:41 am</a>		</div>
+
+		<p>Hi guys ! I found a similar vulnerability in a modem/router provided by one of our ISP in France (Neuf Telecom)</p>
+<p>The router got a web administration interface WITHOUT password-protection and it&#8217;s vulnerable to CSRF and a persistent XSS.</p>
+<p>Intruders can create NAT rules, change WEP/WPA encryption and password, activate/deactivate the hotspot or steal the credentials for the PPoA connection :p</p>
+<p>But the router is very basic so it&#8217;s not possible to change DNS servers or stuff like that.</p>
+<p>Article here (in french): <a href="http://devloop.lyua.org/blog/index.php?2007/09/23/468-la-securite-de-la-neufbox-4" rel="nofollow">http://devloop.lyua.org/blog/i.....-neufbox-4</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56622">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7a73c170a64a3f5b5477cde76feb39d9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">phill</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56622">
+			October 9, 2007 at 9:14 am</a>		</div>
+
+		<p>I have a home hub. Is there anything I can do to stop this? Is there a port I can close or something?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-56628">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56628">
+			October 9, 2007 at 9:27 am</a>		</div>
+
+		<p>phill, at the moment I don&#8217;t think that there is a way to protect yourself from this type of attack at router level. You need to upgrade as soon as BT releases an update.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56636">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">memals</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56636">
+			October 9, 2007 at 9:41 am</a>		</div>
+
+		<p>phill: just do not visit any maliciouss websites.<br />
+easy ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56640">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/127018260c84206ff23de0c314db4487?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mark Kent</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56640">
+			October 9, 2007 at 10:20 am</a>		</div>
+
+		<p>Hi Adrian,</p>
+<p>Please send me any details you have, and I&#8217;ll aim to get them to the right people in BT.</p>
+<p>Best regards,<br />
+Mark Kent</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56648">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56648">
+			October 9, 2007 at 10:54 am</a>		</div>
+
+		<p>phill,</p>
+<p>If you are a fan of Firefox extensions, NoScript filters cross-site POST requests from untrusted to trusted sites. This protection should avoid someone exploiting your router if properly configured.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56777">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/20576f636feeb1a41b30d9f090ab2e24?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">zip</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56777">
+			October 9, 2007 at 5:24 pm</a>		</div>
+
+		<p>Nice music, who is the artist ?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56808">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/10468ad8d146df7dc85e4f8c51ef542e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">blah</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56808">
+			October 9, 2007 at 7:16 pm</a>		</div>
+
+		<p>What&#8217;s the point of the post other then to promote yourself? Users of this modem have no work around let alone patch.</p>
+<p>&#8220;However, I don&#8217;t have high hopes for BT&#8221; Obviously you didn&#8217;t learn from your previous experience. If you releas code they&#8217;ll fix it. By making your&#8230; annoucement you&#8217;ve given enough direction for people with malicious intent to find what you have. But you know all this.</p>
+<p>zip; the tune is a&#8230; Spanish? version of, the girl from ipanema.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56834">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/72d98cbf017621a2440026135969c992?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">robadams</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56834">
+			October 9, 2007 at 9:32 pm</a>		</div>
+
+		<p>Caetano Veloso &#8211; Garota de Ipanema. Lovin&#8217; it</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56841">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6b16c4e55cd0b1a9054c38d336f8dc8d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">vijay</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56841">
+			October 9, 2007 at 9:49 pm</a>		</div>
+
+		<p>Interesting research. Btw you can disable remote assistance if you follow the instructions at the following site: <a href="http://baldric.net/2007/01/22/bt-home-hub-and-the-gpl/" rel="nofollow">http://baldric.net/2007/01/22/.....d-the-gpl/</a> </p>
+<p>to get &#8220;root privileges&#8221; then under [ mlpuser.ini ] and delete &#8220;defremadmin=enabled&#8221; or better yet:<br />
+just delete the tech user completely. You could also change the RAS port under [ system_raccess.ini ] although you wouldn&#8217;t gain much.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56845">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56845">
+			October 9, 2007 at 9:54 pm</a>		</div>
+
+		<p>btw, I forgot to give thanks to Jan Fry for testing the vulnerabilities on the Thomson/Alcatel&#8217;s Speedtouch 780 (provided by BeThere in the UK). </p>
+<p>zip, the song is Brazilian I believe (sung in Portuguese).</p>
+<p>blah, I don&#8217;t think there is anything wrong with publishing vulnerability research, especially when it&#8217;s independent and unpaid. </p>
+<p>The good news is we have been in touch with some technical people from BT who are in the process of verifying the vulnerabilities we found.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56874">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1e537fa4eeaf5358adbd3a6e92e1f9dd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Taffy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56874">
+			October 9, 2007 at 11:47 pm</a>		</div>
+
+		<p>I dout BT will do anything .. as they already have a   bad reputation with this kind of stuff</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56919">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6bb4ba2dd74e93656b857c9397b29db4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://annysoft.wordpress.com/' rel='external nofollow' class='url'>antivirustaneja</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56919">
+			October 10, 2007 at 5:26 am</a>		</div>
+
+		<p>Nice work&#8230;bt if you release the code as well only then they&#8217;ll do as quickly as they can &#8230;.moreover hereafter they can&#8217;t ignore your research&#8230;&#8230;.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-59569">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b98c01ec66a379144347eeb1cbdc9520?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">DavidB</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59569">
+			October 19, 2007 at 8:49 am</a>		</div>
+
+		<p>I know there are supposed to be some malicious sites that have cross-scripting to perform attacks on machines/routers.  Does anyone have a list of these as I&#8217;d like to put some additional rules into my firewalls to prevent access to these sites?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-59667">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59667">
+			October 19, 2007 at 8:25 pm</a>		</div>
+
+		<p>DavidB,</p>
+<p>That would be very unfeasible. Probably the closest thing you can do to that is using a black-list database from some popular web content filtering proxy software.</p>
+<p>I mean, the malicious JS that exploits your router could be anywhere such as in a free .googlepages.com webpage.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-60201">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cec1e9c4340ba1e1b7c387875ae68fde?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">John</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60201">
+			October 21, 2007 at 3:55 pm</a>		</div>
+
+		<p>I&#8217;ve been looking into the BT homehub recently, I&#8217;m interested to see how secure the remote desktop facility is.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-68933">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/70212aaf094cb8b1b057b5b1fed8d59b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://backtrack2reloaded.org/' rel='external nofollow' class='url'>1337</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-68933">
+			November 11, 2007 at 3:22 am</a>		</div>
+
+		<p>Any exploits for Software version: 6.2.6.B ? These Homehubs really are weak.  A padlock from poundland is more secure!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-69150">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-69150">
+			November 11, 2007 at 2:10 pm</a>		</div>
+
+		<p>1337:</p>
+<p>The CSRF, XSS and double-slash auth bypass are still there on version 6.2.6.B.</p>
+<p>For instance, although version 6.2.6.B has now password-protected the page that shows the WEP/WPA, it&#8217;s still possible to access it *without* authenticating by ending the URL with 2 slashes:<br />
+<a href="http://192.168.1.254/cgi/b/_wli_/seccfg//" rel="nofollow">http://192.168.1.254/cgi/b/_wli_/seccfg//</a></p>
+<p>Try it on your Home Hub. It should work. This means that people can still steal your WEP/WPA key by scraping the previous URL through one of the many XSS vulns still present on version 6.2.6.B.</p>
+<p>However, version 6.2.6.B has added lots of restrictions such as disabling telnet, remote assistance and worst of all: the config file is now encrypted/obfuscated!: <a href="http://192.168.1.254/cgi/b/backup/user.ini//" rel="nofollow">http://192.168.1.254/cgi/b/backup/user.ini//</a></p>
+<p>However, I have not checked if uploading a clear-text version of the config file still works.  If so, you could still mod your own Home Hub without restrictions by simply editing user.ini.</p>
+<p>Check out our other &#8216;Pwnin the BT Home Hub&#8217; posts for more info:</p>
+<p><a href="../bt-home-flub-pwnin-the-bt-home-hub-2/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....home-hub-2</a><br />
+<a href="../bt-home-flub-pwnin-the-bt-home-hub-3/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....home-hub-3</a><br />
+<a href="../bt-home-flub-pwnin-the-bt-home-hub-4/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....home-hub-4</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-98446">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5ce24e5343ee7322441f158307547419?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">cephalopod</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98446">
+			January 11, 2008 at 11:20 am</a>		</div>
+
+		<p>er&#8230; wouldn&#8217;t a simple change of the homehub LAN IP prevent these hacks?!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-98449">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98449">
+			January 11, 2008 at 11:26 am</a>		</div>
+
+		<p>nope, it will make it slightly more complicated but in general it wont prevent anything.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-98450">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5ce24e5343ee7322441f158307547419?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">cephalopod</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98450">
+			January 11, 2008 at 11:36 am</a>		</div>
+
+		<p>looking at the majority of the XSS vulnerabilities, they make use of 192.168.1.254 in the javascript &#8211; so surely it&#8217;ll prevent script kiddies exercising that?</p>
+<p>how about combining that with deleting the tech user aswell&#8230; would that prevent all bar the UPnP vulnerability?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-98452">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98452">
+			January 11, 2008 at 11:40 am</a>		</div>
+
+		<p>the only way to prevent UPnP based attacks is to disable UPnP on your router. On some router models this is not trivial at all and sometimes even impossible.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-114966">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b22ced65c9b5101206db662305122188?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">lahtib</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-114966">
+			February 17, 2008 at 1:51 am</a>		</div>
+
+		<p>The song is &#8220;Girl From Ipanema&#8221; by Stan Getz&#8230;it&#8217;s American, not portuguese or brazilian.  Great post!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="495"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b57e789e5e" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:01:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

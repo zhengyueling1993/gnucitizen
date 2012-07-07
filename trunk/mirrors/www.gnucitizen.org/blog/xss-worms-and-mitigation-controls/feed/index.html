@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: XSS Worms and Mitigation Controls</title>
+	<atom:link href="http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: ntp</title>
+		<link>http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls/comment-page-1/#comment-31679</link>
+		<dc:creator>ntp</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 16:10:45 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls#comment-31679</guid>
+		<description>NoScript is what I meant by Anti-XSS features, although I do know that Microsoft is working on a separate one based on their .NET Anti-XSS library.  RSnake has blogged about these in the past.
+
+@ Tim :
+
+Javascript Sandbox functionality -
+1) HTTPOnly.  Which has a broken implementation and design
+2) Content-restrictions.  I already mentioned these, which are improvements to HTTPOnly.  Browser developers need to put this stuff in the browser so that web application developers can start using it
+
+Signing JavaScript code is by far one of the best options we have.  I mention this very often.  I think it does have a place in NTPolicy, but in all seriousness, I think it&#039;s the least likely for any organization to implement.  I would say in 100% of cases, it will be the last thing to implement, thus a waste of time in comparison to everything else.  I guess maybe the same can be said of content-restrictions, but I try to be optimistic since it is so badly needed.</description>
+		<content:encoded><![CDATA[<p>NoScript is what I meant by Anti-XSS features, although I do know that Microsoft is working on a separate one based on their .NET Anti-XSS library.  RSnake has blogged about these in the past.</p>
+<p>@ Tim :</p>
+<p>Javascript Sandbox functionality -<br />
+1) HTTPOnly.  Which has a broken implementation and design<br />
+2) Content-restrictions.  I already mentioned these, which are improvements to HTTPOnly.  Browser developers need to put this stuff in the browser so that web application developers can start using it</p>
+<p>Signing JavaScript code is by far one of the best options we have.  I mention this very often.  I think it does have a place in NTPolicy, but in all seriousness, I think it&#8217;s the least likely for any organization to implement.  I would say in 100% of cases, it will be the last thing to implement, thus a waste of time in comparison to everything else.  I guess maybe the same can be said of content-restrictions, but I try to be optimistic since it is so badly needed.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Tim Brown</title>
+		<link>http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls/comment-page-1/#comment-31469</link>
+		<dc:creator>Tim Brown</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 00:24:29 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls#comment-31469</guid>
+		<description>&quot;Given the issues that Javascript injection poses, it is questionable whether it should be enabled by default on web browsers as they are supplied to members of the public. It is also questionable that Javascript should be considered an all or nothing option. Web browser developers need to up their game and start to provide sandbox functionality similar to that found in JVM, with options to limit access to dangerous interfaces on an individual site by site basis in a granular manner. It should also be considered whether it would be possible for Javascript code to be signed in a manner which makes use of existing PKI to lessen the opportunities available to malicious code.&quot; -- I wrote this over a year ago in my paper http://www.nth-dimension.org.uk/pub/MUJSI.pdf, but it still holds true today. NoScript and the mechanisms employed by Konqueror for example are part of the the solution, but when are web browsers going to support/push coding signing for Javascript (http://www.mozilla.org/projects/security/components/signed-scripts.html) down the throats of developers. This could make a real difference without breaking the functionality of Javascript reliant sites.</description>
+		<content:encoded><![CDATA[<p>&#8220;Given the issues that Javascript injection poses, it is questionable whether it should be enabled by default on web browsers as they are supplied to members of the public. It is also questionable that Javascript should be considered an all or nothing option. Web browser developers need to up their game and start to provide sandbox functionality similar to that found in JVM, with options to limit access to dangerous interfaces on an individual site by site basis in a granular manner. It should also be considered whether it would be possible for Javascript code to be signed in a manner which makes use of existing PKI to lessen the opportunities available to malicious code.&#8221; &#8212; I wrote this over a year ago in my paper <a href="http://www.nth-dimension.org.uk/pub/MUJSI.pdf" rel="nofollow">http://www.nth-dimension.org.uk/pub/MUJSI.pdf</a>, but it still holds true today. NoScript and the mechanisms employed by Konqueror for example are part of the the solution, but when are web browsers going to support/push coding signing for Javascript (<a href="http://www.mozilla.org/projects/security/components/signed-scripts.html" rel="nofollow">http://www.mozilla.org/project.....ripts.html</a>) down the throats of developers. This could make a real difference without breaking the functionality of Javascript reliant sites.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls/comment-page-1/#comment-31265</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Sun, 24 Jun 2007 13:34:55 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls#comment-31265</guid>
+		<description>Giorgio,
+
+thanks for the info. We follow &lt;strong&gt;noscript&lt;/strong&gt; development very closely.
+
+Roland,
+
+yes, full-text feeds are disabled for now. We are experimenting with a few things at the moment. We are going to keep the situation as such till the end of the month. Then, we are going to decide which way to go.</description>
+		<content:encoded><![CDATA[<p>Giorgio,</p>
+<p>thanks for the info. We follow <strong>noscript</strong> development very closely.</p>
+<p>Roland,</p>
+<p>yes, full-text feeds are disabled for now. We are experimenting with a few things at the moment. We are going to keep the situation as such till the end of the month. Then, we are going to decide which way to go.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Giorgio Maone</title>
+		<link>http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls/comment-page-1/#comment-31255</link>
+		<dc:creator>Giorgio Maone</dc:creator>
+		<pubDate>Sun, 24 Jun 2007 12:37:32 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls#comment-31255</guid>
+		<description>FYI, current stable version of the NoScript Firefox extension - http://noscript.net/getit#direct - aside the notorious JS  whitelist, already implements:
+
+1. Unconditional XSS filters on every request (GET/POST/...) originated by untrusted origins (i.e. non whitelisted sites or external applications, e.g. email client) landing on whitelisted pages - http://noscript.net/features#xss
+2. &quot;Light&quot; script injection detection on every GET request (even from trusted sites), triggering the aforementioned XSS filters on suspicious URL patterns
+3. Java, Flash and other plugin content blocking - http://noscript.net/features#contentblocking
+
+Other relevant Anti-XSS and Anti-CSRF features in the works are:
+
+1. A better implementation of the LocalRodeo concepts (made easy by the request interception framework already used by Anti-XSS filters)
+2. A facility to flag some  IFrames as &quot;scriptless&quot; and &quot;XSS checked&quot;, usable either by the web developer or by the user (sort of &quot;&quot; preview leveraging currently available browser technology)
+3. A &quot;Mashup manager&quot; to declare web application trust boundaries (i.e. whitelists of sites that are allowed to perform cross-site requests in a certain &quot;mashup&quot;), definable either by the web developer dropping a &quot;mashup.txt&quot; file on the web-app root directory or on the client side via UI. This will overcome the inherent unreliability of REFERER header checks.
+4. Finer grained per site permissions/restrictions</description>
+		<content:encoded><![CDATA[<p>FYI, current stable version of the NoScript Firefox extension &#8211; <a href="http://noscript.net/getit#direct" rel="nofollow">http://noscript.net/getit#direct</a> &#8211; aside the notorious JS  whitelist, already implements:</p>
+<p>1. Unconditional XSS filters on every request (GET/POST/&#8230;) originated by untrusted origins (i.e. non whitelisted sites or external applications, e.g. email client) landing on whitelisted pages &#8211; <a href="http://noscript.net/features#xss" rel="nofollow">http://noscript.net/features#xss</a><br />
+2. &#8220;Light&#8221; script injection detection on every GET request (even from trusted sites), triggering the aforementioned XSS filters on suspicious URL patterns<br />
+3. Java, Flash and other plugin content blocking &#8211; <a href="http://noscript.net/features#contentblocking" rel="nofollow">http://noscript.net/features#contentblocking</a></p>
+<p>Other relevant Anti-XSS and Anti-CSRF features in the works are:</p>
+<p>1. A better implementation of the LocalRodeo concepts (made easy by the request interception framework already used by Anti-XSS filters)<br />
+2. A facility to flag some  IFrames as &#8220;scriptless&#8221; and &#8220;XSS checked&#8221;, usable either by the web developer or by the user (sort of &#8220;&#8221; preview leveraging currently available browser technology)<br />
+3. A &#8220;Mashup manager&#8221; to declare web application trust boundaries (i.e. whitelists of sites that are allowed to perform cross-site requests in a certain &#8220;mashup&#8221;), definable either by the web developer dropping a &#8220;mashup.txt&#8221; file on the web-app root directory or on the client side via UI. This will overcome the inherent unreliability of REFERER header checks.<br />
+4. Finer grained per site permissions/restrictions</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Roland Dobbins</title>
+		<link>http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls/comment-page-1/#comment-31254</link>
+		<dc:creator>Roland Dobbins</dc:creator>
+		<pubDate>Sun, 24 Jun 2007 12:22:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls#comment-31254</guid>
+		<description>Why  have you turned off full-text syndication feeds?  Full-text feeds are very important to folks who have lots of feeds to read each day.  Please re-enable full-text feeds.
+
+Many thanks!</description>
+		<content:encoded><![CDATA[<p>Why  have you turned off full-text syndication feeds?  Full-text feeds are very important to folks who have lots of feeds to read each day.  Please re-enable full-text feeds.</p>
+<p>Many thanks!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ntp</title>
+		<link>http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls/comment-page-1/#comment-31119</link>
+		<dc:creator>ntp</dc:creator>
+		<pubDate>Sat, 23 Jun 2007 21:46:48 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/xss-worms-and-mitigation-controls#comment-31119</guid>
+		<description>Thanks for posting about my thoughts.
+
+Jeremiah said, &quot;Restrict websites with public IPâ€™s from including content from websites with non-routable IP address&quot; as seen here: http://jeremiahgrossman.blogspot.com/2007/02/if-we-could-start-all-over.html
+
+and he also said it slightly differently here: http://jeremiahgrossman.blogspot.com/2007/01/3-wishes-for-web-browser-security.html
+
+As much as I dislike making changes (which usually means adding features instead of fixing bugs) to protocols and languages - there are two things going in the short term future would could affect XSS and similar attacks in the future.
+
+1) ECMAScript 4 progress
+2) httpbis BOF at the IETF-69
+
+What would we want to design into these to make them safer and provide security with a higher level of assurance?
+
+Otherwise, I enjoyed how you summarized (edited?) my suggestions.  Here&#039;s one point I wanted to elaborate further on:
+
+&lt;q&gt;Security testing is optional.&lt;/q&gt;  I said that Web Application Security Scanners and WAF&#039;s are optional.  Testing should be done by the developers, as I described.  If you are a developer and feel that you are missing tools that will help you eliminate XSS in your code completely - let me know and I&#039;ll find something to help you or make the process almost completely automatic.  Or we&#039;ll take it up as a project and make it happen.  Even for ColdFusion.
+
+If we rely on pen-testers and vulnerability hunters to find XSS, and do nothing else, then we&#039;ll continue to be in the same situation we are right now.  Elimination of CSRF is step two, but near-pointless if we don&#039;t have a global strategy to defend against XSS worms.</description>
+		<content:encoded><![CDATA[<p>Thanks for posting about my thoughts.</p>
+<p>Jeremiah said, &#8220;Restrict websites with public IPâ€™s from including content from websites with non-routable IP address&#8221; as seen here: <a href="http://jeremiahgrossman.blogspot.com/2007/02/if-we-could-start-all-over.html" rel="nofollow">http://jeremiahgrossman.blogsp.....-over.html</a></p>
+<p>and he also said it slightly differently here: <a href="http://jeremiahgrossman.blogspot.com/2007/01/3-wishes-for-web-browser-security.html" rel="nofollow">http://jeremiahgrossman.blogsp.....urity.html</a></p>
+<p>As much as I dislike making changes (which usually means adding features instead of fixing bugs) to protocols and languages &#8211; there are two things going in the short term future would could affect XSS and similar attacks in the future.</p>
+<p>1) ECMAScript 4 progress<br />
+2) httpbis BOF at the IETF-69</p>
+<p>What would we want to design into these to make them safer and provide security with a higher level of assurance?</p>
+<p>Otherwise, I enjoyed how you summarized (edited?) my suggestions.  Here&#8217;s one point I wanted to elaborate further on:</p>
+<p><q>Security testing is optional.</q>  I said that Web Application Security Scanners and WAF&#8217;s are optional.  Testing should be done by the developers, as I described.  If you are a developer and feel that you are missing tools that will help you eliminate XSS in your code completely &#8211; let me know and I&#8217;ll find something to help you or make the process almost completely automatic.  Or we&#8217;ll take it up as a project and make it happen.  Even for ColdFusion.</p>
+<p>If we rely on pen-testers and vulnerability hunters to find XSS, and do nothing else, then we&#8217;ll continue to be in the same situation we are right now.  Elimination of CSRF is step two, but near-pointless if we don&#8217;t have a global strategy to defend against XSS worms.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

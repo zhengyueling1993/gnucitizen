@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/javascript-xss-scanner/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:19:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; JavaScript XSS Scanner</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; JavaScript XSS Scanner Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Yahoo Site Explorer Spider' href='../yahoo-site-explorer-spider/index.html' />
+<link rel='next' title='Snoop onto Them as they Snoop onto us' href='../snoop-onto-them-as-they-snoop-onto-us/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexf604.html?p=333' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-333" class="post">
+	<div class="post-title"><h2><span>JavaScript XSS Scanner</span></h2></div>
+	<div class="post-date"><span>published:</span> July 16th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>On this page you will find the <a href="../../static/blog/2007/07/scanner.htm">POC</a> of a JavaScript XSS (Cross-site Scripting) Scanner which I promised to release when I publish the <a href="../yahoo-site-explorer-spider/index.html">Yahoo Site Explorer Spider</a>.</p>
+
+<p>If you notice, the scanner is a bit restricted. It is not exhaustive and it can be improved in a number of areas. However, all restrictions were introduced on purpose for a number of reasons. The first reason is because this tool is just a Proof of Concept &#8211; it is not intended to be part of any XSS/AJAX worm, attack toolkit or other type of software whether it is malicious or not. Second, the tool should only be used for educational purposes only. Last but not least, this tools is written just to prove that AJAX worms can propagate across several domains by scanning and discovering new vulnerabilities on their own. That used to be considered a theoretical attack vector. In this example we put the theory into practice.</p>
+
+<p>The XSS Scanner relys on an external proxy server to locate the XSS holes. The proxy in use is called <strong>Palary</strong> and you can find more information about it over <a href="http://palary.org/">here</a>. Here is what the developers of the Palary have to say about their product:</p>
+
+<blockquote><p>The Palary Browser is a cutting-edge, web application that delivers a secure, personalized surfing experience. The main advantages of the Browser over classical technologies are as follows:</p>
+
+<p><strong>Security</strong> &#8211; The Palary Browser by default disables Javascript in webpages. Javascript is a useful technology in many circumstances, but is also insecure and opens your computer up to innumerable web based attacks. These attacks are impossible when using the Palary Browser.</p>
+
+<p><strong>Privacy</strong> &#8211; The Palary Browser increases your privacy on multiple fronts. On a wide front, the Browser prevents your ISP, your government, or another body from tapping your web-surfing. All data is routed through the Browser&#8217;s servers so that is impossible for these bodies to see what information you are accessing or sending. (The above assumes that you have media disabled on webpages.)</p>
+
+<p>On a more local front, the Browser prevents history files, cache files, and cookie files from being saved to your computer. This means that no one with access to your computer will be able to see where you have been surfing.</p>
+
+<p><a href="http://palary.org/">Palary.org</a></p></blockquote>
+
+<p>Funny enough we can use Palary to detect XSS vectors although the authors have designed it to prevent them. I am not sure whether this is a bug or something else. I simply don&#8217;t know.</p>
+
+<p>Once you open the POC application there are two options that are given to you. The first one is to use the XSS scanner together with the <a href="../yahoo-site-explorer-spider/index.html">Yahoo Site Explorer Spider</a>. The spider is restricted in terms of depth and number of results per page. You can spider only the top 50 results. Again, this is done on purpose. Concurrently with the spider, the scanner will test for the XSS issues and deliver the result via a callback mechanism.</p>
+
+<p>The second option scans only one URL. The scanner will grab your input and mutate it into various XSS vectors. Then it will try each one of them. On <q>success</q> the scanner returns a callback and displays the results on the screen. If for any reasons there are no results on the page, this means that no XSS was found. Again, keep in mind that the scanner was crippled on purpose and to be honest it is a bit basic. :)</p>
+
+<p>Here is the scanner&#8217;s source code:</p>
+
+<pre><code><a href="../../static/blog/2007/07/scanner.js" rel="inline-text">http://www.gnucitizen.org/static/blog/2007/07/scanner.js</a></code></pre>
+
+<p>and this is how I use it:</p>
+
+<pre><code><a href="../../static/blog/2007/07/scanner-init.js" rel="inline-text">http://www.gnucitizen.org/static/blog/2007/07/scanner-init.js</a></code></pre>
+
+<p><em>This is pretty much it!</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Launch Application:</span> <a href="../../static/blog/2007/07/scanner.htm">scanner.htm</a></li>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/07/scanner-init.js">scanner-init.js</a>, <a href="../../static/blog/2007/07/scanner.js">scanner.js</a>, <a href="../../static/blog/2007/07/scanner-spider.js">scanner-spider.js</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-36047">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/dk.html' rel='external nofollow' class='url'>David Kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-36047">
+			July 19, 2007 at 10:16 am</a>		</div>
+
+		<p>Nice POC mate. I really like the XSS mutate functions, simple and effective.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123181">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5fa89dc0306b94c02d49059c922a020d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://martina@geinusdevil.com/' rel='external nofollow' class='url'>Martina</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123181">
+			August 4, 2008 at 8:08 am</a>		</div>
+
+		<p>This scanner is very embllishing.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-123182">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123182">
+			August 4, 2008 at 9:59 am</a>		</div>
+
+		<p>absolutely!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="333"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="690e3109ed" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/javascript-xss-scanner/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:19:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

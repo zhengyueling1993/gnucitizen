@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-video-surveillance-networks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Hacking Video Surveillance Networks</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Hacking Video Surveillance Networks Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Holes in Embedded Devices: Binary state session management' href='../holes-in-embedded-devices-binary-state-session-management/index.html' />
+<link rel='next' title='Hijacking OpenID enabled Accounts' href='../hijacking-openid-enabled-accounts/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index54f6.html?p=676' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-676" class="post">
+	<div class="post-title"><h2><span>Hacking Video Surveillance Networks</span></h2></div>
+	<div class="post-date"><span>published:</span> January 30th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p><strong>The usual suspects:</strong> George Clooney, Brad Pitt and Matt Damon. <strong>The plot:</strong> rob a casino. <strong>The method:</strong> hijack the vault&#8217;s security camera video stream and replace it with a static image. <q>Fiction?</q> I don&#8217;t think so.</p>
+
+<p><em>This post is not going to be about how to hack into the video surveillance networks of your local government but rather about my personal opinion about the current state of security implemented by the latest video technologies. I hope that the post is as entertaining as enlightening and helpful in your work. I also hope that it gives you the edge to go ahead and implement better, more secure surveillance systems that will actually protect whatever needs to be protected.</em></p>
+
+<p>Over the past week, I&#8217;ve been heavily involved with exploring several techniques for attacking IP-based video cameras. Apart from the usual vulnerabilities that you find across these types of embedded devices (XSS, CSRF, Authentication Bypass, Brute force attacks that really work, Overflows, etc.), I&#8217;ve come up with some quite interesting observations, which may come as a no-surprise to some of you, but nevertheless they worth to be mentioned as we are often unable to comprehend the simplicity of the matter). So here you go:</p>
+
+<h3>The concept of TRUST is fundamentally broken!</h3>
+
+<p>Simply put, there is no way of knowing whether the camera on the other end is the device that is expected to be. Currently, there is no trust model that is implemented by IP-base video surveillance systems. The attack method is rather simple. Go ahead and disconnect the camera and hook a notebook on its place. Done! The Video surveillance software will never know that the camera has bee replaced by a static video stream produced by another device. <q>Is that surprising?</q> I hope not because this is the reality.</p>
+
+<p>The next time you watch a movie where the bad guys replace a video stream from the security surveillance system by hooking a device to the network, count it as a real and very possible hack!</p>
+
+<h3>Installing rogue video cameras is easy!</h3>
+
+<p>Many of the IP-based video surveillance solutions are based on simple discovery protocols such as mDNS and UPnP. Both of them work on multicast addresses. Therefore, it is extremely easy to fake as many cameras as we want.</p>
+
+<p>Here is how to do this. The <code><a href="../../static/blog/2008/01/register.py">register.py</a></code> script will register a brand new AXIS 206 camera, while the <code><a href="../../static/blog/2008/01/server.py">server.py</a></code> will feed MJPG video stream from an external source. This is how we use them:</p>
+
+<pre><code>register.py <strong>[your mac address here]</strong> &#038;
+server.py http://152.1.130.216/mjpg/video.mjpg <strong># MJP video stream</strong></code></pre>
+
+<p>Keep in mind that we can register as many video cameras as we want and as such cause a panic or a simple misdirection. We can also do funky thinks like making the video surveillance system to believe that the camera at the back of the casino is actually the camera installed at the entrance?</p>
+
+<h3>Barefoot computer networks are flawed, so does IP-based surveillance systems</h3>
+
+<p>Computer networks are vulnerable to all sorts of attacks: ARP spoofing/hijacking, rogue DHCP servers, rogue DNS servers, routing issues, subnet hopping, eavesdropping, etc. The list goes on and on. In order to mitigate these problems, we often rely on higher (mostly level 7) encapsulation mechanism that guarantee the integrity of the lower encapsulation levels (think of SSL). IP-based surveillance systems simply does not have these types of security layers yet. They are largely based on the assumption that no one has access to the network where these devices are located. It might be harder to physically access a video network, but it is not impossible. Think about it. Every camera is a potential entry point, no matter how high on wall you will put it. Given the fact that a lot of these video surveillance systems have WiFI these days, the situation becomes even more concerning.</p>
+
+<h3>Administrative functions are handled over ancient security mechanisms</h3>
+
+<p>All embedded devices can be accessed via their HTTP server with the need of Basic Authorization credentials. Basic Auth is sniff-able and easily reversible-able. This is why it is called <strong>basic</strong>. Moreover, it can be easily used for stealing access credentials of the video surveillance system. For that to work, the attacker needs a fake <q>credentials-hijacking</q> camera. The <code><a href="../../static/blog/2008/01/stealing_server.py">stealing_server.py</a></code> script part of the PoCs comes into play. This is how we launch the attack:</p>
+
+<pre><code>register.py <strong>[your mac address here]</strong> &#038;
+stealing_server.py http://152.1.130.216/mjpg/video.mjpg "AXIS 206" 5 <strong># MJP video stream, realm AXIS 206, 5 consequent tries</strong></code></pre>
+
+<p>Upon execution, the <code>register.py</code> will register a new AXIS 206 camera. Then the <code>stealing_server.py</code> will activate. It won&#8217;t take long until the video surveillance software calls for video initialization. At this stage a Baisc Authentication realm will be provided. Since most video surveillance systems provide facilities to store all your camera credentials so that it is easy to manage them all, these credentials will travel to the rouge camera server, where they will be decoded and displayed to the attacker. The chances that the same credentials are used across all devices are pretty high. So, there you go. Now the bad guys have access to all your video resources.</p>
+
+<h3>Mitigations</h3>
+
+<p><em>I don&#8217;t know where to start really. I guess that when thinking about embedded devices we should really think of something that is extremely flawed. Therefore, they endangers the surrounding clients and the network to which they are connected.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2008/01/register.py">register.py</a>, <a href="../../static/blog/2008/01/server.py">server.py</a>, <a href="../../static/blog/2008/01/stealing_server.py">stealing_server.py</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/embedded-devices/index.html" rel="tag">embedded devices</a> | <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/hacking-video-surveillance-networks/index.html" rel="tag">hacking video surveillance networks</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/surveillance/index.html" rel="tag">surveillance</a> | <a href="../../tags/video-hacking/index.html" rel="tag">video hacking</a> | <a href="../../tags/video-surveillance-security/index.html" rel="tag">video surveillance security</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-105841">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c92e0b0cd585bbee9826c9d2bdf4e8b1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">pang</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105841">
+			January 30, 2008 at 2:26 pm</a>		</div>
+
+		<p>Don&#8217;t you mean Ocean&#8217;s Eleven? We got lots of AXIS cameras in the subway here in Sweden. Really nice cameras. I think they run some kind of linux. You can get telnet running on them anyway. They got a nice API via the web also. Now that I think about it I think AXIS headquarters are located here in Sweden.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-105883">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105883">
+			January 30, 2008 at 4:03 pm</a>		</div>
+
+		<p>pang, yes AXIS is linux based. In fact, if you have the credentials (often obtained by bruteforce), you can FTP in and look at the file structure.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-106044">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f1bb89072d693d5c41cc8b1d8ae30b3a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://spylogic.net/' rel='external nofollow' class='url'>agent0x0</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-106044">
+			January 30, 2008 at 9:26 pm</a>		</div>
+
+		<p>Very good post pdp.  Do you know if using another camera that supports something like 802.1x authentication might help mitigate this risk perhaps?  I think I read somewhere that Cisco IP cameras support this and can be configured more secure then your AXIS types (Cisco will cost you $$$ though..).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-106302">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-106302">
+			January 31, 2008 at 10:44 am</a>		</div>
+
+		<p>I guess the 802.1x authentication based mechanism makes a lot more sense, since the port on the switch will be marked as unauthorized, and therefore will be blocked, unless you send the right EIP credentials. However, as far as I am aware, 802.1x is vulnerable to man in the middle attacks (MITM). Please correct me if I am wrong. On another note, if the attacker has a physical access to a camera they <strong>might</strong> be able to read the creds from the device. But definitely, it is a lot better then what AXIS currently has.</p>
+<p>The truth is that, like everything else, you have to find the golden balance between security and accessibility and layer the security models in a way that they make sense for the setup you have.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-106646">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/17cb223cbd50ebed7dee240b45fbf5c3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ix</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-106646">
+			January 31, 2008 at 8:56 pm</a>		</div>
+
+		<p>Interesting post. This looks like it&#8217;s almost easier than it is in movieland, which is amusing considering their idea of hacking a Gibson (yeah, that&#8217;s a reference to the &#8220;Hackers&#8221; movie for all it&#8217;s horrible hacking portrayal). Heh, anyways it was interesting to see proof that this is more than do-able in the real world. I know a few family friends have had these types of things set up to watch their small family business while they were on a vacation but one has to wonder if any of the more technical employees set up something like this and held parties in the break room.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-107152">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c92e0b0cd585bbee9826c9d2bdf4e8b1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">pang</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-107152">
+			February 1, 2008 at 4:23 pm</a>		</div>
+
+		<p>I believe AXIS cameras has support for 802.1x and even if they didn&#8217;t I would configure the switch to notice if the camera was unplugged.</p>
+<p>AXIS cameras can also be configured to larm if the picture is changed a lot like if you would spraypaint it or something.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-107528">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e84708d25a0040efb2469dac1e9cecc3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://jasonmacpherson.com/' rel='external nofollow' class='url'>Jason Macpherson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-107528">
+			February 2, 2008 at 5:53 am</a>		</div>
+
+		<p>Yep Axis cameras run linux alright.  These things are very Geek/Hacker friendly. You can even enable telnet by editing &#8220;/etc/inittab &#8220;. and uncommenting the following line: &#8220;tnet:35:once:/usr/sbin/telnetd&#8221;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-109905">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109905">
+			February 5, 2008 at 9:53 am</a>		</div>
+
+		<p>pdp, this is a very good post. I would like to know how can i be sure if a video cam network is using the IP network when in the first place i don&#8217;t even have access to the network. I can see the video cam, but there is no way i can guess if it is using the IP network</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-109928">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109928">
+			February 5, 2008 at 10:31 am</a>		</div>
+
+		<p>well the easiest way is to try to spot the camera model and check it on the Web. Also observing any network-type infrastructure around it could also lead to the conclusion that it is IP-based. On the other hand, if you have access to the network but you are not sure whether there are some IP-based cameras, simply query for mDNS and UPnP.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-110921">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/564e44b6b33cc73b9bb444ea8f22694c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">marchiner</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110921">
+			February 6, 2008 at 8:48 pm</a>		</div>
+
+		<p>Hi citizens&#8230;</p>
+<p>Since i saw i IP based cam using wireless i started to think about deathentication atacks and please correct if i am wrong but.. its something extremaly easy to be made in wireless word&#8230; if you spoof the target MAC andress and got signal force to send the correct packages.<br />
+So&#8230; theres any kind of protection against this deauthentication? And what about Broadcast Deauthentication pckts?<br />
+If i am right.. and i hope so that iÂ´m wrong.. its easy to confuse any Ip cam  video system based on wireless.</p>
+<p>Nice post pdp&#8230; keep going! :D</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115062">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0f08a888192208e211a37923ac8927a8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://srcasm.com/' rel='external nofollow' class='url'>srcasm</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115062">
+			February 18, 2008 at 1:44 am</a>		</div>
+
+		<p>@marchiner,<br />
+You are absolutely right.  It&#8217;s a scary thought but deauths and broadcast deauths are available to anyone to use.  One of the only ways of protecting from is it to contain your radio signals but this seems like a far-fetched idea for most people/companies.  Maybe one day we&#8217;ll have a system that is a bit more secure.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122446">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bde4f368cbc5fdf084a89343a27294cd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.bmco.ro/' rel='external nofollow' class='url'>Vasile Bujor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122446">
+			June 4, 2008 at 2:32 pm</a>		</div>
+
+		<p>Hi,</p>
+<p>I am the IT Manager at a division of BMCO Romania &#8211; not Barton Marlow Company &#8211; . This article it is interesting, congruatulations. I am a surveillance solutions integrator and I use wireless cameras only for amateur use, and budget limited where the costs of mounting cameras exceed budget. For professional installation I only use FTP and patch cord FTP, and one ideea of using shielded cord is that no startreck technology can be used to interferate with the system and hack it. The only way is to phisically cut the wire or the exterior shield and connect. BUT to have acces at this technology it is expensive and the only way to succed is that the instalaltion could be made by some moron that has no knowledge of cable routing.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-122450">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/ppetkov' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122450">
+			June 5, 2008 at 11:18 am</a>		</div>
+
+		<p>interesting&#8230; :) never say impossible! most of the hacks happen because of human mistakes.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123730">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/06e2f60be2a86df7930248223baea023?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://moddr.net/' rel='external nofollow' class='url'>axis.hat0r</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123730">
+			September 16, 2008 at 12:57 am</a>		</div>
+
+		<p>very inspiring text, thank you. would be also very great to have a glimpse over the python scripts, anyone still got them?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-124405">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124405">
+			November 20, 2008 at 7:56 pm</a>		</div>
+
+		<p>yep, updated the post to outline the correct location of the scripts.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128277">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/175d679ed8da66d33ee84b3c6f353f75?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bashar</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128277">
+			March 14, 2010 at 7:44 pm</a>		</div>
+
+		<p>need to know the device that can be surround the utp cable to get the video inside the cable.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="676"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ebe37f754b" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-video-surveillance-networks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

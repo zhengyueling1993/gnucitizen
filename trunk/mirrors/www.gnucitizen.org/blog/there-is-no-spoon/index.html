@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/there-is-no-spoon/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:48:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; There is no spoon&#8230;</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; There is no spoon&#8230; Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Reverse Shell with Bash' href='../reverse-shell-with-bash/index.html' />
+<link rel='next' title='Black Hat Europe 2008' href='../black-hat-europe-2008/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexe398.html?p=815' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-815" class="post">
+	<div class="post-title"><h2><span>There is no spoon&#8230;</span></h2></div>
+	<div class="post-date"><span>published:</span> April 21st, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><blockquote>Our guest blogger for this month is Paul Asadoorian, one of the crew behind <a href="http://www.pauldotcom.com/">PaulDotCom Security Weekly</a> &#8211; the best security podcast on the Web. Paul is a holder of various security degrees and qualifications and he is incredibly active around the embedded devices hacking research. Paul is also co-author of the <q><a href="http://www.amazon.com/Linksys-WRT54G-Ultimate-Hacking-Asadoorian/dp/1597491667/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1208774914&amp;sr=1-1">Linksys WRT54G Ultimate Hacking</a></q> book, a must read reference for everyone who is interested in the WRT54G architecture. In this post, Paul is suggesting several things to keep in mind no matter which side of the fence you are at. These are his words:</blockquote>
+
+<p>I just completed teaching a SANS course here in RI called <q><a href="http://www.sans.org/training/description.php?mid=11">Cutting-Edge Hacking Techniques</a></q>. Its a fabulous course written by none other than Ed Skoudis, SANS instructor extraordinaire, and one of the biggest fans of the Matrix movie series (seriously, I swear he watches it at least one, maybe twice, a week!).</p>
+
+<p>In any case, the course is a fantastic voyage through some of the latest methods and techniques used by hackers today. It covers virtual machine detection, the latest Nmap &#038; Metasploit features, and several techniques used by hackers to create covert channels and hide malware on systems. While all of this is cool, one of the most valuable lessons we can take away from this course is that security is not about building a perimeter, nor is about software vulnerabilities and exploits.</p>
+
+<p>If you&#8217;re an &#8220;evil bad guy&#8221; security is about outsmarting your opponent and exploiting their weaknesses. If you&#8217;re a good guy, its about not getting outsmarted and ensuring that you strengthen your weaknesses. Many focus too much on building a perimeter, and patching our software. While this is important, these two methods of defense alone leave you vulnerable to many attacks:</p>
+
+<ol>
+<li><strong>Social Engineering</strong> &#8211; While some penetration testers may see this as a &#8220;cheap shot&#8221;, attackers have no problem tricking your users to do evil things. Handing out USB thumb drives with malware, posing as employees, and calling users on the phone pretending to be the help desk are all fair game. What does this ultimately give the attacker? Why access to your internal network of course!</li>
+<li><strong>Internal Weak Protocols</strong> &#8211; On just about every assessment there is at least one insecure internal network communications protocol in use that can be easily exploited. Typically there are FTP servers and systems administrators using RDP (Remote Desktop Protocol) to manage systems and transfer files. Using sniffers and MITM (Man-In-The-Middle) attacks, you can abuse these protocols to steal sensitive information.</li>
+<li><strong>Wireless</strong> &#8211; No matter what, an open or poorly secured wireless network can almost always be used to collect sensitive information. In some cases it can be an easy way through the hard and crunchy outside, giving you access to the &#8220;soft and chewy center&#8221;. Some of the most popular data loss cases have been carried out due to the exposure of wireless networks (TJX for example). Companies are still trying to protect wireless networks using MAC address filtering or WEP, and it just doesn&#8217;t work.</li>
+<li><strong>Web Applications</strong> &#8211; Its been reported that 7 out of 10 web sites are vulnerable to XSS (Cross-Site Scripting) attacks. The advancement of the Internet and the usability of web development tools and languages has allowed the web to explode with new web sites and applications. These are actively being abused by attackers, bypassing the firewall and often several other protections put in place by organizations.</li>
+<li><strong>Passwords</strong> &#8211; When attacking systems it is highly unlikely that 80% of them will have a remotely exploitable buffer overflow vulnerability. But thats okay, because accessing just one system can often give you enough information to exploit several others. This is done in two ways, <strong>1)</strong> exploiting trust relationships <strong>2)</strong> Stealing/cracking user&#8217;s passwords. People use weak passwords and trust relationships get created for essentially the same reason, people are too busy to implement security properly (laziness plays a factor as well). Attackers take advantage of this, defenders often overlook this in favor of focusing on applying patches or updating anti-virus software, both of which does little to stop these types of attacks.</li>
+</ol>
+
+<p>So what do we do about it? Below are some tips to get you started and get back to basics:</p>
+
+<ol>
+<li><strong>There is no <q>inside</q></strong> &#8211; Treat your network as if it is always exposed directly to the Internet, because essentially, it is (see points above). For example, use secure protocols (SSH, Radmin) on the <q>inside</q> of your network.</li>
+<li><strong>Process, not product</strong> &#8211; Improving your security process and embedding it into everything that you do will have a much more significant impact than buying vendor X&#8217;s shiny new security appliance. For example, have a password policy and enforce it.</li>
+<li><strong>Harden Systems</strong> &#8211; Go back to basics and focus on hardening your systems. Lock down your USB ports so they are not vulnerable to attacks from U3 enabled smart drives, turn off the services that you are not using (i.e. FTP), disable the default or sample web applications that come with your systems, and implement multiple levels of filtering and protections for your applications.</li>
+<li><strong>Monitoring &#038; Logging</strong> &#8211; I&#8217;d rather know that an attack has occured, than only block 50% of the attacks coming at my network and not even know about the other 50%. Configure IDS systems, keep the signatures up-to-date, monitor egress, and have a process to check the logs and respond to incidents. Log information from your systems and develop a similar process for checking and responding. This is not to say that you need to log every packet coming in and out of your firewall, but be selective (maybe only log what is allowed on certain systems). Most importantly log and alert on who is logging into all your systems.</li>
+</ol>
+
+<p><em>Whether you are an attacker (penetration testing) or responsible for defending your network(s) remember, <a href="http://youtube.com/watch?v=YXKFTzlBziI">there is no spoon&#8230;</a></em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/guest/index.html" rel="tag">guest</a> | <a href="../../tags/guest-blogger/index.html" rel="tag">guest blogger</a> | <a href="../../tags/paul-asadoorian/index.html" rel="tag">Paul Asadoorian</a> | <a href="../../tags/sans/index.html" rel="tag">SANS</a> | <a href="../../tags/the-matric/index.html" rel="tag">The Matric</a> | <a href="../../tags/training/index.html" rel="tag">training</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-119484">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0f1d4ab4402a47e1ee89471c240bb90d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.madirish.net/' rel='external nofollow' class='url'>MadIrish</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119484">
+			April 22, 2008 at 8:18 pm</a>		</div>
+
+		<p>I recently attended a training seminar on business decision making and one of the most interesting things the speaker pointed out was that the best solution to a problem is to recast the situation so that the problem is no longer a problem.  This is classic &#8220;out of the box&#8221; thinking.  It&#8217;s interesting to see network security evolve a paradigm shift that treats the network as hostile (even the internal network).  It is this kind of shift that allows you to remove many traditional &#8220;problems&#8221; of security by assuming they&#8217;re actually the norm rather than anomalous.  I think the crux of this approach is to recognize that most servers provide open services to the internet.  When an attacker attempts a brute force of a service it&#8217;s not actually an attack, or even an exploitation of the service, the attacker is utilizing the service *exactly* as it was intended.  While the behavior may be the harbinger of &#8220;very bad&#8221; things to come, the system itself is operating according to design.  In order to remove the attacker&#8217;s brute force attack you have to fundamentally change the design of the public service, or accept the attack as part of the normal state affairs.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="815"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="586ee873a6" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/there-is-no-spoon/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:48:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

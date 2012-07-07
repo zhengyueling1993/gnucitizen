@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/r00ting-public-wifi-networks-dhcp-name-poisoning-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; R00Ting Public WiFi Networks: DHCP Name Poisoning Attacks</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; R00Ting Public WiFi Networks: DHCP Name Poisoning Attacks Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Name (mDNS) Poisoning Attacks inside the LAN' href='../name-mdns-poisoning-attacks-inside-the-lan/index.html' />
+<link rel='next' title='DHCP/mDNS Injection Issues' href='../dhcpmdns-injection-issues/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexd4f5.html?p=661' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-661" class="post">
+	<div class="post-title"><h2><span>R00Ting Public WiFi Networks: DHCP Name Poisoning Attacks</span></h2></div>
+	<div class="post-date"><span>published:</span> January 25th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Hacking is a discipline, which requires a lot of creativity and motivation and less understandings about the technology that is involved. The understanding comes in the process of hacking. All that is needed for a successful attack is the so called <strong>X Factor</strong>: <q>Do the bad guys have the motivation and commitment to do it?</q> If yes, then we have a problem.</p>
+
+<p>Today I would like to cover an interesting attack vector, which can be performed once the attacker gains access to a network: beware, open WiFi networks and free WiFi HotSpots are found to be most vulnerable.</p>
+
+<p>Here is a scenario: EvilX visits a public WiFi HotSpot. Once he/she is associated with the WiFI network, a DHCP message dialog is exchanged between the his/her computer and the DHCP server, which is most likely the default gateway. Upon that stage an IP address is reserved for the client and the machine is dropped into the network. From that point on, EvilX can see some of the machines by ARP scanning the network or even performing some pings (ICMP) if the network is not segmented, which is usually the case.</p>
+
+<p>This is not in particular very interesting but what is more interesting is to look how DHCP is handled. If you carefully observe the DHCP <strong>discover-offer-request-ack</strong> dialog, you will notice that each packet initiated by the DHCP client contains several optional fields, one of which represents the name of the client. Many networks/routers will happily take that name and use it as part of their DNS service, so that if your computer is called <em>EvilX</em> and this is the information that you transmit in the DHCP packets, then this is how your computer will be known within that network. Saying that, DNS lookups for <em>EvilX</em> or <em>EvilX.[network suffix]</em> will resolve to his/her IP address. And this is exactly the problem.</p>
+
+<blockquote>The end result is obvious: attackers can register any name of their likings within the network under attack. And this is the problem.</blockquote>
+
+<p>Many laptops/desktops are configured to use shorter names when they are used within corporate and home environments. Simply put, the proxy server is most likely called <code>proxy</code>, the mail server is called <code>mail</code>, the WPAD server is called <code>wpad</code> (<code>wpad</code> hacking made easier), etc. In situations like that, when the client is associated with a HotSpot, it will query for that name but no IPs will be found due to the fact the DNS server cannot resolve the name. This is not the case with some DHCP enabled networks. As we discussed earlier, the name of the DHCP client can be set by us and as such we can create a domain name for <code>proxy</code> and <code>mail</code> which will resolve to no other but ourselves or the IP that we point in the DHCP chat. This means that by using simple UDP DHCP requests, attackers can poison the name of known services and redirect their traffic to an IP of their linkings. This is what I would like to refer to as a DHCP Name Poisoning Attack.</p>
+
+<p>The situation is even worse then it seems. Due to the fact that we can set the expiry date for the requested IP address, attackers can hold in charge of that domain for long period of time. Lets say 5 days. In some cases, they can even assign domain names to external IP address but I am happy to report that such cases are less likely to occur unless the attacked DHCP service is heavily insecure and flawed by design. Though, I have seen numerous networks that are in particular vulnerable to this type of attack, so attention on this one is required.</p>
+
+<p>It is also worth mentioning that usually there are no restrictions on how many names someone can register for a particular IP address. In fact, I haven&#8217;t seen any DHCP services that enforces restrictions so far. This means that the attacker can simply register a dictionary, each word of which will point to a single IP, therefore exhausting all combinations and increasing the chances of a successful attack.</p>
+
+<blockquote>Attackers can also register domains such as <code>google</code> so that if the user types the word in their browser, they will be redirected to the attacker&#8217;s web server.</blockquote>
+
+<p>I have developed a very basic <a href="../../static/blog/2008/01/dhcpmangle-perl.txt">script</a> that you can use for testing whether you network is vulnerable or not. I highly suggest to give it a bash and see what it comes up with. If the result is positive then you should undertake some precocious steps to secure your network.</p>
+
+<pre><code><a href="../../static/blog/2008/01/dhcpmangle-perl.txt" rel="inline-text">http://www.gnucitizen.org/static/blog/2008/01/dhcpmangle-perl.txt</a></code></pre><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2008/01/dhcpmangle-perl.txt">dhcpmangle-perl.txt</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-103518">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fe6c6944900db42c25db590497ccd323?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Arthur</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103518">
+			January 25, 2008 at 3:10 pm</a>		</div>
+
+		<p>This is pretty similar to the idea of dns posioning or wins poisioning leading to fun with names such as wpad.</p>
+<p><a href="http://www.robertjbrown.com/2006/08/wpad_windows_proxy_auto_detect.html" rel="nofollow">http://www.robertjbrown.com/20.....etect.html</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-103523">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103523">
+			January 25, 2008 at 3:16 pm</a>		</div>
+
+		<p>Arthur, precisely! The only difference here is that the attacker does not have to do anything fancy like poisoning the cache of a DNS server or messing with installing a secondary DHCP on a local network which will only work for clients that renew/release their IP addresses.</p>
+<div class="message">The attack will work flawlessly by simply registering the <strong>wpad</strong> domain.</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-103528">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7806629160a492b05d21fd738953a4cf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://adblockplus.org/' rel='external nofollow' class='url'>Wladimir Palant</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103528">
+			January 25, 2008 at 3:18 pm</a>		</div>
+
+		<p>While that approach is interesting of course, the attacker is way more likely to send a fake DHCP response &#8211; that will allow him to specify his own DNS server. If he manages to respond faster than the real DHCP server, he will take control of all the name resolution and not just one name. That&#8217;s a common problem on networks, people installing Linux that comes pre-configured with a DHCP server service &#8211; they manage to take down the network (or at least some machines) without even noticing.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-103532">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103532">
+			January 25, 2008 at 3:27 pm</a>		</div>
+
+		<p>Wladimir, yes. You are right. <strong>However, I believe that this type of attack is less severe.</strong> Here is why:</p>
+<ol>
+<li>You have to host your own DHCP server which means that you need to dedicate your own resources.</li>
+<li>You need to respond quicker which is not usually a problem but still&#8230;</li>
+<li>You need to host your own DNS which again is a problem.</li>
+<li>You will affect only clients that renew/release their IPs. Although, I think you might be able to force the client to change their IP in some conditions.</li>
+</ol>
+<p>The DHCP Name Poisoning Attack is a lot stealthier. Once the domain is cached it will stay there for usually 5 days, depending how the attacked DHCP and DNS services are configured. Sometimes you can map names to external IP ranges. You don&#8217;t need dedicated DHCP server for that. You don&#8217;t have to host your own DNS. You don&#8217;t have to be quicker. And you don&#8217;t have to wait.</p>
+<div class="message">All the attackers need to do, is to poison the DHCP/DNS services. This can be achieved with a single UDP packet as described above.</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-103677">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a87b177d63e2d6be127300598eb441d8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">dude</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103677">
+			January 25, 2008 at 7:38 pm</a>		</div>
+
+		<p>&#8220;Many networks/routers will happily take that name and use it as part of their DNS service,&#8221;</p>
+<p>I&#8217;m not so sure that this assumption is as widespread as it may seem.  Do yo have any data or perhaps just sample data points from your personal experience with this?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-103686">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103686">
+			January 25, 2008 at 7:43 pm</a>		</div>
+
+		<p>this assumption is based entirely on my personal experience. but it sort of observed on setups where a single box handles the DHCP and the DNS traffic. This kind of setup is very typical for various devices most of which are in fact WiFi routers. This is the reason why I mentioned WiFi, exclusively, in the title of this post.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-104236">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0167f880df81b3301d51444696d8728c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ikkuhqhp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-104236">
+			January 26, 2008 at 9:35 pm</a>		</div>
+
+		<p>How is the tool used? It complains code 61 (=DHO_DHCP_CLIENT_IDENTIFIER) Neither of 01:23:45:67:89:ab and 01-23-45-67-89-ab work.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-104237">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-104237">
+			January 26, 2008 at 9:40 pm</a>		</div>
+
+		<p>DHO_DHCP_CLIENT_IDENTIFIER is a bug in the Net::DHCP library. The MAC address format is without dashes and semicolons: 0123456789ab</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-104881">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef83d5b908c31aa26acc5cdb0956a1bf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">bb</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-104881">
+			January 28, 2008 at 10:49 pm</a>		</div>
+
+		<p>Same error code to me (61), even using the MAC address format without dashes and semicolons.</p>
+<p>I&#8217;m using Net::DHCP 0.66v.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-105042">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105042">
+			January 29, 2008 at 8:53 am</a>		</div>
+
+		<p>bb, it is not an error. It is a warning. You can happily ignore it or you can patch the DHO_DHCP_CLIENT_IDENTIFIER variable at the top of the script.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-105287">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e84708d25a0040efb2469dac1e9cecc3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://jasonmacpherson.com/' rel='external nofollow' class='url'>Jason Macpherson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105287">
+			January 29, 2008 at 6:00 pm</a>		</div>
+
+		<p>I&#8217;m also getting error 61.  Tried many different mac address formats with no success.</p>
+<p><strong>&#8220;addOptionValue: unknown format for code (61) at t.pl line 15&#8243;</strong></p>
+<p>So I coded up my own version of your tool using Scapy.</p>
+<pre><code>#!/usr/bin/env python
+
+from scapy import *
+
+def usage():
+   print "Usage: DHCPspoof  &lt;ip&gt; &lt;name&gt;"
+   sys.exit(1)
+
+if len(sys.argv) != 3:
+   usage()
+
+requested_ip = sys.argv[1]
+requested_name = sys.argv[2]
+
+interface = conf.route.route(requested_ip)[0]
+localmac = get_if_hwaddr(interface)
+localip = get_if_addr(interface)
+
+print("Sending DHCPREQUEST")
+
+ether = Ether(src="00:00:00:00:00:00", dst="ff:ff:ff:ff:ff:ff")
+ip = IP(src="0.0.0.0", dst="255.255.255.255")
+udp = UDP(sport=68, dport=67)
+bootp = BOOTP(chaddr=localmac, xid=0x11033000)
+dhcpOptions = DHCP(options=[('message-type', 'request'), ('hostname', requested_name), ('requested_addr', requested_ip), ('end')])
+
+packet = ether/ip/udp/bootp/dhcpOptions
+sendp(packet)</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-105291">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105291">
+			January 29, 2008 at 6:10 pm</a>		</div>
+
+		<p>Jason, this is awesome. Wasn&#8217;t aware that scapy supports BOOTP. Ok, ok, I will test your version to see how it works. 10x.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-105580">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef83d5b908c31aa26acc5cdb0956a1bf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">bb</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105580">
+			January 30, 2008 at 3:46 am</a>		</div>
+
+		<p>No success with the first script.</p>
+<p>I guess that i&#8217;m meant to use scapy :P It was presented to me a couple of months ago because of a work for college and since then it appeared to me as a very useful tool on a situation or another.</p>
+<p>Anyway, tks Jason, it works fine to me.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-105612">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/af275b336b54b308c86ba4c164bf3b89?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://shoaibyousuf.blogspot.com/' rel='external nofollow' class='url'>Shoaib Yousuf</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105612">
+			January 30, 2008 at 5:37 am</a>		</div>
+
+		<p>pdp,</p>
+<p>Very good and interesting post. Excellent researched and well explained.</p>
+<p>I don&#8217;t think so we will see this type of attack vectors in wild for quite some time.</p>
+<p>But you never know. Definitely by knowing this we are ahead of bad guys though.</p>
+<p>Cheers<br />
+Shoaib</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-105692">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105692">
+			January 30, 2008 at 8:55 am</a>		</div>
+
+		<p>bb, Jason&#8217;s script is nice and simple but I cannot make it work on windows with scapy. Hmmm&#8230;</p>
+<p>Shoaib, yes of course, and I doubt that you will see these kind of stuff in some massive attack outbreaks. Though, it is a technique to keep in mind when you do pentest/security audit.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-110744">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2a32a9448c8484e29522a01854838fec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ben</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110744">
+			February 6, 2008 at 4:28 pm</a>		</div>
+
+		<p>What is the usage of the 2nd script?</p>
+<p>python test.py DHCPspoof (then what?)</p>
+<p>Thanks</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="661"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="011d4d7eb8" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/r00ting-public-wifi-networks-dhcp-name-poisoning-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

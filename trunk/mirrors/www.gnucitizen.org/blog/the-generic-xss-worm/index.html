@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/the-generic-xss-worm/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; The Generic XSS Worm</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; The Generic XSS Worm Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Client-side Security' href='../client-side-security/index.html' />
+<link rel='next' title='MPack &#8211; The Movie' href='../mpack-the-movie/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index6cd9.html?p=234' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-234" class="post">
+	<div class="post-title"><h2><span>The Generic XSS Worm</span></h2></div>
+	<div class="post-date"><span>published:</span> June 20th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>When we think of computer worms, we generally think about operating-system based worms such as the famous Code Red, which replicated itself 250,000 times in approximately nine hours on July 19, 2001. Its replication was made possible by a vulnerability within MS Windows platform. Firewalls and defense in depth help mitigate the spread of worms by providing layers of protection between public and private networks; however, a new age worm is upon us, the XSS Worm aka the Web 2.0 worm.</p>
+
+<p>The Samy XSS Worm &#8211; the first of its kind to make headlines carried a payload that would display the string <q>but most of all, Samy is my hero</q> on a victim&#8217;s profile. When a user viewed that profile, the worm would infect the visitor&#8217;s profile via a Cross-Site Scripting payload. Within just 20 hours, of its October 4, 2005 release, over one million user profiles were infected, making Samy one of the fastest spreading viruses of all time. In this post, I am going to summarize several publicly discussed JavaScript Malware techniques and depict how future worms may look like, based on what we have today.</p>
+
+<p>XSS is a powerful engine on which to build a platform independent virus and whether we are ready or not, attackers are definitely going to be utilising these techniques in the future and the ground work and education factors must be put into place now. Think about this, an XSS engine has the potential to propagate much faster than an operating-system based worm, requires less effort in many cases (not all), requires little or no authentication and is client-side which means the XSS engine can propagate across network boundaries utilising the userâ€™s circle of trust. This is almost the antithesis of traditional worms, which are server-side meaning it struggles to propagate over network boundaries and they usually require high operating-system level access.</p>
+
+<p>XSS engines will require these fundamentals:</p>
+
+<ul>
+<li>ability to identify targets (the XSS vulnerability);</li>
+<li>an XSS payload (the purpose or exploit); and </li>
+<li>continuity (the propagation technique). </li>
+</ul>
+
+<p>This article will introduce Scrape, Specific and Generic XSS engines.</p>
+
+<h3>Scrape</h3>
+
+<p>Scrape XSS Worms utilise external resources to identify targets (i.e. Google, xssed.com) &#8211; pdp recently released an article titled, <a href="../the-next-super-worm.html">The Next Super Worm</a> which basically uses <a href="http://xssed.com/">xssed.com</a> to identify vulnerable targets.  Note that this example &quot;scrapes&quot; the targets from a third party resource.</p>
+
+<h3>Specific</h3>
+
+<p>Specific XSS Worms usually have an individual target &#8211; the Samy XSS worm is a perfect example here. It exploited a specific vulnerability in a specific target. Its focus is not to spread across network(s) but rather to remain in once place infecting a particular aspect of a website or service.</p> 
+
+<h3>Generic</h3>
+
+<p>Generic XSS Worms which make assumptions &#8211; an example here would be a worm which exploits environment variables in application frameworks like PHP&#8217;s <code>$_SERVER['PHP_SELF']</code>. This method is ideal for blind XSS worms, where you do not know what the web server is running ( i.e. my <a href="http://michaeldaw.org/news/news-100607/">wp-scanner</a> tool uses generic XSS tests to find vulnerabilities in WordPress themes; it doesn&#8217;t care what theme the user is running). Another really good example is Solarius&#8217;s recently found XSS <a href="http://www.securityfocus.com/bid/23832">vulnerability</a> in ASP.NET&#8217;s <code>PATH_INFO</code> variable which affects the latest version of SharePoint and possibly many other ASP.NET applications. The Generic XSS engine category could also extend to include web server or application flaws (i.e. XST, Universal PDF XSS etc).</p>
+
+<p><em>I hope I have given you some fruit for thought, and to encourage the Internet community to move forward in coming up with new techniques, methods and strategies to combat the rise of client-side flaws. Web 2.0 security will require us to lengthen our strides if we are to come up with effective solutions; a number of excellent contributions and ideas have already begun and we encourage these individuals and organizations to continue on.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/dkza/index.html" title="Posts by dkza" rel="author">dkza</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-30971">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e9e7690eccc0e9b2ab8ec6a375c96bbd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ntp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-30971">
+			June 22, 2007 at 11:02 pm</a>		</div>
+
+		<p>Browser developers should build anti-XSS, LocalRodeo, content-restrictions, and SafeHistory/SafeCache concepts into the browser. Someone (preferably browser developers, but could be administrators) should separate browser profiles (different process id&#8217;s) into at least two separate browsers / browser profiles:</p>
+<p>1) Firefox for the Internet &#8211; will not connect to RFC1918<br />
+2) Firefox for your Intranet &#8211; will only connect to RFC1918</p>
+<p>Jeremiah Grossman suggested a way to make this more transparent, but I suggest this stricter method.</p>
+<p>Vulnerability hunters should disclose responsibly to security, cert, noc, hostmaster, postmaster, and webmaster email addresses at top-level domains, preferably to someone who has a GPG public key available in a key server (or use something similar like Hushmail or IBE).  They should also check for any incident response policies and vulnerability reporting processes the organization or website owner may already have in place.  There is no reason to go to another source or through an intermediary.  If all email bounces or there is no response in two weeks, vulnerability hunters should try calling a person by acquiring a phone number of an appropriately titled employee on jigsaw.com, spoke.com, or linkedin.com or from whois as a last resort.  If you can find an XSS, you should know how to social engineer or footprint an email address and phone number.</p>
+<p>Administrators should respond to and fix problems within 2 weeks (XSS moves faster than buffer overflows) or full-disclosure is fully appropriate.  Like I&#8217;ve said before &#8211; if administrators can respond to an SSL certificate expiring within 2 weeks &#8211; then they can also respond to an XSS finding in the same amount of time.  The vulnerability researcher can then co-ordinate a fix/disclosure schedule with the vendor and should provide remediation support if necessary.  If you can find an XSS with a scanning tool, you should learn how to fix them for others.</p>
+<p>IT administrators for users should setup the ability to whitelist URL&#8217;s (e.g. <a href="http://whitetrash.sf.net/" rel="nofollow">http://whitetrash.sf.net</a> ) if they think their environment can support it.  They should also ensure OS, browser, and browser plugin automatic updates.  Administrators should scan and patch, just like regular vulnerability management.  Good administrators will enforce use of a safe browser similar to the one described in my first paragraph.</p>
+<p>Most importantly, developers should respond to issue tracking about XSS findings (reported by the administrators / operators) immediately as the highest priority&#8230; higher than application availability issues (24x7x365).  They should always use validators that are built into their framework properly.  Before coding anything, they should have an enforceable coding standard built into their IDE.  They should use source and static-file code checkers in their IDE.  They should use source checkers (again), static-file checkers (again), and path/code coverage tools (e.g. concolic unit testing) that run fuzz testing across all inputs at build time, including on dependencies.  They should combine model checkers and continuous integration tools (especially build schedulers), ensuring a clean release.</p>
+<p>Applications should be monitored for security events using application monitoring tools (not network security tools or log management tools) by both operators/administrators and developers.</p>
+<p>Web Application Security Scanners and Web Application Firewalls are OPTIONAL but NOT REQUIRED.</p>
+<p>I refer to this strategy as NTPolicy.  You may use or change it however you like.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-31030">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31030">
+			June 23, 2007 at 8:35 am</a>		</div>
+
+		<p>ntp, that was great comment.</p>
+<p>IMHO, things are a bit more complicated. You say:</p>
+<blockquote><p>Before coding anything, they should have an enforceable coding standard built into their IDE. They should use source and static-file code checkers in their IDE. They should use source checkers (again), static-file checkers (again), and path/code coverage tools (e.g. concolic unit testing) that run fuzz testing across all inputs at build time, including on dependencies. They should combine model checkers and continuous integration tools (especially build schedulers), ensuring a clean release.</p></blockquote>
+<p>Of course, this is the way forward. However, scripted languages are very hard to automatically examine them, mainly because they are nothing like compiled languages. Most of the IDEs that I&#8217;ve seen which have these types of facilities work only for .NET or Java and nothing else is supported. Although it may seams that most corporate applications use something like that, the truth is that there are a plethora of things that cannot be easily ignored.</p>
+<p>But yes, you are right. We should do it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-dkza bypostauthor even thread-even depth-1" id="comment-31065">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/dk.html' rel='external nofollow' class='url'>david.kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31065">
+			June 23, 2007 at 2:31 pm</a>		</div>
+
+		<p>I don&#8217;t think there is a clean cut solution right now, we are in for the long-haul.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-31669">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e9e7690eccc0e9b2ab8ec6a375c96bbd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ntp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31669">
+			June 25, 2007 at 4:58 pm</a>		</div>
+
+		<blockquote><p>Of course, this is the way forward. However, scripted languages are very hard to automatically examine them, mainly because they are nothing like compiled languages. Most of the IDEs that Iâ€™ve seen which have these types of facilities work only for .NET or Java and nothing else is supported. Although it may seams that most corporate applications use something like that, the truth is that there are a plethora of things that cannot be easily ignored.</p></blockquote>
+<p>Scripting languages have one great aspect: they are focused on Test-Driven Development (TDD) to &#8220;get all the bugs out&#8221;.  This is fast, works extremely well, and &#8220;drives&#8221; development to the end goal.</p>
+<p>Unfortunately, tested code is not the end goal.  Also &#8211; even more extremely unfortunately &#8211; DFT (Design for Test) gets skipped.  How could Agile developers skip the most important part?  Well, I guess they don&#8217;t call them script kiddies for nothing!  Also see: <a href="http://www.jwz.org/doc/cadt.html" rel="nofollow">http://www.jwz.org/doc/cadt.html</a></p>
+<p>Although I would argue that &#8220;testing is fun&#8221;, especially when you find security-related bugs or flaws.</p>
+<p>Microsoft uses the SDL, which is largely a waterfall model.  The end goal of the SDL is security.  Microsoft actually has a better model, where the end goal is everything everybody really wants.  It&#8217;s called Design for Operations (DFO) <a href="http://www.codeplex.com/dfo/" rel="nofollow">http://www.codeplex.com/dfo/</a></p>
+<p>Unfortunately, tools like VSMMD for DFO only leak out from Microsoft once every two to ten years, and usually in crippled form.  Their internal tools such as PreSharp (source checker for C#), FxCop (static file checker for CLR), Magellan (code coverage), and FuzzGuru (path/code coverage with fuzz testing) &#8211; as well as their internal coding standards (esp/espx) are not well-known.  Sure, they do have some public tools (that still require VS 2k5/2k8) for coding standards, SAL  annotations, and model checking (AppVerif).  But let&#8217;s take a look at what Java offers all as open-source.</p>
+<p>Java, with Eclipse plugins, supports CheckStyle, FormatOnSave, and many other options for enforcing a particular coding standard.  Source checkers (PMD, Jlint, Hammurapi), and static-file checkers (FindBugs, SofCheck) are available both in the IDE and in the build tools (e.g. Ant, Maven2, etc).  Model checkers such as Java PathFinder, have some amazing capabilities &#8211; and even the Java-specialized tools for CI and build automation (e.g. Luntbuild) are quite complete for this type of work.</p>
+<p>Scripters can do the same (Groovy especially), but Ruby, Python, and probably even PHP can have a more planned/focused development model and use the right tools.  It&#8217;s not just Java and .NET.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-31677">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e9e7690eccc0e9b2ab8ec6a375c96bbd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ntp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31677">
+			June 25, 2007 at 5:10 pm</a>		</div>
+
+		<p>Oh I forgot to add Java code coverage tools such as EMMA (and EclEmma for Eclipse) and the combined path/code coverage tool with fuzz testing (jCUTE).</p>
+<p>Note that Ruby has rcov for code coverage and supports many build options with rake.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-100535">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a49d504d79a751345bf67be81688d007?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://mobilecash.ws/' rel='external nofollow' class='url'>David</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100535">
+			January 17, 2008 at 8:32 am</a>		</div>
+
+		<p>Guys, great thanks for sharing this info. Could anybody tell me does XSIO &#8211; Cross Site Site Image Overlaying still working in social resources like myspace, digg etc? I tried to find this vuln, but i couldn&#8217;t.. :(</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-100539">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100539">
+			January 17, 2008 at 8:52 am</a>		</div>
+
+		<p>David, they are aware of the technique so I guess it will be harder.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="234"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="096ffb3959" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/the-generic-xss-worm/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

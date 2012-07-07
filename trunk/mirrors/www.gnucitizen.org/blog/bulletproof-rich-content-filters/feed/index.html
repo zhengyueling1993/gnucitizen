@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Bulletproof Rich-content Filters</title>
+	<atom:link href="http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: arshan</title>
+		<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/comment-page-1/#comment-119654</link>
+		<dc:creator>arshan</dc:creator>
+		<pubDate>Thu, 24 Apr 2008 03:50:10 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/bulletproof-rich-content-filters#comment-119654</guid>
+		<description>there are a few problems with using xsd after you turn the input into the predictable xhtml format. if i had not been so rushed and drained in san jose we could have talked about this.
+
+a) xsd is a blanket yes/no validation, so the application can&#039;t provide the user any feedback on how their input was altered. you may want to prevent any information leakage if you&#039;re a hardcore security person, but that&#039;s not very usable, especially for the myspace scenario when you want to help the user tune their input. i want the antisamy project to be an enabler - help give the little guy some functionality that has been totally reserved for the big players, and feedback is one way antisamy can differentiate you from others, safely.
+
+b) an xsd would have a very difficult time parsing cascading style sheets (which AntiSamy does, safely). if you&#039;re attacking antisamy, you can&#039;t provide a z-index, position values other than auto/inherit, and other CSS tricks that could lead to phishing.
+
+c) since antisamy doesn&#039;t retain all the extra functionality that an xsd parser has, it has a lighter footprint and doesn&#039;t have any of the xsd parser&#039;s attack surface.
+
+there are benefits of using xsd, of course: speed, stability, better supported code.</description>
+		<content:encoded><![CDATA[<p>there are a few problems with using xsd after you turn the input into the predictable xhtml format. if i had not been so rushed and drained in san jose we could have talked about this.</p>
+<p>a) xsd is a blanket yes/no validation, so the application can&#8217;t provide the user any feedback on how their input was altered. you may want to prevent any information leakage if you&#8217;re a hardcore security person, but that&#8217;s not very usable, especially for the myspace scenario when you want to help the user tune their input. i want the antisamy project to be an enabler &#8211; help give the little guy some functionality that has been totally reserved for the big players, and feedback is one way antisamy can differentiate you from others, safely.</p>
+<p>b) an xsd would have a very difficult time parsing cascading style sheets (which AntiSamy does, safely). if you&#8217;re attacking antisamy, you can&#8217;t provide a z-index, position values other than auto/inherit, and other CSS tricks that could lead to phishing.</p>
+<p>c) since antisamy doesn&#8217;t retain all the extra functionality that an xsd parser has, it has a lighter footprint and doesn&#8217;t have any of the xsd parser&#8217;s attack surface.</p>
+<p>there are benefits of using xsd, of course: speed, stability, better supported code.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ArkanoiD</title>
+		<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/comment-page-1/#comment-93677</link>
+		<dc:creator>ArkanoiD</dc:creator>
+		<pubDate>Sun, 30 Dec 2007 21:20:08 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/bulletproof-rich-content-filters#comment-93677</guid>
+		<description>I&#039;d go for schema for &quot;compliance&quot; and XPath-based filter for extra filtering rules if there is need in more restructions..</description>
+		<content:encoded><![CDATA[<p>I&#8217;d go for schema for &#8220;compliance&#8221; and XPath-based filter for extra filtering rules if there is need in more restructions..</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/comment-page-1/#comment-89212</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Thu, 20 Dec 2007 10:00:22 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/bulletproof-rich-content-filters#comment-89212</guid>
+		<description>yes, I see your point. I don&#039;t see why it shouldn&#039;t be possible to strip out anything that does not much the XML Definition. Though, I am not aware of how this can be done in practice. It might be the case of converting the XML Definition into XML Stylesheet which only extract the parts that are safe and produce a normalized document. That might be a good solution.</description>
+		<content:encoded><![CDATA[<p>yes, I see your point. I don&#8217;t see why it shouldn&#8217;t be possible to strip out anything that does not much the XML Definition. Though, I am not aware of how this can be done in practice. It might be the case of converting the XML Definition into XML Stylesheet which only extract the parts that are safe and produce a normalized document. That might be a good solution.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Sverre Johansen</title>
+		<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/comment-page-1/#comment-89186</link>
+		<dc:creator>Sverre Johansen</dc:creator>
+		<pubDate>Thu, 20 Dec 2007 08:38:59 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/bulletproof-rich-content-filters#comment-89186</guid>
+		<description>That would be a usability tradeoff, in my opinion. It is probably OK for small texts such as comments and descriptions, but not that suited for larger content such as a blog post. People are used to being able to write tagsoup and the browser will figure it out for them, it&#039;s really the same with security validation. A blogger might not know that the recipe he found for having a floating CSS menu (or whatever), could also be used for phishing. The content could even be something produces by Microsoft Word.
+
+It&#039;s kind of like how the web works, even if we like it or not :)</description>
+		<content:encoded><![CDATA[<p>That would be a usability tradeoff, in my opinion. It is probably OK for small texts such as comments and descriptions, but not that suited for larger content such as a blog post. People are used to being able to write tagsoup and the browser will figure it out for them, it&#8217;s really the same with security validation. A blogger might not know that the recipe he found for having a floating CSS menu (or whatever), could also be used for phishing. The content could even be something produces by Microsoft Word.</p>
+<p>It&#8217;s kind of like how the web works, even if we like it or not :)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/comment-page-1/#comment-89041</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 19 Dec 2007 23:18:48 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/bulletproof-rich-content-filters#comment-89041</guid>
+		<description>Sverre, hmmm, this is the hard bit. But I don&#039;t see why you have to be so user friendly. If the markup looks different from what you allow you should really say &lt;strong&gt;stop&lt;/strong&gt; to the user and ask them to rephrase their input.</description>
+		<content:encoded><![CDATA[<p>Sverre, hmmm, this is the hard bit. But I don&#8217;t see why you have to be so user friendly. If the markup looks different from what you allow you should really say <strong>stop</strong> to the user and ask them to rephrase their input.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Sverre Johansen</title>
+		<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/comment-page-1/#comment-89037</link>
+		<dc:creator>Sverre Johansen</dc:creator>
+		<pubDate>Wed, 19 Dec 2007 23:07:59 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/bulletproof-rich-content-filters#comment-89037</guid>
+		<description>If I understand you correct this parser would drop any message that contains invalid (evil) markup. What you usually want is a parser that drops the invalid parts and produces a safe version. 
+
+Is there any way of specifying what is legal in a formal way (like XML Schema, as you suggest, or RelaxNG), and then drop the invalid parts?</description>
+		<content:encoded><![CDATA[<p>If I understand you correct this parser would drop any message that contains invalid (evil) markup. What you usually want is a parser that drops the invalid parts and produces a safe version. </p>
+<p>Is there any way of specifying what is legal in a formal way (like XML Schema, as you suggest, or RelaxNG), and then drop the invalid parts?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: tenest</title>
+		<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/comment-page-1/#comment-88913</link>
+		<dc:creator>tenest</dc:creator>
+		<pubDate>Wed, 19 Dec 2007 17:57:28 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/bulletproof-rich-content-filters#comment-88913</guid>
+		<description>Not that this is a big deal, but XML Spy is by AltovA not AltovE.  http://www.altova.com/</description>
+		<content:encoded><![CDATA[<p>Not that this is a big deal, but XML Spy is by AltovA not AltovE.  <a href="http://www.altova.com/" rel="nofollow">http://www.altova.com/</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/comment-page-1/#comment-88329</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 18 Dec 2007 12:43:29 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/bulletproof-rich-content-filters#comment-88329</guid>
+		<description>Thomas, sure I can, but it will be better if someone transmits the message to the people who need to know about it. :)</description>
+		<content:encoded><![CDATA[<p>Thomas, sure I can, but it will be better if someone transmits the message to the people who need to know about it. :)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Thomas Roessler</title>
+		<link>http://www.gnucitizen.org/blog/bulletproof-rich-content-filters/comment-page-1/#comment-88304</link>
+		<dc:creator>Thomas Roessler</dc:creator>
+		<pubDate>Tue, 18 Dec 2007 11:41:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/bulletproof-rich-content-filters#comment-88304</guid>
+		<description>This sounds like the kind of stuff that the W3C HTML working group should hear.
+
+See here for joining instructions: http://www.w3.org/html/wg/#who</description>
+		<content:encoded><![CDATA[<p>This sounds like the kind of stuff that the W3C HTML working group should hear.</p>
+<p>See here for joining instructions: <a href="http://www.w3.org/html/wg/#who" rel="nofollow">http://www.w3.org/html/wg/#who</a></p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

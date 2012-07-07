@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/backdooring-mp3-files/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Backdooring MP3 Files</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Backdooring MP3 Files Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Google Search API Worms' href='../google-search-api-worms/index.html' />
+<link rel='next' title='Self-contained XSS Attacks' href='../self-contained-xss-attacks/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index8cae.html?p=73' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-73" class="post">
+	<div class="post-title"><h2><span>Backdooring MP3 Files</span></h2></div>
+	<div class="post-date"><span>published:</span> September 20th, 2006</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Recently I published information on how specially crafted HTML (<a href="../backdooring-web-pages/index.html">remote</a> and <a href="../web-pages-from-hell/index.html">local</a>), <a href="../backdooring-flash-objects/index.html">Flash</a> and <a href="../backdooring-quicktime-movies/index.html">QuickTime (.mov)</a> files can be used by malicious users to target and exploit internal and external networks. Than my friend and college <a href="http://michaeldaw.org/">David K</a> released his findings on <a href="http://michaeldaw.org/md-hacks/backdooring-pdf-files/">backdooring PDF</a> documents via builtin Adobe Reader JavaScript features. Also, <a href="../google-search-api-worms/index.html">JavaScript malware via Google AJAX Search API</a> seams to be possible and could affect many popular web products. As Billy Hoffman said <q>XSS is the new hotness!</q>. I cannot agree more on that.</p>
+
+<h3>MP3 Files can be Backdoored with Malicious Content too</h3>
+
+<p>Over the past few days I have been exploring different features of Apple&#8217;s QuickTime player &#8211; key software component of iTunes and standard part of many home and business workstations. A lot of research was conducted and some problems, which IMHO are quite serious, were found. Please take this post as a security notice.</p>
+
+<p>QuickTime is quite versatile and flexible media platform which has a lot of functionalities. I quite like it, I must say. I even use iTunes on a daily basis. Unfortunately because of its flexibility QuickTime seams to allow execution of malicious content in a form of JavaScript from media files such as mp3, mp4, m4a and everything else that is supported.</p>
+
+<p>The problems is caused by a quite useful feature called QuickTime Media Link (.qtl). The whole point of these QuickTime Media Link files is to provide means of playing media files in a more accessible way. In this respect the developer can create a .qtl file which hold information about the media content that needs to be played plus recommended dimensions, accessibility features, control features etc. QuickTime Media Link files are written in XML and end typically end with .qtl. A .qtl file in its very basic form looks like the following:</p>
+
+<pre><code>&lt;?xml version="1.0"&gt;
+&lt;?quicktime type="application/x-quicktime-media-link"?&gt;
+&lt;embed src="Sample.mov" autoplay="true"/&gt;</code></pre>
+
+<p>The most important element in this XML is called <code>embed</code>. This element describes the content that needs to be played. There are quite few attributes that can be assigned to the <code>embed</code> element like <code>src</code> and <code>autoplay</code> but they are not as interesting as <code>qtnext</code>. The <code>qtnext</code> attribute specifies what needs to be played next. Because <code>qtnext</code> expects a URL as an input, .qtl files are capable of opening HTML pages, local files, FTP sites and JavaScript code in the current browser. As such, <code>qtnext</code> allows successful backdooring any .qtl file with malicious JavaScript logic. Here it is an example:</p>
+
+<pre><code>&lt;?xml version="1.0"&gt;
+&lt;?quicktime type="application/x-quicktime-media-link"?&gt;
+&lt;embed src="presentation.mov" autoplay="true" qtnext="javascript:alert('backdoored')"/&gt;</code></pre>
+
+<p>Upon execution the media link presented above will display a harmless message to the user. Keep in mind that a lot more dangerous things can be done. For more information about the impact of such an attack check the <a href="../attackapi/index.html">AttackAPI</a> &#8211; a toolkit designed to test browser related issues.</p>
+
+<p>To sum up, .qtl files can contain malicious JavaScript code that can takeover some important network device when executed for example. That&#8217;s not the end of the story though. Because of its flexibility QuickTime doesn&#8217;t mind if Media Link (.qtl) files end with .mp3, .mp4, .m4a or even .mov. For example the following XML can be saved as .mp3 and once opened in QuickTime a harmless message will be prompted to the user:</p>
+
+<pre><code>&lt;?xml version="1.0"&gt;
+&lt;?quicktime type="application/x-quicktime-media-link"?&gt;
+&lt;embed src="http://example.com/path/to/real/song.mp3" autoplay="true" qtnext="javascript:alert('hello from backdoor')"/&gt;</code></pre>
+
+<p>This is a quite big problem especially in default configurations of iTunes. The iTunes installation wizard installs the QuickTime player and QuickTime browser plugins and associates various media files with its components. If you open a mp3 file from the desktop it will be played in iTunes player by default, however if you open it from some website it will be played in the QuickTime player browser plugin. In this respect, users who are previewing mp3s and other media files from the Internet are vulnerable.</p>
+
+<p>For the sole purpose of demonstrating how this vulnerability works I composed a quite simple and harmless proof of concept. There are two links to mp3 files at the bottom of this page. Two of these files are backdoored. One of them is a tune I composed many years ago.</p>
+
+<ol>
+<li><a href="../../static/blog/2006/09/backdoored.mp3">backdoored.mp3</a> &#8211; executes javascript immediately</li>
+<li><a href="../../static/blog/2006/09/jamesbond-overdrive-backdoored.mp3">jamesbond-overdrive-backdoored.mp3</a> &#8211; executes javascript at the end</li>
+<li><a href="../../static/blog/2006/09/jamesbond-overdrive.mp3">jamesbond-overdrive.mp3</a> &#8211; the real tune</li>
+</ol>
+
+<p>I mentioned earlier that .qtl files can end with .mov, .avi or even .asf extensions. This means that users can be fooled into executing malicious JavaScript content not only through mp3.</p>
+
+<p>There is one more thing that is quite important to point in this article. JavaScript opened from QuickTime is executed in the browser local context. This attack is also know as <a href="../cross-context-scripting-with-sage/index.html">Cross-context scripting</a>. In Firefox the context is <code>about:blank</code>. I am not quite familiar with <code>about:blank</code> but my understandings are that everything from <code>about:*</code> can request special privileges that will be granted without warning the user. If this the case malicious JavaScript will not only be able to read the local file system but also to alter it. This feature might be used to spread worms that go far beyond the traditional Cross-site Scripting attack.</p>
+
+<p><em>Proof of concept for this issue can be found at the following <a href="../../static/blog/2006/09/about-blank.mp3">URL</a>.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2006/09/backdoored.mp3">backdoored.mp3</a>, <a href="../../static/blog/2006/09/jamesbond-overdrive-backdoored.mp3">jamesbond-overdrive-backdoored.mp3</a>, <a href="../../static/blog/2006/09/jamesbond-overdrive.mp3">jamesbond-overdrive.mp3</a>, <a href="../../static/blog/2006/09/about-blank.mp3">about-blank.mp3</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/backdoors/index.html" rel="tag">backdoors</a> | <a href="../../tags/mp3/index.html" rel="tag">mp3</a> | <a href="../../tags/xss/index.html" rel="tag">xss</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-102">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d651c8bfbaced80509519278b350d9bc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.rpg-mods.com/' rel='external nofollow' class='url'>Allan</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-102">
+			September 21, 2006 at 9:58 am</a>		</div>
+
+		<p>Hmm doesn&#8217;t seem to do anything on my Mac &#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-103">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3e0298a2854e87166f6ddcee1fe4e005?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://chasenet.org/home' rel='external nofollow' class='url'>nrg</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103">
+			September 21, 2006 at 10:55 am</a>		</div>
+
+		<p>Once again very good and intresting research. So basicly anything played in quicktime can be backdored? So basicly this is a quicktime problem. I am not an iTunes user but if you say that quicktime gets installed with it and used has default for several media files then it gets a bit scary :S</p>
+<p>I personly only use quicktime(not actual quicktime but the alternative codecs) when i can&#8217;t use anything else, but i believe most persons would use quicktime to play everything if its the default player.</p>
+<p>PS: I just tryed the files number 1 and 2 and they won&#8217;t open (say the files are corrupt) in winamp nor media player classic nor foobar2000, so i guess backdoring a mp3 file makes it only open in quicktime.</p>
+<p>keep posting mate</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-104">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-104">
+			September 21, 2006 at 12:27 pm</a>		</div>
+
+		<p>Allan, I don&#8217;t know about MACs. However I am almost sure that it must work. Maybe I should get a MAC from somewhere and start playing with it.</p>
+<p>nrg, yes it affects QuickTime and everything else that is based on it. As long as your applications can read QuickTime Media Links and it supports the <code>qtnext</code> attribute of the <code>embed</code> element, then you are vulnerable.</p>
+<p>QuickTime is associated with .mov files mainly and several other formats. However if you have iTunes installed any .mp3 link will open the QuickTime browser plugin. I have tested it on a default installation of iTunes.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-108">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://michaeldaw.org/' rel='external nofollow' class='url'>David Kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-108">
+			September 21, 2006 at 4:05 pm</a>		</div>
+
+		<p>pdp,</p>
+<p>This doesn&#8217;t seem to affect v6.5 default install. This is odd as I can see support for qtnext back in version 5. However, it does affect the latest version when I tested it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/abd931e5b40e5c82cf649e8c3d17556f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.ceilers-it.de/' rel='external nofollow' class='url'>Carsten Eilers</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109">
+			September 21, 2006 at 7:42 pm</a>		</div>
+
+		<p>Hi,</p>
+<p>I tested the first two .mp3 on my Mac (Mac OS X 10.3.9 with Safari 1.3.2 and Quicktime Player 7.1.3)</p>
+<p>Result:<br />
+In Safari: Both demos are working, an alertbox opens<br />
+In Quicktime Player: Opens and &#8220;plays&#8221; the files, but nothing else happens<br />
+In iTunes 7.0: Doesn&#8217;t open the files</p>
+<p>Regards<br />
+Carsten</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-110">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/163df81d09d5d17ddeb3ddad0a0662a3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.mozilla.org/security' rel='external nofollow' class='url'>Daniel Veditz</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110">
+			September 22, 2006 at 12:50 am</a>		</div>
+
+		<p>about:blank is as unprivileged as you can get in Firefox. Some about: pages are privileged (about:config, for example) and there were previous security vulnerabilities where researchers were able to leverage a &#8220;same-origin violation&#8221; flaw into code execution by injecting script into an about:config window or frame.</p>
+<p>But about:blank is a different kettle of fish.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-111">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111">
+			September 22, 2006 at 12:58 am</a>		</div>
+
+		<p>Hi Daniel,</p>
+<p>I was experimenting with about:blank and yes you are right, it is unprivileged. However, it seams that it could be possible to access other about: resources.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/357a20e8c56e69d6f9734d23ef9517e8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ankini shah</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127">
+			September 23, 2006 at 12:29 am</a>		</div>
+
+		<p>I copied the code below to a text file, saved it and named it a .mp3 and it didn&#8217;t give me a prompt.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/357a20e8c56e69d6f9734d23ef9517e8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ankini shah</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128">
+			September 23, 2006 at 12:35 am</a>		</div>
+
+		<p>the first example backdoored mp3 didn&#8217;t work for me, but the second one (which printed at the end) did.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-173">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-173">
+			October 2, 2006 at 7:07 am</a>		</div>
+
+		<p>this issue is also present in Windows Media Player Clasic with QuickTime Alternative. I wasn&#8217;t able to execute it from the browser but there was no problem when files were opened from the desktop.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-441">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1f8f959512407c8cf0ed7346a0b00d47?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Almonaster</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-441">
+			November 2, 2006 at 7:52 pm</a>		</div>
+
+		<p>Some more data: I gave the links a click using Firefox 1.5 &#8211; the backdoors did nothing, the genuine tune played. I use the NoScript extension, so I tried disabling that &#8211; same result.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1433">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/56f6f443baedee2af74f0b6a1f7f34ee?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">abcas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1433">
+			December 23, 2006 at 12:34 pm</a>		</div>
+
+		<p>usefull cuzz it happened 2 me every tim i just explore a file with mp3 in it the explorer closes and starts again and when i scanned my comp i found the amount pf viruses = 2 the amount of songs (mp3 files) but i really cant fix it can u help me ????</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-2205">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76c2e8ea0d24b4a306ae5248d7474608?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">yamzzz</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2205">
+			January 11, 2007 at 8:27 am</a>		</div>
+
+		<p>nice!!!!!!!!!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-49025">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">0ole</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49025">
+			September 14, 2007 at 12:13 pm</a>		</div>
+
+		<p>Doesn&#8217;t works on Mac OS X with the latest Quicktime updates. Might be a Windows Quicktime only problem then.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-74719">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/752611fa9c8acbdd0152f40da21c22ea?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ari</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-74719">
+			November 20, 2007 at 11:58 pm</a>		</div>
+
+		<p>Nice work ! But Kaspersky AV blocks these backdoored mp3 files.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-77755">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/17d6341e77fe4d53a943d53009d31e5a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">tapasman</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-77755">
+			November 27, 2007 at 6:14 pm</a>		</div>
+
+		<p>I get a broken file, when using IE6 and QT 6.0.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-118170">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/41029836a736fd04dd8ddbd44bfc7a3c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://community.webshots.com/user/ringtones/bookmarks' rel='external nofollow' class='url'>Mary</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118170">
+			April 6, 2008 at 4:44 pm</a>		</div>
+
+		<p>Hi, thanks. but my Kaspersky AV blocks this files :(</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="73"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="357aa46fe0" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/backdooring-mp3-files/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

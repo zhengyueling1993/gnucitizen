@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Agile Hacking: A Homegrown Telnet-based Portscanner</title>
+	<atom:link href="http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: Simon Stroh</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-133708</link>
+		<dc:creator>Simon Stroh</dc:creator>
+		<pubDate>Sat, 11 Jun 2011 21:39:00 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-133708</guid>
+		<description>Here&#039;s another one. This one is special, because it only uses bash builtins! No programs other than bash shells are called :-)
+
+&lt;pre&gt;&lt;code&gt;HOST=127.0.0.1;for p in {0..65535};do((bash -c &quot;(&gt;/dev/tcp/$HOST/$p)&quot; 2&gt; /dev/null &amp;&amp; echo open: $p)&amp;read -t0.1;kill $! 2&gt;/dev/null)2&gt;/dev/null;done&lt;/code&gt;&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>Here&#8217;s another one. This one is special, because it only uses bash builtins! No programs other than bash shells are called :-)</p>
+<pre><code>HOST=127.0.0.1;for p in {0..65535};do((bash -c "(&gt;/dev/tcp/$HOST/$p)" 2&gt; /dev/null &amp;&amp; echo open: $p)&amp;read -t0.1;kill $! 2&gt;/dev/null)2&gt;/dev/null;done</code></pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: NOVA</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-123095</link>
+		<dc:creator>NOVA</dc:creator>
+		<pubDate>Sat, 26 Jul 2008 05:20:05 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-123095</guid>
+		<description>This is a script i wrote to demonstrate a sort of bounce technique i use :) its written in python which i am currently in love with :)
+
+&lt;pre&gt;&lt;code&gt;import socket
+import getpass
+import sys
+import telnetlib
+
+#Edit these
+HOSTA = &quot;78.32.236.185&quot;
+PasswordA = &quot;Sch5636$\n&quot;
+
+HOSTB = &quot;82.111.251.241&quot;
+PasswordB = &quot;LLUcpe99\n&quot;
+
+HOSTC = &quot;82.108.105.177&quot;
+PasswordC = &quot;LLUcpe99\n&quot;
+
+PORT = &quot;23&quot;
+
+
+
+#RAS Commands
+
+jmp1 = &quot;ip telnet &quot;+HOSTB+&quot; &quot;+PORT+&quot;\n&quot;
+jmp2 = &quot;ip telnet &quot;+HOSTC+&quot; &quot;+PORT+&quot;\n&quot; 
+
+#Connect to 1st router.
+tn = telnetlib.Telnet(HOSTA)
+print tn.read_until(&quot;Password: &quot;) 
+tn.write(PasswordA)
+print tn.read_until(&quot;ras&gt;&quot;)
+tn.write(jmp1)
+
+#Connect to second router.
+print tn.read_until(&quot;Password: &quot;)
+tn.write(PasswordB)
+print tn.read_until(&quot;ras&gt;&quot;)
+tn.write(jmp2)
+
+#Connect to target system.
+print tn.read_until(&quot;Password: &quot;)
+tn.write(PasswordC)
+print tn.read_until(&quot;ras&gt;&quot;)
+tn.write(jmp3)
+
+print tn.read_until(&quot;Password: &quot;)
+tn.write(PasswordC)
+print tn.read_until(&quot;ras&gt;&quot;)&lt;/code&gt;&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>This is a script i wrote to demonstrate a sort of bounce technique i use :) its written in python which i am currently in love with :)</p>
+<pre><code>import socket
+import getpass
+import sys
+import telnetlib
+
+#Edit these
+HOSTA = "78.32.236.185"
+PasswordA = "Sch5636$\n"
+
+HOSTB = "82.111.251.241"
+PasswordB = "LLUcpe99\n"
+
+HOSTC = "82.108.105.177"
+PasswordC = "LLUcpe99\n"
+
+PORT = "23"
+
+#RAS Commands
+
+jmp1 = "ip telnet "+HOSTB+" "+PORT+"\n"
+jmp2 = "ip telnet "+HOSTC+" "+PORT+"\n" 
+
+#Connect to 1st router.
+tn = telnetlib.Telnet(HOSTA)
+print tn.read_until("Password: ")
+tn.write(PasswordA)
+print tn.read_until("ras&gt;")
+tn.write(jmp1)
+
+#Connect to second router.
+print tn.read_until("Password: ")
+tn.write(PasswordB)
+print tn.read_until("ras&gt;")
+tn.write(jmp2)
+
+#Connect to target system.
+print tn.read_until("Password: ")
+tn.write(PasswordC)
+print tn.read_until("ras&gt;")
+tn.write(jmp3)
+
+print tn.read_until("Password: ")
+tn.write(PasswordC)
+print tn.read_until("ras&gt;")</code></pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Broeisi</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-122905</link>
+		<dc:creator>Broeisi</dc:creator>
+		<pubDate>Wed, 09 Jul 2008 19:27:05 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-122905</guid>
+		<description>Simon Stroh... Your perl script isn&#039;t working.</description>
+		<content:encoded><![CDATA[<p>Simon Stroh&#8230; Your perl script isn&#8217;t working.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-122777</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 01 Jul 2008 22:24:40 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-122777</guid>
+		<description>nice. this is quite neat actually.</description>
+		<content:encoded><![CDATA[<p>nice. this is quite neat actually.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Simon Stroh</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-122774</link>
+		<dc:creator>Simon Stroh</dc:creator>
+		<pubDate>Tue, 01 Jul 2008 18:44:45 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-122774</guid>
+		<description>Here&#039;s a perl solution I just threw together, thought the ones presented here might be a tad slow when scanning all the ports, so I made this one multithreaded:  :-)
+
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/perl
+use IO::Socket;
+@ARGV&#124;&#124;die&#039;usage: perl scanner.pl host [number of threads]&#039;;
+($&#124;,$h,$t)=(1,@ARGV,20);$p=65535/$t;
+for$n(1..$t){
+        pipe($r[$n],$w[$n]);next if fork;
+        print IO::Socket::INET-&gt;new(PeerAddr=&gt;$h,PeerPort=&gt;$_)?&quot;Port $_ open\n&quot;:&#039;&#039;for($p*($n-1)...$p*$n-1);
+        print{$w[$n]}&#039;x&#039;;exit;
+}
+read($r[$_],$x,1)for(1..$t);&lt;/code&gt;&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>Here&#8217;s a perl solution I just threw together, thought the ones presented here might be a tad slow when scanning all the ports, so I made this one multithreaded:  :-)</p>
+<pre><code>#!/usr/bin/perl
+use IO::Socket;
+@ARGV||die'usage: perl scanner.pl host [number of threads]';
+($|,$h,$t)=(1,@ARGV,20);$p=65535/$t;
+for$n(1..$t){
+        pipe($r[$n],$w[$n]);next if fork;
+        print IO::Socket::INET-&gt;new(PeerAddr=&gt;$h,PeerPort=&gt;$_)?"Port $_ open\n":''for($p*($n-1)...$p*$n-1);
+        print{$w[$n]}'x';exit;
+}
+read($r[$_],$x,1)for(1..$t);</code></pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Adrian 'pagvac' Pastor</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-122147</link>
+		<dc:creator>Adrian 'pagvac' Pastor</dc:creator>
+		<pubDate>Tue, 20 May 2008 00:25:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-122147</guid>
+		<description>It&#039;s awesome to see so many solutions and implementations for on-the-fly portscanning. This is great guys, keep it coming!</description>
+		<content:encoded><![CDATA[<p>It&#8217;s awesome to see so many solutions and implementations for on-the-fly portscanning. This is great guys, keep it coming!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: maeh</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-122114</link>
+		<dc:creator>maeh</dc:creator>
+		<pubDate>Mon, 19 May 2008 06:17:49 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-122114</guid>
+		<description>Here&#039;s a one for windows using netsh that just prints out any open ports it finds.
+
+&lt;pre&gt;&lt;code&gt;@ECHO OFF &amp; ECHO start &amp; (FOR /L %p IN (1,1,65535) DO (FOR /F &quot;tokens=*&quot; %a IN (&#039;netsh diag connect iphost 127.0.0.1 %p ^&#124; find /C /I &quot;[NONE]&quot;&#039;) DO ( IF %a == 0 echo %p))) &amp; ECHO stop &amp; @ECHO ON&lt;/code&gt;&lt;/pre&gt;
+
+It&#039;s rather slow since netsh seems to take quite a while to load, so you might want to narrow down the port range a bit ;&gt;.
+
+What I found interesting is the message the &quot;netsh diag connect iphost&quot; command outputs: &quot;Server appears to be running on port(s) [NONE]&quot; which seems to suggest you could enter more than one port to connect to, but I could&#039;nt find out how to do so.</description>
+		<content:encoded><![CDATA[<p>Here&#8217;s a one for windows using netsh that just prints out any open ports it finds.</p>
+<pre><code>@ECHO OFF &amp; ECHO start &amp; (FOR /L %p IN (1,1,65535) DO (FOR /F "tokens=*" %a IN ('netsh diag connect iphost 127.0.0.1 %p ^| find /C /I "[NONE]"') DO ( IF %a == 0 echo %p))) &amp; ECHO stop &amp; @ECHO ON</code></pre>
+<p>It&#8217;s rather slow since netsh seems to take quite a while to load, so you might want to narrow down the port range a bit ;&gt;.</p>
+<p>What I found interesting is the message the &#8220;netsh diag connect iphost&#8221; command outputs: &#8220;Server appears to be running on port(s) [NONE]&#8221; which seems to suggest you could enter more than one port to connect to, but I could&#8217;nt find out how to do so.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: macubergeek</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-122032</link>
+		<dc:creator>macubergeek</dc:creator>
+		<pubDate>Fri, 16 May 2008 18:49:33 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-122032</guid>
+		<description>Venom23: nicely done! I particularly like the banner grabbing ;-)</description>
+		<content:encoded><![CDATA[<p>Venom23: nicely done! I particularly like the banner grabbing ;-)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Venom23</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121994</link>
+		<dc:creator>Venom23</dc:creator>
+		<pubDate>Fri, 16 May 2008 10:37:52 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121994</guid>
+		<description>Or let&#039;s use the wget command to perform the scan ;)
+
+&lt;pre&gt;&lt;code&gt;HOST=192.168.178.88;for((port=1;port&lt;=65535;++port));do echo -en &quot;$port &quot;;if wget -F -S -t 1 -T 1 -v -O banner.txt $HOST:$port 2&gt;&amp;1 &#124; grep connected;then echo -en &quot;\n\nport $port/tcp is open\n\n&quot;;cat banner.txt;fi;done&lt;/code&gt;&lt;/pre&gt;
+
+wget should also be available on most of the systems. And - the coolest - it does a &quot;banner grabbing&quot; as well. Nice, isn&#039;t it?</description>
+		<content:encoded><![CDATA[<p>Or let&#8217;s use the wget command to perform the scan ;)</p>
+<pre><code>HOST=192.168.178.88;for((port=1;port&lt;=65535;++port));do echo -en "$port ";if wget -F -S -t 1 -T 1 -v -O banner.txt $HOST:$port 2&gt;&amp;1 | grep connected;then echo -en "\n\nport $port/tcp is open\n\n";cat banner.txt;fi;done</code></pre>
+<p>wget should also be available on most of the systems. And &#8211; the coolest &#8211; it does a &#8220;banner grabbing&#8221; as well. Nice, isn&#8217;t it?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: macubergeek</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121925</link>
+		<dc:creator>macubergeek</dc:creator>
+		<pubDate>Thu, 15 May 2008 22:48:13 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121925</guid>
+		<description>This is cool. I believe Ed Skoudis has done something similar to this on Windows....
+
+Here is an alternative, though not as polished, using curl...
+
+Open ports return this response to our stimulous sorry if line is wrapped:
+
+&lt;pre&gt;&lt;code&gt;  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  5242  100  5242    0     0  15489      0 --:--:-- --:--:-- --:--:--     0&lt;/code&gt;&lt;/pre&gt;
+
+close ports look like this:
+
+&lt;pre&gt;&lt;code&gt;scanning port 122...
+
+curl: (7) couldn&#039;t connect to host&lt;/code&gt;&lt;/pre&gt;
+
+----------script-----------
+
+&lt;pre&gt;&lt;code&gt;## portscanner implimented with curl
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo 1&gt;&amp;2 &quot;usage: $0  &quot;
+    echo 1&gt;&amp;2 &quot;mode 1 = well known ports 1-1024&quot;
+    echo 1&gt;&amp;2 &quot;mode 2 = all ports&quot;
+    exit 127
+fi
+
+case &quot;$1&quot; in
+1)
+LIMIT=1024
+for ((a=1; a  /dev/null &gt; out
+  cat out &#124; grep -v &quot;curl: (7) couldn&#039;t connect to host&quot;
+done;                           
+;;
+2)
+LIMIT=65535
+for ((a=1; a  /dev/null &gt; out
+  cat out &#124; grep -v &quot;curl: (7) couldn&#039;t connect to host&quot;
+done;              
+;;
+esac&lt;/code&gt;&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>This is cool. I believe Ed Skoudis has done something similar to this on Windows&#8230;.</p>
+<p>Here is an alternative, though not as polished, using curl&#8230;</p>
+<p>Open ports return this response to our stimulous sorry if line is wrapped:</p>
+<pre><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  5242  100  5242    0     0  15489      0 --:--:-- --:--:-- --:--:--     0</code></pre>
+<p>close ports look like this:</p>
+<pre><code>scanning port 122...
+
+curl: (7) couldn't connect to host</code></pre>
+<p>&#8212;&#8212;&#8212;-script&#8212;&#8212;&#8212;&#8211;</p>
+<pre><code>## portscanner implimented with curl
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo 1&gt;&amp;2 "usage: $0  "
+    echo 1&gt;&amp;2 "mode 1 = well known ports 1-1024"
+    echo 1&gt;&amp;2 "mode 2 = all ports"
+    exit 127
+fi
+
+case "$1" in
+1)
+LIMIT=1024
+for ((a=1; a  /dev/null &gt; out
+  cat out | grep -v "curl: (7) couldn't connect to host"
+done;
+;;
+2)
+LIMIT=65535
+for ((a=1; a  /dev/null &gt; out
+  cat out | grep -v "curl: (7) couldn't connect to host"
+done;
+;;
+esac</code></pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Shoaib Yousuf</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121837</link>
+		<dc:creator>Shoaib Yousuf</dc:creator>
+		<pubDate>Wed, 14 May 2008 11:15:38 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121837</guid>
+		<description>Adrian,
+
+I totally agree. Another great piece of work from you guys. Keep it up!</description>
+		<content:encoded><![CDATA[<p>Adrian,</p>
+<p>I totally agree. Another great piece of work from you guys. Keep it up!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Adrian 'pagvac' Pastor</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121824</link>
+		<dc:creator>Adrian 'pagvac' Pastor</dc:creator>
+		<pubDate>Wed, 14 May 2008 08:31:29 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121824</guid>
+		<description>@Venom23: I&#039;m on a Debian-based system now (Ubuntu) which does not support /dev/tcp. However, it looks like your script should work on any systems that support /dev/tcp. Thanks for your solution to this problem!
+
+Any other ideas guys? Any default clients with TCP capabilities (i.e. ftp) is a good candidate for a homegrown port-scanner which doesn&#039;t require root privileges to be run. Also, as Sandro mentioned, using any commonly-supported scripting environments such as Perl is another good candidate.</description>
+		<content:encoded><![CDATA[<p>@Venom23: I&#8217;m on a Debian-based system now (Ubuntu) which does not support /dev/tcp. However, it looks like your script should work on any systems that support /dev/tcp. Thanks for your solution to this problem!</p>
+<p>Any other ideas guys? Any default clients with TCP capabilities (i.e. ftp) is a good candidate for a homegrown port-scanner which doesn&#8217;t require root privileges to be run. Also, as Sandro mentioned, using any commonly-supported scripting environments such as Perl is another good candidate.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Wikipeando &#187; Port Scanner con Perl</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121702</link>
+		<dc:creator>Wikipeando &#187; Port Scanner con Perl</dc:creator>
+		<pubDate>Tue, 13 May 2008 01:16:43 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121702</guid>
+		<description>[...] el sitio http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner me encontre con un script realizado en perl el cual tiene objetivo mediante el uso del modulo [...]</description>
+		<content:encoded><![CDATA[<p>[...] el sitio <a href="http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner" rel="nofollow">http://www.gnucitizen.org/blog.....ortscanner</a> me encontre con un script realizado en perl el cual tiene objetivo mediante el uso del modulo [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Venom23</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121694</link>
+		<dc:creator>Venom23</dc:creator>
+		<pubDate>Mon, 12 May 2008 22:55:07 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121694</guid>
+		<description>Ok, again. Try this code. Does the same without telnet. It is still buggy but works. 
+
+&lt;pre&gt;&lt;code&gt;HOST=127.0.0.1;for((port=1;port&lt;=65535;++port));do echo -en &quot;$port &quot;;if exec 5&lt;&gt;/dev/tcp/$HOST/$port 2&gt;/dev/null;then echo -en &quot;\n\nport $port/tcp is open\n\n&quot;;fi;done&lt;/code&gt;&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>Ok, again. Try this code. Does the same without telnet. It is still buggy but works. </p>
+<pre><code>HOST=127.0.0.1;for((port=1;port&lt;=65535;++port));do echo -en "$port ";if exec 5&lt;&gt;/dev/tcp/$HOST/$port 2&gt;/dev/null;then echo -en "\n\nport $port/tcp is open\n\n";fi;done</code></pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Adrian 'pagvac' Pastor</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121683</link>
+		<dc:creator>Adrian 'pagvac' Pastor</dc:creator>
+		<pubDate>Mon, 12 May 2008 20:52:13 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121683</guid>
+		<description>I&#039;ll repeat it again in case it wasn&#039;t clear: my proposed homegrown port-scanner relies on the &#039;telnet&#039; *CLIENT* (NOT server), which again is present on most Unix/Linux systems.
+
+@Shoaib: I&#039;ve never seen this specific implementation (telnet parser) of a portscanner in the public, but of course I&#039;m not so naive to think this hasn&#039;t been done before! ;) All in all, this is just another trick of the trade which fits the Agile Hacking book project quite nicely IMHO.</description>
+		<content:encoded><![CDATA[<p>I&#8217;ll repeat it again in case it wasn&#8217;t clear: my proposed homegrown port-scanner relies on the &#8216;telnet&#8217; *CLIENT* (NOT server), which again is present on most Unix/Linux systems.</p>
+<p>@Shoaib: I&#8217;ve never seen this specific implementation (telnet parser) of a portscanner in the public, but of course I&#8217;m not so naive to think this hasn&#8217;t been done before! ;) All in all, this is just another trick of the trade which fits the Agile Hacking book project quite nicely IMHO.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Information Security Bits for May 12th, 2008 &#171; Infosec Ramblings</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121671</link>
+		<dc:creator>Information Security Bits for May 12th, 2008 &#171; Infosec Ramblings</dc:creator>
+		<pubDate>Mon, 12 May 2008 18:13:59 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121671</guid>
+		<description>[...] great post by GNUCITIZEN on using plain old telnet and bash to perform portscans. Cool [...]</description>
+		<content:encoded><![CDATA[<p>[...] great post by GNUCITIZEN on using plain old telnet and bash to perform portscans. Cool [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Shoaib Yousuf</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121605</link>
+		<dc:creator>Shoaib Yousuf</dc:creator>
+		<pubDate>Mon, 12 May 2008 04:08:45 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121605</guid>
+		<description>Its more then 5 years old....Good to see refresh version of it by Adrian.
+
+This is really worth using it if you are performing audit in restrictive mode and you see telnet option is available...Bingo!!</description>
+		<content:encoded><![CDATA[<p>Its more then 5 years old&#8230;.Good to see refresh version of it by Adrian.</p>
+<p>This is really worth using it if you are performing audit in restrictive mode and you see telnet option is available&#8230;Bingo!!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Johann</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121554</link>
+		<dc:creator>Johann</dc:creator>
+		<pubDate>Sun, 11 May 2008 22:16:40 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121554</guid>
+		<description>@mindcorrosive: Yes, telnet as a service, but this is using the telnet client. Not all sysadmins remove the telnet client.</description>
+		<content:encoded><![CDATA[<p>@mindcorrosive: Yes, telnet as a service, but this is using the telnet client. Not all sysadmins remove the telnet client.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Sandro Gauci</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121486</link>
+		<dc:creator>Sandro Gauci</dc:creator>
+		<pubDate>Sun, 11 May 2008 11:55:36 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121486</guid>
+		<description>@pagvac: the more tricks the merrier :) re the book - that sounds great. looking forward to that
+
+@mindcorrosive: the post refers to telnet the client rather than the daemon/server/service</description>
+		<content:encoded><![CDATA[<p>@pagvac: the more tricks the merrier :) re the book &#8211; that sounds great. looking forward to that</p>
+<p>@mindcorrosive: the post refers to telnet the client rather than the daemon/server/service</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Adrian 'pagvac' Pastor</title>
+		<link>http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/comment-page-1/#comment-121485</link>
+		<dc:creator>Adrian 'pagvac' Pastor</dc:creator>
+		<pubDate>Sun, 11 May 2008 11:50:40 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/agile-hacking-a-homegrown-telnet-based-portscanner/#comment-121485</guid>
+		<description>@mindcorrosive: I see your point, however I usually find the telnet command available on many systems I audit.
+
+@defcon: that&#039;s completely correct. This solution I proposed would be useful in cases in which netcat is not already installed on the system but telnet is. Also remember that in my case installing/downloading an additional tool was NOT an option.
+
+@Udi: some solutions will always rock! I&#039;m with you on that one :-D
+
+@Sandro: Good to see you at GNUCITIZEN dude :) . Thanks a lot for another very useful solution. Another trick to use when needed. To me, it&#039;s all about knowing different tricks which come in handy in different scenarios! We&#039;ll definitely consider your solution for the Agile Hacking book! (you&#039;ll be credited of course).</description>
+		<content:encoded><![CDATA[<p>@mindcorrosive: I see your point, however I usually find the telnet command available on many systems I audit.</p>
+<p>@defcon: that&#8217;s completely correct. This solution I proposed would be useful in cases in which netcat is not already installed on the system but telnet is. Also remember that in my case installing/downloading an additional tool was NOT an option.</p>
+<p>@Udi: some solutions will always rock! I&#8217;m with you on that one :-D</p>
+<p>@Sandro: Good to see you at GNUCITIZEN dude :) . Thanks a lot for another very useful solution. Another trick to use when needed. To me, it&#8217;s all about knowing different tricks which come in handy in different scenarios! We&#8217;ll definitely consider your solution for the Agile Hacking book! (you&#8217;ll be credited of course).</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

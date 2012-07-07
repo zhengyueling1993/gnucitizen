@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: One Drop on A Spider Web</title>
+	<atom:link href="http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: The new dawn of filter evasion</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-35359</link>
+		<dc:creator>The new dawn of filter evasion</dc:creator>
+		<pubDate>Fri, 13 Jul 2007 09:32:51 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-35359</guid>
+		<description>[...] But it&#8217;s even getting better. Some weeks ago a pretty new and very intelligent kind of filter evading vectors came to light - these vectors were capable of carrying large payloads in totally stealth mode. These vectors does not require externally hosted scripts to perform the task. This is the reason why they are called self contained XSS. [...]</description>
+		<content:encoded><![CDATA[<p>[...] But it&#8217;s even getting better. Some weeks ago a pretty new and very intelligent kind of filter evading vectors came to light &#8211; these vectors were capable of carrying large payloads in totally stealth mode. These vectors does not require externally hosted scripts to perform the task. This is the reason why they are called self contained XSS. [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-33994</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Thu, 05 Jul 2007 11:17:54 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-33994</guid>
+		<description>Neato!</description>
+		<content:encoded><![CDATA[<p>Neato!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Giorgio Maone</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-33987</link>
+		<dc:creator>Giorgio Maone</dc:creator>
+		<pubDate>Thu, 05 Jul 2007 10:52:06 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-33987</guid>
+		<description>SirDarckCat and I are having fun with PHPIDS at http://groups.google.de/group/php-ids/browse_thread/thread/f689a9c8cc934867 
+
+Incidentally, he just added some extra spice to hash (fragment) payload attacks:
+
+&lt;pre&gt;&lt;code&gt;eval(unescape(location))&lt;/code&gt;&lt;/pre&gt;
+
+This works if you break the hash with a %0A (newline) before your payload, because:
+
+&lt;blockquote&gt;&quot;http:&quot; gets parsed as a label
+&quot;//host:port/path...#...&quot; is ignored until newline (C++ style comment)&lt;/blockquote&gt;
+
+So simple, so nice :)
+--
+Thereâ€™s a brower safer than Firefoxâ€¦ itâ€™s Firefox, with NoScript - http://noscript.net</description>
+		<content:encoded><![CDATA[<p>SirDarckCat and I are having fun with PHPIDS at <a href="http://groups.google.de/group/php-ids/browse_thread/thread/f689a9c8cc934867" rel="nofollow">http://groups.google.de/group/.....c8cc934867</a> </p>
+<p>Incidentally, he just added some extra spice to hash (fragment) payload attacks:</p>
+<pre><code>eval(unescape(location))</code></pre>
+<p>This works if you break the hash with a %0A (newline) before your payload, because:</p>
+<blockquote><p>&#8220;http:&#8221; gets parsed as a label<br />
+&#8220;//host:port/path&#8230;#&#8230;&#8221; is ignored until newline (C++ style comment)</p></blockquote>
+<p>So simple, so nice :)<br />
+&#8211;<br />
+Thereâ€™s a brower safer than Firefoxâ€¦ itâ€™s Firefox, with NoScript &#8211; <a href="http://noscript.net" rel="nofollow">http://noscript.net</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Kishor</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-32358</link>
+		<dc:creator>Kishor</dc:creator>
+		<pubDate>Wed, 27 Jun 2007 15:15:02 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-32358</guid>
+		<description>As per Acidus&#039;s comments
+
+Here is what I tried out,
+
+1.html:
+
+&lt;pre&gt;&lt;code&gt;window.name = unescape(&quot;alert(&#039;XSS!&#039;);&quot;);&lt;/code&gt;&lt;/pre&gt;
+
+and 
+
+2.html:
+
+&lt;pre&gt;&lt;code&gt;breakframe();
+eval(window.name);&lt;/code&gt;&lt;/pre&gt;
+
+2.html still alerts XSS!
+
+So it means we can use window.name even if frame breaking code is present.
+
+So another &#039;with&#039; may be necessary for window&#039;.&#039;</description>
+		<content:encoded><![CDATA[<p>As per Acidus&#8217;s comments</p>
+<p>Here is what I tried out,</p>
+<p>1.html:</p>
+<pre><code>window.name = unescape("alert('XSS!');");</code></pre>
+<p>and </p>
+<p>2.html:</p>
+<pre><code>breakframe();
+eval(window.name);</code></pre>
+<p>2.html still alerts XSS!</p>
+<p>So it means we can use window.name even if frame breaking code is present.</p>
+<p>So another &#8216;with&#8217; may be necessary for window&#8217;.&#8217;</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Kishor</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-32353</link>
+		<dc:creator>Kishor</dc:creator>
+		<pubDate>Wed, 27 Jun 2007 14:51:39 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-32353</guid>
+		<description>This code inside the page which is vulnerable:
+
+&lt;pre&gt;&lt;code&gt;if (top.location != location)
+  top.location.href = document.location.href ;&lt;/code&gt;&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>This code inside the page which is vulnerable:</p>
+<pre><code>if (top.location != location)
+  top.location.href = document.location.href ;</code></pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-32308</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 27 Jun 2007 10:16:22 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-32308</guid>
+		<description>ascii, I am opening a patent bureau. Please send your submissions to &lt;em&gt;contact &lt;strong&gt;at&lt;/strong&gt; gnucitizen.org&lt;/em&gt; or contact the GNUCITIZEN group at &lt;em&gt;group &lt;strong&gt;at&lt;/strong&gt; gnucitizen.org&lt;/em&gt;. thanks.</description>
+		<content:encoded><![CDATA[<p>ascii, I am opening a patent bureau. Please send your submissions to <em>contact <strong>at</strong> gnucitizen.org</em> or contact the GNUCITIZEN group at <em>group <strong>at</strong> gnucitizen.org</em>. thanks.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ascii</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-32306</link>
+		<dc:creator>ascii</dc:creator>
+		<pubDate>Wed, 27 Jun 2007 10:08:35 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-32306</guid>
+		<description>i would like to patent (built on the maone&#039;s one)
+
+&lt;pre&gt;&lt;code&gt;&lt;img src=http://w onError=with(document)with(e)eval(unescape(innerHTML))&lt;/code&gt;&lt;/pre&gt;
+
+please tell me when the registration process is finished : )
+
+http://www.ush.it/2007/06/27/xss-cheat-sheet-two-stage-payloads/</description>
+		<content:encoded><![CDATA[<p>i would like to patent (built on the maone&#8217;s one)</p>
+<pre><code>&lt;img src=http://w onError=with(document)with(e)eval(unescape(innerHTML))</code></pre>
+<p>please tell me when the registration process is finished : )</p>
+<p><a href="http://www.ush.it/2007/06/27/xss-cheat-sheet-two-stage-payloads/" rel="nofollow">http://www.ush.it/2007/06/27/x.....-payloads/</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-32288</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 27 Jun 2007 08:32:21 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-32288</guid>
+		<description>Kishor, what do u mean?</description>
+		<content:encoded><![CDATA[<p>Kishor, what do u mean?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Kishor</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-32238</link>
+		<dc:creator>Kishor</dc:creator>
+		<pubDate>Wed, 27 Jun 2007 03:23:22 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-32238</guid>
+		<description>What about frame breaking code on acme?</description>
+		<content:encoded><![CDATA[<p>What about frame breaking code on acme?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ascii</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-32201</link>
+		<dc:creator>ascii</dc:creator>
+		<pubDate>Wed, 27 Jun 2007 01:39:46 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-32201</guid>
+		<description>i would like to patent (built on the maone&#039;s one)
+
+</description>
+		<content:encoded><![CDATA[<p>i would like to patent (built on the maone&#8217;s one)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-32128</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 26 Jun 2007 21:07:22 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-32128</guid>
+		<description>Acidus,
+
+I didn&#039;t know that. Actually this is very funny. I cannot see to what extend &lt;code&gt;window.name&lt;/code&gt; can be used for malicious purposes although it is sort of interesting since it is almost like some kind of global dashboard where everyone can leave a message. So, we can implement some sort of a system where sites leave information about the user inside &lt;code&gt;window.name&lt;/code&gt; and other sites can reuse that information in a clever way.</description>
+		<content:encoded><![CDATA[<p>Acidus,</p>
+<p>I didn&#8217;t know that. Actually this is very funny. I cannot see to what extend <code>window.name</code> can be used for malicious purposes although it is sort of interesting since it is almost like some kind of global dashboard where everyone can leave a message. So, we can implement some sort of a system where sites leave information about the user inside <code>window.name</code> and other sites can reuse that information in a clever way.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Acidus</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-32094</link>
+		<dc:creator>Acidus</dc:creator>
+		<pubDate>Tue, 26 Jun 2007 19:13:15 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-32094</guid>
+		<description>I&#039;m not sure if you all know it or not, but the contents of window.name are persisted across domains for the lifetime of the browsing context. This means window.name can be used to as a global session storage system.
+
+For example, site1.com writes a value into window.name. Any other websites that are visited in that browsing context (i.e. that browser tab or single browsing window) can read or write this value. In fact, I&#039;ve got some cool demos where I track individual users across domains without web bugs/3rd part image server using JavaScript and window.name.
+
+In fact, we touch on this in the upcoming Ajax security book in our attacking offline Ajax apps chapter. I even wrote a source code compatible implementation for Firefox&#039;s sessionStorage object for ther other browsers.</description>
+		<content:encoded><![CDATA[<p>I&#8217;m not sure if you all know it or not, but the contents of window.name are persisted across domains for the lifetime of the browsing context. This means window.name can be used to as a global session storage system.</p>
+<p>For example, site1.com writes a value into window.name. Any other websites that are visited in that browsing context (i.e. that browser tab or single browsing window) can read or write this value. In fact, I&#8217;ve got some cool demos where I track individual users across domains without web bugs/3rd part image server using JavaScript and window.name.</p>
+<p>In fact, we touch on this in the upcoming Ajax security book in our attacking offline Ajax apps chapter. I even wrote a source code compatible implementation for Firefox&#8217;s sessionStorage object for ther other browsers.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-31924</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 26 Jun 2007 05:53:49 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-31924</guid>
+		<description>&lt;div class=&quot;message&quot;&gt;Here you can find a snippet from a resent discussion on Sla.ckers.org about the techniques that were presented in this post&lt;/div&gt;
+
+&lt;blockquote&gt;Awesome AnDrEw Wrote:
+&lt;hr/&gt;
+But then in essence I would see the technique pdp has found as relatively useless unless it was able to be done through some type of service within the site. What I mean by that is I would think it&#039;d only be useful if say I had the ability to post an IFRAME within a messageboard on the site that I am targetting, but then again it still is of little value. If you can get a user to navigate to a third-party page then you&#039;ve already won, because you can use your own payloads without cross-site scripting as a prerequisite unless you absolutely need to use the frame to target the site.&lt;/blockquote&gt;
+
+Use the right tool for the right job... although I find ma1 technique rather cool, it may not work in some cases. For example, changes in the fragment identifier wont result in page refresh which is what you might want to achieve in some cases. Also, there are ways to make the fragment identifier to go away via a series of redirections, which is something that happens quite often. Another bad thing about the fragment identifier technique is that although everything is inside the URL, it looks too suspicious. Very often, attackers will use a 3rd party website which upon user arrival does the actual exploitation. Not to mention the fact that in some cases the # hash is used as communication mechanism between frames which are served from different origins. Any use of the fragment identifier will break the communication. You don&#039;t want to do that if you want to be stealth.
+
+Here is an example. Let&#039;s say that you have a worm that exploits the user on several domains. For sure you can use the fragment identifier technique and compose URLs which are included inside a hidden iframe. However, you need to do all the manual work for nothing, when you can simply create the iframe, assign the name or the target with your payload and rotate the src value with the URLs you want to exploit. XSSED.com has tones of vectors that simply &lt;code&gt;alert(1)&lt;/code&gt;. All we need to do in order to make them work is &lt;code&gt;/alert\((1&#124;&#039;XSS&#039;&#124;&quot;XSS&quot;)\)/eval(name)/i&lt;/code&gt; and start rotating them inside an iframe. The chances of this technique to work are higher mainly because we do not add that much more characters into the payload. We don&#039;t have to do any characters counting and we don&#039;t have to think whether there is something before our code that makes uses of the information after the # hash. believe me, more and more applications make use of the hash today.
+
+To sum up... do not be ignorant. use the right tools for the right job. as you can see, there are real applications of the technique I described.</description>
+		<content:encoded><![CDATA[<div class="message">Here you can find a snippet from a resent discussion on Sla.ckers.org about the techniques that were presented in this post</div>
+<blockquote><p>Awesome AnDrEw Wrote:</p>
+<hr />
+But then in essence I would see the technique pdp has found as relatively useless unless it was able to be done through some type of service within the site. What I mean by that is I would think it&#8217;d only be useful if say I had the ability to post an IFRAME within a messageboard on the site that I am targetting, but then again it still is of little value. If you can get a user to navigate to a third-party page then you&#8217;ve already won, because you can use your own payloads without cross-site scripting as a prerequisite unless you absolutely need to use the frame to target the site.</p></blockquote>
+<p>Use the right tool for the right job&#8230; although I find ma1 technique rather cool, it may not work in some cases. For example, changes in the fragment identifier wont result in page refresh which is what you might want to achieve in some cases. Also, there are ways to make the fragment identifier to go away via a series of redirections, which is something that happens quite often. Another bad thing about the fragment identifier technique is that although everything is inside the URL, it looks too suspicious. Very often, attackers will use a 3rd party website which upon user arrival does the actual exploitation. Not to mention the fact that in some cases the # hash is used as communication mechanism between frames which are served from different origins. Any use of the fragment identifier will break the communication. You don&#8217;t want to do that if you want to be stealth.</p>
+<p>Here is an example. Let&#8217;s say that you have a worm that exploits the user on several domains. For sure you can use the fragment identifier technique and compose URLs which are included inside a hidden iframe. However, you need to do all the manual work for nothing, when you can simply create the iframe, assign the name or the target with your payload and rotate the src value with the URLs you want to exploit. XSSED.com has tones of vectors that simply <code>alert(1)</code>. All we need to do in order to make them work is <code>/alert\((1|'XSS'|"XSS")\)/eval(name)/i</code> and start rotating them inside an iframe. The chances of this technique to work are higher mainly because we do not add that much more characters into the payload. We don&#8217;t have to do any characters counting and we don&#8217;t have to think whether there is something before our code that makes uses of the information after the # hash. believe me, more and more applications make use of the hash today.</p>
+<p>To sum up&#8230; do not be ignorant. use the right tools for the right job. as you can see, there are real applications of the technique I described.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pagvac</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-31785</link>
+		<dc:creator>pagvac</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 19:34:38 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-31785</guid>
+		<description>Giorgio,
+
+That&#039;s a killer snippet. Thanks a lot for that.</description>
+		<content:encoded><![CDATA[<p>Giorgio,</p>
+<p>That&#8217;s a killer snippet. Thanks a lot for that.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-31729</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 18:07:30 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-31729</guid>
+		<description>Giorgio, I&#039;ve totally ignored the &lt;strong&gt;with&lt;/strong&gt; statement. To be honest with you, I am not using it that often. In fact, I cannot remember the last time I&#039;ve made any use of it apart from the time when I tried to create a sandbox within JavaScript which didn&#039;t work, so I had to use full blown iframes to imitate similar characteristics.
+
+Anyway, great stuff. RSnake should include this one into his cheat sheet.</description>
+		<content:encoded><![CDATA[<p>Giorgio, I&#8217;ve totally ignored the <strong>with</strong> statement. To be honest with you, I am not using it that often. In fact, I cannot remember the last time I&#8217;ve made any use of it apart from the time when I tried to create a sandbox within JavaScript which didn&#8217;t work, so I had to use full blown iframes to imitate similar characteristics.</p>
+<p>Anyway, great stuff. RSnake should include this one into his cheat sheet.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Giorgio Maone</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-31698</link>
+		<dc:creator>Giorgio Maone</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 16:39:07 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-31698</guid>
+		<description>pdp, I was just kidding - Cenzic is enough about patents.
+Of course I wouldn&#039;t have figured out mine if I didn&#039;t read your [a-z\(\)] challenge, so many thanks for inspiration ;)
+--
+Thereâ€™s a brower safer than Firefoxâ€¦ itâ€™s Firefox, with NoScript - http://noscript.net</description>
+		<content:encoded><![CDATA[<p>pdp, I was just kidding &#8211; Cenzic is enough about patents.<br />
+Of course I wouldn&#8217;t have figured out mine if I didn&#8217;t read your [a-z\(\)] challenge, so many thanks for inspiration ;)<br />
+&#8211;<br />
+Thereâ€™s a brower safer than Firefoxâ€¦ itâ€™s Firefox, with NoScript &#8211; <a href="http://noscript.net" rel="nofollow">http://noscript.net</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-31691</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 16:21:47 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-31691</guid>
+		<description>Giorgio, no one is patenting anything, but your trick is cooler I must admit. Nice stuff... I love it. However, mine is still smaller... :) but heck I love self-contained stuff so you win. :)</description>
+		<content:encoded><![CDATA[<p>Giorgio, no one is patenting anything, but your trick is cooler I must admit. Nice stuff&#8230; I love it. However, mine is still smaller&#8230; :) but heck I love self-contained stuff so you win. :)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Giorgio Maone</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-31688</link>
+		<dc:creator>Giorgio Maone</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 16:18:32 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-31688</guid>
+		<description>If yours is new, I guess I can patent the following:
+
+&lt;pre&gt;&lt;code&gt;with(location)with(hash)eval(substring(1))&lt;/code&gt;&lt;/pre&gt;
+
+Much easier to post everywhere, because it&#039;s self-contained and you don&#039;t need to control the window name.
+
+Cheers
+--
+There&#039;s a brower safer than Firefox... it&#039;s Firefox, with NoScript - http://noscript.net</description>
+		<content:encoded><![CDATA[<p>If yours is new, I guess I can patent the following:</p>
+<pre><code>with(location)with(hash)eval(substring(1))</code></pre>
+<p>Much easier to post everywhere, because it&#8217;s self-contained and you don&#8217;t need to control the window name.</p>
+<p>Cheers<br />
+&#8211;<br />
+There&#8217;s a brower safer than Firefox&#8230; it&#8217;s Firefox, with NoScript &#8211; <a href="http://noscript.net" rel="nofollow">http://noscript.net</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pagvac</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-31682</link>
+		<dc:creator>pagvac</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 16:14:24 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-31682</guid>
+		<description>This is VERY powerful. We&#039;re saying that if we can run 
+
+&lt;pre&gt;&lt;code&gt;&lt;script&gt;eval(name)&lt;/script&gt;&lt;/code&gt;&lt;/pre&gt;
+
+as our XSS payload, then we can run JavaScript without any restrictions whatsoever.
+
+So when testing for XSS, if we get a blank alert box when injecting 
+
+&lt;pre&gt;&lt;code&gt;&lt;script&gt;eval(name)&lt;/script&gt;&lt;/code&gt;&lt;/pre&gt;
+
+then we know we can run absolutely anything by visiting a third-party page that embeds our magic iframe.</description>
+		<content:encoded><![CDATA[<p>This is VERY powerful. We&#8217;re saying that if we can run </p>
+<pre><code>&lt;script&gt;eval(name)&lt;/script&gt;</code></pre>
+<p>as our XSS payload, then we can run JavaScript without any restrictions whatsoever.</p>
+<p>So when testing for XSS, if we get a blank alert box when injecting </p>
+<pre><code>&lt;script&gt;eval(name)&lt;/script&gt;</code></pre>
+<p>then we know we can run absolutely anything by visiting a third-party page that embeds our magic iframe.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/one-drop-on-a-spider-web/comment-page-1/#comment-31636</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 15:33:17 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/one-drop-on-a-spider-web#comment-31636</guid>
+		<description>what is interesting about this technique that is a combination of reflected XSS with a little help from the DOM.</description>
+		<content:encoded><![CDATA[<p>what is interesting about this technique that is a combination of reflected XSS with a little help from the DOM.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

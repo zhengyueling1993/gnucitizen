@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Content Injection: Hack the Hacker</title>
+	<atom:link href="http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: Hamid.K</title>
+		<link>http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/comment-page-1/#comment-118985</link>
+		<dc:creator>Hamid.K</dc:creator>
+		<pubDate>Fri, 18 Apr 2008 19:56:52 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/#comment-118985</guid>
+		<description>While looking like a nice (but not new) idea , I believe it completely failed  , for various reasons :
+
+1- The same reason/capability make serious hackers bypass your IDS/IPS  , makes them bypass this one.
+2-As xnull already mentioned , every mechanism used for security(defense or defeat) at client-side should be considered broken . No matter how complex or obfuscated it is , it`s broken .
+3-Now days , even beginners has learned to live without JS in their browsers . So maybe another solution should be applied ?
+4- Wise people doing web-app testing (or hacking)check web-servers responses as much as they do for requests ! So such a behavior could be catchd almost immediately by them.
+5- If the hacker is still getting back-traced after these all , for sure s/he must be a script-kiddie not capable of doing anything serious . so just making more noise in logs . The goal should be reducing them as much as possible , to be able to use them effectively . right ? 
+6- Even if #5 didn`t matched your business and you think with #5 your web-app/server could still get hurted , then this solution or trick is not for you ! Best advice for such system IMO is to completely shut it down , and sleep well at nights :)
+
+finally , I love your blog , and am learning new ideas each time I visit it . keep the great job guys .</description>
+		<content:encoded><![CDATA[<p>While looking like a nice (but not new) idea , I believe it completely failed  , for various reasons :</p>
+<p>1- The same reason/capability make serious hackers bypass your IDS/IPS  , makes them bypass this one.<br />
+2-As xnull already mentioned , every mechanism used for security(defense or defeat) at client-side should be considered broken . No matter how complex or obfuscated it is , it`s broken .<br />
+3-Now days , even beginners has learned to live without JS in their browsers . So maybe another solution should be applied ?<br />
+4- Wise people doing web-app testing (or hacking)check web-servers responses as much as they do for requests ! So such a behavior could be catchd almost immediately by them.<br />
+5- If the hacker is still getting back-traced after these all , for sure s/he must be a script-kiddie not capable of doing anything serious . so just making more noise in logs . The goal should be reducing them as much as possible , to be able to use them effectively . right ?<br />
+6- Even if #5 didn`t matched your business and you think with #5 your web-app/server could still get hurted , then this solution or trick is not for you ! Best advice for such system IMO is to completely shut it down , and sleep well at nights :)</p>
+<p>finally , I love your blog , and am learning new ideas each time I visit it . keep the great job guys .</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: mordox</title>
+		<link>http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/comment-page-1/#comment-118826</link>
+		<dc:creator>mordox</dc:creator>
+		<pubDate>Tue, 15 Apr 2008 10:46:41 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/#comment-118826</guid>
+		<description>Bharosa / Oracle OAAM too uses a client fingerprinting technology to identify threats</description>
+		<content:encoded><![CDATA[<p>Bharosa / Oracle OAAM too uses a client fingerprinting technology to identify threats</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Awesome AnDrEw</title>
+		<link>http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/comment-page-1/#comment-118795</link>
+		<dc:creator>Awesome AnDrEw</dc:creator>
+		<pubDate>Mon, 14 Apr 2008 13:54:14 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/#comment-118795</guid>
+		<description>Out of the hundreds or thousands of attacks I receive daily a large number of them are through wget, Perl, Java, and similar applications which have been automated. Very few are from legitimate clients, but I do find a lot of attempts from Firefox users&#039; who then try to spoof their User-Agent. A great way to tell the difference between bots and humans who are using real browsers is that in most cases even if Java, Javascript, and other embedded entities are disabled there will be a significant number of requests for other resources such as images or stylesheets (though this also depends on both the type and amount of content on a page). Most automated attacks only target a specific page, and do not make subsequent requests for the material placed on the page.
+
+I&#039;ve set up my own layered system for custom intrustion detection, but some of the more interesting concepts along the lines of what you&#039;ve talked about, which I have come up with, include using CSRF or 302 redirections to pass off the traffic to another host (I believe the owner of Blue Hat SEO did this when his website was being attacked, and redirected all of the malicious traffic to the FBI&#039;s website), bombarding the user with advertisements (this would only apply to those illegitimate requests caused by individuals), scanning the client for vulnerabilities, or attacking the client with one&#039;s own botnet. The CSRF issue is probably the most entertaining due to all of the possibilities it entails.</description>
+		<content:encoded><![CDATA[<p>Out of the hundreds or thousands of attacks I receive daily a large number of them are through wget, Perl, Java, and similar applications which have been automated. Very few are from legitimate clients, but I do find a lot of attempts from Firefox users&#8217; who then try to spoof their User-Agent. A great way to tell the difference between bots and humans who are using real browsers is that in most cases even if Java, Javascript, and other embedded entities are disabled there will be a significant number of requests for other resources such as images or stylesheets (though this also depends on both the type and amount of content on a page). Most automated attacks only target a specific page, and do not make subsequent requests for the material placed on the page.</p>
+<p>I&#8217;ve set up my own layered system for custom intrustion detection, but some of the more interesting concepts along the lines of what you&#8217;ve talked about, which I have come up with, include using CSRF or 302 redirections to pass off the traffic to another host (I believe the owner of Blue Hat SEO did this when his website was being attacked, and redirected all of the malicious traffic to the FBI&#8217;s website), bombarding the user with advertisements (this would only apply to those illegitimate requests caused by individuals), scanning the client for vulnerabilities, or attacking the client with one&#8217;s own botnet. The CSRF issue is probably the most entertaining due to all of the possibilities it entails.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: David Kierznowski</title>
+		<link>http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/comment-page-1/#comment-118789</link>
+		<dc:creator>David Kierznowski</dc:creator>
+		<pubDate>Mon, 14 Apr 2008 10:30:54 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/#comment-118789</guid>
+		<description>Daniel, watch out for false positives :)
+
+xnull, I haven&#039;t actually heard of people doing this, although I have heard of peeps using a virtualised browser (i.e. VMWare etc).
+
+Yousif, thanks man, keep us posted on your blog progress, would be interesting to see what you come up with.</description>
+		<content:encoded><![CDATA[<p>Daniel, watch out for false positives :)</p>
+<p>xnull, I haven&#8217;t actually heard of people doing this, although I have heard of peeps using a virtualised browser (i.e. VMWare etc).</p>
+<p>Yousif, thanks man, keep us posted on your blog progress, would be interesting to see what you come up with.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Yousif Yalda</title>
+		<link>http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/comment-page-1/#comment-118743</link>
+		<dc:creator>Yousif Yalda</dc:creator>
+		<pubDate>Sun, 13 Apr 2008 18:02:50 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/#comment-118743</guid>
+		<description>Nice post, I agree with these methods. Now this is actual out-of-the-box thinking. Trapping the hacker scheme is always what I have in mind when implementing any type of IDS, specifically reducing the use of heavy technologies, and rather just applying what we already have customized in crafted requests in real-time. I&#039;ll too be discussing ways of IDS concepts on my blog soon, I&#039;m working on a POC to release soon as well, good job man!</description>
+		<content:encoded><![CDATA[<p>Nice post, I agree with these methods. Now this is actual out-of-the-box thinking. Trapping the hacker scheme is always what I have in mind when implementing any type of IDS, specifically reducing the use of heavy technologies, and rather just applying what we already have customized in crafted requests in real-time. I&#8217;ll too be discussing ways of IDS concepts on my blog soon, I&#8217;m working on a POC to release soon as well, good job man!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: xnull</title>
+		<link>http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/comment-page-1/#comment-118685</link>
+		<dc:creator>xnull</dc:creator>
+		<pubDate>Sat, 12 Apr 2008 18:06:38 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/#comment-118685</guid>
+		<description>David, that is fun to think about, but most attacker&#039;s browsers (at least ones used in a serious attack) are stripped down of Java, javascript, flash and many other functionalities (many times even cookies). Torbutton is an example of an add-on for Firefox which tries to do this for an attacker automatically.
+
+A lot of blackhats bother compiling a separate browser to be their Tor browser.
+
+Keep in mind that anything client-side is in complete control of the attacker and can also be defeated with just a little bit of creativity.</description>
+		<content:encoded><![CDATA[<p>David, that is fun to think about, but most attacker&#8217;s browsers (at least ones used in a serious attack) are stripped down of Java, javascript, flash and many other functionalities (many times even cookies). Torbutton is an example of an add-on for Firefox which tries to do this for an attacker automatically.</p>
+<p>A lot of blackhats bother compiling a separate browser to be their Tor browser.</p>
+<p>Keep in mind that anything client-side is in complete control of the attacker and can also be defeated with just a little bit of creativity.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Dnaiel</title>
+		<link>http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/comment-page-1/#comment-118674</link>
+		<dc:creator>Dnaiel</dc:creator>
+		<pubDate>Sat, 12 Apr 2008 09:00:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/content-injection-hack-the-hacker/#comment-118674</guid>
+		<description>I actually use this at the moment, I won&#039;t say what I do when some useless c*nt tries to hack the box, but it&#039;s pretty effective to say the least.</description>
+		<content:encoded><![CDATA[<p>I actually use this at the moment, I won&#8217;t say what I do when some useless c*nt tries to hack the box, but it&#8217;s pretty effective to say the least.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

