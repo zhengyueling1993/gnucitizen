@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: The Generic XSS Worm</title>
+	<atom:link href="http://www.gnucitizen.org/blog/the-generic-xss-worm/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/comment-page-1/#comment-100539</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Thu, 17 Jan 2008 07:52:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-generic-xss-worm#comment-100539</guid>
+		<description>David, they are aware of the technique so I guess it will be harder.</description>
+		<content:encoded><![CDATA[<p>David, they are aware of the technique so I guess it will be harder.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: David</title>
+		<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/comment-page-1/#comment-100535</link>
+		<dc:creator>David</dc:creator>
+		<pubDate>Thu, 17 Jan 2008 07:32:35 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-generic-xss-worm#comment-100535</guid>
+		<description>Guys, great thanks for sharing this info. Could anybody tell me does XSIO - Cross Site Site Image Overlaying still working in social resources like myspace, digg etc? I tried to find this vuln, but i couldn&#039;t.. :(</description>
+		<content:encoded><![CDATA[<p>Guys, great thanks for sharing this info. Could anybody tell me does XSIO &#8211; Cross Site Site Image Overlaying still working in social resources like myspace, digg etc? I tried to find this vuln, but i couldn&#8217;t.. :(</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ntp</title>
+		<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/comment-page-1/#comment-31677</link>
+		<dc:creator>ntp</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 16:10:09 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-generic-xss-worm#comment-31677</guid>
+		<description>Oh I forgot to add Java code coverage tools such as EMMA (and EclEmma for Eclipse) and the combined path/code coverage tool with fuzz testing (jCUTE).
+
+Note that Ruby has rcov for code coverage and supports many build options with rake.</description>
+		<content:encoded><![CDATA[<p>Oh I forgot to add Java code coverage tools such as EMMA (and EclEmma for Eclipse) and the combined path/code coverage tool with fuzz testing (jCUTE).</p>
+<p>Note that Ruby has rcov for code coverage and supports many build options with rake.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ntp</title>
+		<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/comment-page-1/#comment-31669</link>
+		<dc:creator>ntp</dc:creator>
+		<pubDate>Mon, 25 Jun 2007 15:58:53 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-generic-xss-worm#comment-31669</guid>
+		<description>&lt;blockquote&gt;Of course, this is the way forward. However, scripted languages are very hard to automatically examine them, mainly because they are nothing like compiled languages. Most of the IDEs that Iâ€™ve seen which have these types of facilities work only for .NET or Java and nothing else is supported. Although it may seams that most corporate applications use something like that, the truth is that there are a plethora of things that cannot be easily ignored.&lt;/blockquote&gt;
+
+Scripting languages have one great aspect: they are focused on Test-Driven Development (TDD) to &quot;get all the bugs out&quot;.  This is fast, works extremely well, and &quot;drives&quot; development to the end goal.
+
+Unfortunately, tested code is not the end goal.  Also - even more extremely unfortunately - DFT (Design for Test) gets skipped.  How could Agile developers skip the most important part?  Well, I guess they don&#039;t call them script kiddies for nothing!  Also see: http://www.jwz.org/doc/cadt.html
+
+Although I would argue that &quot;testing is fun&quot;, especially when you find security-related bugs or flaws.
+
+Microsoft uses the SDL, which is largely a waterfall model.  The end goal of the SDL is security.  Microsoft actually has a better model, where the end goal is everything everybody really wants.  It&#039;s called Design for Operations (DFO) http://www.codeplex.com/dfo/
+
+Unfortunately, tools like VSMMD for DFO only leak out from Microsoft once every two to ten years, and usually in crippled form.  Their internal tools such as PreSharp (source checker for C#), FxCop (static file checker for CLR), Magellan (code coverage), and FuzzGuru (path/code coverage with fuzz testing) - as well as their internal coding standards (esp/espx) are not well-known.  Sure, they do have some public tools (that still require VS 2k5/2k8) for coding standards, SAL  annotations, and model checking (AppVerif).  But let&#039;s take a look at what Java offers all as open-source.
+
+Java, with Eclipse plugins, supports CheckStyle, FormatOnSave, and many other options for enforcing a particular coding standard.  Source checkers (PMD, Jlint, Hammurapi), and static-file checkers (FindBugs, SofCheck) are available both in the IDE and in the build tools (e.g. Ant, Maven2, etc).  Model checkers such as Java PathFinder, have some amazing capabilities - and even the Java-specialized tools for CI and build automation (e.g. Luntbuild) are quite complete for this type of work.
+
+Scripters can do the same (Groovy especially), but Ruby, Python, and probably even PHP can have a more planned/focused development model and use the right tools.  It&#039;s not just Java and .NET.</description>
+		<content:encoded><![CDATA[<blockquote><p>Of course, this is the way forward. However, scripted languages are very hard to automatically examine them, mainly because they are nothing like compiled languages. Most of the IDEs that Iâ€™ve seen which have these types of facilities work only for .NET or Java and nothing else is supported. Although it may seams that most corporate applications use something like that, the truth is that there are a plethora of things that cannot be easily ignored.</p></blockquote>
+<p>Scripting languages have one great aspect: they are focused on Test-Driven Development (TDD) to &#8220;get all the bugs out&#8221;.  This is fast, works extremely well, and &#8220;drives&#8221; development to the end goal.</p>
+<p>Unfortunately, tested code is not the end goal.  Also &#8211; even more extremely unfortunately &#8211; DFT (Design for Test) gets skipped.  How could Agile developers skip the most important part?  Well, I guess they don&#8217;t call them script kiddies for nothing!  Also see: <a href="http://www.jwz.org/doc/cadt.html" rel="nofollow">http://www.jwz.org/doc/cadt.html</a></p>
+<p>Although I would argue that &#8220;testing is fun&#8221;, especially when you find security-related bugs or flaws.</p>
+<p>Microsoft uses the SDL, which is largely a waterfall model.  The end goal of the SDL is security.  Microsoft actually has a better model, where the end goal is everything everybody really wants.  It&#8217;s called Design for Operations (DFO) <a href="http://www.codeplex.com/dfo/" rel="nofollow">http://www.codeplex.com/dfo/</a></p>
+<p>Unfortunately, tools like VSMMD for DFO only leak out from Microsoft once every two to ten years, and usually in crippled form.  Their internal tools such as PreSharp (source checker for C#), FxCop (static file checker for CLR), Magellan (code coverage), and FuzzGuru (path/code coverage with fuzz testing) &#8211; as well as their internal coding standards (esp/espx) are not well-known.  Sure, they do have some public tools (that still require VS 2k5/2k8) for coding standards, SAL  annotations, and model checking (AppVerif).  But let&#8217;s take a look at what Java offers all as open-source.</p>
+<p>Java, with Eclipse plugins, supports CheckStyle, FormatOnSave, and many other options for enforcing a particular coding standard.  Source checkers (PMD, Jlint, Hammurapi), and static-file checkers (FindBugs, SofCheck) are available both in the IDE and in the build tools (e.g. Ant, Maven2, etc).  Model checkers such as Java PathFinder, have some amazing capabilities &#8211; and even the Java-specialized tools for CI and build automation (e.g. Luntbuild) are quite complete for this type of work.</p>
+<p>Scripters can do the same (Groovy especially), but Ruby, Python, and probably even PHP can have a more planned/focused development model and use the right tools.  It&#8217;s not just Java and .NET.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: XSS Worms and Mitigation Controls &#124; GNUCITIZEN</title>
+		<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/comment-page-1/#comment-31068</link>
+		<dc:creator>XSS Worms and Mitigation Controls &#124; GNUCITIZEN</dc:creator>
+		<pubDate>Sat, 23 Jun 2007 13:52:17 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-generic-xss-worm#comment-31068</guid>
+		<description>[...] around mitigating XSS worm potential. He reflected these ideas as a response to our post, &quot;The Generic XSS Worm&quot; where we reached out to the community to brainstorm ideas to solve the XSS crisis. I have [...]</description>
+		<content:encoded><![CDATA[<p>[...] around mitigating XSS worm potential. He reflected these ideas as a response to our post, &quot;The Generic XSS Worm&quot; where we reached out to the community to brainstorm ideas to solve the XSS crisis. I have [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: david.kierznowski</title>
+		<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/comment-page-1/#comment-31065</link>
+		<dc:creator>david.kierznowski</dc:creator>
+		<pubDate>Sat, 23 Jun 2007 13:31:01 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-generic-xss-worm#comment-31065</guid>
+		<description>I don&#039;t think there is a clean cut solution right now, we are in for the long-haul.</description>
+		<content:encoded><![CDATA[<p>I don&#8217;t think there is a clean cut solution right now, we are in for the long-haul.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/comment-page-1/#comment-31030</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Sat, 23 Jun 2007 07:35:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-generic-xss-worm#comment-31030</guid>
+		<description>ntp, that was great comment.
+
+IMHO, things are a bit more complicated. You say:
+
+&lt;blockquote&gt;Before coding anything, they should have an enforceable coding standard built into their IDE. They should use source and static-file code checkers in their IDE. They should use source checkers (again), static-file checkers (again), and path/code coverage tools (e.g. concolic unit testing) that run fuzz testing across all inputs at build time, including on dependencies. They should combine model checkers and continuous integration tools (especially build schedulers), ensuring a clean release.&lt;/blockquote&gt; 
+
+Of course, this is the way forward. However, scripted languages are very hard to automatically examine them, mainly because they are nothing like compiled languages. Most of the IDEs that I&#039;ve seen which have these types of facilities work only for .NET or Java and nothing else is supported. Although it may seams that most corporate applications use something like that, the truth is that there are a plethora of things that cannot be easily ignored.
+
+But yes, you are right. We should do it.</description>
+		<content:encoded><![CDATA[<p>ntp, that was great comment.</p>
+<p>IMHO, things are a bit more complicated. You say:</p>
+<blockquote><p>Before coding anything, they should have an enforceable coding standard built into their IDE. They should use source and static-file code checkers in their IDE. They should use source checkers (again), static-file checkers (again), and path/code coverage tools (e.g. concolic unit testing) that run fuzz testing across all inputs at build time, including on dependencies. They should combine model checkers and continuous integration tools (especially build schedulers), ensuring a clean release.</p></blockquote>
+<p>Of course, this is the way forward. However, scripted languages are very hard to automatically examine them, mainly because they are nothing like compiled languages. Most of the IDEs that I&#8217;ve seen which have these types of facilities work only for .NET or Java and nothing else is supported. Although it may seams that most corporate applications use something like that, the truth is that there are a plethora of things that cannot be easily ignored.</p>
+<p>But yes, you are right. We should do it.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ntp</title>
+		<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/comment-page-1/#comment-30971</link>
+		<dc:creator>ntp</dc:creator>
+		<pubDate>Fri, 22 Jun 2007 22:02:02 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-generic-xss-worm#comment-30971</guid>
+		<description>Browser developers should build anti-XSS, LocalRodeo, content-restrictions, and SafeHistory/SafeCache concepts into the browser. Someone (preferably browser developers, but could be administrators) should separate browser profiles (different process id&#039;s) into at least two separate browsers / browser profiles:
+
+1) Firefox for the Internet - will not connect to RFC1918
+2) Firefox for your Intranet - will only connect to RFC1918
+
+Jeremiah Grossman suggested a way to make this more transparent, but I suggest this stricter method.
+
+Vulnerability hunters should disclose responsibly to security, cert, noc, hostmaster, postmaster, and webmaster email addresses at top-level domains, preferably to someone who has a GPG public key available in a key server (or use something similar like Hushmail or IBE).  They should also check for any incident response policies and vulnerability reporting processes the organization or website owner may already have in place.  There is no reason to go to another source or through an intermediary.  If all email bounces or there is no response in two weeks, vulnerability hunters should try calling a person by acquiring a phone number of an appropriately titled employee on jigsaw.com, spoke.com, or linkedin.com or from whois as a last resort.  If you can find an XSS, you should know how to social engineer or footprint an email address and phone number.
+
+Administrators should respond to and fix problems within 2 weeks (XSS moves faster than buffer overflows) or full-disclosure is fully appropriate.  Like I&#039;ve said before - if administrators can respond to an SSL certificate expiring within 2 weeks - then they can also respond to an XSS finding in the same amount of time.  The vulnerability researcher can then co-ordinate a fix/disclosure schedule with the vendor and should provide remediation support if necessary.  If you can find an XSS with a scanning tool, you should learn how to fix them for others.
+
+IT administrators for users should setup the ability to whitelist URL&#039;s (e.g. http://whitetrash.sf.net ) if they think their environment can support it.  They should also ensure OS, browser, and browser plugin automatic updates.  Administrators should scan and patch, just like regular vulnerability management.  Good administrators will enforce use of a safe browser similar to the one described in my first paragraph.
+
+Most importantly, developers should respond to issue tracking about XSS findings (reported by the administrators / operators) immediately as the highest priority... higher than application availability issues (24x7x365).  They should always use validators that are built into their framework properly.  Before coding anything, they should have an enforceable coding standard built into their IDE.  They should use source and static-file code checkers in their IDE.  They should use source checkers (again), static-file checkers (again), and path/code coverage tools (e.g. concolic unit testing) that run fuzz testing across all inputs at build time, including on dependencies.  They should combine model checkers and continuous integration tools (especially build schedulers), ensuring a clean release.
+
+Applications should be monitored for security events using application monitoring tools (not network security tools or log management tools) by both operators/administrators and developers.
+
+Web Application Security Scanners and Web Application Firewalls are OPTIONAL but NOT REQUIRED.
+
+I refer to this strategy as NTPolicy.  You may use or change it however you like.</description>
+		<content:encoded><![CDATA[<p>Browser developers should build anti-XSS, LocalRodeo, content-restrictions, and SafeHistory/SafeCache concepts into the browser. Someone (preferably browser developers, but could be administrators) should separate browser profiles (different process id&#8217;s) into at least two separate browsers / browser profiles:</p>
+<p>1) Firefox for the Internet &#8211; will not connect to RFC1918<br />
+2) Firefox for your Intranet &#8211; will only connect to RFC1918</p>
+<p>Jeremiah Grossman suggested a way to make this more transparent, but I suggest this stricter method.</p>
+<p>Vulnerability hunters should disclose responsibly to security, cert, noc, hostmaster, postmaster, and webmaster email addresses at top-level domains, preferably to someone who has a GPG public key available in a key server (or use something similar like Hushmail or IBE).  They should also check for any incident response policies and vulnerability reporting processes the organization or website owner may already have in place.  There is no reason to go to another source or through an intermediary.  If all email bounces or there is no response in two weeks, vulnerability hunters should try calling a person by acquiring a phone number of an appropriately titled employee on jigsaw.com, spoke.com, or linkedin.com or from whois as a last resort.  If you can find an XSS, you should know how to social engineer or footprint an email address and phone number.</p>
+<p>Administrators should respond to and fix problems within 2 weeks (XSS moves faster than buffer overflows) or full-disclosure is fully appropriate.  Like I&#8217;ve said before &#8211; if administrators can respond to an SSL certificate expiring within 2 weeks &#8211; then they can also respond to an XSS finding in the same amount of time.  The vulnerability researcher can then co-ordinate a fix/disclosure schedule with the vendor and should provide remediation support if necessary.  If you can find an XSS with a scanning tool, you should learn how to fix them for others.</p>
+<p>IT administrators for users should setup the ability to whitelist URL&#8217;s (e.g. <a href="http://whitetrash.sf.net" rel="nofollow">http://whitetrash.sf.net</a> ) if they think their environment can support it.  They should also ensure OS, browser, and browser plugin automatic updates.  Administrators should scan and patch, just like regular vulnerability management.  Good administrators will enforce use of a safe browser similar to the one described in my first paragraph.</p>
+<p>Most importantly, developers should respond to issue tracking about XSS findings (reported by the administrators / operators) immediately as the highest priority&#8230; higher than application availability issues (24x7x365).  They should always use validators that are built into their framework properly.  Before coding anything, they should have an enforceable coding standard built into their IDE.  They should use source and static-file code checkers in their IDE.  They should use source checkers (again), static-file checkers (again), and path/code coverage tools (e.g. concolic unit testing) that run fuzz testing across all inputs at build time, including on dependencies.  They should combine model checkers and continuous integration tools (especially build schedulers), ensuring a clean release.</p>
+<p>Applications should be monitored for security events using application monitoring tools (not network security tools or log management tools) by both operators/administrators and developers.</p>
+<p>Web Application Security Scanners and Web Application Firewalls are OPTIONAL but NOT REQUIRED.</p>
+<p>I refer to this strategy as NTPolicy.  You may use or change it however you like.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: The Generic XSS Worm - Operation n</title>
+		<link>http://www.gnucitizen.org/blog/the-generic-xss-worm/comment-page-1/#comment-30418</link>
+		<dc:creator>The Generic XSS Worm - Operation n</dc:creator>
+		<pubDate>Thu, 21 Jun 2007 00:06:56 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-generic-xss-worm#comment-30418</guid>
+		<description>[...] released an article on GNUCitizen today around XSS engines and worm propogation techniques. In this article I discuss 3 XSS Engine [...]</description>
+		<content:encoded><![CDATA[<p>[...] released an article on GNUCitizen today around XSS engines and worm propogation techniques. In this article I discuss 3 XSS Engine [...]</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

@@ -1,0 +1,797 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/citrix-owning-the-legitimate-backdoor/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:01:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; CITRIX: Owning the Legitimate Backdoor</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; CITRIX: Owning the Legitimate Backdoor Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Owning Big Brother: Hollywood-style Exploits Included!' href='../owning-big-brother-hollywood-style-exploits-included/index.html' />
+<link rel='next' title='Hacking CITRIX &#8211; the forceful way' href='../hacking-citrix-the-forceful-way/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexf705.html?p=481' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-481" class="post">
+	<div class="post-title"><h2><span>CITRIX: Owning the Legitimate Backdoor</span></h2></div>
+	<div class="post-date"><span>published:</span> October 4th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><blockquote>The Internet is full of wide open CITRIX gateways. This is madness!</blockquote>
+
+<p>The other day I was performing some CITRIX poking, so I had a lot of fun with breaking GUIs, which, as most of you probably know, are trivial to break into. I did play around with .ICA files as well, just to make sure that the client is not affected by some obvious client-side vulnerabilities. This exercise led me to reevaluate many things about ICA (Independent Computing Architecture). For example, when querying Google and Yahoo for public .ICA files, I was presented with tones of wide open services, some of which were located on <strong>.gov</strong> and <strong>.mil</strong> domains.</p>
+
+<blockquote>This is madness! No, this is the Web. Through, I wasn&#8217;t expecting what I have found. Hacking like in the movies? You bet!</blockquote>
+
+<pre><code>Google: <a href="http://www.google.com/search?q=ext:ica">ext:ica</a>, Yahoo: <a href="http://search.yahoo.com/search?p=originurlextension:ica">originurlextension:ica</a></code></pre>
+
+<p>I did not poke any of the services I found, although it is obvious what is insecure and what is not when it comes to citrix. It is enough to look into the ICA file. I am not planning to go into details here but let&#8217;s say for now that ICA gives you hints about the server, the underlaying transport mechanism and of course the remote application that will be opened.</p>
+
+<p>With a few lines in bash combined with my Google python script, I was able to dump all the ICA files that Google knows about and do some interesting grepping on them. What I discovered was unbelievable. Shall we start with the Global Logistics systems or the US Government Federal Funding Citrix portals &#8211; all of them wide open and susceptible to attacks. Again, no poking on my side, just simple observation exercises on the information provided by Google.</p>
+
+<h3>Breaking into Citrix</h3>
+
+<p>When performing a Citrix tests, my goal is very simple: <q>try to open a command shell</q>. Sometimes, <code>cmd.exe</code> and <code>command.com</code> are blocked, but I can still execute commands by saving them in <code>.bat</code> or <code>.cmd</code> files. If you care to read the command output, just pause the window with <code>pause</code>. It is simple. Let&#8217;s not forget about Windows Scripting Host (WSH) which is usually not blocked at all.</p>
+
+<p>But to get to the command line, you have to escape the GUI first and when it comes to Windows GUIs, escaping them is like a walk in the park. As soon as you open explorer with File Open/Save/Save as/Print or Help features, you can execute commands. Just for demonstration purposes, I composed a <a href="../../static/blog/2007/10/hc01.wmv">video</a> that shows how it is done:</p>
+
+<div class="screen"><object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/1-cXrZIVlTU"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/1-cXrZIVlTU" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object></div>
+
+<p>Here is more. The following example shows an ICA file which just opens <code>cmd.exe</code> right in front of your eyes:</p>
+
+<pre><code>[WFClient]
+Version=2
+TcpBrowserAddress=<em>some address</em>
+
+[ApplicationServers]
+<em>PlanVue 03 Tri-City</em>=
+
+[<em>PlanVue 03 Tri-City</em>]
+Address=<em>some address</em>
+InitialProgram=<strong>cmd.exe</strong>
+ClientAudio=On
+Username=<em>some user</em>
+Domain=<em>some domain</em>
+Password=
+AudioBandwidthLimit=2
+Compress=On
+TWIMode=On
+ScreenPercent=80
+DesiredColor=8
+TransportDriver=TCP/IP
+WinStationDriver=ICA 3.0
+EncryptionLevelSession=EncRC5-128
+
+[EncRC5-128]
+DriverNameWin32=PDC128N.DLL
+DriverNameWin16=PDC128W.DLL
+
+[Compress]
+DriverName=PDCOMP.DLL
+DriverNameWin16=PDCOMPW.DLL
+DriverNameWin32=PDCOMPN.DLL</code></pre>
+
+<p>It is unbelievable but it works.</p>
+
+<p>Among the ICAs I found, there were a few which do require authentication. For dedicated attackers, this is definitely not the end of the world. Now you probably think that it is time to take out all the bruteforcers and dictionary files and start some heavy drilling. <q>Hold on! Let&#8217;s try the backdoors first.</q></p>
+
+<p>After you connect to Citrix you will land most likely on the Desktop which is protected by the Windows/Netware logon. However, keep in mind that there might be some applications underneath that does not require authentication, just like those we discussed earlier. So how do we find them? Ian Viteks <a href="../../static/blog/2007/10/enum.html">coded</a> a perl script to do exactly that:</p>
+
+<pre><code><a href="../../static/blog/2007/10/enum.html" rel="inline-text">http://www.gnucitizen.org/static/blog/2007/10/enum.pl</a></code></pre>
+
+<p>I was intrigued by Ian&#8217;s script, so I decided to write my own. However, I wasn&#8217;t very keen on re-reversing citrix so I through I would go the easy way &#8211; reusable components. A few minutes on the Citrix&#8217; website were enough to get me started. I ended up with the following <a href="../../static/blog/2007/10/enum.js">script</a>. Keep in mind that you need to have a copy of the Citrix client in order to get it going:</p>
+
+<pre><code><a href="../../static/blog/2007/10/enum.js" rel="inline-text">http://www.gnucitizen.org/static/blog/2007/10/enum.js</a></code></pre>
+
+<p>I don&#8217;t know which script is better.  Ian&#8217;s implementation seams to be cross-platformed and quite transparent for the user but it works only for UDP, while my approach works only on Windows and it requires a bit of understanding the architecture but it supports all possible ways Citrix can establish connections, and it can enumerate the Citrix servers and farms as well. Here is a demonstration of how you can use it:</p>
+
+<div class="screen"><img src="../../static/blog/2007/10/screen01.jpg" alt="Hacking CITRIX Screen01" title="Hacking CITRIX Screen01" width="668" height="331" class="alignnone size-full wp-image-2321" /></div>
+
+<h3>Conclusion</h3>
+
+<p>Ok, it is lame but with pretty much the same success, attackers can hack into quite sensitive services. It is unbelievable to me to find out that pretty much anyone can tap into huge organization with a few dirty Citrix tricks. And here are some stats:</p>
+
+<div class="message">Just by looking into Google, I was able to find <strong>114</strong> wide open CITRIX instances: <strong>10</strong> .gov, <strong>4</strong> .mil, <strong>20</strong> .edu, <strong>27</strong> .com, etc&#8230; The research was conducted offline, therefore there might be some false positives. Among the services discovered, there were several critical applications which looked so interesting that I didn&#8217;t even dare look at them. With a similar success, attackers can perform just simple port scans for service port 1494. The steps described above apply.</div><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/10/hc01.wmv">hc01.wmv</a>, <a href="../../static/blog/2007/10/enum.html">enum.pl</a>, <a href="../../static/blog/2007/10/enum.js">enum.js</a>, <a href="../../static/blog/2007/10/screen01.jpg">screen01.jpg</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-55066">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://gnucitizen.org/about/dk' rel='external nofollow' class='url'>David Kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55066">
+			October 4, 2007 at 5:47 pm</a>		</div>
+
+		<p>pdp, awesome demonstrations and code. I&#8217;m sure those new to these attack vectors will love it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-55111">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55111">
+			October 4, 2007 at 8:30 pm</a>		</div>
+
+		<p>CITRIX hacking is just like back in the old days with NetBIOS. It simple. It is malicious. It is highly effective. And the problem is that CITRIX is pretty useful. Here is a dilemma for you:</p>
+<div class="message">Let&#8217;s say that you have a pretty stable desktop app which you would like to be available on the Web. What are you going to do? Port it to XHTML, JavaScript and CSS? No way! You are most likely going to put it on CITRIX and forget about it.</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-55227">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55227">
+			October 5, 2007 at 3:39 am</a>		</div>
+
+		<p>Awesome pdp, you are hacking citrix server and i am constantly being challenge by guys to hack them</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-55230">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2fbd3fcfa626bd4301c18cdbd207a7bb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">vindic</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55230">
+			October 5, 2007 at 3:48 am</a>		</div>
+
+		<p>heh, it&#8217;s amazing man, really :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-55263">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/015dba318ece79e80b157518e8729f9a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://sh0dan.org/' rel='external nofollow' class='url'>wirepair</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55263">
+			October 5, 2007 at 7:18 am</a>		</div>
+
+		<p>Hey pdp, that&#8217;s cool and all but that paper (hackingcitrix.txt) is actually mine, not Ian Vitek&#8217;s. I wrote it like 4 or 5 years ago ;> Funny to see this stuff still works. Also I wrote a brute forcer in C that works differently than Ian&#8217;s.</p>
+<p><a href="http://sh0dan.org/oldfiles/citrix-pab/" rel="nofollow">http://sh0dan.org/oldfiles/citrix-pab/</a></p>
+<p>peace.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-55265">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55265">
+			October 5, 2007 at 7:28 am</a>		</div>
+
+		<p>wirepair, my bad, it wasn&#8217;t really clear to me who is the author of the paper. Let me change the post so it outlines the correct information. BTW, I am working on a bruteforcer as well and it will be based on the top of the ICAClient.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-55292">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/80d7b8935b953dabd63268177b7981f6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ronald</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55292">
+			October 5, 2007 at 11:01 am</a>		</div>
+
+		<p>How about wrapping it up in a CSRF referer attack. Since most surfers send their referer along the lines, Referer CSRF in order to launch a simple attack on behalve of their IP, instead of ours. :) The mashups can be endless! </p>
+<p>Oh my&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-55295">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55295">
+			October 5, 2007 at 11:07 am</a>		</div>
+
+		<p>what do u mean?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-55301">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/80d7b8935b953dabd63268177b7981f6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ronald</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55301">
+			October 5, 2007 at 11:17 am</a>		</div>
+
+		<p>I mean to simply send a form to their localhost, since when you use a form and submit it for them back where they came from, you could embed cmd commands in a textarea and possibly do it remotely. It works on Tor for example, I was researching a way of shutting Tor down this way, by sending a large payload. But Tor requires authentication I learned. Since Citrix doesn&#8217;t, it might as well work.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-55302">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55302">
+			October 5, 2007 at 11:25 am</a>		</div>
+
+		<p>Depending how CITRIX is configured it may or may not require authentication.</p>
+<blockquote><p>I mean to simply send a form to their localhost, since when you use a form and submit it for them back where they came from, you could embed cmd commands in a textarea and possibly do it remotely. It works on Tor for example, I was researching a way of shutting Tor down this way, by sending a large payload. But Tor requires authentication I learned. Since Citrix doesnâ€™t, it might as well work.</p></blockquote>
+<p>I see what u mean. Interesting, through, it needs to be verified. I may play around with this concept over the weekend.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-55348">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3c5103f613c394651ced1e7b48eaa66b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sp0oKeR</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55348">
+			October 5, 2007 at 3:48 pm</a>		</div>
+
+		<p>OMG! awesome article!!</p>
+<p>Very nice job as always .</p>
+<p>Regards,</p>
+<p>Sp0oKeR</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-55443">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>Adrian Pastor (pagvac)</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55443">
+			October 5, 2007 at 11:25 pm</a>		</div>
+
+		<p>This is an excellent intro to the survival skills for hacking Citrix.</p>
+<p>I love the concept of breaking into a company through a backdoor that&#8217;s already there for me, a.k.a. secure remote access.</p>
+<p>Citrix, Terminal Services and Microsoft PPTP are some of my favorites!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-55448">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e40dfa8b2f4f620cdf199af6efb8890?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">dink</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55448">
+			October 5, 2007 at 11:29 pm</a>		</div>
+
+		<p>Evidently there&#8217;s also a lot of .rdp files (MS Term Server connectoids) out there, although not quite as many.  Second one I tried took me right to some desktop app.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-55537">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55537">
+			October 6, 2007 at 8:11 am</a>		</div>
+
+		<p>dink, you are getting ahead of the time. :) I will get into that as well.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56034">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4d795ad3f4ebd1f974b61b93f704cc99?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Maverick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56034">
+			October 7, 2007 at 3:36 pm</a>		</div>
+
+		<p>Dude, none of the things you did is called &#8220;hacking&#8221;. Only thing you did is find systems, admin-ed by people who don&#8217;t know how to properly secure their systems. Wanna hack? Try to get through an Access Gateway. Then i&#8217;ll be impressed. The above stuff hardly has any skill to it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56354">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/75bb0a0da88d97ebdbb71cb1c16886de?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">NoOne</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56354">
+			October 8, 2007 at 12:57 pm</a>		</div>
+
+		<p>You could also use Citrix keyboard shortcuts like &#8220;CTRL+F1&#8243; or &#8220;CTRL+F2&#8243; which correspond to &#8220;CTRL+ALT+DELETE&#8221; and &#8220;CTRL+ESC&#8221;.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56533">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1037354f27302ad1053ed800cc989d3c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://carnal0wnage.blogspot.com/' rel='external nofollow' class='url'>CG</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56533">
+			October 9, 2007 at 12:30 am</a>		</div>
+
+		<p>you can also just use:</p>
+<pre><code>InitialProgram=explorer.exe</code></pre>
+<p>then you&#8217;ll get your windows explorer prompt. fun for checking out those shares on the internal LAN :-)</p>
+<p>you can also navigate to <code>WINDOWS\System32\cmd.exe</code> and double click to get your cmd prompt.</p>
+<p>_CG</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-56599">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56599">
+			October 9, 2007 at 7:11 am</a>		</div>
+
+		<p>CG, but that of course depends on the setup really. Although, it does work roughly in 70% of the cases.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56712">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f8069e4c4dcb95906f6f6e2604bc7677?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://k-security.de/' rel='external nofollow' class='url'>NIX</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56712">
+			October 9, 2007 at 2:34 pm</a>		</div>
+
+		<p>i tested your enum.js, and its not working properly, if i run it agains unix machines :D &#8230; it tells me that they have access, winword, excel, iexplorer and so on. i tried it against *nix machines on which there is no citrix, i still get that they have access, winword, excel and so on &#8230; funny ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56847">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f9c248cd7777158bbc2b92da6b469efb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://blogs.zdnet.com/Ou' rel='external nofollow' class='url'>George Ou</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56847">
+			October 9, 2007 at 10:07 pm</a>		</div>
+
+		<p>How is this an exploit when all you have is a brute force exhaustive search that performs 1 check per second at most?  A simple lockout mechanism (which people should have already implemented) for failed attempts would pretty much rule out this type of attack.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-56853">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56853">
+			October 9, 2007 at 10:16 pm</a>		</div>
+
+		<p>George, you are misunderstanding the whole purpose of the post. All I am showing here is that there are CITIRX instances on very critical domains which are wide open to attacks. No authentication is required &#8211; just simple enumeration tactics. The second post I wrote discusses how simple it is to write a CITRIX burteforcer with common windows utilities. Both posts are completely different by nature.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57005">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3bd28e590b548abf766da96e2aa4faf6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Donnerjack</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57005">
+			October 10, 2007 at 3:36 pm</a>		</div>
+
+		<p>I&#8217;ve confirmed this same sort of attack repeatedly It will not work over a properly configured firewall and Citrix Web Interface setup.  Even following the most basic recommended setups by the firewall vendor and Citrix would stop this style of attack from working.  If you would have pointed out that these attacks would only work in poorly configured and mismanaged environments, I would have applauded your efforts.  As it is, you&#8217;re deliberatly misleading the public.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-57023">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d3ad0f7abda0f8fbeb2fe91090a2f45?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kevin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57023">
+			October 10, 2007 at 4:58 pm</a>		</div>
+
+		<p>hey PDP, thanks for the article, pretty timely since I&#8217;m assessing a clients citrix install right now. I wasnt able to get any results from your enum.js script however, using the syntax &#8220;enum.js apps TCPBrowserAddress=x.x.x.x&#8221; and &#8220;enum.js apps HTTPBrowserAddress=x.x.x.&#8221; it seems like its not even trying to connect to the server (sniffing the connection yields 0 packets between my machine and the citrix gateway) do you have any insight on this? Also can you link the SDK pages you used? I can just write my own but its a bit difficult finding the docs on their site&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-57025">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57025">
+			October 10, 2007 at 5:08 pm</a>		</div>
+
+		<p>hi Kevin, you have to be quite familiar with CITRIX in order to make the JS script work. Playing with different options is the key. For example you may need to try to force the client to go over UDP, etc. I would recommend to use the perl script first, cuz it seams to work without too much of configuration. In case your CITRIX is communicating over IPX, NetBios or whatever you have there, use the JavaScript version and play around with the options.</p>
+<p>Instructions on how to program the client can be found from CITRIX&#8217;s website. I don&#8217;t remember the link.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-57026">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d3ad0f7abda0f8fbeb2fe91090a2f45?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kevin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57026">
+			October 10, 2007 at 5:13 pm</a>		</div>
+
+		<p>Ok thanks for the prompt reply. I think I&#8217;ve found the PDF that I need, I&#8217;ve tried the perl script, but that too seems to be having problems. In any case thanks for the files and the articles I&#8217;ll make it work one way or another :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-57027">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57027">
+			October 10, 2007 at 5:18 pm</a>		</div>
+
+		<p>cool, just post it here when you are done! ok? :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-57028">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d3ad0f7abda0f8fbeb2fe91090a2f45?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kevin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57028">
+			October 10, 2007 at 5:23 pm</a>		</div>
+
+		<p>If I get it working I will be happy to :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57057">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aef244150ddfcf98a9d0366e51fceb7b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.cug.co.nz/' rel='external nofollow' class='url'>CUG</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57057">
+			October 10, 2007 at 8:28 pm</a>		</div>
+
+		<p>Good write up but I must admit that these security issues are not a result of the Citrix products being insecure but rather the people implementing them being clueless. Exposing ICA to the internet (rather than using a reverse proxy like the secure or access gateway) should be a dismissible offence! You wouldn&#8217;t expose your SMB shares to the internet. Good write up but it shows there are a lot of clueless people out there calling themselves IT professionals.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-57065">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57065">
+			October 10, 2007 at 8:43 pm</a>		</div>
+
+		<p>CUG, absolutely&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57072">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c3c7f8243fb013a2ac9f2e96c50fe700?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">curious1</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57072">
+			October 10, 2007 at 9:39 pm</a>		</div>
+
+		<p>PDP&#8230;You&#8217;re correct with the weaknesses that you found on the internet, however, the ICA 3.0 protocol hasn&#8217;t been used by Citrix in more than 5 years and if you&#8217;re dumb enough to put you ICA presentation server on the web&#8230;you get what you deserve.  What about a setup using CAGs and RSA through a reverse proxy&#8230;do all your same assertions apply?  Let me know.  Either way, you have a valid point with what you found on google.  You should, however, clarify your applicable scenarios.</p>
+<p>Peace</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-57503">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57503">
+			October 12, 2007 at 9:41 am</a>		</div>
+
+		<p>Apparently CITRIX has removed the YouTube videos due to some copyright violation. This is strange and the same time not the right way to handle situations like this one.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-57669">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/97ac5d83e3f09ecbc247b807c97ea06f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rjhoward</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57669">
+			October 12, 2007 at 8:13 pm</a>		</div>
+
+		<p>Ok, you have my attention and the attention of everyone in my organization.  How can we tighten things up?  What is this lazy administrator doing to contribute to the issue and how can I improve?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-57869">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57869">
+			October 13, 2007 at 9:44 am</a>		</div>
+
+		<p>rjhoward, one word: gateways! make sure that you use nfuse or whatever else you want but just never, ever, expose 1494/UDP/TCP on the Internet. Segment as much as possible.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-58118">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c3dba1b9edb1e0281ab368435548376a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">stupidisasstupiddoes</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58118">
+			October 13, 2007 at 9:58 pm</a>		</div>
+
+		<p>Stupid is as stupid does.  You can lead a horse, but making it drink is another issue.  Secure Gateway and Access Gateway have been available for years.  If the Citrix admin is getting away with exposing a Presentation Server in the DMZ, then they deserve to be hacked.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-58520">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b32902f252bbe3a91594e88da1b57aa5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Alan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58520">
+			October 15, 2007 at 10:28 am</a>		</div>
+
+		<p>Hack is a hack. Doesn&#8217;t matter whether you find it sophisticated or not. If you can get to .mil sites with it, that&#8217;s obviously something critical.</p>
+<p>i didnt see the video btw, can someone fix the link:</p>
+<blockquote><p>This video is no longer available due to a copyright claim by Citrix Systems, Inc.</p></blockquote>
+<p>what copyright? :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-58521">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58521">
+			October 15, 2007 at 10:34 am</a>		</div>
+
+		<p>video links are updated&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-58525">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1c96a6ce5f5ad9a77fe908d7d50697b3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bbb</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58525">
+			October 15, 2007 at 10:58 am</a>		</div>
+
+		<p>How about &#8216;hacking&#8217; Windows Terminal services</p>
+<p><a href="http://search.yahoo.com/search?p=originurlextension:rdp" rel="nofollow">http://search.yahoo.com/search.....ension:rdp</a></p>
+<p><a href="http://www.google.com/search?q=ext:rdp" rel="nofollow">http://www.google.com/search?q=ext:rdp</a></p>
+<p>As mentioned above this isn&#8217;t a hack just someone who left the front door open for someone to easily walk through</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-58528">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58528">
+			October 15, 2007 at 11:02 am</a>		</div>
+
+		<p>Bbb, but it is still concerning isn&#8217;t it? which was the point of the post! right?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-58567">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1c96a6ce5f5ad9a77fe908d7d50697b3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bbb</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-58567">
+			October 15, 2007 at 4:06 pm</a>		</div>
+
+		<p>Absolutely very concerning, the fact that you can get Numb-Nut administrators. </p>
+<p>As I mentioned above&#8230;.</p>
+<p><a href="http://search.yahoo.com/search" rel="nofollow">http://search.yahoo.com/search</a>&#8230;..ension:rdp</p>
+<p><a href="http://www.google.com/search?q=ext:rdp" rel="nofollow">http://www.google.com/search?q=ext:rdp</a></p>
+<p>&#8230;..you get the same numb-nuts administrating plain old Terminal services as well as any other product.</p>
+<p>The first line of your article &#8216;The Internet is full of wide open CITRIX gateways&#8217; probably put the Sh$ts up many a CITRIX administrator because they implement true CITRIX gateways (that only open for the correct people). I hope people reading this article realise that this is not the way to implement CITRIX for remote access.</p>
+<p>I can&#8217;t believe the amount of people who don&#8217;t follow simple IT Security recommended practices. This is probably why your article should be entitled &#8216;Beware There are Numb-Nut Administrators everywhere!!&#8217; ;-)</p>
+<p>Bbb</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-62957">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/da646a488e9688b9607f5e30fe66f110?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Intrigued</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-62957">
+			October 30, 2007 at 1:56 am</a>		</div>
+
+		<p>I found it interesting that some of the servers have user names and domain names in the config files. After looking around I found that some of them give you a remote desktop without authentication with full access by using a user name and domain name (could be dead wrong and it just gives you the remote desktop anyways but none the less its still a blatant hole)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-63063">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63063">
+			October 30, 2007 at 8:21 am</a>		</div>
+
+		<p>Intrigued, absolutely!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-73277">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c019fcae5a1095e5d4264040c87ff251?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">newKid</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-73277">
+			November 19, 2007 at 4:30 am</a>		</div>
+
+		<p>I am not a hacker, just a college kid, studying networking, programming, security, the like. I am researching Citrix for a security paper. I clicked on some of these links, to see what would happen, as the read is seriously intriguing to me. Most of them you can&#8217;t actually get to. One came up but gave me an error and did not display. Please explain; are you telling me that by clicking the links that are returned in the search, that you are actually accessing information running on the server? There is no one on the other end that can see or be alerted of the fact that some remote user is actually getting in unauthenticated? I don&#8217;t understand. How does this actually work out?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122075">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0167f880df81b3301d51444696d8728c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ikkuhqhp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122075">
+			May 18, 2008 at 10:57 am</a>		</div>
+
+		<p>pdp, I was reading this post but found that the youtube link doesn&#8217;t work. Could you explain &#8220;escaping windows GUI&#8221; again please?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124051">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/57868e0b6789d0f3d11480b8fc9f0918?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.dll-download-system.com/' rel='external nofollow' class='url'>free dlls</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124051">
+			October 14, 2008 at 8:54 am</a>		</div>
+
+		<p>the video can&#8217;t be play , it says it may removed. Please check.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-129223">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/ff3cec9bb633b643f803f127ae170eb6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">john</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129223">
+			October 20, 2010 at 3:23 am</a>		</div>
+
+		<p>looking for mentors&#8230;i need to learn how to hack</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-129273">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129273">
+			November 13, 2010 at 2:47 am</a>		</div>
+
+		<p>it is not difficult to learn how to hack&#8230; use google&#8230; or sign up for a course :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="481"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="7aed635dc4" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/citrix-owning-the-legitimate-backdoor/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:04:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

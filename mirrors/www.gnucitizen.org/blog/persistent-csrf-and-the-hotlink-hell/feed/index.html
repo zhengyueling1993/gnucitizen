@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Persistent CSRF and The Hotlink Hell</title>
+	<atom:link href="http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: austin</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-128691</link>
+		<dc:creator>austin</dc:creator>
+		<pubDate>Mon, 02 Aug 2010 16:05:13 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-128691</guid>
+		<description>i had this problem, here is how i got around it: if the source refered to my site, and wasnt a part of the site i have set aside for media...dont allow it. another step is to get the headers from any image before putting it out (in php) if it redirects, block it. this way they cant redirect a valid image back to my server</description>
+		<content:encoded><![CDATA[<p>i had this problem, here is how i got around it: if the source refered to my site, and wasnt a part of the site i have set aside for media&#8230;dont allow it. another step is to get the headers from any image before putting it out (in php) if it redirects, block it. this way they cant redirect a valid image back to my server</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: About Hotlinking and CSRF</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-36764</link>
+		<dc:creator>About Hotlinking and CSRF</dc:creator>
+		<pubDate>Mon, 23 Jul 2007 23:24:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-36764</guid>
+		<description>[...] GNUCitizen posted a blog : Persistent CSRF and The Hotlink Hell. From GNUCitizen&#8217;s post It is not Googleâ€™s fault. I am not sure what exactly needs to be [...]</description>
+		<content:encoded><![CDATA[<p>[...] GNUCitizen posted a blog : Persistent CSRF and The Hotlink Hell. From GNUCitizen&#8217;s post It is not Googleâ€™s fault. I am not sure what exactly needs to be [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: About Hotlinking and CSRF : Ä°nternet ve YaÅŸam</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-15791</link>
+		<dc:creator>About Hotlinking and CSRF : Ä°nternet ve YaÅŸam</dc:creator>
+		<pubDate>Mon, 23 Apr 2007 19:16:59 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-15791</guid>
+		<description>[...] Today GNUCitizen posted a blog : Persistent CSRF and The Hotlink Hell. From GNUCitizen&#8217;s postIt is not Googleâ€™s fault. I am not sure what exactly needs to be done in order to fight against this type of attacks. [...]</description>
+		<content:encoded><![CDATA[<p>[...] Today GNUCitizen posted a blog : Persistent CSRF and The Hotlink Hell. From GNUCitizen&#8217;s postIt is not Googleâ€™s fault. I am not sure what exactly needs to be done in order to fight against this type of attacks. [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: rezn</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14841</link>
+		<dc:creator>rezn</dc:creator>
+		<pubDate>Wed, 18 Apr 2007 14:27:23 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14841</guid>
+		<description>Hi PDP.  This is an interesting topic that has been on my mind lately.  I agree with the other commenter that &#039;Persistent CSRF&#039; is a meaningless pharse.  We are arguing semantics here, but this is what I am thinking.
+
+An application is &#039;vulnerable&#039; to CSRF by just working in a browser.  This is simply a fact of life of the architecture of HTTP and browsers.  Cookies will be sent by the browser when it makes requests.  Period.  Maybe the browser tries to limit the requests it makes, but when it makes them, if it has cookies, they will be sent.  There is nothing an application can do to prevent this.
+
+An application may have serious CSRF vulnerabilities if it allows for any type of state change to happen without taking some kind of precautions - like including a nonce, captcha, or some other device designed to make sure that the legitamate user actually is the one initiating these requests.
+
+What you describe is a persistent vector for CSRF.  Just because I can send your browser to a URL, does not mean that the URL will do anything.   It is independent of the actual CSRF problem that will be exploited.  
+
+In persistent XSS, if you fix the problem by using proper input validation or output encoding, then you have fixed the problem.  With persistent CSRF (as you call it), both the vector (the image src that is under an attackers control) and the actual CSRF vuln (the request that gets submitted) need to be fixed independently.
+
+The interesting thing is that the commercial web application scanners have recently started looking for places where they can control the source of an image tag, and they call any such situation &quot;CSRF&quot;.  I disagree, for the reasons stated above.  It is simply a vector through which CSRF -may- be exploited.  By itself, however, it is not a CSRF vulnerability.  It is a &#039;force the user&#039;s browser to do a GET&#039; vulnerability.  They are not the same thing.</description>
+		<content:encoded><![CDATA[<p>Hi PDP.  This is an interesting topic that has been on my mind lately.  I agree with the other commenter that &#8216;Persistent CSRF&#8217; is a meaningless pharse.  We are arguing semantics here, but this is what I am thinking.</p>
+<p>An application is &#8216;vulnerable&#8217; to CSRF by just working in a browser.  This is simply a fact of life of the architecture of HTTP and browsers.  Cookies will be sent by the browser when it makes requests.  Period.  Maybe the browser tries to limit the requests it makes, but when it makes them, if it has cookies, they will be sent.  There is nothing an application can do to prevent this.</p>
+<p>An application may have serious CSRF vulnerabilities if it allows for any type of state change to happen without taking some kind of precautions &#8211; like including a nonce, captcha, or some other device designed to make sure that the legitamate user actually is the one initiating these requests.</p>
+<p>What you describe is a persistent vector for CSRF.  Just because I can send your browser to a URL, does not mean that the URL will do anything.   It is independent of the actual CSRF problem that will be exploited.  </p>
+<p>In persistent XSS, if you fix the problem by using proper input validation or output encoding, then you have fixed the problem.  With persistent CSRF (as you call it), both the vector (the image src that is under an attackers control) and the actual CSRF vuln (the request that gets submitted) need to be fixed independently.</p>
+<p>The interesting thing is that the commercial web application scanners have recently started looking for places where they can control the source of an image tag, and they call any such situation &#8220;CSRF&#8221;.  I disagree, for the reasons stated above.  It is simply a vector through which CSRF -may- be exploited.  By itself, however, it is not a CSRF vulnerability.  It is a &#8216;force the user&#8217;s browser to do a GET&#8217; vulnerability.  They are not the same thing.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14814</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 18 Apr 2007 08:25:21 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14814</guid>
+		<description>zeno,
+
+&lt;blockquote&gt;That does NOT mean that the server side is more vulnerable as you stated.&lt;/blockquote&gt;
+
+of course it is &lt;strong&gt;more&lt;/strong&gt; vulnerable. Think about it, the attacker does not need to social engineer the user every time the need to do something. The attack will happen on its own.
+
+Usually persistent XSS is rated as medium to high risk. The same thing should apply to persistent CSRF imho.</description>
+		<content:encoded><![CDATA[<p>zeno,</p>
+<blockquote><p>That does NOT mean that the server side is more vulnerable as you stated.</p></blockquote>
+<p>of course it is <strong>more</strong> vulnerable. Think about it, the attacker does not need to social engineer the user every time the need to do something. The attack will happen on its own.</p>
+<p>Usually persistent XSS is rated as medium to high risk. The same thing should apply to persistent CSRF imho.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: zeno</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14748</link>
+		<dc:creator>zeno</dc:creator>
+		<pubDate>Tue, 17 Apr 2007 16:42:31 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14748</guid>
+		<description>Yes the vector in which the attack is being embedded is persistent. That does NOT mean that the server side is more vulnerable as you stated.
+
+Quoting pdp
+
+&lt;blockquote&gt;If you think that many applications are vulnerable to non-persistent CSRF, there are even more vulnerable to the persistent kind.&lt;/blockquote&gt;
+
+again
+
+&lt;blockquote&gt;we find persistent XSS a lot more dangerous then non-persistent XSS. The same thing is applicable to CSRF. What is so confusing about it?&lt;/blockquote&gt;
+
+It simply means the attacker has a longer opportunity to launch the attack. This is NO different than if I embedded an img tag into a website. I&#039;m not taking advantage of a persistent CSRF vuln in the site, I&#039;m making the vector in which I launch the CSRF vuln persistent. One of the reasons I&#039;ve chimed in is that the statement is inaccurate.</description>
+		<content:encoded><![CDATA[<p>Yes the vector in which the attack is being embedded is persistent. That does NOT mean that the server side is more vulnerable as you stated.</p>
+<p>Quoting pdp</p>
+<blockquote><p>If you think that many applications are vulnerable to non-persistent CSRF, there are even more vulnerable to the persistent kind.</p></blockquote>
+<p>again</p>
+<blockquote><p>we find persistent XSS a lot more dangerous then non-persistent XSS. The same thing is applicable to CSRF. What is so confusing about it?</p></blockquote>
+<p>It simply means the attacker has a longer opportunity to launch the attack. This is NO different than if I embedded an img tag into a website. I&#8217;m not taking advantage of a persistent CSRF vuln in the site, I&#8217;m making the vector in which I launch the CSRF vuln persistent. One of the reasons I&#8217;ve chimed in is that the statement is inaccurate.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14742</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 17 Apr 2007 16:00:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14742</guid>
+		<description>zeno,
+
+I don&#039;t agree. There are a persistent and non-persistent CSRF vectors. What is persistency first of all? Isn&#039;t persistent XSS a vector that reoccurs every time a user arrives on a given web resource? The same is applicable to CSRF too.
+
+&lt;div class=&quot;message&quot;&gt;Persistent CSRF is a vector that reoccurs every time a user visits a resource.&lt;/div&gt;
+
+For example, the POC that I provided for Google Reader is persistent because every time the user visits the feed the exploit will be launched. IMHO, this is a persistent CSRF.</description>
+		<content:encoded><![CDATA[<p>zeno,</p>
+<p>I don&#8217;t agree. There are a persistent and non-persistent CSRF vectors. What is persistency first of all? Isn&#8217;t persistent XSS a vector that reoccurs every time a user arrives on a given web resource? The same is applicable to CSRF too.</p>
+<div class="message">Persistent CSRF is a vector that reoccurs every time a user visits a resource.</div>
+<p>For example, the POC that I provided for Google Reader is persistent because every time the user visits the feed the exploit will be launched. IMHO, this is a persistent CSRF.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: zeno</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14736</link>
+		<dc:creator>zeno</dc:creator>
+		<pubDate>Tue, 17 Apr 2007 15:22:46 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14736</guid>
+		<description>&lt;blockquote&gt;usually we make differentiations between persistent and non-persistent XSS. Usually, we find persistent XSS a lot more dangerous then non-persistent XSS. The same thing is applicable to CSRF. What is so confusing about it?&lt;/blockquote&gt;
+
+CSRF isn&#039;t persistent verses non persistent like you are stating. It is a server side logical flaw PERIOD. It is exploited/triggered by a client side request. 
+
+The way the request is embedded into the client may be via persistent/non persistent XSS, however it isn&#039;t persistent/non persistent CSRF.</description>
+		<content:encoded><![CDATA[<blockquote><p>usually we make differentiations between persistent and non-persistent XSS. Usually, we find persistent XSS a lot more dangerous then non-persistent XSS. The same thing is applicable to CSRF. What is so confusing about it?</p></blockquote>
+<p>CSRF isn&#8217;t persistent verses non persistent like you are stating. It is a server side logical flaw PERIOD. It is exploited/triggered by a client side request. </p>
+<p>The way the request is embedded into the client may be via persistent/non persistent XSS, however it isn&#8217;t persistent/non persistent CSRF.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14709</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 17 Apr 2007 08:56:34 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14709</guid>
+		<description>zeno, usually we make differentiations between persistent and non-persistent XSS. Usually, we find persistent XSS a lot more dangerous then non-persistent XSS. The same thing is applicable to CSRF. What is so confusing about it?
+
+Lucky, you are right but GET is easier to handle. For example, look how JSON and On-demand JavaScript operate:
+
+&lt;pre&gt;&lt;code&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;http://example.com?updateInfo.asp?name=John&amp;callback=myFunc&quot;&gt;&lt;/code&gt;&lt;/pre&gt;
+
+the script above will update the name to John and return the updated record. Expect to see more of these REST interfaces.
+
+Anonymous Coward, thanks
+
+santa claus, thanks</description>
+		<content:encoded><![CDATA[<p>zeno, usually we make differentiations between persistent and non-persistent XSS. Usually, we find persistent XSS a lot more dangerous then non-persistent XSS. The same thing is applicable to CSRF. What is so confusing about it?</p>
+<p>Lucky, you are right but GET is easier to handle. For example, look how JSON and On-demand JavaScript operate:</p>
+<pre><code>&lt;script type="text/javascript" src="http://example.com?updateInfo.asp?name=John&#038;callback=myFunc"&gt;</code></pre>
+<p>the script above will update the name to John and return the updated record. Expect to see more of these REST interfaces.</p>
+<p>Anonymous Coward, thanks</p>
+<p>santa claus, thanks</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: santa claus</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14698</link>
+		<dc:creator>santa claus</dc:creator>
+		<pubDate>Tue, 17 Apr 2007 07:41:33 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14698</guid>
+		<description>Great eye-opener! Fantastic Stuff!!</description>
+		<content:encoded><![CDATA[<p>Great eye-opener! Fantastic Stuff!!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Anonymous Coward</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14685</link>
+		<dc:creator>Anonymous Coward</dc:creator>
+		<pubDate>Tue, 17 Apr 2007 04:19:48 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14685</guid>
+		<description>Clever... and potentially very, very annoying.</description>
+		<content:encoded><![CDATA[<p>Clever&#8230; and potentially very, very annoying.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Loup-Vert</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14684</link>
+		<dc:creator>Loup-Vert</dc:creator>
+		<pubDate>Tue, 17 Apr 2007 04:01:53 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14684</guid>
+		<description>Trying to think of ways to protect against this on (using your example&#039;s nomenclature) bob.com.  I think this would be a way to protect against automated action, though it comes at cost of convenience to the user:  Remove single-click actions.  So, this page:
+
+&lt;pre&gt;&lt;code&gt;bob.com/action.php?logout&lt;/code&gt;&lt;/pre&gt;
+
+Would be replaced with this page:
+
+&lt;pre&gt;&lt;code&gt;bob.com/action.php?trylogout&lt;/code&gt;&lt;/pre&gt;
+
+Which dynamically creates a new link to actually logout:
+
+&lt;pre&gt;&lt;code&gt;bob.com/action.php?trylogout&amp;token=randomjunk&lt;/code&gt;&lt;/pre&gt;
+
+If there&#039;s no &lt;code&gt;token=randomjunk&lt;/code&gt;, trylogout flops.
+
+If I understand this attack correctly (I&#039;m fairly new at web application security), then the intermediary page prevents the attack.  Do you concur?</description>
+		<content:encoded><![CDATA[<p>Trying to think of ways to protect against this on (using your example&#8217;s nomenclature) bob.com.  I think this would be a way to protect against automated action, though it comes at cost of convenience to the user:  Remove single-click actions.  So, this page:</p>
+<pre><code>bob.com/action.php?logout</code></pre>
+<p>Would be replaced with this page:</p>
+<pre><code>bob.com/action.php?trylogout</code></pre>
+<p>Which dynamically creates a new link to actually logout:</p>
+<pre><code>bob.com/action.php?trylogout&amp;token=randomjunk</code></pre>
+<p>If there&#8217;s no <code>token=randomjunk</code>, trylogout flops.</p>
+<p>If I understand this attack correctly (I&#8217;m fairly new at web application security), then the intermediary page prevents the attack.  Do you concur?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Lucky</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14662</link>
+		<dc:creator>Lucky</dc:creator>
+		<pubDate>Mon, 16 Apr 2007 22:15:13 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14662</guid>
+		<description>Long ago there were those who advocated that any web resource that TOOK AN ACTION should be activated by a POST, not a GET. I think this was one of the reasons. GETs should only display plain text, or the results of a query, but only POSTs can make changes.
+
+Not that it would be bulletproof, but it makes the attackers work a little harder.</description>
+		<content:encoded><![CDATA[<p>Long ago there were those who advocated that any web resource that TOOK AN ACTION should be activated by a POST, not a GET. I think this was one of the reasons. GETs should only display plain text, or the results of a query, but only POSTs can make changes.</p>
+<p>Not that it would be bulletproof, but it makes the attackers work a little harder.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Delixe</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14647</link>
+		<dc:creator>Delixe</dc:creator>
+		<pubDate>Mon, 16 Apr 2007 18:53:33 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14647</guid>
+		<description>Seems fairly simple to fix for most CSRF. Just include a session variable in the GET/POST request and you won&#039;t be able to use CSRF attacks.</description>
+		<content:encoded><![CDATA[<p>Seems fairly simple to fix for most CSRF. Just include a session variable in the GET/POST request and you won&#8217;t be able to use CSRF attacks.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: zeno</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14639</link>
+		<dc:creator>zeno</dc:creator>
+		<pubDate>Mon, 16 Apr 2007 16:57:05 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14639</guid>
+		<description>&lt;blockquote&gt;If you think that many applications are vulnerable to non-persistent CSRF, there are even more vulnerable to the persistent kind. - PDP&lt;/blockquote&gt;
+
+I think you are confused in this sentence. An application vulnerable to CSRF is vulnerable regardless of the vector. The way in which the request is triggered to the vulnerable application has nothing to do being more or less vulnerable for persistent or non persistent.
+
+Regarding the RSS vector this was also discussed in my blackhat talk and whitepaper as a great CSRF vector. 
+
+Paper: http://www.cgisecurity.com/papers/HackingFeeds.pdf
+Blackhat Slides: http://www.cgisecurity.com/papers/RSS-Security.ppt</description>
+		<content:encoded><![CDATA[<blockquote><p>If you think that many applications are vulnerable to non-persistent CSRF, there are even more vulnerable to the persistent kind. &#8211; PDP</p></blockquote>
+<p>I think you are confused in this sentence. An application vulnerable to CSRF is vulnerable regardless of the vector. The way in which the request is triggered to the vulnerable application has nothing to do being more or less vulnerable for persistent or non persistent.</p>
+<p>Regarding the RSS vector this was also discussed in my blackhat talk and whitepaper as a great CSRF vector. </p>
+<p>Paper: <a href="http://www.cgisecurity.com/papers/HackingFeeds.pdf" rel="nofollow">http://www.cgisecurity.com/papers/HackingFeeds.pdf</a><br />
+Blackhat Slides: <a href="http://www.cgisecurity.com/papers/RSS-Security.ppt" rel="nofollow">http://www.cgisecurity.com/papers/RSS-Security.ppt</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14635</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Mon, 16 Apr 2007 16:11:11 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14635</guid>
+		<description>CSRF in hotlinks is nothing new indeed, but we are changing the entire idea slightly so it fits to what is applicable today</description>
+		<content:encoded><![CDATA[<p>CSRF in hotlinks is nothing new indeed, but we are changing the entire idea slightly so it fits to what is applicable today</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: christ1an</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14633</link>
+		<dc:creator>christ1an</dc:creator>
+		<pubDate>Mon, 16 Apr 2007 16:00:27 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14633</guid>
+		<description>Nothing new of course but interesting though. Belongs to those things people tend to forget about.</description>
+		<content:encoded><![CDATA[<p>Nothing new of course but interesting though. Belongs to those things people tend to forget about.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14628</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Mon, 16 Apr 2007 15:38:37 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14628</guid>
+		<description>Wladimir, yes you are right. That will most definitely hide the referrer.</description>
+		<content:encoded><![CDATA[<p>Wladimir, yes you are right. That will most definitely hide the referrer.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Wladimir Palant</title>
+		<link>http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell/comment-page-1/#comment-14626</link>
+		<dc:creator>Wladimir Palant</dc:creator>
+		<pubDate>Mon, 16 Apr 2007 15:27:13 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/persistent-csrf-and-the-hotlink-hell#comment-14626</guid>
+		<description>Nice idea! There is also a nice side-effect that you didn&#039;t mention. Conventional CSRF will leave traces in the logs because it will send Referer headers showing to the site the attack originated from. But if somebody is hotlinking to you and you make an HTTP redirect the Referer header will only show the site that contains the image, not the actual attacker. There are a few forums that annoy me by hotlinking to my images, maybe I should start being evil ;)</description>
+		<content:encoded><![CDATA[<p>Nice idea! There is also a nice side-effect that you didn&#8217;t mention. Conventional CSRF will leave traces in the logs because it will send Referer headers showing to the site the attack originated from. But if somebody is hotlinking to you and you make an HTTP redirect the Referer header will only show the site that contains the image, not the actual attacker. There are a few forums that annoy me by hotlinking to my images, maybe I should start being evil ;)</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

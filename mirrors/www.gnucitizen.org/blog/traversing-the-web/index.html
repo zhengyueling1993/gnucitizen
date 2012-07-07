@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/traversing-the-web/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:22:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Traversing the Web</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Traversing the Web Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Maluc on JavaScript Worms' href='../maluc-on-javascript-worms/index.html' />
+<link rel='next' title='AttackAPI 0.8 is OUT' href='../attackapi-08-is-out/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index648c.html?p=85' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-85" class="post">
+	<div class="post-title"><h2><span>Traversing the Web</span></h2></div>
+	<div class="post-date"><span>published:</span> October 10th, 2006</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Every modern browser implements a security sandbox also known as the Same Origin Policy. This sandbox restricts dynamic resources to access others that are from a different context (origin). As such, JavaScript code that is located at <code>http://www.gnucitizen.org</code> can access only resources that match the same protocol (<code>http</code>), the same domain (<code>gnucitizen.org</code>) and the same port (<code>80</code>). On the other hand <code>ftp://ftp.gnucitizen.org</code>, <code>http://www.gnucitizen.org</code> and <code>http://www.gnucitizen.org:81</code> are not accessible.</p>
+
+<p>Although quite clever, the same origin policy can be bypassed in a number of ways. AJAX developers are already familiar with most of them. The range of techniques includes dynamic SCRIPT elements, dynamic IFRAME elements and request proxies.</p>
+
+<p>In this article I am going to take the concept of request proxies further by showing how attackers can use them to write JavaScript code that can bypass the same origin restriction (<strong>in a way</strong>).</p>
+
+<p>Request proxies are nothing but simple applications that take the request from the browser and transmit it to another location. The reason for this maneuver is obvious. For example, if the current application is located at <code>http://www.example.com</code> and it requires data from <code>http://api.datastore.com</code> the call needs to be initiated from the server since the client lacks particular set of functionalities. It is not that JavaScript cannot make HTTP requests (<code>XMLHttpRequest</code> object) to <code>http://api.datastore.com</code>, it is that the security settings of the browser do not to allow it unless the same origin check is successfully passed.</p>
+
+<p>The workaround in that case is quite simple. Instead of directly accessing <code>http://api.datastore.com</code>, the current application can use an instance of <code>XMLHttpRequest</code> object to access <code>http://www.example.com/proxy.php</code> which will make the request to <code>http://api.datastore.com</code> on behalf of <code>http://www.example.com</code>. You see, PHP is not restricted and scripts are in the same origin.</p>
+
+<blockquote>This is a problematic solution if you think about it. AJAX gained popularity mainly because it is lighter than the traditional GET/RENDER cycle still used by many web applications today. Request proxies take the entire load and eat server resources. As such, they are not very AJAX like. That is the reason why many developers switch to JSON with dynamic SCRIPT elements.</blockquote>
+
+<p>How does this affect the security? Surely attackers may need to perform cross-requests in certain situations; exploiting XSS or SQL Injection vulnerability on a different domain, or spidering for targets. They can easily set a proxy request handler with a few lines in PHP and start exploiting. However, as soon as their malicious activities are spotted, their account will be terminated. That is definitely not a long term solution. Moreover, in case a JavaScript worm is about to be realized, relying on private request proxies is just not efficient since the malicious location can be blocked by IP and domain restrictions.</p>
+
+<p>The solution is to use public proxies, especially the ones that are very important; Google Translate for example. Blocking Google Translate or Google is not nice. Imagine how many users will be unhappy when they are not able to access their GMail because a worm is spreading. Google will object as well. Vendors need to find other patterns in the worm structure to write a generic blocking filter. You get the point.</p>
+
+<p>Public proxies are harder to use. The reason for this is because they have never been designed for AJAX development. They are bulky, sometimes slow and the attacker needs to find a way of abusing their functionalities still complying with the Same Origin Restrictions. The second part of this article discusses the solution I came up with when playing with <a href="http://translate.google.com/">Google Translate</a> and <a href="http://www.proxydrop.com/">Proxydrop</a>.</p>
+
+<p>Abusing public proxies is a matter of designing a communication protocol, putting some nested IFRAMEs and a timer. In the example below I make heavy use of fragment identifies (#) as well.</p>
+
+<p>In the first stage, the attacker creates a hidden IFRAME that points to the public proxy URL which is set to proxy <code>document.location</code> with added fragment identifier. For example, if the current location is <code>http://www.example.com/infected.html</code>, the following IFRAME will be created:</p>
+
+<pre><code>&lt;iframe src='http://proxy.com?url=http%3A%2F%2Fwww.example.com%2Finfected.html%23stage1'&gt;&lt;/iframe&gt;</code></pre>
+
+<p>where <code>http%3A%2F%2Fwww.example.com%2Finfected.html%23stage1</code> URL encoded is <code>http://www.example.com/infected.html#stage1</code> in plain text</p>
+
+<p>The fragment identifier <code>#stage1</code> denotes that when the current location is loaded from the proxy, <code>#stage1</code> will take place instead of the normal document flow. This is achieved by performing a check in the document body similar to the following:</p>
+
+<pre><code>if (document.location.hash == '#stage1') {
+...
+do stage1
+...
+} else {
+...
+do default
+...
+}</code></pre>
+
+<p>In simple words <code>#stage1</code> will execute under <code>http://proxy.com</code> domain. This stage is designed to unify or bypass the domain restrictions. At <code>#stage1</code> another IFRAME is created that points to the location which the attacker is interested in. In case the attacker is interested in spidering Google the following IFRAME will be created:</p>
+
+<pre><code>&lt;iframe src="http://proxy.com?url=http%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Dquery"&gt;&lt;/iframe&gt;</code></pre>
+
+<p>where <code>http%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Dquery</code> URL encoded is h<code>ttp://www.google.com/search?q=query</code> plain text</p>
+
+<p>This IFRAME is also loaded in the <code>http://proxy.com</code> domain. This means that <code>#stage1</code> has access to this IFRAME document (the same origin check is bypassed) and can read all the information that is inside.</p>
+
+<p>The next step is to collect the desired information and Base64 encode it. The attacker can encode the entire document if they like. The hardest part is to transmit that Base64 encoded value back to the location where the attack was launched from.</p>
+
+<p>Child IFRAMEs have no access to parent documents. Still, there is a workaround that can be used. What the <code>#stage1</code> document needs to do is to set the fragment identifier of the parent page with the desired data. Child IFRAMES cannot access <code>parent.location</code> but they can easily alter the hash member variable of the location object.  This can be achieved in the following way:</p>
+
+<pre><code>parent.location.hash = '#data:' + base64encoded_content;</code></pre>
+
+<p>Upon execution the parent document location will expand with a new fragment identifier. It must be noted that this will not cause a refresh. Now the collected data is in the current page fragment identifier and it can be read by accessing:</p>
+
+<pre><code>document.location.hash</code></pre>
+
+<p>There is no way to hook a function on <code>document.location.hash</code> change so a timer needs to be set that will check for <code>#data</code> fragment identifier every defined period of time. As soon as a change in the fragment identifier is spotted the data will be read, decoded and used.</p>
+
+<p>This is how attackers can abuse public proxies and write viruses and worms on their backbone. The larger and more important the proxy is the higher the chances for success are.</p>
+
+<p>The example provided above is not generic. In fact it is a bit bulky and can be definitely improved. The reason why I used this technique is because there is a proof of concept tool that makes use of it. The tool is called JavaScript SPIDER and it can be found <a href="../javascript-spider/index.html">here</a>.</p>
+
+<p>Abusing public proxies is only one of the many techniques that can be implemented in the personal toolbox of every client-side hacker. This subject can be definitely expanded with more examples and techniques but I will leave that for some other time.</p>
+
+<p><em>If you have any ideas of how to improve this technique or how to prevent it from happening, don&#8217;t hesitate to leave a comment.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-230">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bc99640b554acac6fb6b03be8ff047b1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.msblabs.org/' rel='external nofollow' class='url'>Acidus</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-230">
+			October 10, 2006 at 7:22 pm</a>		</div>
+
+		<p>There are some really cool attacks you can do with Ajax Bridges/proxies/gateways. Most of the time it makes more sense for an attacker to use the bridge on <a href="http://www.example.com/" rel="nofollow">http://www.example.com</a> to attack api.datastore.com than to directly attack api.datastore.com</p>
+<p>Check out slides 37 &#8211; 45 (ignore the slanting)</p>
+<p><a href="http://www.spidynamics.com/spilabs/education/presentations/BillyHoffman-Ajax(in)security.pdf" rel="nofollow">http://www.spidynamics.com/spi.....curity.pdf</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-246">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/803e289068dc08d5b34ae47778e67bb6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">maluc</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-246">
+			October 12, 2006 at 3:01 pm</a>		</div>
+
+		<p>Wow, the author of stripe snoop..? That code helped me more than you could know, so.. thanks ^^</p>
+<p>-maluc</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-20054">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8e71e197b04669e0f5712f520528d7a7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Gar</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-20054">
+			May 7, 2007 at 2:20 am</a>		</div>
+
+		<p>I&#8217;m probably very naive, but I just wish that browser implementors got rid of cookies in iframes. The only sensible use would be doubleclick and urchin anyway.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="85"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="2bcd0f2c3e" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/traversing-the-web/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:22:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

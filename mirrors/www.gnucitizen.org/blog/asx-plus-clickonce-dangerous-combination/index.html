@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/asx-plus-clickonce-dangerous-combination/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:08 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; ASX plus ClickOnce: Dangerous Combination</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; ASX plus ClickOnce: Dangerous Combination Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Content-Disposition Hacking' href='../content-disposition-hacking/index.html' />
+<link rel='next' title='Web Mayhem: Firefox&#8217;s JAR: Protocol issues' href='../web-mayhem-firefoxs-jar-protocol-issues/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index46de.html?p=551' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-551" class="post">
+	<div class="post-title"><h2><span>ASX plus ClickOnce: Dangerous Combination</span></h2></div>
+	<div class="post-date"><span>published:</span> November 5th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Over the last couple of days there was a surge of stories related to the recent drive-by-download malware attacks against Macs and PCs. The attacks are nothing more but social engineering attempts which try to trick the victim into installing the malicious program on the victims&#8217; machines. This approach is very simple but, as you can see, quite effective. In this post I would like to draw your attention on a variation of these types of attacks which work for Windows environments with Microsoft Media Player 9 or earlier and .NET 2 or later installed.</p>
+
+<p>Do you remember back in the days when attackers were spreading malware as part of fake Windows IE patches attached to simple emails? These attacks were very successful and they have evolved since then. Today, you are more likely to see them as part of sites which offer you free games, free software, or ask you to upgrade to the latest version of a particular product. Sometimes, they ask you to enhance your default video player with some additional plugins, as it is the case with the recent Mac attacks. If you don&#8217;t do that, then you cannot see the video. It is a simple as that.</p>
+
+<p>Video formats are very powerful tools in the hands of not that skilled but dedicated attackers. Simply put, people like watching videos. I&#8217;ve talked about video format attacks before (QTL, MOV, MPGs, etc, etc, etc) and in particular covered the <a href="../backdooring-windows-media-files/index.html">ASX file format</a> and the dangerous applications it can be used for. Having my previous posts in mind, I would like to quickly draw your attention on how attackers can combine ASX files with something like .NET ClickOnce and come up with a very believable attack which will work. But first, let&#8217;s see what ClickOnce is. From <a href="http://en.wikipedia.org/wiki/ClickOnce">Wikipedia</a>:</p>
+
+<blockquote>ClickOnce is a Microsoft technology for deploying Windows Forms or Windows Presentation Foundation-based software, also called Smart clients. ClickOnce is only available in .NET 2.0 and later. A less advanced technique can be obtained with the Microsoft Updater Application Block. It is similar to Java Web Start for the Java Platform.</blockquote>
+
+<p>I guess most of you already know where I am going with this post. I mentioned before that the ASX file format allows you to embed HTML pages within the video. These pages are known as <code>HTMLView</code>. When the victim opens the ASX file, Microsoft Windows Media Player will download the <code>HTMLView</code> page and load it within the player&#8217;s chrome. At that point the victim will be presented with a screen which informs that there was a problem with previewing the video and they must allow Media Player to go and look for the plugin that is required. When the victim approves the action, a Microsoft ClickOnce application is launched. Due to the fact that these applications have very Microsoft-ish installation window and require only one action to get installed, the victim will be tricked into allowing the setup to continue. After all, Windows does prompt you very often when you want to install unsigned drivers or simply allow application to get off your personal Firewall. So, users are used to these kind of messages.</p>
+
+<p>Once the application is installed the attacker will have the desired access on that system. There are some additional steps that needs to be performed in order to make the attack as smooth as possible but I will keep these private for now. Nevertheless, you should be able to get the point. Check out the <a href="../../static/blog/2007/11/clickonce-poc.wmv">POC</a> which provides you with a very basic idea of how the attack works. The POC is very rough, I must say, but it is enough to illustrate the problem in its most basic form.</p>
+
+<p><em>This type of attacks are by far the simplest. They simply do not require any sort of technical expertise. Nevertheless, you should not take them lightly. Simple things like this do work and it is part of GNUCITIZEN ideology to start open discussion on their potential impact. Just keep them in mind next time.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Launch:</span> <a href="../../static/blog/2007/11/clickonce-poc.wmv">clickonce-poc.asx</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-65443">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e0f595cbc8f1811233adce10ac6c5d3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.awesomeandrew.net/' rel='external nofollow' class='url'>Awesome AnDrEw</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-65443">
+			November 5, 2007 at 5:45 pm</a>		</div>
+
+		<p>The POC points to a nonexistent file, but I understand what you&#8217;re going for. I always enjoy the way people seem to figure out how to integrate these types of issues to totally mislead others into accepting potentially harmful files.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-66103">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/002eefa2175786221e0011b78be465dd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://nonejustdontcare/' rel='external nofollow' class='url'>is there a fix?</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66103">
+			November 6, 2007 at 4:19 pm</a>		</div>
+
+		<p>Could you get a list of systems/trails/paths that are effected or changed.To my honest opinion the least knowledgeable should get free help and improvement suggestions respectable.Let&#8217;s not forget not all of 50%er&#8217;s brainpower got that HIGH!My alzheimers has me forgetting much and not knowing what I learned at early stages let just call it a curse and the tragedy of it is you know its coming.Does it speed up or all at once.Wow I wondered off again. hee! hee! </p>
+<p>I removed my WMplayer classic and the yoshidi codecs.Restored back to &#8220;WmPlayer.10&#8243;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-104811">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/21bca55e31165e145d027285eed1202b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">swarup</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-104811">
+			January 28, 2008 at 5:40 pm</a>		</div>
+
+		<p>Thanks PDP for this article. My system can be exploited if I use WM player to open the poc.asx file. What if I use Winamp or some other media palyer to open this file? does it have same amount of risk.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-104832">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-104832">
+			January 28, 2008 at 6:49 pm</a>		</div>
+
+		<p>swarup, if you are using a different player then you might be protected but don&#8217;t take my words for granted since I haven&#8217;t investigated that yet. Though, the feature that I used in this post is mostly Windows Media Player related.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="551"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="a766bd8372" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/asx-plus-clickonce-dangerous-combination/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

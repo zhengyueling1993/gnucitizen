@@ -1,0 +1,756 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/backdooring-quicktime-movies/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Backdooring QuickTime Movies</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Backdooring QuickTime Movies Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Backdooring Flash Objects (the receipt)' href='../backdooring-flash-objects-receipt/index.html' />
+<link rel='next' title='Cross Context Scripting with Sage' href='../cross-context-scripting-with-sage/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index7665.html?p=65' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-65" class="post">
+	<div class="post-title"><h2><span>Backdooring QuickTime Movies</span></h2></div>
+	<div class="post-date"><span>published:</span> September 5th, 2006</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>XSS attacks are nothing new, but an evil mind can find ways to use them to bypass border firewalls and highly expensive intrusion prevention systems in order to attack your organization from inside. This post outlines an example of how to use QuickTime Movie files to trick the user into executing malicious JavaScript code. The technique presented here does not rely on a vulnerability bur rather on an insecure feature present in QuickTime player from version 3 up to the latest version 7.</p>
+
+<p>This technique makes use of one of the very well know features in QuickTime called Text Tracks. Movie files are usually constructed of video and audio tracks. They provide the auditory and visual characteristics of the movie. On the top of them Text Tracks are responsible for subtitles, lyrics and other very interesting and highly productive accessibility features.</p>
+
+<p>One layer bellow, Text Tracks can be of different types. There are many of them but the ones that are the most interesting are called <code>HREF Tracks</code>. <code>HREF</code> Tracks contain links that will be opened automatically or when the user clicks on the movie frame. These links can point to URLs from the <code>FTP/HTTP/HTTPS</code> space and also other supported protocols such as the JavaScript protocol (javascript:). Effectively, this feature can be used by attackers to hide malicious code inside a <code>.mov</code> file which will be executed automatically on preview.</p>
+
+<p>HREF Tracks can be created with QuickTime Pro and probably other .mov editors and publishers. I wasn&#8217;t able to find any command line tools although while researching, several good opensource QuickTime editing libraries were encountered. The following post examines the process of creating a backdoored .mov file with QuickTime Pro.</p>
+
+<p>The first stage is to create a Text Track. Text Tracks are simple .txt files that contain special syntax. For the purpose of this proof of concept I composed the following track named (backdoor.txt).</p>
+
+<pre><code>A&lt;javascript:alert("hello from backdoor")&gt; T&lt;&gt;</code></pre>
+
+<p>Obviously the code above will display an alert box. The prefix A defines that the action will be automatic &#8211; no user interaction is required. There is also T flag, which specifies the target for the action. In this case it is kept null.</p>
+
+<p>The next stage is to open both <code>backdoor.txt</code> and the movie that will be backdoored with QuickTime Pro. I chose <a href="../../static/blog/2006/09/sample.mov">Sample.mov</a>. This is standard movie file that is supplied with every default QuickTime installation.</p>
+
+<p>Once opened, select the tack file and click on Edit -&gt; Select All. This will select the entire track. Than you need to copy it by going to Edit -&gt; Copy.</p>
+
+<div class="screen"><img src="../../static/blog/2006/09/backdoortxtmov.jpg" alt="Backdoor TXT MOV" title="Backdoor TXT MOV" width="368" height="182" class="alignnone size-full wp-image-2157" /></div>
+
+<p>The next stage is obviously pasting. Select Sample.mov and click on Edit -&gt; Select All and than Edit -&gt; Add to Selection and Scale. After performing this action you will see that part of Sample.mov frame is covered in black with text inside. This is the Text Track.</p>
+
+<div class="screen"><img src="../../static/blog/2006/09/sampletxtmov.jpg" alt="Sample TXT MOV" title="Sample TXT MOV" width="368" height="367" class="alignnone size-full wp-image-2158" /></div>
+
+<p>Once the Text Track is there, it has to be converted to HREF Track. Select Sample.mov window and click on Window -&gt; Show Movie Properties. In the Movie Properties dialog select <q>Text Track</q> and untick the check box next to the label. The last stage is to change the name of <q>Text Track</q> to <q>HREFTrack</q>. Figure this out yourself :).</p>
+
+<div class="screen"><img src="../../static/blog/2006/09/hreftrack.jpg" alt="Hreftrack" title="Hreftrack" width="620" height="596" class="alignnone size-full wp-image-2159" /></div>
+
+<p>When all this is done, Save as <a href="../../static/blog/2006/09/sample.mov">Sample.mov</a> to <a href="../../static/blog/2006/09/sample-backdoored.mov">Sample-backdoored.mov</a> or whatever you feel comfortable with.</p>
+
+<p><em>The produced file will popup an alert box when opened in the browser window. There is no need to discuss again why this is dangerous and in what ways it can be used to bring havoc and destruction. The important bit is to never trust anything from the web. Movie trailers should not be previewed unless they come from apple.com. Don&#8217;t open audio files or anything that ends with .mov. This is my advice for now :).</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2006/09/sample.mov">sample.mov</a>, <a href="../../static/blog/2006/09/sample-backdoored.mov">sample-backdoored.mov</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-44">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c34e06c4b96ab0fbcf661527205ec988?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ikwt.com/' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44">
+			September 6, 2006 at 7:31 pm</a>		</div>
+
+		<p>Good job pdp! I like the concept of XSS through the backdooring of media files. Everyone likes media files, so it&#8217;s an ideal way to exploit both human and technical weaknesses.</p>
+<p>Imagine downloading Michael&#8217;s Jackson Thriller video clip which exploits your router&#8217;s web interface in order to expose internal hosts to the Internet :D</p>
+<p>Nice one!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-47">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/496d41d99736af7cc2104508c00ee715?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Alberto</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-47">
+			September 7, 2006 at 12:58 pm</a>		</div>
+
+		<p>I&#8217;m probably posting a real newbie question, but I&#8217;ve opened both files you provided with QuickTime Alternative codecs (with VLC and Media Player Classic) and I can&#8217;t see any difference or pop-up. It is just silently failing but still vulnerable or this codec (Quicktime 7.0.4) is safer to use?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-51">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-51">
+			September 7, 2006 at 5:01 pm</a>		</div>
+
+		<p>The example backdoor will work only if the movie file is embedded inside a page or previewed inside the browser. </p>
+<p>However, it is possible to make a movie that is previewed inside a standalone QuickTime player to open a remote page which in tern can contain malicious code. Of course this is not very stealthy but can be successfully used to attack the browser at a very low level.</p>
+<p>I haven’t tested opening URLs with VLC and Media Player Classic. However, if both players support HREFTracks, than they are affected by this issue.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-52">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3e0298a2854e87166f6ddcee1fe4e005?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://chasenet.org/' rel='external nofollow' class='url'>nrg</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-52">
+			September 7, 2006 at 5:08 pm</a>		</div>
+
+		<p>@Alberto You have to open in a program that can interpret javascript. Like a web browser. just click in the video link to see it in your browser.</p>
+<p>&#8211;<br />
+@pdp once again good job mate</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-60">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8986e36a2447878a0a02bb6d95d34f75?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://lolage.kmaid.de/' rel='external nofollow' class='url'>lolage</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60">
+			September 9, 2006 at 4:37 pm</a>		</div>
+
+		<p>&#8220;if both players support HREFTracks, than they are affected by this issue.&#8221; &#8211; Now you&#8217;re assuming my friend. Although nice find, great work.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-61">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61">
+			September 9, 2006 at 5:43 pm</a>		</div>
+
+		<p>I wish I have more time to play with that. But, yeh&#8230; well said.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-138">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/72b4146dbe097766f0927a20dae4a2dc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Chris</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-138">
+			September 23, 2006 at 4:03 pm</a>		</div>
+
+		<p>Isn&#8217;t this already widely used on Gnutella? There is a lot of .mov spam, usually pr0n but also for other sites, which will open certain links in a browser window. I don&#8217;t think these use JavaScript though.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-139">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-139">
+			September 23, 2006 at 4:52 pm</a>		</div>
+
+		<p>Chris,</p>
+<p>you might be right. I am not sure. Several readers verified that some video formats are able to open links in the browser. It will be good if someone verifies all that.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-316">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4fae41220c16f84caeeb402fb242f432?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.xorak.com/' rel='external nofollow' class='url'>smetten</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-316">
+			October 24, 2006 at 9:10 pm</a>		</div>
+
+		<p>Hi all,</p>
+<p>This seems to be very interesting information. I&#8217;ll be having a good look at this, might come in handy some time.</p>
+<p>Greetz</p>
+<p>Smetten</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-395">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/19432a7e08878a8eac210f9c827dcb2b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">...</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-395">
+			October 30, 2006 at 6:08 pm</a>		</div>
+
+		<p>jesus, you made me spend like 10 minutes looking for a way to rename the text track to HREFtrack :)<br />
+anyone else who wants to do this, just single click on the text track name and you can edit it</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-675">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/53261b12b1efb53d6906c238344a69e7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Loucas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-675">
+			November 16, 2006 at 6:10 pm</a>		</div>
+
+		<p>Hi thanks for the example. I would like to know if is possible to create the popup alter when the movie is previewed inside a standalone QuickTime player.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-680">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-680">
+			November 17, 2006 at 2:29 am</a>		</div>
+
+		<p>IMHO I don&#8217;t think it is possible. What ever you do, it will be opened in a browser window. However, don&#8217;t take my word for granted.</p>
+<p>Have you seen any .mov files that open pop-up boxes rather than full browser windows? If yes, it will be easy to decompose that and see what is going on.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-936">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6d02dabfa3913cd68dc8acd4594e4859?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://blog.mistersquid.com/' rel='external nofollow' class='url'>mistersquid</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-936">
+			December 5, 2006 at 12:40 am</a>		</div>
+
+		<p>I&#8217;ve loaded the Sample_backdoored.mov in my web browser (Safari 2.0.4) with OS X 10.4.8 (Security Update 2006-07) and I&#8217;m not getting any pop-ups.</p>
+<p>I&#8217;m running QuickTime 7.1.3 but not QuickTime Pro.</p>
+<p>This proof-of-concept seems to be a non-starter.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-937">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-937">
+			December 5, 2006 at 2:05 am</a>		</div>
+
+		<p>Hello mistersqui, unfortunately I am not running MacOS. However, here from my side it works. If somebody is willing to investigate on that matter, please you are more than welcome.</p>
+<p>I don&#8217;t think that Apple has fixed this issue and I am not sure if they will because the exploit presented in this article depends on a feature rather than a bug. Many thanks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-961">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7049b1d7ce3809a9705271cfb0727890?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ohemia</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-961">
+			December 5, 2006 at 4:24 pm</a>		</div>
+
+		<p>I agree with mistersquid &#8211; no popup here on MacOS X. Doesn&#8217;t seem to work at all on the Mac.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-962">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8b099ac895b300eaac27157e5962e76f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jeffbart</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-962">
+			December 5, 2006 at 4:26 pm</a>		</div>
+
+		<p>Not getting popup either. Also running Safari 2.0.4. Not installed latest security updates. 0S X 10.4.8.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-963">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0c69a88addcf1c84c39a619eca83ca32?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Anton</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-963">
+			December 5, 2006 at 4:54 pm</a>		</div>
+
+		<p>The demonstration works in FireFox 2.0 on Mac OS X 10.4.8. It does not work with Safari.</p>
+<p>I&#8217;m not sure why. Apple&#8217;s QT documentation claims only that JavaScript functions defined on the same web page as the movie can be invoked, so perhaps Safari is adhering more strictly to this specification.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-979">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c5d9ffc8c870120901be4f20e228ddb5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">BdcstTek</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-979">
+			December 6, 2006 at 1:05 am</a>		</div>
+
+		<p>Mac OSX, Version 10.4.6, without the latest security update&#8230;(probably without a few)</p>
+<p>Safari v 2.0.3 is not affected: no popup window</p>
+<p>Firefox v 1.5.08 IS affected, and Backdoor did indeed say hi.</p>
+<p>Which goes along with the way Safari seems to &#8220;Think Different&#8221; with JS a bit too much.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-980">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-980">
+			December 6, 2006 at 2:18 am</a>		</div>
+
+		<p>I guess it is all clear now. Safari complies with Apple&#8217;s specifications while Firefox and IE don&#8217;t. There must be something wrong with QuickTime browser integration.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1026">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7806629160a492b05d21fd738953a4cf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://adblockplus.org/' rel='external nofollow' class='url'>Wladimir Palant</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1026">
+			December 7, 2006 at 7:20 pm</a>		</div>
+
+		<p>What I fail to see here is the XSS part of it. It is bad of course that a movie can load web content through the browser (why did they chose to do this instead of connecting directly from the plugin???) but any JavaScript is still executed in the context of the web page. This means that it will only be able to do something the web page itself can do, so that anybody able to put a movie into a web page could do the same by directly putting the necessary JavaScript code into it. Unless of course it is used somewhere where JavaScript is filtered out but movies are allowed &#8211; is it what happened on MySpace?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-1049">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1049">
+			December 8, 2006 at 3:47 am</a>		</div>
+
+		<p>exactly!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1120">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/61717cb9574d9ca13af8c10f155c6239?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Brennan Young</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1120">
+			December 10, 2006 at 12:24 am</a>		</div>
+
+		<p>This isn&#8217;t a backdoor. It&#8217;s a sloppily coded website. The same sh1t can happen with SWFs and DCRs.</p>
+<p>HREF tracks have been around for about 10 years, with all this functionality. This page is worth a look, especially the last section &#8220;More on QuickTime and HREFs.&#8221;:</p>
+<p><a href="http://www.apple.com/quicktime/tutorials/hreftracks.html" rel="nofollow">http://www.apple.com/quicktime.....racks.html</a></p>
+<p>Scarcely news, but it&#8217;s great if you guys see some more of what QuickTime can do, even if you all have dastardly plans. ;)</p>
+<p>The page linked above also shows how a MOV can open any QuickTime viewable file in another window *in QuickTime player itself*, if you wanted to make a little grey-goo / denial of service beastie.</p>
+<p>There&#8217;s also a turing-complete bytecode interpreter built-in to QuickTime. Apple usually forgets to mention it because it doesn&#8217;t help to sell iPods.</p>
+<p><a href="http://developer.apple.com/documentation/quicktime/RM/rmWiredIntro.htm" rel="nofollow">http://developer.apple.com/doc.....dIntro.htm</a></p>
+<p>So, if you&#8217;re feeling particularly dastardly your MOV could even construct javascript URLs on the fly.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-1122">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1122">
+			December 10, 2006 at 1:22 am</a>		</div>
+
+		<p>Hi Brennan,</p>
+<p>yes you are completely right. However, It is the same situation with everything in the computer security field. Look at BF attacks, for example. We know about them since the 80s. Still, people find clever ways to inject instructions into remote and local processes.</p>
+<p>I am sure that HREF tracks is nothing new to core QuickTime/Apple developers. However, the problem is that they wasn&#8217;t able to spot this potential misuse of their technology. It is not their fault. At the time when this technology was designed, I don&#8217;t think that anyone was familiar with XSS to that extend as we are today. This problem is so common and I am sure we will see more of it very soon.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1882">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2ced4279a627bd560f46883f7fd461ea?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Richard John</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1882">
+			January 4, 2007 at 10:31 pm</a>		</div>
+
+		<p>Hmm&#8230; When I try and rename Text Track to HREFTrack, I change the name and it changes back as soon as I hit enter!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-1883">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1883">
+			January 4, 2007 at 10:35 pm</a>		</div>
+
+		<p>Richard, that&#8217;s not supposed to happen. You are sure that you do it properly. The GUI is a bit bulky.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1987">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ca64f83212ec0e936bded653e2387144?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ConcernedUser</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1987">
+			January 6, 2007 at 7:04 pm</a>		</div>
+
+		<p>Hi.  I was wondering is there any way to check the existing mov files that I have if they have any href tracks in them.  I do not have quicktime pro.  Also, how can u detect that a mov file in your browser might have a malicious href track before playing it?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-1989">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1989">
+			January 6, 2007 at 8:56 pm</a>		</div>
+
+		<p>ConcernedUser, I am not aware of any tools that you can use. It will be good if someone can come up with Firefox extension, but this probably wont happen. The best thing to so is to wait for a fix from Adobe. Actually there is one that is offered to MySpace users only on Windows platform. If you happen to be on Window, go to MySpace an try to open .mov file that someone has hosted. Then you will receive the update. There are other solutions but they are all unofficial and they might work only in certain situations. Good luck.</p>
+<p>I hope Apple understands that this is a serious security issue and it requires immediate actions.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-2135">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/632819dac251da66e2131ada45ea5adc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://n/A' rel='external nofollow' class='url'>psyc</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2135">
+			January 9, 2007 at 5:11 pm</a>		</div>
+
+		<p>Hmm&#8230; When I try and rename Text Track to HREFTrack, I change the name and it changes back as soon as I hit enter!</p>
+<p>Yea same problem with me ..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-2151">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2151">
+			January 9, 2007 at 9:52 pm</a>		</div>
+
+		<p>Well, this is the tricky bit. You need to show your creative mind here. The reast is easy :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-2218">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/632819dac251da66e2131ada45ea5adc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://n/A' rel='external nofollow' class='url'>psyc</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2218">
+			January 11, 2007 at 4:39 pm</a>		</div>
+
+		<p>Heh forget about it, i always love reverse engineering ;) Problem solved</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-2225">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cc02cb322fd190bdce7ebb0eef64ecb5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.securiteam.com/' rel='external nofollow' class='url'>Edward</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2225">
+			January 11, 2007 at 6:51 pm</a>		</div>
+
+		<p>I couldn&#8217;t change the name to HREFTrack too, i searched forums and heared that it&#8217;s QT 7 bug. How can we change it ? Found some scripts to change but i don&#8217;t know how to use. Can someone help please ?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-2580">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/64b01f0006ba559a24c9846f676c36c6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">AR</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2580">
+			January 20, 2007 at 2:44 pm</a>		</div>
+
+		<p>If you can&#8217;t change it, you most likely need to update Quicktime. It is a bug in the one version that does not allow you to change it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-2793">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7d7de8deb8cf14f3615642f142970119?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Nick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2793">
+			January 25, 2007 at 9:45 pm</a>		</div>
+
+		<p>How do you pop the browser directly from quicktime standalone player? I can make it work from within the browser, but I want it to pop directly from the stand alone player.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-2796">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2796">
+			January 25, 2007 at 11:11 pm</a>		</div>
+
+		<p>I am not quite sure how to do that but I know that it is possible since I did it before. Try to mess with the target field</p>
+<pre><code>A&lt;javascript:alert("hello from backdoor")&gt; T&lt;target&gt;</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-7190">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7fc746a111dd11d10ed4800353495952?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.windowsvistauserguide.com/' rel='external nofollow' class='url'>Windows Vista</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-7190">
+			March 17, 2007 at 4:02 am</a>		</div>
+
+		<p>neat</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-7850">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fd288b71cffb96b62cc5d26a0ab27fc1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">lastjedi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-7850">
+			March 19, 2007 at 3:54 am</a>		</div>
+
+		<p>i have quicktime pro and vlc media player none work on limewire.when i download a video to watch i get the same thing a girl dancing for about 10 seconds nothing else.ive downloaded hundreds of videos and i get the same thing the girl dancing.why wont it show the video i downloaded.nothing works please help!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-16717">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/40e0da21900632754f741e5b6c5f4fe9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://myspace/' rel='external nofollow' class='url'>Cityboi</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-16717">
+			April 25, 2007 at 2:34 pm</a>		</div>
+
+		<p>How can you get around websense to get to myspace</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-19742">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/04d8c347fabcf0d1124c4d02e0c5facc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://myspace.com/' rel='external nofollow' class='url'>sasha</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-19742">
+			May 4, 2007 at 8:01 pm</a>		</div>
+
+		<p>How can you get around websense to get to myspace</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-27589">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c5f0e90661f3a2806981366d25db0b20?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Runic</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-27589">
+			June 7, 2007 at 4:20 pm</a>		</div>
+
+		<p>Starting with QuickTime 7.1.5, you can no longer issue javascript&#58;// URLs or call JavaScript functions from within a QuickTime movie. This feature was removed from QuickTime for security reasons.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-27653">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-27653">
+			June 7, 2007 at 8:09 pm</a>		</div>
+
+		<p>yes&#8230; this is right&#8230; and this is how it should be</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-44485">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5ee2a42efef6c1d7228aee6b0de018b4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.dodgescabin.com/' rel='external nofollow' class='url'>dodgescabin</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44485">
+			August 30, 2007 at 7:37 pm</a>		</div>
+
+		<p>I never use quicktime its not very good</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-44854">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/191b0fffb287ef964bd5a9650c4ff0ba?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Doc</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44854">
+			September 1, 2007 at 1:52 am</a>		</div>
+
+		<p>Quote [dodgescabin responds: I never use quicktime its not very good] ???</p>
+<p>What the f***? &#8211; Is that the dumbest sweeping statement ever? It&#8217;s like saying cars are not very good &#8211; or the sky is not very good!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-46172">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/45d9386afa2a075ecb44701e8a89daef?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.myspace.com/' rel='external nofollow' class='url'>roger</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-46172">
+			September 5, 2007 at 7:27 pm</a>		</div>
+
+		<p>yea i need this to work</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-65432">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c1b3c1defde44822d4a6bf0c6ded9171?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://topfilmclub.com/' rel='external nofollow' class='url'>vbx</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-65432">
+			November 5, 2007 at 5:20 pm</a>		</div>
+
+		<p>would like to know if is possible to create the popup alter when the movie is previewed inside a standalone QuickTime player.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-72355">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/34537102affa859bed3fcd9f051015f5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://bulletback.com/' rel='external nofollow' class='url'>Andre</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-72355">
+			November 18, 2007 at 12:21 am</a>		</div>
+
+		<p>vbx i am interesting that too.. popup on preview movie its very interesting..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126080">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c0585450b7659482e47ea7d5a39b4ee5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://911blimp.net/' rel='external nofollow' class='url'>student0911</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126080">
+			February 23, 2009 at 11:55 am</a>		</div>
+
+		<p>Whenever I read about how QuickTime makes cyberspace more scary or dangerous (JS is JS; I have JS enabled in my browser, but I won&#8217;t use IE outside the LAN; I just wish I could tell my browser to not load scripts from 3rd-party servers), it reminds me that the most dangerous thing about QuickTime movies is that the site with the most best hijacker-exculpatory 9/11 video evidence, 911blimp.net, chose to use QT (because, like a VCR, it lets the viewer pause and go frame-by-frame in either direction using the keyboard arrow keys) to present its videos.  So, to the extent that people can be made to be extra reluctant to even open a .mov file, that helps keep the evidence (and danger to the actual perpetrators) as well-suppressed as it&#8217;s been.</p>
+<p>BTW, that site (like this one) uses JS, harmlessly, but its QT videos do not contain any embedded code or scripts of any kind.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="65"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="f4240284e7" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/backdooring-quicktime-movies/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:24:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

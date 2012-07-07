@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/name-mdns-poisoning-attacks-inside-the-lan/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Name (mDNS) Poisoning Attacks inside the LAN</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Name (mDNS) Poisoning Attacks inside the LAN Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Call Jacking: Phreaking the BT Home Hub' href='../call-jacking-phreaking-the-bt-home-hub/index.html' />
+<link rel='next' title='R00Ting Public WiFi Networks: DHCP Name Poisoning Attacks' href='../r00ting-public-wifi-networks-dhcp-name-poisoning-attacks/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index2553.html?p=659' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-659" class="post">
+	<div class="post-title"><h2><span>Name (mDNS) Poisoning Attacks inside the LAN</span></h2></div>
+	<div class="post-date"><span>published:</span> January 23rd, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p><q>How easy is for attackers to compromise the LAN?</q> Answer: <strong>Very easy!</strong> With a few simple tricks, attackers can easily poison the local name resolution system for the machines inside a given LAN. Network Devices and Apple products are most vulnerable among others of course.</p>
+
+<p>It is all due to mDNS. From <a href="http://en.wikipedia.org/wiki/Zeroconf#Apple.27s_protocol:_Multicast_DNS.2FDNS-SD">Wikipedia&#8217;s article</a>:</p>
+
+<blockquote>Multicast DNS (mDNS) is a protocol that uses similar APIs to the unicast DNS system but implemented differently. Each computer on the LAN stores its own list of DNS records (e.g. A, MX, PTR, SRV, etc) and when an mDNS client wants to know the IP address of a PC given its name, the PC with the corresponding A record replies with its IP address. <a href="http://en.wikipedia.org/wiki/Zeroconf#Apple.27s_protocol:_Multicast_DNS.2FDNS-SD">Wikipedia</a></blockquote>
+
+<p>The problem with mDNS is that it is spoof-able. Here is how it works. A mDNS enabled client will perform a mDNS query on a multicast address. All clients that listen on that address will respond back with their names. Now if we have two clients with the same name, who ever is the first, wins. So for example, if your word processing application decides to print a document by looking for <strong>printer.local</strong>, attackers can easily send a respond to that DNS query with a forged answer which instructs to look for the printer on a different IP address. Therefore, successfully hijacking/poisoning the local name for a duration of time.</p>
+
+<p>On WiFi networks this type of attack might not be as useful because just picking up the DNS packets from the air and injecting forged DNS responses is easy, but there are many cases where mDNS attacks prove to be very, very useful. One such case is when performing enumeration. Due to the fact that most devices support mDNS to one degree or another, with a single multicast packet, attackers can learn plethora of useful things such as the available devices&#8217; versions and types, administrative URLs, email addresses of the owners, support information, etc, etc, etc.</p>
+
+<blockquote>In a situation where the attack is taken over a network where DNS requests cannot be sniffed and subsequently forged by the attackers, a mDNS spoofing attack is most likely to occur due to the fact that it works no matter what is the type of the transport medium. Many products are affected by mDNS spoofing attacks, including but not only <strong>iTunes</strong>, <strong>Safari</strong>, <strong>XBox 360</strong>, various <strong>Routers</strong>, most <strong>Printers</strong>, etc.</blockquote>
+
+<p>I found out that not that many people know about mDNS or even if they have heard of it they have never played with it to realize how insecure it could really be. Therefore, I&#8217;ve developed a simple <a href="../../static/blog/2008/01/mdns.py">mDNS testing tool</a> written in Python. In order to run the tool, you need to install <a href="http://o2s.csail.mit.edu/o2s-wiki/pybonjour">pyBonjour</a> and <a href="http://www.apple.com/macosx/technology/bonjour.html">Bonjour</a>. The tool has a discovery mode which can locate devices in a matter of seconds and also very good spoofing capabilities which can be used for testing how mDNS spoofing attacks work. This tool can also be used for debugging and administrating mDNS as well.</p>
+
+<p><em>Enjoy!</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2008/01/mdns.py">mdns.py</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/apple/index.html" rel="tag">Apple</a> | <a href="../../tags/dns/index.html" rel="tag">DNS</a> | <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/mdns/index.html" rel="tag">mDNS</a> | <a href="../../tags/sec/index.html" rel="tag">sec</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/spoofing/index.html" rel="tag">spoofing</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-103796">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2605c631f750b5f1522339cba2c4c252?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mark</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-103796">
+			January 25, 2008 at 11:42 pm</a>		</div>
+
+		<p>For additional fun and games grab a copy of unicornscan (<a href="http://unicornscan.org/" rel="nofollow">http://unicornscan.org/</a>) and have a play around with various payloads on port 5353. Strange things often happen ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-104268">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/87608e219b2e7d9c30bc66c7be2a6b18?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">darcy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-104268">
+			January 26, 2008 at 11:51 pm</a>		</div>
+
+		<p>i install pyBonjour and ctypes.  i&#8217;m running python 2.4 on a mac (leopard). i get this error:</p>
+<pre><code>$ python mDNS.py
+  File "mDNS.py", line 86
+    yield result
+SyntaxError: 'yield' not allowed in a 'try' block with a 'finally' clause</code></pre>
+<p>any suggestions?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-104380">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-104380">
+			January 27, 2008 at 9:37 am</a>		</div>
+
+		<p>darcy, I think that you need Python 2.5</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-105056">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105056">
+			January 29, 2008 at 9:43 am</a>		</div>
+
+		<p>i am interested in playing with mDNS, however too bad, i am quite restricted in terms of using tools</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-105067">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-105067">
+			January 29, 2008 at 10:38 am</a>		</div>
+
+		<p>hackathology, what do u mean&#8230; all you need is Python, byBonjour and Bonjour.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128028">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/eb846af3d0ac6230ea752e3ac6c0b0d3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.11x17printer.org/' rel='external nofollow' class='url'>11x17 priinter</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128028">
+			December 7, 2009 at 3:04 pm</a>		</div>
+
+		<p>I think Pyhon 2.5 is fine</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-129301">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3d9f054e175d020e1452e6a4de807b52?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.satgpm.co.uk/plumber/' rel='external nofollow' class='url'>plumber hertfordshire</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129301">
+			December 2, 2010 at 8:49 am</a>		</div>
+
+		<p>Interesting article for a newbie, A mDNS enabled client will perform a mDNS query on a multicast address. All clients that listen on that address will respond back with their names.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="659"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="6b1d3eb9e5" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/name-mdns-poisoning-attacks-inside-the-lan/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

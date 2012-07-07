@@ -1,0 +1,9 @@
+/*
+Theme Name: hakiri.org-v2
+Version: 0.1
+Author: Petko D. (pdp) Petkov
+Template: gnucitizen.org-v2
+*/
+
+@import url("styles/print.css") print;
+@import url("styles/screen.css") screen;

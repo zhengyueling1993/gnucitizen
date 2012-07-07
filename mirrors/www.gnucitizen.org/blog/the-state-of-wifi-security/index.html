@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/the-state-of-wifi-security/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:50:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; The State of WiFi security</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; The State of WiFi security Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Agile Hacking' href='../agile-hacking/index.html' />
+<link rel='next' title='The 10.000 Sites JS Malware Source Code Leaked' href='../the-10000-sites-js-malware-source-code-leaked/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index6215.html?p=765' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-765" class="post">
+	<div class="post-title"><h2><span>The State of WiFi security</span></h2></div>
+	<div class="post-date"><span>published:</span> March 21st, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>One of the fundamental rules, which you wont read about in any security book and you can learn only through experience is that everything is in symbiosis. This means that the security models of the individual components in a system are co-dependent. For example, the security of a server is dependent on the security of the individual clients connected to it and the the security of the clients depend on the security of the servers they are interacting with. If you know how to take advantage of this rule you can hack/break into anything. Let&#8217;s see how this rule applies to WiFi networks and especially those found in London as I find the situation rather concerning.</p>
+
+<p>When we talk about WiFi security we usually stumble across things such as encryption, WPA and WPA2, 802.11 authentication, client-side certificates, network segmentation, vlanning, captive portals, etc, etc, etc. Yet, none of these technologies provide security but rather things such as privacy and identity verification and authorization. These are the basic components of a secure WiFi network but by no means a one-stop solution to all problems. Even when properly deployed/configured, problems in WiFi networks occur in much deeper or higher level and it requires a bit more creativity, intelligence and strategy to identify them. So here, I would like to briefly outline a couple of scenarios, some of which you might be familiar with, that led to full compromise of the organizations we were asked to legally break into. All these scenarios are possible due to the <q>symbiosis paradigm</q>, which I discussed at the begging of this post.</p>
+
+<h3>Physical breakins and WiFi security</h3>
+
+<p>This is one of the oldest tricks available to the mankind. It is like the Trojan Horse in ancient Greece. The strategy is very simple. If one finds a way to get a physical access to the building he/she can deploy an wireless access point which later will be used to break into that organization. Now, how hard is to obtain that access? Easier then you think! Keep in mind that companies do business. Their buildings are not impenetrable fortresses. If you show your stuff they are willing to show theirs. Many times a physical breakin is almost as simple as walking into the lobby and finding an unprotected network adapter to put your access point there. Sometimes it requires things such as walking through the backdoor into the common/dinning area. Even knowing an insider&#8217;s smoking pattern proves to be very, very helpful.</p>
+
+<p>Once inside, hardly anyone asks you what you are doing there. Not to mention that people are not used to question your authority if you politely explain to them that you are performing a security penetration test which aims to break into their networks. The truth is that humans can detect suspicious activities by following your body language. The more you lie the the more negative messages you are sending to the people around you and of course the higher is the chance to get caught. So, being honest is actually a plus rather then a minus.</p>
+
+<p>Even having access to a conference area is quite easy as you can arrange supposedly important meeting with someone from inside. Usually you find the network jacks underneath the table where you can connect whatever needs to be connected.</p>
+
+<p><em>Now, if you&#8217;ve been in the wireless security business long enough you will probably argue that you can detect rogue access points and that you can turn on or off ports of the switch in order to guarantee some kind of security. However, only a few will admit that this system hardly works as they are often hundreds of neighboring wireless networks around the premises and often ports are left on due to the fact that it is extremely hard to keep track of what people do. Your best friend is probably your network architecture. The more segmented network you have the lower the chances for the attacker to obtain further access. Security in depth does work but keep in mind that you have to take into consideration the <q>symbiosis paradigm</q> and this is hard and it works against the security in depth practices.</em></p>
+
+<h3>Stepping stone attacks/hacks</h3>
+
+<p>Hacking/breaking into a network is often easily done through already trusted clients. Evil Tween attacks work 100%. Ok, ok, nothing new here but it is time for people to take a sip from the kool-aid called reality. Breaking into a client first and then breaking into the target network is what we call stepping stone attacks. Even if the WiFi network employs the most strict security policies clients are meant to work. John Johnson from 3rd flour needs to access information from that database or save/read files from that and that location. Breaking into John&#8217;s laptop is easier.</p>
+
+<p>Stupid tricks work the best. When someone needs to get the job done they often forget about security and take all sorts of risks. <q>Oh, wifi network is not working, right, let&#8217;s check my list. Here it is. This is my network! Connect</q> However, the victim fails to comprehend that that that network is not his/her network as it is <q>open</q>. The only similarity between the two networks is that they have the same name. However, most users are not technically savvy to understand that and this of course works against the organizations who employ them.</p>
+
+<p><em>Again, everyone who has been in the WiFi security business for long enough will argue that everybody should have a good client-side security policies. That the firewall needs to be always on and that each system needs to be patched with the latest fixes. Rules should be applied to guarantee that when wired ports are on, wifi is off and vice versa. End-point security must be enforced and users should run from unprivileged accounts. However, only those that have hands-on experience will say that this is hardly enough. The client&#8217;s firewall is a minor issue. If the attacker controls the network they control the underlaying clients &#8211; a classic example of the <q>symbiosis</q> thing we&#8217;ve talked about. Your best strategy is be prepared for eventual breakins. This is where we get out of the geek/tech side of the problem and we dive into much more important things such as what will be the impact if data is stolen. You need crisis management plans, combined with BPR (Black Public Relations) counter plans. A fellow and much wiser college of mine once said that only fools thing that they can solve security problems by employing security solutions. Think about Visa Net. They have a rough estimate how much money will be stolen per month but this number has been already covered so that the loss is so small that it is almost insignificant.</em></p>
+
+<h3>Guest WiFi networks and the <q>thinking in 3rd person</q> strategy</h3>
+
+<p>We promote tiger teams operations rather then standard tests most, if not all, companies in the security market provide. Having a test with not clear objectives is almost like spending your money for nothing. <strong>Don&#8217;t think tech. Think impact!</strong> Think about objectives. What your business depends on? Do not ask anyone to identify vulnerabilities. Ask them to do something specific like: <q>I want you to find ways to steal money.</q>, or <q>I want you to find ways get to that type of data.</q>. This is much more valuable then a report full of useless bugs you know that you cannot fix in the next year. Where is the value?</p>
+
+<p>This is something to think about as I will show you that your wireless security is dependent on the security of every single sub-system you are interacting with. Here is how it goes. Your WiFi network is probably secure but what&#8217;s the security of your business partners&#8217; WiFi networks? Typically, and by saying <q>typically</q> I really mean all the time, companies have unprotected WiFi networks that are specifically designed for guests only. These networks are entirely open and have something like BlueSocket or something else that acts as a captive portal. The guest enters their password of the day and they are in. Unfortunately their entire traffic travels clean an clear in the air as well as their POP3 credentials and their HTTP sessions.</p>
+
+<p>When we were once asked to break into some organizations, which names we cannot disclose, we went exactly the opposite way of the expected. We researched the company and found all other companies they work with. Then we went onsite and discovered that some of these companies run open wifi networks for guests. It did not take us long to obtain access to sensitive mail, through leaked POP3 credentials which also got us a VPN access and other goodies.</p>
+
+<p><em>The next time someone starts bragging about how 1337 memory corruption bugs exploits are and how with their invisible linux rootkit they can hide their activities, shut them up but showing them this article. Hacking is a survival trick and the act to outsmart others. There are no rules. Use your head not your ego and be creative as much as you can. I would suggest to develop creativity rather then technical knowledge as the second can be obtained very rapidly. The first one requires a life style not many can keep up with.</em></p>
+
+<p><em>By no means these are all tricks/realizations of the trade but we keep the best ones for ourselves.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/philosophy/index.html" rel="tag">philosophy</a> | <a href="../../tags/secure/index.html" rel="tag">secure</a> | <a href="../../tags/wifi/index.html" rel="tag">wifi</a> | <a href="../../tags/wifi-security/index.html" rel="tag">wifi security</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-117096">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c3cec8aa8dbb295f16a5272d9bc577db?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">malkav</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117096">
+			March 21, 2008 at 10:46 am</a>		</div>
+
+		<p>red teams/tiger teams should be the standard, as should be the threat modeling based on objective/assets.</p>
+<p>but we have a big problem here. users (so clients) where educated technology centric, and are vastly unaware of real world attackers practice. why would i spend time on exploiting your network when i can get the password i need to access your assets with a drunk manager at a local bar ? or in the trash ?</p>
+<p>i hope that by offering this kind of services to my clients, some of them will become aware of how easily vital IP can be stolen/destroyed, but the contacts i had proves me wrong for the moment, people still wants NAC, automated nessus scan, and many other pretty useless energy consumption.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-117097">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117097">
+			March 21, 2008 at 10:53 am</a>		</div>
+
+		<p>well, that business model will change soon.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-117098">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cd4d5ff4785339df9e5366a8b285c844?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://lupuss.us/' rel='external nofollow' class='url'>LUPUS</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117098">
+			March 21, 2008 at 10:54 am</a>		</div>
+
+		<p>Thanks :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-117101">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/50810029edcdaa02043eff094e4d37c6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://sid.rstack.org/blog/' rel='external nofollow' class='url'>Sid</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117101">
+			March 21, 2008 at 11:28 am</a>		</div>
+
+		<p>Well, Wi-Fi security might be after all just a bad answer in a flawed security model. Instead of trying at all cost to prevent people from entering the network by securing layer 2, maybe we should think more of securing layer 3. And bye bye 802.1x, WPA, NAC and similar expensive stuff&#8230;</p>
+<p>In the end, an open Wi-Fi network with an IPSEC gateway might be easier to deploy.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-117103">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d697e0b3ae6b8c7de255e1bf4dcf4c7b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.geoffrey.lee.name/' rel='external nofollow' class='url'>Geoffrey Lee</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117103">
+			March 21, 2008 at 11:55 am</a>		</div>
+
+		<p>I think another way to say it is that your security is only as strong as the weakest link, and human behavior is part of that link.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-117104">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117104">
+			March 21, 2008 at 11:58 am</a>		</div>
+
+		<p>Geoffrey, exactly :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-117105">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7905d373cfab2e0fda04b9e7acc8c879?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">commercials</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117105">
+			March 21, 2008 at 1:21 pm</a>		</div>
+
+		<p>&#8220;&#8230;but we keep the best ones for ourselves&#8221;&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-117107">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7afb16388b1069be6cf4af4cd49c3dc3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Mike</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117107">
+			March 21, 2008 at 2:11 pm</a>		</div>
+
+		<p>Many enterprise start discussing training, training, training, but I&#8217;m pretty sure you are all aware of how well that is going. If human behavior is part of that link (and will probably be the weakest part the majority of the time), how do we cope with human error?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-117109">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117109">
+			March 21, 2008 at 4:06 pm</a>		</div>
+
+		<p>mike, easy. we promote brain augmentation via nano robots which are connected to a security management console :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-117128">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Steve</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117128">
+			March 22, 2008 at 1:54 am</a>		</div>
+
+		<p>But what if the attackers deploy nanopirates against your nanorobots&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-117319">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/613720a7bae4ce9b3c7a536782671ee9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Aodhhan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117319">
+			March 24, 2008 at 1:30 pm</a>		</div>
+
+		<p>To increase security for user log in, increase the required authorization factors. For our secure internal network, you must use a smartcard (PKI of course) along with a pass-phrase (something you have and something you know). You can always add fingerprint scan to give you, &#8220;something you are&#8221;.</p>
+<p>Although nothing is fool proof, a hacker will most likely move on to an easier target. With WiFi, there are plenty of them.</p>
+<p>-Aod-</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-117322">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117322">
+			March 24, 2008 at 1:35 pm</a>		</div>
+
+		<p>Aod, I agree although I could add that attackers will move to an easier target but probably still within the scope of their goals. Probably, hacking into a network where employs are connecting to, hoping to get control over their computers and use them as a stepping stone to access the secure network, as I explained in the post.</p>
+<p>But as you said, <q>nothing is fool proof</q>.</p>
+<p>thanks</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-117677">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/dd74a636b43213d4152c50d1a2f24575?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.sebn.1.vg/' rel='external nofollow' class='url'>sebastian nielsen</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117677">
+			March 30, 2008 at 9:52 pm</a>		</div>
+
+		<p>Client side security is inneccesary, and can always be bypassed. For example using a linux cd to boot up the computer and access every file on the computer.</p>
+<p>Its always good to adhere to the following rule:<br />
+&#8220;If you have physical access to a computer, nothing prevents you to read or access the data stored on it&#8221;.</p>
+<p>read or access means in some way downloading or reading data. The data may be unreadable (encrypted) but then you take the data with you and do a offline attack.</p>
+<p>So the best is to place all security as centrally as possible. A good idea is to never store anything on the laptop.<br />
+But instead store everything on central servers. These servers can then verify user in some way.</p>
+<p>But keep in mind that user can still copy data that he gets from the server to a USB memory, or just take photos of screen and then OCR them.</p>
+<p>So use a VERY strict need-to-know policy, and make sure that if the system is in doubt of if a people is really needing a specific information, make it go through approval by manager before allowing the employer access.</p>
+<p>So this means a worker who is working on a software part is only need access to that part of software.</p>
+<p>This means that EVEN if a attacker gets physical posession of his laptop, or gets hold of a employer&#8217;s authorization card or gets access to a logged-in computer, the attacker cannot access more than the employer is able to access..</p>
+<p>Let the users be administrators on their clients, and control access to documents, files and data by storing them at a central server.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127703">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a74f6315cf3c7901fbc3ee63b631b28d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://insideroutline.net/' rel='external nofollow' class='url'>frank kern</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127703">
+			August 11, 2009 at 2:26 am</a>		</div>
+
+		<p>Now I get cleared my doubts in WiFi security,thank you very much.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="765"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="1be7d79c8f" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/the-state-of-wifi-security/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:50:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: CSRF-ing Blogger Classic</title>
+	<atom:link href="http://www.gnucitizen.org/blog/csrf-ing-blogger-classic/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/csrf-ing-blogger-classic/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: Skeptic_fx</title>
+		<link>http://www.gnucitizen.org/blog/csrf-ing-blogger-classic/comment-page-1/#comment-133623</link>
+		<dc:creator>Skeptic_fx</dc:creator>
+		<pubDate>Thu, 09 Jun 2011 17:11:37 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/csrf-ing-blogger-classic#comment-133623</guid>
+		<description>Also there are some parts of google which still has some kind of CSRfs</description>
+		<content:encoded><![CDATA[<p>Also there are some parts of google which still has some kind of CSRfs</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Skeptic_fx</title>
+		<link>http://www.gnucitizen.org/blog/csrf-ing-blogger-classic/comment-page-1/#comment-133622</link>
+		<dc:creator>Skeptic_fx</dc:creator>
+		<pubDate>Thu, 09 Jun 2011 17:10:30 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/csrf-ing-blogger-classic#comment-133622</guid>
+		<description>So did you enter the Google Security Hall of Fame? Guess you were way too early :P</description>
+		<content:encoded><![CDATA[<p>So did you enter the Google Security Hall of Fame? Guess you were way too early :P</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Andrea</title>
+		<link>http://www.gnucitizen.org/blog/csrf-ing-blogger-classic/comment-page-1/#comment-128179</link>
+		<dc:creator>Andrea</dc:creator>
+		<pubDate>Fri, 26 Feb 2010 04:01:30 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/csrf-ing-blogger-classic#comment-128179</guid>
+		<description>But mine is template problem.When I was currently changing my template,when I click the &#039;Preview&#039; button,then all I saw is the same error!Can you tell me what happen?</description>
+		<content:encoded><![CDATA[<p>But mine is template problem.When I was currently changing my template,when I click the &#8216;Preview&#8217; button,then all I saw is the same error!Can you tell me what happen?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Adrian Pastor</title>
+		<link>http://www.gnucitizen.org/blog/csrf-ing-blogger-classic/comment-page-1/#comment-72479</link>
+		<dc:creator>Adrian Pastor</dc:creator>
+		<pubDate>Sun, 18 Nov 2007 04:30:12 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/csrf-ing-blogger-classic#comment-72479</guid>
+		<description>Hello mana,
+
+As mentioned in my previous comment on this page, Google fixed the issue back on January 22 2007.</description>
+		<content:encoded><![CDATA[<p>Hello mana,</p>
+<p>As mentioned in my previous comment on this page, Google fixed the issue back on January 22 2007.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: mana</title>
+		<link>http://www.gnucitizen.org/blog/csrf-ing-blogger-classic/comment-page-1/#comment-71621</link>
+		<dc:creator>mana</dc:creator>
+		<pubDate>Thu, 15 Nov 2007 22:57:00 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/csrf-ing-blogger-classic#comment-71621</guid>
+		<description>interesting write up, is there a fix for this attack?</description>
+		<content:encoded><![CDATA[<p>interesting write up, is there a fix for this attack?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pagvac</title>
+		<link>http://www.gnucitizen.org/blog/csrf-ing-blogger-classic/comment-page-1/#comment-2659</link>
+		<dc:creator>pagvac</dc:creator>
+		<pubDate>Mon, 22 Jan 2007 23:39:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/csrf-ing-blogger-classic#comment-2659</guid>
+		<description>The reason for adding a comment to the post is that today January 22 2007, I examined the &quot;add new user&quot; request of both, Blogger Classic and New Blogger and I was impressed that Google had added tokens for both versions of Blogger.
+
+At first, when I informed Google and forwarded the research, they simply replied with automated emails, finally pointing me to a Blogger help URL.
+
+So I thought they didn&#039;t care much about CSRF issues. However, I must admit that I&#039;m very impressed with them since they fixed the problem very fast.
+
+It&#039;d be nice to get additional ideas from some of you guys if possible.
+
+Here is an example of the fixed &quot;add new user&quot; requests for both versions of Blogger (notice &#039;securityToken&#039;):
+
+&lt;pre&gt;&lt;code&gt;POST /add-authors.do HTTP/1.1
+Host: www2.blogger.com
+
+blogID=12345678&amp;securityToken=fmA1trWgTvwf6XZIlyn9WI_n0Nc%3D%3A1169507915539&amp;authorsList=%3Cattacker%40domain.com%3E%2C+&amp;submit=true&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;pre&gt;&lt;code&gt;POST /add-authors.do HTTP/1.1
+Host: www&#046;blogger.com
+
+blogID=12345678&amp;securityToken=fmA1trWgTvwf6XZIlyn9WI_n0Nc%3D%3A1169507915539&amp;authorsList=%3Cattacker%40domain.com%3E%2C+&amp;submit=true&lt;/code&gt;&lt;/pre&gt;
+
+P.S.: I forgot to say thank you to Jeremiah Grossman who kindly gave me feedback on this research.</description>
+		<content:encoded><![CDATA[<p>The reason for adding a comment to the post is that today January 22 2007, I examined the &#8220;add new user&#8221; request of both, Blogger Classic and New Blogger and I was impressed that Google had added tokens for both versions of Blogger.</p>
+<p>At first, when I informed Google and forwarded the research, they simply replied with automated emails, finally pointing me to a Blogger help URL.</p>
+<p>So I thought they didn&#8217;t care much about CSRF issues. However, I must admit that I&#8217;m very impressed with them since they fixed the problem very fast.</p>
+<p>It&#8217;d be nice to get additional ideas from some of you guys if possible.</p>
+<p>Here is an example of the fixed &#8220;add new user&#8221; requests for both versions of Blogger (notice &#8216;securityToken&#8217;):</p>
+<pre><code>POST /add-authors.do HTTP/1.1
+Host: www2.blogger.com
+
+blogID=12345678&amp;securityToken=fmA1trWgTvwf6XZIlyn9WI_n0Nc%3D%3A1169507915539&amp;authorsList=%3Cattacker%40domain.com%3E%2C+&amp;submit=true</code></pre>
+<pre><code>POST /add-authors.do HTTP/1.1
+Host: www&#46;blogger.com
+
+blogID=12345678&amp;securityToken=fmA1trWgTvwf6XZIlyn9WI_n0Nc%3D%3A1169507915539&amp;authorsList=%3Cattacker%40domain.com%3E%2C+&amp;submit=true</code></pre>
+<p>P.S.: I forgot to say thank you to Jeremiah Grossman who kindly gave me feedback on this research.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

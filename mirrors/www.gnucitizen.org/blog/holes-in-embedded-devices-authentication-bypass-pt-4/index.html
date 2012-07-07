@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/holes-in-embedded-devices-authentication-bypass-pt-4/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:51:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Holes in Embedded Devices: Authentication bypass (pt 4)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Holes in Embedded Devices: Authentication bypass (pt 4) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Extreme Search Engine Hacking' href='../extreme-search-engine-hacking/index.html' />
+<link rel='next' title='HITB Dubai 2008: we can&#8217;t wait!' href='../hitb-dubai-2008-we-cant-wait/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index00c2.html?p=741' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-741" class="post">
+	<div class="post-title"><h2><span>Holes in Embedded Devices: Authentication bypass (pt 4)</span></h2></div>
+	<div class="post-date"><span>published:</span> February 26th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>This kind of authentication bypass bug can go easily undetected during a security assessment if not enough attention is paid. In order to understand this type of vulnerability, we need to be familiar with settings pages available on devices&#8217; web interface that allow the admin user to modify settings.</p>
+
+<p>Administrative web interfaces have different sections/menus available to logged-in administrators. Each section is just a HTML page with a form designed to make configuration changes. For instance, web interfaces of Internet gateways usually have pages such as WAN, LAN, WLAN, SNMP, UPnP, change password, firewall settings and so on. In summary, each page allows changing different types of settings. </p>
+
+<p>Let&#8217;s assume that such settings pages are password-protected correctly. So if a given settings page can only be accessed with the admin password, does that mean that changing settings cannot be done by attackers who don&#8217;t know the admin password? Actually, in some cases, it&#8217;s possible to change such settings after all! Let&#8217;s see why. As it&#8217;s been said before, each settings page is nothing else than a HTML form (usually accompanied by some JavaScript). However, if we pay attention to the form&#8217;s action attribute, we sometimes see that the parameter names and values (located in input tags) within the page form are actually submitted to a URL (usually a CGI script) <em>different</em> to the current one.</p> 
+
+<p>So the question to ask ourselves is: is the actual HTTP request that performs a configuration change (usually a POST request) password-protected? If not, that would mean that the attacker can perform administrative changes, even if the settings page is password-protected!</p>
+
+<p>A good example of this type of vulnerability is the authentication bypass <a href="http://www.securityfocus.com/archive/1/442452/30/0/threaded">found</a> on Linksys WRT54G by Ginsu Rabbit. Although the vulnerable firmware (version 1.00.9) requires a password to view any settings page, it doesn&#8217;t protect the CGI script that processes the configuration changes.</p>
+
+<p>For instance, requesting the wireless settings page prompts the user to enter the admin username and password (if not authenticated already):</p>
+
+<pre><code>GET /wireless.htm HTTP/1.1
+Host: 192.168.0.1
+Connection: close</code></pre>
+
+<p>Unfortunately, changing the wireless settings parameters which are processed by the Security.tri server-side program does not require a password! For instance, the following POST request disables the wireless encryption without requiring the admin password:</p>
+
+<pre><code>POST /Security.tri HTTP/1.1
+Host: 192.168.0.1
+Content-Length: 24
+Connection: close
+
+SecurityMode=0&amp;layout=en</code></pre>
+
+<p>In summary, the problem is that /wireless.htm <i>is</i> password protected while /Security.tri is <i>not</i>. Terrible mistake!</p>
+
+<p>Another good example is the authentication bypass found on Belkin Wireless G router F5D7230-4 by loftgaia during the <a href="../router-hacking-challenge/index.html">Router Hacking Challenge</a> we organized with the <a href="http://www.0x000000.com/?i=508">Hacker Webzine</a>. History repeats itself again: the setting pages are password-protected but not the server-side program that handles the configuration changes. In the proof of concept provided by loftgaia we can see that the DNS settings page /setup_dns.stm is properly password-protected but changing the DNS settings is possible without a password since the /cgi-bin/setup_dns.exe program is publicly available (not password protected).</p>
+
+<p>The following example is the POST request that changes the primary and secondary DNS servers to <code>1.1.1.1</code> and <code>2.2.2.2</code>, thus the attacker can fully own domain resolutions of all the users that are part of the network handled by the vulnerable Belkin device:</p>
+
+<pre><code>POST /cgi-bin/setup_dns.exe
+Host: 192.168.2.1
+Connection: close
+Referer: http://192.168.2.1/setup_dns.stm
+Content-Length: 94
+
+page=setup_dns&amp;logout=&amp;dns1_1=1&amp;dns1_2=1&amp;dns1_3=1&amp;dns1_4=1&amp;dns2_1=2&amp;dns2_2=2&amp;dns2_3=2&amp;dns2_4=2</code></pre><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/authentication/index.html" rel="tag">authentication</a> | <a href="../../tags/bypass/index.html" rel="tag">bypass</a> | <a href="../../tags/gateway/index.html" rel="tag">gateway</a> | <a href="../../tags/modem/index.html" rel="tag">modem</a> | <a href="../../tags/router/index.html" rel="tag">router</a> | <a href="../../tags/vulnerability/index.html" rel="tag">vulnerability</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-115755">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/94941a06331f4aff885f34f0e099e712?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">C4</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115755">
+			March 1, 2008 at 6:40 pm</a>		</div>
+
+		<p>@Adrian Pastor</p>
+<p>Good article, deffintley good to know and another thing to check/lookout for on home routers.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115772">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115772">
+			March 3, 2008 at 12:18 am</a>		</div>
+
+		<p>Thanks for the feedback C4. I&#8217;m sure that if everyone checked their devices&#8217; web interface for this type of auth bypass, many devices would be found to be vulnerable!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115948">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0167f880df81b3301d51444696d8728c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ikkuhqhp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115948">
+			March 5, 2008 at 9:44 pm</a>		</div>
+
+		<p>is there a good application for crafting packets on windows, since that seems to be the best way of trying these &#8220;hacks&#8221;?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-116530">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b7d4ae90b574bd0ee6e3c4e01e192998?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.dsldsl.de/' rel='external nofollow' class='url'>Martin Theiler</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116530">
+			March 16, 2008 at 9:03 pm</a>		</div>
+
+		<p>Even i would like to get some more knowledge on setting up home or institutional routers. Anybody up for a link?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="741"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="a764b02121" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/holes-in-embedded-devices-authentication-bypass-pt-4/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:51:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

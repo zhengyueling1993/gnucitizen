@@ -1,0 +1,401 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/backdooring-flash-objects-receipt/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:24:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Backdooring Flash Objects (the receipt)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Backdooring Flash Objects (the receipt) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Backdooring Flash Objects (the walkthrough)' href='../backdooring-flash-objects/index.html' />
+<link rel='next' title='Backdooring QuickTime Movies' href='../backdooring-quicktime-movies/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index4f61.html?p=66' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-66" class="post">
+	<div class="post-title"><h2><span>Backdooring Flash Objects (the receipt)</span></h2></div>
+	<div class="post-date"><span>published:</span> September 5th, 2006</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><img class="initial-capital" src="../../static/blog/2006/09/death-flash.jpg" alt="Death Flash" title="Death Flash" width="191" height="303" class="alignnone size-full wp-image-2163" />
+
+<p>Just a day ago I released a quite narrative article called <a href="../backdooring-flash-objects/index.html">Backdooring Flash Objects (the walkthrough)</a>. Although, I received some quite good responds on the style of writing, I decided to write more narrowed and specific version on how Flash object infection works. The following post outlines one of the many ways and expands further on some of the core concepts.</p>
+
+<p>The truth is that Flash files can be maliciously infected with bad code which in tern can cause havoc in your network. The concept is not new. In fact since the beginning of Macromedia Flash IDE, the developers have been given the flexibility to include or adjust external SWF files and such employ more robust and highly componentized framework. However, with the raise of popularity of Flash based applications, it was discovered that Flash objects can be infected and used as transport mechanism of various types of malware the same way application level executables are.</p>
+
+<p>Infecting Flash objects is straight forward when performed from the Flash IDE. It is a matter of embedding the target file into a newly created Flash project and assigning actions to keyframes that proceed the point where the external file is called. Of course this is the most basic scenario. Other  infection techniques are also possible but they are not going to be discussed here because the subject is quite broad. To narrow it down, I am going to talk about the basic toolkit required for infecting Flash objects.</p>
+
+<p>For the purpose of this exercise I found several free command line tools that can be used for constructing Flash malware and also help analyzing already infected objects. The tools are as follows:</p>
+
+<ul>
+<li><a href="http://www.mtasc.org/">Mtasc</a> &#8211; great tool for compiling ActionScript</li>
+<li><a href="http://www.nowrap.de/flare.html">Flare</a> &#8211; excellent tiny tool for decompiling ActionScript from SWF files</li>
+<li><a href="http://swfmill.org/">Swfmill</a> &#8211; SWF to XML and XML to SWF converter</li>
+<li><a href="http://www.swftools.org/">Swftools</a> &#8211; various useful utilities</li>
+</ul>
+
+<p>Mtasc, Swtools and partially Swfmill are used for constructing Flash based backdoors while Flare and again Swfmill is pretty much used for analyzing them. Malware analysis will be covered in future articles, so lets get back to how Flash objection infection works.</p>
+
+<p>There are several important things to understand first. Since SWF files are restricted and by default sandboxed by the Flash player, not that many interesting or dangerous functionalities can be used. Mainly, the infecter is restricted to JavaScript code or Flash ActionScript code. Most of the time it will be combination of both of them. However, JavaScript and ActionScript are highly suitable for performing web based attacks.</p>
+
+<p>The first stage in my methodology is to construct body/framework for the backdoor. This can be something as simple as the following:</p>
+
+<pre><code>class Backdoor {
+  function Backdoor() {
+  }
+
+  static function main(mc) {
+    getURL("javascript:alert('hello from backdoor')");
+  }
+}</code></pre>
+
+<p>As you can see, the code above outlines a Backdoor class which contain one static main method and of course the class constructor. In this scenario the class is actually not need, however, since we are going to compile it into SWF with Mtasc, the style and syntax is kind of enforced.</p>
+
+<p>To compile the backdoor into SWF the following command needs to be executed:</p>
+
+<pre><code>c:\Mtasc\mtasc.exe -swf backdoor.swf -main -header 500:365:24 backdoor.as</code></pre>
+
+<p>There are several important flags that needs to be discussed a bit here. The first one is the -main option. Basically this tells Mtasc that a static main method is expected. The second one is the -header option, which takes care of the produced SWF movie dimensions and characteristics. The example above produces 24 frames per second 500px by 365px movie. This dimensions can be extracted from the SWF file that will be backdoored with either Swfmill or Swftools utilities.</p>
+
+<p>The Swftools packages comes quite handy in many ways. In fact the actual injection of malicious content is performed with swfcombine tool which is part of Swftools and here is the example:</p>
+
+<pre><code>c:\Swftools\swfcombine.exe -o The_Corruptibles_backdoored.swf -T backdoor.swf The_Corruptibles.swf</code></pre>
+
+<p>The command line above creates a new movie called The_Corruptibles_backdoored.swf by binding backdoor.swf with The_Corruptibles.swf. It is quite straight forward as you can see and this is all about it.</p>
+
+<p>Obviously the infection mechanism provided above is very simple but it works quite well. Moreover it is highly robust. So, the question is to what extend attackers can use that to get into your corporate network. Given the fact that newly created JavaScript and ActionScript exploitation techniques are developed on daily basis and the fact that browsers are highly trusted, I must say that attackers have pretty good changes to cause serious damage. So, actions must be taken.</p>
+
+<p><em>How can we protect ourselves from Flash based malware? It must be noted that Flash is probably the most popular media format on the web. This means that just turning off Flash is not that simple. Drastic action like this one could cause productivity loses. Unfortunately, there is no straightforward solution that can be easily implemented. I believe that prevention techniques will be discovered in the future and probably temporary signature based solutions will appear quite soon. This means massive attacks can be prevented but that might not be the case when dealing with dedicated attackers.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-33">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3e0298a2854e87166f6ddcee1fe4e005?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://chasenet.org/' rel='external nofollow' class='url'>nrg</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-33">
+			September 6, 2006 at 12:10 am</a>		</div>
+
+		<p>Hello mate, i enjoyed vey much reading your recent posts, but there is something in these last 2 that i didn&#8217;t really understood. Whats so important about injecting javascript into a flash? can&#8217;t you do the same that you would with a simple html with javascript inside? I get the idea about infecting SWFs wich is preaty cool but i don&#8217;t see what&#8217;s so special about it. Am I missing something?</p>
+<p>Anyway keep posting mate :)</p>
+<p>-nrg</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-34">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-34">
+			September 6, 2006 at 1:42 am</a>		</div>
+
+		<p>hi there,</p>
+<p>First of all, wrapping your malicious code inside flash files will bypass all XSS filtering systems, simply becouse they don&#8217;t understand how to read SWF files not to mention that even if they know how to do that, it would be highly inefficient approach.</p>
+<p>The second thing is that attackers are able to infect popular video, audio and interactive material and spread it on the web. This approach can be quite easily defined as viral infection. The next time you visit youtube.com or video.google.com beware that what you see might not be what you get. Sneeky JavaScript code can scan your internal LAN, hack into your WIFI router and enable the admin interface on the Internet side so attackers have direct access to you, your personal details and your bank account numbers. Well,&#8230; more or less!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-35">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3e0298a2854e87166f6ddcee1fe4e005?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://chasenet.org/' rel='external nofollow' class='url'>nrg</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-35">
+			September 6, 2006 at 2:05 am</a>		</div>
+
+		<p>&#8220;First of all, wrapping your malicious code inside flash files will bypass all XSS filtering systems (&#8230;)&#8221;</p>
+<p>Hadn&#8217;t thought about that. It&#8217;s clear for me now, thanks for the fast explanation. Actually after thinking a bit about it was a really dumb question.</p>
+<p>So how can websites like myspace protect them selfs from being hijacked by an &#8216;infected&#8217; swf? (i&#8217;m not a user from my space but i think they allow the use of SWFs in users accounts). Time to read how you managed to do it with quicktime.</p>
+<p>PS: Stupid suggestion, can you get a favicon? I would like to have it on my bookmark.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-37">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-37">
+			September 6, 2006 at 8:02 am</a>		</div>
+
+		<p>There are no stupid questions.</p>
+<p>I don&#8217;t think that there is simple way of protecting against media file malware. Of course the most obvious approach will be to disable or filter out embed an object tags. However, this will make MySpace pages highly unattractive because people won&#8217;t be able to show their YouTube movies for example.</p>
+<p>Yeh, I might think about favicon. Why not?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-40">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0a2550c1bb679c97ccc5be78511cf0f3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.none.com/' rel='external nofollow' class='url'>dev&gt;null</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-40">
+			September 6, 2006 at 6:15 pm</a>		</div>
+
+		<p>um &#8230; what about allowScriptAccess=&#8221;never&#8221;?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-45">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-45">
+			September 6, 2006 at 9:51 pm</a>		</div>
+
+		<p>Well, then my POC won&#8217;t work. It is that simple. However, keep in mind that JavaScript access is not required. Flash objects can be backdoored with ActionScript quite successfully and the attacker is given the same level accessibility; sometimes even more.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-53">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e78ade355027be37b2192e622b14a46f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.msblabs.org/' rel='external nofollow' class='url'>Acidus</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-53">
+			September 8, 2006 at 3:50 am</a>		</div>
+
+		<p>pdp,</p>
+<p>I love what you are doing so please keep up the good work. For far too long people have thought that JavaScript is a toy language and that XSS can only annoy and steal the occasional cookie. I applaud the work you have been doing.</p>
+<p>Acidus,</p>
+<p>ps: I&#8217;m going to be dropping some JavaScript malware 0day in a week of back to back conferences (Toorcon-Ajax World-Security Opus) that I thhink you will find interesting&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-54">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-54">
+			September 8, 2006 at 8:25 am</a>		</div>
+
+		<p>Definitely,</p>
+<p>I would like to see your malware. I won&#8217;t be able to attend these conferences but I will be vary happy to get some of your slides.</p>
+<p>I am also working on some advance techniques that will go into AttackAPI and my blog quite soon.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-73">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/41030c447293f49895d3f5d10f871572?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Vladislav 'dgtlscrm' Mysla</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-73">
+			September 15, 2006 at 2:59 pm</a>		</div>
+
+		<p>Using javascript protocol is well known technique</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-75">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-75">
+			September 15, 2006 at 4:51 pm</a>		</div>
+
+		<p>I know. This article is just a POC on how easy it is to backdoor any given flash object.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-157">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/682024a80c53594dd7f6f33646422541?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">shizkani</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-157">
+			September 27, 2006 at 12:52 am</a>		</div>
+
+		<p>can you make this exploit download and execute a RAT server to someine who views the corrupted .swf file ..??<br />
+if so can someone please explain to me how i would make it possible..<br />
+thanks..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-159">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/47cccad696f74037522590502bea5f3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">chown</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-159">
+			September 27, 2006 at 5:19 am</a>		</div>
+
+		<p>How can you call it backdooring? You&#8217;re simply embedding javascript in flash. Please explain your definition of &#8216;backdoor&#8217;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-162">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-162">
+			September 28, 2006 at 3:00 am</a>		</div>
+
+		<p>shizkani,<br />
+the short answer is &#8220;NO&#8221;, unless you use something like the IE VML vulnerability.</p>
+<p>chown,</p>
+<blockquote><p>A type of Remote Control Software that enables a third party to covertly control system resources.<a href="http://www.google.com.my/url?sa=X&amp;start=1&amp;oi=define&amp;q=http://www.wetstonetech.com/page/page/1972572.htm" rel="nofollow" rel="nofollow" rel="nofollow">wetstonetech</a></p></blockquote>
+<p>What do you think a backdoor is?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-166">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/47cccad696f74037522590502bea5f3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">chown</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-166">
+			September 29, 2006 at 5:34 am</a>		</div>
+
+		<p>Primitive javascript access &#8211; within the confines of the browsers security restrictions, can hardly be classified as &#8220;system resources&#8221;. If it were, then you could say you have access to the &#8220;system resources&#8221; of me, and anyone else who visits this site. By your logic, the following is a VBScript backdoor in a batch file</p>
+<pre><code>@echo off
+echo msgbox "foo" > bar.vbs
+start bar.vbs</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-900">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5b3086d26c86e99c66264d74d881c167?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Frank Walsh</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-900">
+			December 4, 2006 at 1:06 am</a>		</div>
+
+		<p>above you say allowscriptaccess=&#8221;never&#8221; kills your POC but javascript isn&#8217;t nessecary , you can do with with purse ActionScript&#8230;isn&#8217;t there also a tag allowNetworking=&#8221;internal&#8221; would cover this&#8230; just wondering if I&#8217;m missing something in your response..not trying to be a dick.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-129735">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/31abbf718c2bad00106d5124858706ad?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">karcoos</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129735">
+			February 22, 2011 at 9:48 am</a>		</div>
+
+		<p>nice blog, I love the &#8220;swftools&#8221; you recommended.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="66"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e34c016c2d" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/backdooring-flash-objects-receipt/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:24:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

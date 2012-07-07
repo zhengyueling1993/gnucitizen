@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/openid-provides-a-better-security-model/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:50:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; OpenID provides a better security model</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; OpenID provides a better security model Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='The 10.000 Sites JS Malware Source Code Leaked' href='../the-10000-sites-js-malware-source-code-leaked/index.html' />
+<link rel='next' title='Black Hat Europe 2008 Amsterdam' href='../black-hat-europe-2008-amsterdam/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index336f.html?p=778' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-778" class="post">
+	<div class="post-title"><h2><span>OpenID provides a better security model</span></h2></div>
+	<div class="post-date"><span>published:</span> March 24th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I couple of posts back I&#8217;ve started a conversation on what OpenID is and why it could turn a bit insecure. You can read more about this over <a href="../hijacking-openid-enabled-accounts/index.html">here</a>, <a href="../openid-a-security-story/index.html">here</a> and <a href="../identity-20-security/index.html">here</a>. Today, I would like to draw your attention on why I believe that OpenID based authentication is a lot more more secure then the dispersed, decentralized, authentication model we use today.</p>
+
+<p>This post is inspired by a recent discussion on <a href="http://seclists.org/fulldisclosure/2008/Mar/0385.html">Full-Disclosure</a> which I vividly took part in, supporting OpenID. My sole purpose is to summarize what I have said for future reference and for the convenience of everybody who is interested. Therefore, let me start with a bit of introduction and then follow up with some of the main points of my argument.</p>
+
+<p><em>First of all, OpenID is a very simple but rather useful technology. With OpenID you have only one account, your ID, which you can use everywhere where the OpenID technology is supported. It may not be clear whether this setup is more secure from what we have at the moment (every site forces you to register an unique username/password pair), because it all depends on on the user&#8217;s intentions and how he plans to use his OpenID account, but undoubtfully it is more convenient.</em></p>
+
+<p>Let&#8217;s see how convenience works well with security when it comes to OpenID:</p>
+
+<h3>Yes, and convenience is often the enemy of security.</h3>
+
+<p>Not always. I think complexity is the enemy of security. The simpler the system is, the less chance to screw up, the more secure it is. It is much easier to secure a single port then a class B network, don&#8217;t you think?</p>
+
+<p>OpenID proves to be quite simplistic by nature. The actual OpenID authentication process is not simple at all but once properly implemented it provides a very simple mechanism to identify users without the need to worry about password recovery mechanisms, account lockout, account lockout as a denial of service attack, user management, password complexity policies, secure authentication and authorization, etc. All this is handled by OpenID. Indeed, with a few lines of PHP or any other language, anyone can now implement a secure login without the hustle.</p>
+
+<h3>The more you share the higher the chances for a leak to occur.</h3>
+
+<p>Here is an interesting and quite valid comment:</p>
+
+<blockquote>However, with OpenID, all I have to do is figure out how to capture your credentials (which does not require that I compromise OpenID), and I can own everything that you own.  At least with the disparate systems we have now you only get those things where I&#8217;ve been foolish enough to use the same credentials.  Even then you have to figure out what those systems are.  With OpenID I simply try every site that uses OpenID, trivial to do programmatically.</blockquote>
+
+<p>The more you share your secrets &#8211; credit card information, usernames, passwords &#8211; the higher the chances this information to be leaked or get stolen. We&#8217;ve proved times and times again that people do reuse passwords. Password reuse is a huge problem and it is due to our inefficiency of memorizing partial information which is not associated with anything substantial. In psychology this is known as the process of anchoring and if you master how to anchor then you can master memorizing large sets of useless data without getting corrupted sectors in your brain. :) A good start to learn how to do that is to start reading Darren Brown&#8217;s book <a href="http://www.amazon.com/Tricks-Mind-Derren-Brown/dp/1905026358/ref=sr_1_4?ie=UTF8&amp;s=books&amp;qid=1206359973&amp;sr=1-4">Trick of the Mind</a>.</p>
+
+<p>On another note, capturing OpenID credentials may be not as easy as it seems. First of all if the OpenID provider has a valid, authorized SSL certificate attackers won&#8217;t be able to see when credentials are flaying around. One-time passwords in terms
+of keyfobs, rsa tokens, whatever, are good mechanism to prevent sniffing attacks. Even if the attacker captures these credentials he/she wont be able to use them again. It is also worth mentioning that carrying one keyfob just for your OpenID provider is a lot easer then having what they call <q>keyfob necklace</q> in order to ensure a good security for every single site/system you visit.</p>
+
+<p>Second, lets say that the attacker has access to the machine or the network and he/she can sniff the cookies and as such get access to the OpenID account. Well, some OpenID providers have features where you can configure the account to automatically destroy the session cookie once an OpenID authentication is authorized. The attacker best chance is to
+sniff or attack the sites where the user is logging into with OpenID but any problems associated with external systems are not problems within OpenID and they will work independently from the authorization/identification mechanism that is supported.</p>
+
+<p>Think about OpenID as the equivalent of PayPal for authentication. In theory, it is more secure to pay through PayPal as you are not sharing your credit card information with everyone else but a single provider. Do you feel comfortable giving away your
+credit card details to every single merchant from which you want to purchase some goods? I don&#8217;t!</p>
+
+<h3>Trusting the OpenID provider.</h3>
+
+<p>If you are not happy or you don&#8217;t trust any of the available OpenID providers, roll your own OpenID service. It takes 5 minutes and a couple of lines with PHP and you can make it as secure as you want. Isn&#8217;t that much better then trusting every single login prompt you see?</p>
+
+<h3>If your OpenID account is hacked, the attacker will be able to login as you anywhere they want.</h3>
+
+<p>That is a huge disadvantage! However, you can spend good time securing your OpenID to the extend it is not feasible for someone to attack it. We know that all encryption mechanisms are vulnerable to brute force attacks but is it feasible to crack them? No, not at all. Not now! Maybe when we get to personal quantum computing we might have a chance but by that time we will switch to quantum based cryptography.</p>
+
+<o><em>There you go! These arguments may not be enough to entirely cover the security considerations when it comes to OpenID, but I think that they are more then enough to make you try the system and come up with your own conclusions.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/openid/index.html" rel="tag">OpenID</a> | <a href="../../tags/secure/index.html" rel="tag">secure</a> | <a href="../../tags/security/index.html" rel="tag">security</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-117353">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/464220dbba92a957cf4fb21c7b0e15d8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">hanfi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117353">
+			March 24, 2008 at 10:55 pm</a>		</div>
+
+		<p>I think its similar to what a lot software troubles. Its the idea to process data trought one (more or less) secure point. Same goes, for example, in input validation. Basicaly its a good idea to have one function that does it for all data a application gets from the user. But on the other side, what if that single point breaks? Then eveything is f&#8217;ked up.</p>
+<p>I see it as some sort of monopol. If everyone uses the same way, everyone is affected by one break. IF the monopol is working, there is no problem.. IF Microsoft would make secure software, we wouldn&#8217;t have the problems we have today.</p>
+<p>I think the idea behind OpenID is good in Theory. But in Reality, it shatters with the same reason MS shatters. It is NOT secure. There WILL be flaws. And since everyone uses the same&#8230;everyone will be attackeable the same way.</p>
+<p>Diversity may lead to a lot different ways to secure things, and i think lots of those actualy arn&#8217;t designed good. But if one of those breaks, none else is affected. Unfortunately, we tend to go into a monoplized software biosphere. Thats not only MS. Its the same with wordpress, phpBB and a lot other software. What we seen recently with those mass-hacks, is exactly this problem. Its ONE software that has ONE flaw. And it makes almost everyone vulnerable since everyone uses it.</p>
+<p>Another thing is, that most ways to secure a software uses the same way even if the software isn&#8217;t the same.<br />
+Even if phpBB and wordpress use different cookie names, they basicaly verify it the same way. So actualy we already HAVE a monopolized Biosphere.<br />
+And therefore we can just move on to OpenID, since those people work on it do focus on the security only.</p>
+<p>So my personal conclusion is, we SHOULD move on to OpenID. But we too have to REALY be carefull, since it WILL break. And when that happens its back to the application admins to clean up. As usual. Its always the admins who run in case something happens. We never can rest. Always bee carefull, and don&#8217;t relly on the software. Software can&#8217;t fix a unfixable problem. As long the Internet works as it does today, there is no way to prevent such things happen.<br />
+And I dont think its too bad&#8230; another solution (just a example) would be to give every Internet-User a Key-card and a card-reader, only allow those verified into the Net&#8230;and I dont want that. It would maybe fix the technical vulnerablilities, but would open a HUGE door for social/governemental abusage.</p>
+<p>In the end, i run. Fix my server, fix the Clients computers at work and in my circle of friends.. But on the other side&#8230; its what gets me my monthly paycheck or a beer and dinner at friends home. So why complain.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-117358">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9746ca072ecbf5358328109c4c12d4b8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://sxalexander.myvidoop.com/' rel='external nofollow' class='url'>Sam Alexander</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117358">
+			March 25, 2008 at 1:21 am</a>		</div>
+
+		<p>OpenID is allowing pretty awesome innovations from companies that want to focus on authentication security.</p>
+<p>For instance, <a href="https://myvidoop.com" rel="nofollow">https://myvidoop.com</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-117426">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/571fcc262681e200d76aabeac510d629?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://sam.haslers.info/' rel='external nofollow' class='url'>Sam Hasler</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117426">
+			March 26, 2008 at 12:45 am</a>		</div>
+
+		<p>Having your OpenID account breached may be more catastrophic for the individual affected as it takes all the guesswork out of what sites you use for the attacker, but I think it will happen less frequently as time goes on because of the way OpenID decouples the identification away from identity consumer sites.</p>
+<p>Previously if there was a weakness in the login process of software used on many websites it would have been some time before they were all updated with any fix. Now with OpenID providers reputation dependent on how well they are secured it will be in their interest to respond to any security weakness (real or perceived) as quickly as possible.</p>
+<p>Of course many people will host their own OpenID provider but I&#8217;d still argue that the number of installations that have to be updated is reduced by an order of magnitude.</p>
+<p>There will still be the problem of individual sites getting hacked, but as long as they aren&#8217;t OpenID providers then it won&#8217;t spread to any other sites because there won&#8217;t be any passwords to steal. And if an OpenID provider were to get hacked, well we may be putting all our eggs in one basket &#8211; collectively a smaller set of baskets &#8211; but (if you&#8217;ll excuse me mixing metaphors) previously the security of our password was only as secure as the weakest link in the chain &#8211; the least secure site you used &#8211; whereas now at least we can start to make better decisions about what level of security we are comfortable with for our identity, and make sure those baskets are lead lined and bullet proof.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-117468">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117468">
+			March 26, 2008 at 8:47 am</a>		</div>
+
+		<p>Sam, that was a very extensive comment and I agree with you. We have to give OpenID a shot although it could fail for some cases. But all big boys are heading off towards OpenID so I don&#8217;t think that they haven&#8217;t spend good amount of money to consider all the risks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-117526">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f80dabcccd00903700320e831f749ffd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Benjamin Stover</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117526">
+			March 26, 2008 at 7:17 pm</a>		</div>
+
+		<p>&#8220;If your OpenID account is hacked, the attacker will be able to login as you anywhere they want.&#8221;</p>
+<p>In a way, this is already the case.  We have single sign-on today: email.  An attacker can focus on getting the credentials for your email address, search through your inbox for services you have, and go to those services asking for a password reset.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-117533">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8dce1c6e5da89f70933636dc83644815?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://whoishahleq.com/' rel='external nofollow' class='url'>Hahleq</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117533">
+			March 26, 2008 at 8:22 pm</a>		</div>
+
+		<p>Interesting and even decent points, but my main concern continues to be that OpenID as implemented today remains trivially compromisable.  Phishing, pharming, man-in-the-middle attacks are all feasible without any heavyweight client compromise (keyloggers or local trojans).  I believe to pdp&#8217;s post that the big boys have signed on as OPs, but not RPs because they realize they can&#8217;t yet rely on the authentication from other OPs.  Of course, they also have business reasons as well, but they do validly point to the security situation as to why they are only doing OpenID in one direction.</p>
+<p>Vidoop is cute, but the &#8220;click pictures&#8221; thing has been done to death before and is just as weak as it has always been.  Consolidating all my logins to one site is exactly what I want, but I&#8217;m not creating a &#8220;single keys to the castle&#8221; situation without a MUCH stronger security mechanism in place.</p>
+<p>I love where OpenID, iCards, OpenSocial, etc. are all going, but they all are hindered by a truly secure implementation.  Soon as someone offers me one, I&#8217;m all over it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123195">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9f3c3c2b5ddaf70d5a43422d9364ae9c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Marcus</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123195">
+			August 5, 2008 at 7:29 am</a>		</div>
+
+		<p>OpenID is the beginning of open information sharing, which is exciting to see.</p>
+<p>One login for all sites would be more than wonderful, talk about a world wide identity.</p>
+<p>My only problem is OpenID makes you login with a URL, not really fond of this.</p>
+<p>There are other solutions, like Aliixer&#8217;s LoginShare for example, I think a more secure method.</p>
+<p><a href="http://www.aliixer.com/share/" rel="nofollow">http://www.aliixer.com/share/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="778"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b5f708ecc1" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/openid-provides-a-better-security-model/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:50:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/client-side-security/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Client-side Security</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Client-side Security Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Client-side SQL Injection Attacks' href='../client-side-sql-injection-attacks/index.html' />
+<link rel='next' title='The Generic XSS Worm' href='../the-generic-xss-worm/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index9a88.html?p=227' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-227" class="post">
+	<div class="post-title"><h2><span>Client-side Security</span></h2></div>
+	<div class="post-date"><span>published:</span> June 11th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I was planning to start this topic for some time now and here I am making the first steps towards explaining what client-side security is and why it is important. I suspect that there will be a follow up post in the near future. There is definitely a lot of ground work that needs to be laid out for this topic.</p>
+
+<p><q>So, what is client-side security?</q> Well, it is related to JavaScript and Browser security, which is a hot topic today, but in general, simply put, client-side security is all about the security of the client. I hope that wasn&#8217;t a surprise for you. As I said many times throughout other publications at GNUCITIZEN, the client and the server are in very delicate situation. Here is a quote from a previous GNUCITIZEN article about <a href="../the-next-super-worm.html">The Next Super Worm</a>.</p>
+
+<blockquote>clients and servers are in symbiosis. The security of the server depends on the security of the client and vice versa</blockquote>
+
+<p>The role of the client can be taken by anything. A client is your browser but also your machine as part of a Windows domain. A client is also your Skype and your Wifi card that is associated with an access point. Every piece of software often is a client. Please do not assume that clients and servers are only terms used to describe the state between machines in a network. The role of the client is taken by the thing that sits on one of the sides of the communication spectrum. We define clients and servers based on the way we look at them. Very often servers are clients too as we established that earlier in this post.</p>
+
+<p>The reason why client-side security is interesting today is because it is often ignored by security professionals and in general companies that pay these security professionals to test for vulnerabilities. Here is a typical example; When we need to perform a wifi test, very often we look at things such as available networks, encryption on these networks, network segmentation between them and also signal range. These points definitely cover many things about the security aspects of a wifi network but for sure this is not all. What is left are things such as rouge access points, preferred network list probes and ad-hoc networks. These characteristics of the premises that is tested could be provided as part of the report but very often no solution is specified simply because it is harder to control hundreds of machines compared to controlling only a few.</p>
+
+<p>This is exactly what client-side security problems are. Here is an example how the preferred network list probe requests available exclusively in Windows are a problem for your organization. So let&#8217;s say that you are supporting encryption (WPA) with 802.1x authentication. It sounds great and moderately secure. However, if any of the clients of that network has other networks in their preferred network list that are not encrypted, attackers can setup a rouge access point, pretending to be one of them, and wait for that client to associate. Once the connection is established and the DHCP server transmits the client IP down the line, the attacker has a network access to that machine. From that point on the attacker will attack this client, which is not as well secured as your corporate infrastructure, and plant a program that will allow the attacker to sneak into your protected WPA enabled network. That of course can be accomplished in many different ways one of which is to wait for a software update from one of the many installed software components like Skype, Firefox and Google Desktop, and replace that update with your own. In an environment where the attacker controls the network, that can be accomplished quite easily.</p>
+
+<p>The reason why I use Wifi problems here in order to describe client-side security is because I want to escape from the Web2.0 clichÃ© for a moment. Similar attacks can be applied to many other things. Just because you have a firewall and well configured intrusion detection system, it does not mean that you are secure. It means that attackers cannot attack your network directly and this is it. However, as we saw earlier in this post, there are many, many other ways a similar goal can be accomplished.</p>
+
+<p><em>It is said that the security of a system is as strong as its weakest link. The users, the client, these are the weakest links of any system. They are the low-hanging fruit and aldo the targets attackers will go after. Not your network! Their security problems are defined by the term <strong>client-side security</strong> because often they are seen as clients.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-28428">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/dfbabe01d05a8790e69c9c5a30e12957?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.beskerming.com/' rel='external nofollow' class='url'>Carl</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-28428">
+			June 12, 2007 at 4:01 am</a>		</div>
+
+		<p>It might sound a little bit glib, but as far as our development practices go, we ALWAYS consider the client to be compromised, and factor that into how our systems respond to every request from a client.</p>
+<p>Authentication, smauthentication.  Our systems don&#8217;t even trust the &#8216;authenticated&#8217; client, for many of the reasons you listed above.</p>
+<p>This does make for some interesting problems &#8211; how do you design and implement a security system that introduces low overheads without compromising security?</p>
+<p>Of course, HOW we solved that problem isn&#8217;t quite ready for publication just yet.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-28449">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-28449">
+			June 12, 2007 at 10:05 am</a>		</div>
+
+		<p>Carl, this is very interesting. Of course I am really looking forward to hear how exactly you solved that problem in way that users are still allowed to perform their activities without the overall security of the network being compromised.</p>
+<p>IMHO, there is no single golden solution for client-size problems, mainly because there are different aspects to be considered. Client-side security problems of Wifi networks are completely different from those found in Web technologies, for example.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-28465">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/915074021b19042000ba9cd72e6893dd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://donthave/' rel='external nofollow' class='url'>dpd</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-28465">
+			June 12, 2007 at 12:45 pm</a>		</div>
+
+		<p>useless discussions&#8230;&#8230;.. it&#8217;s all relative, u can&#8217;t never be invulnerable. it&#8217;s all for money. Security experts&#8230;bah&#8230; if a person had the capabilities he can break in every (virtual) place&#8230; if we consider the physical brute force&#8230;.we&#8217;re dead&#8230;so &#8230; </p>
+<p>the point is that security and security experts are totally useless in extreem conditions guys&#8230;</p>
+<p>so this discussions are valid for the 98% of the humanity&#8230;but if we count the 2%&#8230;</p>
+<p>this is my point of view&#8230;maybe too sadddd &#8230; but for me is reality..</p>
+<p>bye</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-29376">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/44c5e290ccf283471210752d0b1ed6df?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Teller</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-29376">
+			June 17, 2007 at 9:24 am</a>		</div>
+
+		<p>Clinet-Side security is underestimated.</p>
+<p>IMO, there is no real Client-side security unless you use a strong encryption or a well permission mechanism. Client must be designed to be secured just like the server.</p>
+<p>There are alot of vectors which one can exploit local security, since we own the client and have full access. Vendors should start writing low-level code, put delicate code in read only sections, they should also use encryption and permission mechanism.</p>
+<p>So there will be more authentication windows, and performance issues, so what? If we look at the big picture, this is for the best.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-29607">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-29607">
+			June 18, 2007 at 9:21 am</a>		</div>
+
+		<p>true, but &#8230; keep in mind that business still needs to make money. you cannot abandon everything and start from scratch. the world does not work this way. we need to find a compromisable way of introducing security while keeping the efficiency and usability intact.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-32496">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/dfbabe01d05a8790e69c9c5a30e12957?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.beskerming.com/' rel='external nofollow' class='url'>Carl</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32496">
+			June 28, 2007 at 2:42 am</a>		</div>
+
+		<p>I&#8217;d sort of forgotten that I&#8217;d replied earlier, but here is some more information about how we ensure that the information being served, stored, and manipulated, is as safe as possible.</p>
+<p>Assumptions:<br />
+1 &#8211; The client is compromised<br />
+2 &#8211; The network is compromised<br />
+3 &#8211; The server may be compromised (If the server is compromised, then all security is out the window, as the attackers can read straight from RAM, or poke around pretty much anywhere).  There are a couple of last-ditch measures that can be put in place, but all they will do is cause the system to halt &#8211; since it has identified itself as being compromised.</p>
+<p>As we are only considering the user&#8217;s experience for this discussion, we need to find a way to ensure that the client is assured that they are interacting with OUR service, and not a MITM.</p>
+<p>There are a handful of techniques that we have developed that can give the client a high confidence level that they are interacting with the legitimate service.  While they can be spoofed in appearance, their functionality can&#8217;t.</p>
+<p>I know that this is something that many people say can&#8217;t be done, but those people are artificially limiting the scope of their imagination.  This is a real world problem that had existed and been solved in other fields of speciality for some time.  Some of these solutions can be modified to fit InfoSec.  </p>
+<p>Secondly, we need to ensure that an absolute minimum of sensitive data is sent by the client across the network (considering sniffing and replay attacks).  We assume that someone can sniff, and has sniffed, the connection and is able to try a replay attack.  In this instance it isn&#8217;t so much the security of the client, but how the server responds to falsified connections.  The goal is to neutralise any and all replay / false connection attempts.</p>
+<p>Intelligent data design, compartmentalisation, and management will limit the amount of sensitive data exposure that is possible.  The other component is to ensure that client-supplied data is extremely volatile &#8211; once the legitimate client has used that data, it can&#8217;t be re-used.</p>
+<p>Now, this is just scratching the surface of what we have done.  We know that it is impossible to be completely secure, but we can make it hard enough.  As the solutions evolve, we can keep one or two steps ahead of those trying to break them, so it isn&#8217;t a one-shot one-off solution &#8211; it does require continual improvement.</p>
+<p>Now for the best part &#8211; the base theory can be implemented in many different languages and on most platforms (we always develop for a cross platform solution), and it can be a simple wrapper that encapsulates existing apps &#8211; enhancing the security (though it isn&#8217;t as effective as a ground-up solution).</p>
+<p>The same underlying problems affect online voting and online finance and it was through considering these challenges that we started to develop our solutions (and then spent the last few years breaking and refining them).</p>
+<p>For more info, you can always email me.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="227"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="bfefba15cf" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/client-side-security/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

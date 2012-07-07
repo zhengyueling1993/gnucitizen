@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/backdooring-windows-media-files/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:14:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Backdooring Windows Media Files</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Backdooring Windows Media Files Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='IE pwns SecondLife' href='../ie-pwns-secondlife/index.html' />
+<link rel='next' title='0day: PDF pwns Windows' href='../0day-pdf-pwns-windows/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index6595.html?p=459' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-459" class="post">
+	<div class="post-title"><h2><span>Backdooring Windows Media Files</span></h2></div>
+	<div class="post-date"><span>published:</span> September 18th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I am planning to keep this post short and sweet. So, here is the deal. Meta Files are dangerous! In this post I am planning to cover some security findings that concern files with extensions <code>.wax</code>, <code>.wvx</code>, <code>.asx</code> and <code>.wmx</code>.</p>
+
+<p>Before we continue with the fun stuff, you must understand the purpose of the file formats listed above. First of all, they are meta files just like Apple&#8217;s <a href="../0day-quicktime-pwns-firefox/index.html">QTL</a>. Second, they are standard for the Windows operating system and supported by default. Finally, the meta files are often used to stack together various media content into playlists.</p>
+
+<p>if you start researching the Media Player meta files (<a href="http://msdn2.microsoft.com/en-us/library/aa393397.aspx">this</a> is a good resource to start), you will see that they all have the same structure, which is XML. The XML document (starting with root node <code><strong>&lt;ASX&gt;</strong></code>) provides the basic characteristics of how the media streams need to be played, what sequence they follow and how the user can interact with them. Digging deeper into the XML, I found several tags which can be abused for malicious purposes. I am going to cover only one of them, which I find the most interesting:</p>
+
+<pre><code>&lt;param name="HTMLView" value="[url here]"/&gt;</code></pre>
+
+<p>From the <a href="http://msdn2.microsoft.com/en-us/library/aa392319.aspx">documentation</a>, the <code>HTMLView</code> value specifies:</p>
+
+<blockquote>a URL that displays in the Now Playing pane of the full mode Player for the duration of the playlist or the current entry depending on whether the parent element is the ASX element or an ENTRY element. HTMLView is not supported for the Windows Media Player control.</blockquote>
+
+<p>In simple words, <code>HTMLView</code> will display a page of our choice within the standalone Windows Media Player, i.e. the page will be opened within the Media Player&#8217;s surroundings, not a standalone browser. This is in particular very interesting behavior, which I experimented with for a bit. I found that a fully patched windows XP SP2 with IE6 or IE7 and Windows Media Player 9 (default) will open any page of your choice in less restrictive Internet Explorer environment even if your default browser is Firefox, Opera or anything else you have for a browser. This means that even if you are running Firefox and you think that you are secure, by simply opening an ASX media file, you expose yourself to all kinds of IE vulnerabilities.</p>
+
+<p><em>Like always, I prepared some POCs (check the bottom of the post) you can try running, which I supply just to demonstrate the issue without harming your system. Those of your who have Media Player 11 are sort of protected. Upon execution you will see a confirmation box. This is a good news for Vista users. However, given the fact that Media Player is not the most popular choice for the masses and Vista is still not widely adopted, attackers are in very good position to abuse the technology for their own good.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Launch:</span> <a href="../../static/blog/2007/09/bwmf-poc01.wmv">bwmf-poc01.asx</a>, <a href="../../static/blog/2007/09/bwmf-poc02.wmv">bwmf-poc02.asx</a>, <a href="../../static/blog/2007/09/bwmf-poc03.wmv">bwmf-poc03.asx</a>, <a href="../../static/blog/2007/09/bwmf-poc04.wmv">bwmf-poc04.asx</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-50224">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e0f595cbc8f1811233adce10ac6c5d3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.awesomeandrew.net/' rel='external nofollow' class='url'>Awesome AnDrEw</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50224">
+			September 18, 2007 at 4:05 pm</a>		</div>
+
+		<p>I believe there&#8217;s options within almost every version of Windows Media Player to at least ask for confirmation when attempting to load web content. The first thing I do when installing any media application is to set the privacy and security settings to deny access to the player ID and any script commands. I did allow it to connect for your demonstration, which was pretty cool.</p>
+<p>Another thing I noticed is that you could probably do this without most users really understanding what is taking place, because upon viewing the proof of concept I was able to navigate back to the other blogs on your site within Windows Media Player, and then clicked the link to my own website. My own website has MP3s embedded within it, and upon viewing the page the MP3 immediately transferred itself to Windows Media Player&#8217;s &#8220;Now Playing&#8221; list. So essentially this could be more even more dangerous if you were to place an embedded media file such as a blank WAV or MP3 to immediately mask any suspicious activity.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50235">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e0f595cbc8f1811233adce10ac6c5d3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.awesomeandrew.net/' rel='external nofollow' class='url'>Awesome AnDrEw</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50235">
+			September 18, 2007 at 4:23 pm</a>		</div>
+
+		<p>I&#8217;ve been playing around with it for a few moments, and I see that certain scripting elements are disabled within Windows Media Player. A regular alert box will not execute when the content loads, but so far I see it supports other statements and properties such as location.href, window.open, and document.write. You&#8217;re doing awesome work, PDP. Keep it up.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-50236">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50236">
+			September 18, 2007 at 4:28 pm</a>		</div>
+
+		<p>Awesome AnDrEw, the docs mention that both alert and confirm are disabled. I&#8217;ve tried to access the <strong>external</strong> object but with no luck. For the actual testing, I use a inbrowser JavaScript console. Hmmmm, let me create one POC for you guys to mess around. I will be back in a sec.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-50237">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50237">
+			September 18, 2007 at 4:32 pm</a>		</div>
+
+		<p>You can use the <a href="../../static/blog/2007/09/bwmf-console.wmv" rel="nofollow">following POC</a> to script Windows Media Player from within. Once inside, click on the first link.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50309">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e5cbad9527e23aeb9f3766f5c1e1c2e8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sam</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50309">
+			September 18, 2007 at 8:40 pm</a>		</div>
+
+		<p>I tried in WMP10 and I still get a confirmation dialog, so seems WMP10 is about as secure as WMP11 in that respect.</p>
+<p>However, I agree with you on the dangers of meta files. Generally it is a good idea to avoid them.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50319">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d3fc02c9a66b6f0222792f02f284b02?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">/nul</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50319">
+			September 18, 2007 at 9:27 pm</a>		</div>
+
+		<p>Nice work as always pdp. I&#8217;ve tested PoC on Windows Media Player 10 and 11. On both versions confirmation dialog pops-up. I suppose that only WMP9 (default on XP) is affected.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50358">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c5f240c71253599c1be1be455dc13bc3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rosario.valottagooglepages.com/' rel='external nofollow' class='url'>Rosario Valotta</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50358">
+			September 18, 2007 at 11:43 pm</a>		</div>
+
+		<p>Hi pdp, i&#8217;ve played a bit on these topics some months ago and I already noticed the wmp behaviour you depicted in the post. After some tests I gave up as in order to run javascript you need to play files in HTMLView mode, so no &#8220;hidden attack&#8221; can be performed (afaik)</p>
+<p>I turned to investigate on possible exploitation of wmp in embedded html page. In this scenario, many DOM objects often used in scripts (document, parent, so on) are accessible from a JS script running from the the movie environment.</p>
+<p>As reported in the official documentation, it is possible to edit wmp files in order to embed scripts and marker. Scripts can be of 2 types: URL (allow to launch URL in the browser window embedding the wmp) and TEXT. Text scripts are generally used for caption purposes but&#8230;if you use javascript syntax&#8230;it will be executed in the</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50360">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c5f240c71253599c1be1be455dc13bc3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rosario.valottagooglepages.com/' rel='external nofollow' class='url'>Rosario Valotta</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50360">
+			September 18, 2007 at 11:47 pm</a>		</div>
+
+		<p>embedding window. The only limit to this is that you must define in the  tag the HTML node (a DIV for example) where the TEXT script shoud be showed.</p>
+<p>I&#8217;ve tried to embed a wmp in sites that allow video uploading (spaces.live.com, myspace.com) but the embed code always is sanitized so I had no succes in exploiting this functionality.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50445">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4d096f0c01c34c101e711637a3c39d46?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.13337.org/' rel='external nofollow' class='url'>FiSh</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50445">
+			September 19, 2007 at 5:03 am</a>		</div>
+
+		<p>I&#8217;ve been reading your RSS feed for the past week or two, and let me tell you, you&#8217;ve scared me shitless! Keep up the good work ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50569">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d8582ad45d02151e2f22560a64036336?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://joephantom.net/' rel='external nofollow' class='url'>Joe Phantom</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50569">
+			September 19, 2007 at 10:29 pm</a>		</div>
+
+		<p>Another excellent post about meta files danger.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50654">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/624e7d26d7a9a43d39ea76624a8fb6a6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://g00ns.net/' rel='external nofollow' class='url'>chucky</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50654">
+			September 20, 2007 at 4:55 am</a>		</div>
+
+		<p>good job man, this is pretty crazy</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50686">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3d5808eeaf247697f1148988f53c6b4b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">CrashOne</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50686">
+			September 20, 2007 at 8:13 am</a>		</div>
+
+		<p>This example illustrates the lack of good security within MS products.</p>
+<p>Althoug i think this wil be patched soon, simply change the default behaviour of WMP.</p>
+<p>If your default player for WMP files isn&#8217;t WMP (like VLC) your not vulnerable.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-51048">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ed10ac32a0bd307784871efc74312200?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Lff</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-51048">
+			September 21, 2007 at 8:17 am</a>		</div>
+
+		<p>Guys, no one ever thought that windows itself and microsoft as a company are free from bugs and security holes&#8230; In general, microsoft is sucks by itself, no less no more. Everybosy, let us say: &#8220;Bill, we do not want your sloppy company anymore!&#8221;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-51114">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/16bbff61099696c7cd63ad803586f137?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sergey Gordeychik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-51114">
+			September 21, 2007 at 10:45 am</a>		</div>
+
+		<p>There are lot of other applications which use IE as  default rendering engine and can used to exploit IE&#8217;s bugs. But via different vectors. </p>
+<p>Examples:</p>
+<p><a href="http://seclists.org/bugtraq/2005/Jul/0427.html" rel="nofollow">http://seclists.org/bugtraq/2005/Jul/0427.html</a><br />
+<a href="http://www.securitylab.ru/contest/212127.php" rel="nofollow">http://www.securitylab.ru/contest/212127.php</a> (Russian)<br />
+<a href="http://www.securityfocus.com/bid/17913/references" rel="nofollow">http://www.securityfocus.com/bid/17913/references</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-52509">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bb1950e649d23ea1f807f6e59fa12d6f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">CX</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-52509">
+			September 25, 2007 at 4:07 pm</a>		</div>
+
+		<p>No problem: try lite version WinXP SP2 Vista edition (175 Mb.) _WITHOUT WINDOWS MEDIA PLAYER_</p>
+<p>:))</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-52655">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/85a5d4389213e5cb1d32cea469d606f0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">0xDeadFace</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-52655">
+			September 25, 2007 at 10:57 pm</a>		</div>
+
+		<p>I read and code your exploit but I&#8217;m missing something: the jscript you launch in wmp works well in an html file opened directly with ie. I mean: no need to use this wmp trick.</p>
+<p>The advantage of your exploit is that you use the less restrictive security rules of wmp than ie for executing jscript. Correct?</p>
+<p>May you put an example with such a jscript?</p>
+<p>thx</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-61903">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f67ae868e54131ed534cee97644fbfda?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.interactiveentertainmentcorp.com/' rel='external nofollow' class='url'>crypt1c_cyph3r</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61903">
+			October 26, 2007 at 11:11 pm</a>		</div>
+
+		<p>Hello, everyone just want to say thanx for this info really appreciate the insight! I&#8217;m honestly fed up with MS(I call em MicroSh1t)! i&#8217;m just about ready to switch over to linux! u know ubuntu, just as soon as i can figure out how to get my internet connection up and running with it! just need a little help with the drivers i need and how to install them on ubuntu&#8217;s linux os! i am using a Motorola SURFboard SB5120 USB Cable Modem and my isp is cox high speed internet! any help any1 could give me is much appreciated.</p>
+<p>as i&#8217;m kinda new to the linux os!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="459"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="77e5357b19" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/backdooring-windows-media-files/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:14:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

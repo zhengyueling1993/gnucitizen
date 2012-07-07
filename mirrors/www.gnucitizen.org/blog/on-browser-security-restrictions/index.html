@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/on-browser-security-restrictions/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:18:56 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; On Browser Security Restrictions</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; On Browser Security Restrictions Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Web2.0 is not AJAX' href='../web20-is-not-ajax/index.html' />
+<link rel='next' title='Facebook Homepage Source Code Probably Leaked' href='../facebook-homepage-source-code-probably-leaked/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index17d3.html?p=420' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-420" class="post">
+	<div class="post-title"><h2><span>On Browser Security Restrictions</span></h2></div>
+	<div class="post-date"><span>published:</span> August 11th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p><a href="http://myappsecurity.blogspot.com/">Anurag Agarwal</a> has brought an interesting discussion on WASC and the Webappsec Security Focus mailing lists. Here is a snippet from his e-mail:</p>
+
+<blockquote><p>I am looking to get views from people on the list about a proposed security restriction in the browsers. The browser should check with the webserver which domains it can interact with (load files from or submit post data to, etc) for that website. How the check is implemented is upto the browser.</p>
+
+<p>For example: If a page from mybank.com is trying to submit data to attacker.com then before submitting the data, the browser should check with the mybank.com if it is allowed to do so.</p></blockquote>
+
+<p>This is quite interesting problem and soon or later we have to tackle it in one or another way. Now, I am not sure whether Anurag&#8217;s idea is good but I know for a fact that probably it wont make it, unless we have a miracle. If you haven&#8217;t noticed yet, the world is moving towards <code>crossdomain.xml</code> which is property of Adobe, the biggest Web technology player at the
+moment. Firefox is moving towards Tamarin, another Adobe product, and yes, although Tamarin has nothing to do with <code>crossdomain.xml</code> security implementation, there is a high chance of being able to influence the way web technologies will go.</p>
+
+<p>IMHO, <code>crossdomain.xml</code> is probably the change that we all need. However, unfortunately, It won&#8217;t solve any problem but only create new ones. Not that long time ago, I had a <a href="http://ajaxian.com/archives/kevin-lynch-at-the-ajax-experience/">discussion</a> with <a href="http://weblogs.macromedia.com/emalasky">Ethan Malasky</a> from Macromedia on Ajaxian&#8217;s blog about the security problems around <code>crossdomain.xml</code>. Here is what I&#8217;ve said.</p>
+
+<blockquote><p>Due to the Same Origin Policies JavaScript can access only the current origin. Even if you implement the crossdomain.xml file, JavaScript again will be able to access the current origin. Why? Compatibly issues. We cannot move to the new technology over the night. With or without crossdomain.xml JSON or JavaScript remoting, if you like, will still work. The only thing that will change is increased attack surface due to the trust relationship between apps. Let me explain.</p>
+
+<p>Letâ€™s say that we have app on A.com and another one on B.com. B.com says that A.com can access its data. Effectively, this means that If I can get XSS on A.com, I will be able to read the data on that domain including the data on B.com due to the trust relationship. Today this is not possible. I need two XSS vulns rather the one.</p></blockquote>
+
+<p>Let&#8217;s get back to the question about CSRF. <strong>You can&#8217;t stop CSRF</strong>. This is it! The technology does what it is
+supposed to do. I see how some policies can be used for good, for example in situations where attackers are after your router through some sort of CSRF attack, but again, I seriously doubt that something like what Anurag has proposed will ever work. For sure it will improve the situation security wise in certain areas but at the same time will make Web technologies rather inflexible which is something that developers hate. I don&#8217;t think that people like <code>crossdomain.xml</code> either, and this is the reason why most sites allow everyone to connect to their stuff, although they probably don&#8217;t know about the dangers of doing that.</p>
+
+<p>Also keep in mind that Anurag&#8217;s proposed solution will stop only POST based CSRF attacks. Those based on GET cannot be stopped. Someone may say that developers should make critical requests to go over POST only, but this is not the case that I see in the real world. Today, GET and POST are substitutable. PHP doesn&#8217;t do it by default but I see developers enforce it anyway. I won&#8217;t be surprised if we start using <code>$_PARAMS</code> instead of <code>$_GET</code> and <code>$_POST</code> in the future. Furthermore, most Java applications do not differentiate between GET or POST so they are practically excluded from any CSRF prevention policies we would like to introduce have.</p>
+
+<p><em>So yes, we can setup a policy but it will never take off. First of all standardization bodies needs to except it. Then browsers have to implement it and we have a browser war going on at the moment. No developer will implement a standard that is not widely adopted.</em></p>
+
+<p>IMHO we need to look at security personalization options within the browsers rather then inventing new standards that may crash and burn like they&#8217;ve done so far. For example, browsers should not allow external pages to connect to sites with private IP addresses. But I would like to have the option to disable this policy if I want to.</p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-40054">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/290e868e00e8429bf1624a461b8ef81e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackademix.net/' rel='external nofollow' class='url'>Giorgio Maone</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-40054">
+			August 11, 2007 at 12:39 pm</a>		</div>
+
+		<p>Hi pdp,<br />
+in the end looks like you&#8217;re talking about #1 and #3 of the NoScript &#8220;Anti-CSRF features in the works&#8221;  I told you here last June: <a href="../xss-worms-and-mitigation-controls/index.html#comment-31255" rel="nofollow">http://www.gnucitizen.org/blog.....ment-31255</a></p>
+<p>Cheers</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-40115">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-40115">
+			August 11, 2007 at 7:49 pm</a>		</div>
+
+		<p>true, but we need something that is more flexible&#8230; something that is user oriented not just suitable for security people like us.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-45598">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/78a2f7cd819d229662b1cec3abf8bf92?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://getahead.org/blog/joe/' rel='external nofollow' class='url'>Joe Walker</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-45598">
+			September 3, 2007 at 6:47 pm</a>		</div>
+
+		<p>How about this for a solution to CSRF:<br />
+<a href="http://getahead.org/blog/joe/2007/08/07/fixing_browser_security_samerefereronly.html" rel="nofollow">http://getahead.org/blog/joe/2.....ronly.html</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="420"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ae0555153d" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/on-browser-security-restrictions/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:18:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

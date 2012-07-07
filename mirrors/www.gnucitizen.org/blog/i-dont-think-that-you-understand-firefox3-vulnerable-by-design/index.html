@@ -1,0 +1,651 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/i-dont-think-that-you-understand-firefox3-vulnerable-by-design/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:18:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; I don&#8217;t think that you understand! &#8211; Firefox3 Vulnerable by Design</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; I don&#8217;t think that you understand! &#8211; Firefox3 Vulnerable by Design Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='OpenID &#8211; A Security Story' href='../openid-a-security-story/index.html' />
+<link rel='next' title='Searching For Evil' href='../searching-for-evil/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexdf01.html?p=441' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-441" class="post">
+	<div class="post-title"><h2><span>I don&#8217;t think that you understand! &#8211; Firefox3 Vulnerable by Design</span></h2></div>
+	<div class="post-date"><span>published:</span> August 25th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I was going to through the latest entries in my feed reader, when I stumbled upon <a href="http://www.internetnews.com/security/article.php/3695731">Mozilla Aims At Cross-Site Scripting With FF3</a>. <q>Wow, this is interesting.</q> So I clicked on the link and started reading. The more I read the more I knew it was a big screw up from the start.</p>
+
+<blockquote>Mozilla is aiming to put an end to XSS attacks in its upcoming Firefox 3 browser. The Alpha 7 development release includes support for a new W3C working draft specification that is intended is secure XML over HTTP requests (often referred to as XHR) which are often the culprit when it comes to XSS attacks. XHR is the backbone of Web 2.0 enabling a more dynamic web experience with remote data.</blockquote>
+
+<p><q>Uh? What is that? How is that going to prevent XSS.</q> But wait, it is getting even more interesting.</p>
+
+<blockquote>â€œCross site XMLHttpRequest will enable web authors to more easily and safely create Web mashups,â€ Mike Schroepfer, Mozillaâ€™s vice president of engineering, told internetnews.com.</blockquote>
+
+<blockquote>A typical XSS attack vector is one in which a malicious Web site reads the credentials from another that a user has visited. The new specification could well serve to limit that type of attack though it is still incumbent upon Web developers to be careful with their trusted data.</blockquote>
+
+<p>First of all, this technology is not going to prevent XSS. This is guaranteed. Second, it may only increase the attack surface since developers will abuse this technology as it is the case with Adobe Flash <code>crossdomain.xml</code>. And finally, the proposed W3C <a href="http://www.w3.org/TR/access-control/">specifications</a> are insecure from start. Let&#8217;s see why this is the case.</p>
+
+<p>The specification describes a mechanism where browsers can provide cross-domain communication (something that is currently restricted by the same domain policies) via the all mighty JavaScript XMLHttpRequest object. In order to grant access to external scripts you can do that by using either of the following ways:</p>
+
+<h3>Content-Access-Control header</h3>
+
+<p>The idea is that the developer provides an additional header in the response. Here is an example:</p>
+
+<pre><code>Content-Access-Control: allow &lt;*.example.org&gt; exclude &lt;*.public.example.org&gt;
+Content-Access-Control: allow &lt;webmaster.public.example.org&gt;</code></pre>
+
+<p>So, as long as the response contains a header that specifies that the requesting site, which hosts the script, can access the content, no domain access restrictions will be applied. The bad news for this approach is that there is an attack vector known as <strong>CRLF Injection</strong>. If any part of the user supplied input is used as part of the response headers, attackers can inject additional header to grant access. Here is a scenario where this attack can be applied:</p>
+
+<p>Case study 1: <em>MySpace implements a new AJAX interface for the user contact list section. The list is delivered as XML. This REST service contains a couple of parameters. One of them is used as part of the headers. Although by default attackers cannot read the XML file due to the same origin policies, now they can trick the browser into letting them do so via CRLF injection. The attack looks like the following:</em></p>
+
+<pre><code>var q = new XMLHttpRequest();
+q.open('GET', 'http://myspace.com/path/to/contact/rest/service.xml?someparam=blab%0D%0AContent-Access-Control: allow &lt;*&gt;');
+q.onreadystatechange = function () {
+  // read the document here
+};
+q.send()</code></pre>
+
+<p>Ups!. This is how we tricked the browser into believing that the above site grants us with full access to the user private contact list. But wait, this is not all. I think that W3C forgot about the infamous TRACE and TRACK methods and the vulnerabilities that are associated with them. Cross-site Tracing attacks are considered sort of theoretical because there is no real scenario in which attackers can take advantage of them. On way to exploit XST, is to have access to the target content via XSS, but if you have XSS then what&#8217;s the point. However, if the new spec is implemented, now we have a whole new attack vector we need to worry about. So, we are not really fixing the XSS problem, we are in fact contributing to it. Here is a demonstration Cross-site tracing attack against MySpace again.</p>
+
+<pre><code>var q = new XMLHttpRequest();
+q.open('<strong>TRACE</strong>', 'http://myspace.com/path/to/contact/rest/service.xml');
+q.setRequestHeader('Content-Access-Control', 'allow &lt;*&gt;'); // we say to the server to echo back this header
+q.onreadystatechange = function () {
+  // read the document here
+};
+q.send();</code></pre>
+
+<p>That was too easy. I hope that FF3 restricts the XMLHttpRequest object to set <q>Content-Access-Control</q> header, but then I guess we can use Flash or Java to do the same or at least somehow circumvent FF header restrictions. I don&#8217;t know.</p>
+
+<p>And finally I would like you to pay attention on the fact that the browser verifies about the script access control after the request is delivered. <q>Uh?</q>. Haven&#8217;t you learned? CSRF!!! This means that now we can make arbitrary requests to any resource with surgical precision. Port scanning from JavaScript will become as stable as it can get. <q>Why?</q> you may ask. Here is a demo:</p>
+
+<pre><code>try {
+  var q = new XMLHttpRequest();
+  q.open('GET', 'http://<strong>&lt;some host&gt;</strong>:<strong>&lt;port of interest&gt;</strong>');
+  q.onreadystatechange = function () {
+    if (q.readyState == 3) {
+      // port is open
+    }
+  };
+  q.send();
+} catch(e) {}</code></pre>
+
+<p>This port scanning method does not work today, but it will if you implement the W3C standard. With the current browser specifications, the above code will crash and burn at <code>q.send();</code> step. It won&#8217;t fire a request unless the origin matches with the current one. However, with the new spec on place, the <code>q.send();</code> step will fire. Then, while loading the document, the <strong>onreadystatechange</strong> event callback will be called several times for states 0 (uninitialized), 1 (open), 2 (sent), 3 (receiving). At stage 4 (loaded), the request will fail with a security exception. However, we&#8217;ve successfully passed stage 3 (receiving) which has acknowledged that the remote resource is present. Here is a simple script that can be used to port scan with the new W3C spec. It should be super accurate:</p>
+
+<pre><code>function checkPort(host, port, callback) {
+  try {
+    var q = new XMLHttpRequest();
+    q.open('GET', host + ':' + port);
+    q.onreadystatechange = function () {
+      if (q.readyState == 3) {
+        callback(host, port, 'open');
+      }
+    };
+    q.send();
+  } catch(e) {
+    // check the exception type... {
+    callback(host, port, 'closed');
+    // }
+  }
+}
+
+for (var i = 0; i < 1024: i++) {
+  scanPort('target.com', i, function (host, port, status) {
+    console.log(host, port, status); // do something with the result
+  });
+}</code></pre>
+
+<h3>&lt;?access-control?&gt; processing instruction</h3>
+
+<p>Ok. Bad news. But check this out. W3C standard suggests that we can embed the access control mechanism into the XML document itself. Here is an example:</p>
+
+<pre><code>&lt;?access-control allow="*"?&gt;
+&lt;list&gt;
+  &lt;email&gt;joe@avarage.com&lt;/email&gt;
+&lt;/list&gt;</code></pre>
+
+<p>This cross domain access control mechanism is also subjective to TRACK/TRACE and CSRF (PortScanning and State detection) vulnerabilities. Luckily, it is not vulnerable to CRLF Injection. However, in case the internal FF or IE XML parsing engine is vulnerable to some buffer overflow, we will be screwed big time. But this is another story and I guess it requires more research and of course the presence of a software vulnerability. Keep in mind that I am just elaborating here.</p>
+
+<h3>In conclusion</h3>
+
+<p>For God's sake, do not implement the standard. Can't you see? It will open a can of worms (literally). And please, don't say that this specification will prevent XSS. It doesn't? I see how the W3C spec will enable developers to go further and do even more exciting on-line stuff but is it really worthed? You tell me, cuz I don't know what the heck your have been thinking.</p>
+
+<p><em><strong>WARNING:</strong> None of the above attacks have been verified. The conclusion about possible vulnerabilities withing the specifications have been drawn by simply looking at the W3C working draft. However, given the fact that Firefox follows specifications to the extend no other browser vendor does, there is a high chance that the vulnerabilities mentioned above may work very soon. Thank you.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-43239">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d2dc9227eafcd0ec5ba3712ee4f19b75?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.squarefree.com/' rel='external nofollow' class='url'>Jesse Ruderman</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43239">
+			August 25, 2007 at 11:23 pm</a>		</div>
+
+		<p>I&#8217;m not sure how the internetnews.com writer got from &#8220;Cross site XMLHttpRequest will enable web authors to more easily and safely create Web mashups&#8221; (which Schrep said and I agree with) to &#8220;Mozilla is aiming to put an end to XSS attacks in its upcoming Firefox 3 browser&#8221; (which is clearly not the case).</p>
+<p>Most of your complaints about the feature seem to be about how it can make existing bugs in servers worse.  For example, you mention CRLF injection.  You can already do quite a bit if you can inject CRLF in the headers returned from a site during a page request; I&#8217;d be surprised if you can&#8217;t XSS with it.  So I don&#8217;t think cross-site XHR and content-access-control make that problem worse for buggy servers.</p>
+<p>Your TRACE attack looks like something that&#8217;s easily prevented in browsers.  But the header is per-request, so if all TRACE does is echo your request, the only data you&#8217;ll get out of it is the echoed request.  Am I missing something?</p>
+<p>One thing that *does* worry me about the spec is the following sentence in the &#8220;security considerations&#8221; section: &#8220;A user agent running inside a trusted corporate network and executing untrusted content should enforce a sandboxing policy by denying access (to untrusted content).&#8221;  Browsers have always had a hard time distinguishing between inside-the-firewall resources and outside-the-firewall resources.  (Think CSRF attacks and DNS-rebinding attacks against home routers and internal servers.)  A spec requiring browsers to do so doesn&#8217;t suddenly make it possible to do.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-43244">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/04b8fca2c8dde2ed82373ade37e9789d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.manico.net/' rel='external nofollow' class='url'>Jim Manico</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43244">
+			August 25, 2007 at 11:42 pm</a>		</div>
+
+		<p>Petko, this is nothing short of a brilliant argument. Good work, thanks for diving deep into this!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-43252">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43252">
+			August 26, 2007 at 12:29 am</a>		</div>
+
+		<p>Jesse, I am not arguing with you. This post is something that I put up in 20 minutes. Only time will tell. So please consider everything that I&#8217;ve said as pure speculation.</p>
+<p>About, TRACE: I&#8217;ve seen a lot of weird stuff when it comes to HTTP. Don&#8217;t be surprised when certain things just work. Certain Java connectors accept everything. They completely ignore the METHOD and just look at the data that is passed. Sometimes it is just possible to set the headers. I cannot give an example now but I am also not that big Java fan either. Also, mod_python and mod_rubby both have higher level of interaction with Apache. There might be situations where they can take higher priority over the body and supply only content in which case the request will be split in two. Let&#8217;s not forget proxies and caching issues. I am not sure whether XmlHttpRequest will implement access control caching either.</p>
+<p>CRLF Injection on resources that deliver XML files is not that much of a problem. XML wont render and definitely does not know how to evaluate JavaScript. Let&#8217;s take a look at SOAP for example. SOAP is highly dependent on request and response headers. The chances to open CRLF hole in there are usually higher. This means that now attackers can make arbitrary calls to vulnerable SOAP services and pull data out without any restrictions. <q>Big deal</q> you say. True, but let say that the vulnerable SOAP server is inside the corporate Intranet. Ok, now it becomes interesting. This means that JavaScript will be able to pull data without any restrictions. All it takes is for the user to visit a resource that is slightly malicious. Now, this is what I call a sneaky break-in.</p>
+<p>Again, I have not idea what&#8217;s going on but the spec does not sound good to me. I don&#8217;t like it and I am almost certain that there will be some serious implications for browser vendors after it is implemented.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-43588">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e0f595cbc8f1811233adce10ac6c5d3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.awesomeandrew.net/' rel='external nofollow' class='url'>Awesome AnDrEw</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43588">
+			August 27, 2007 at 6:57 am</a>		</div>
+
+		<p>Another awesome article, pdp. I see a lot of potential with these vulnerabilities such as combining an XSS issue with a XHR, or XST, for powerful worms, and multiple forms of information disclosures.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-43605">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43605">
+			August 27, 2007 at 8:44 am</a>		</div>
+
+		<p>Awesome, yes. But wait for the Web2.0 paper which I am planning to release on the 1st next month, which will detail various other aspects that we need to consider. For me, the future looks quite grim.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-43730">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d1658ac36692c8b5ff5612aa9d6a837?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rezn</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43730">
+			August 27, 2007 at 7:14 pm</a>		</div>
+
+		<p>Nice analysis pdp.  Thanks for posting some actual content again!  </p>
+<p>I wonder how the W3C went so wrong on this.  Same Origin is one of the few things that has been kept constant since the early days of the browser wars &#8211; any changes to it need to be very carefully considered.</p>
+<p>As some &#8220;official&#8221; way of bypassing Same Origin as we know it today is inevitable (due to market pressures), do you have any suggestions for a better way than the W3C&#8217;s current proposal?  What about Adobe&#8217;s crossdomain.xml approach?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-43746">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43746">
+			August 27, 2007 at 8:50 pm</a>		</div>
+
+		<p>heh, I am not quite sure. I don&#8217;t think that we need to enable browsers to do so much, but as you said, <q>due to market pressures</q> it is inevitable.</p>
+<p>As for <strong>crossdomain.xml</strong>, well,&#8230; I don&#8217;t think that the idea is good either. I posted a little bit more about about it over <a href="../on-browser-security-restrictions/index.html" rel="nofollow">here</a> and <a href="http://ajaxian.com/archives/kevin-lynch-at-the-ajax-experience/" rel="nofollow">here</a>.</p>
+<blockquote><p>Due to the Same Origin Policies JavaScript can access only the current origin. Even if you implement the crossdomain.xml file, JavaScript again will be able to access the current origin. Why? Compatibly issues. We cannot move to the new technology over the night. With or without crossdomain.xml JSON or JavaScript remoting, if you like, will still work. The only thing that will change is increased attack surface due to the trust relationship between apps. Let me explain.</p>
+<p>Letâ€™s say that we have app on A.com and another one on B.com. B.com says that A.com can access its data. Effectively, this means that If I can get XSS on A.com, I will be able to read the data on that domain including the data on B.com due to the trust relationship. Today this is not possible. I need two XSS vulns rather the one.</p>
+</blockquote>
+<p>IMHO, <strong>crossdomain.xml</strong> sounds a lot better although it is a bit limiting. On the other hand, the W3C approach is very flexible but very insecure as well.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-43752">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43752">
+			August 27, 2007 at 9:06 pm</a>		</div>
+
+		<h3>UPDATE</h3>
+<p>While writing my previous comment I though of another problem that may arise with W3C approach to cross-domain communication.</p>
+<p><strong>There might be cases where attackers can steal the user session identifier!!!</strong></p>
+<p>Let&#8217;s say that Joe visit joesemail.com and logs in. The browser remembers his session cookie for that site. Then Joe visit evil.com. This site knows that joesemial.com has a resource that can be accessed via the W3C cross domain security policies and it is available for everyone to use. However, evil.com will try to trigger for the cookie to reset or be sent back to the client. Then evil.com can read it. Or attackers can simply use TRACE to make the server echo back what has been sent and access it via responeText if possible. Again, these are pure speculations.</p>
+<p>Also, as it is the case with <strong>crossdomain.xml</strong>, if site A.com and site B.com are in trust relationship, then having XSS on one of them will lead to XSS on the other.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-43778">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/80d7b8935b953dabd63268177b7981f6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ronald van den Heetkamp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43778">
+			August 27, 2007 at 11:31 pm</a>		</div>
+
+		<p>But, in a sense they are violating the same origin policy. Since connecting to different ports is violating this. (Or get a loopback response via TRACE)</p>
+<p>But, yes we are going to see more ways of attacking instead of less. Anyone ever read the HTML5.0 and XHTML2.0 drafts? where CSRF will be facilitated by default and where we get &#8220;cross DOM messaging&#8221; now that is a good idea I tell ya.</p>
+<p>We finally broke it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-43782">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43782">
+			August 27, 2007 at 11:42 pm</a>		</div>
+
+		<p>we really did</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-43940">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/45ccef09e5756c57c36d9aec646740e3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">name: (required)</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43940">
+			August 28, 2007 at 1:54 pm</a>		</div>
+
+		<p>encrease?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-43943">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-43943">
+			August 28, 2007 at 2:03 pm</a>		</div>
+
+		<p>fixed, 10x</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-44060">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/601b2f6e5c053ba0b9bf9cdcf060eb11?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">goddamgeek</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44060">
+			August 29, 2007 at 1:21 am</a>		</div>
+
+		<blockquote><p>service.xml?someparam=blab%0B%0AContent-Acce&#8230;.</p></blockquote>
+<p>Shudn&#8217;t it be %0D%0A ?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-44063">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8a97d5d5049e2414cb1ae1c47c5293f8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Brian</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44063">
+			August 29, 2007 at 1:46 am</a>		</div>
+
+		<p>Very interesting article, PDP.  The CRLF injection and TRACE/TRACK method attacks seem like they could probably be easily prevented.  Couldn&#8217;t Firefox 3 be designed not to send CRLF characters and TRACE/TRACK requests off-domain with the XHR object?  </p>
+<p>But it seems strange that the browser actually has to make a cross-domain request and receive a response in order to determine whether or not it is allowed to look at the response.  That&#8217;s just asking for trouble.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-44067">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8a97d5d5049e2414cb1ae1c47c5293f8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Brian</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44067">
+			August 29, 2007 at 2:11 am</a>		</div>
+
+		<p>PDP &#8211; Would it be possible to create a Firefox extension that automatically inserts a &#8220;Content-Access-Control: allow &#8221; header into every response before the response is received by the XHR object?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-44128">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44128">
+			August 29, 2007 at 7:04 am</a>		</div>
+
+		<p>goddamgeek, thanks for spotting this one. it should be ASCII 13 (\r) and ASCII 10 (\n) or simply %0D%0A, as you said.</p>
+<p>Brian, we can add a lot of preventing mechanisms on the client but they all seams to be hacks and look a bit ugly and not on place. CRLF is a valid character sequence and if developers wants to use it for whatever reason, they should be able to. As for the extension, yes you can. Check Tamper Data source code.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-44129">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/da6b54ad3fdb36ba7656df9adfe65d12?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Dan Veditz</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44129">
+			August 29, 2007 at 7:05 am</a>		</div>
+
+		<p>Like Jesse I&#8217;m having trouble mapping the internetnews.com article onto reality. I&#8217;ll stick with a discussion of cross-site XHR.</p>
+<p>I&#8217;m not sure where TRACE is coming from. Earlier versions of the XMLHttpRequest spec explicitly disallowed it, and that&#8217;s certainly true of the Firefox implementation. Regardless of spec I can&#8217;t see Firefox re-enabling support for TRACE in XHR.</p>
+<p>Firefox 3 nightlies already implement cross-site XHR support, I encourage you to play with it and poke holes based on reality rather than mangled press reports.</p>
+<p>If a web server has a CRLF injection problem then that&#8217;s a problem regardless of this new feature. It could, for instance, lead to an XSS problem which allows equivalent data exfiltration to what you worry about here.</p>
+<p>Your port-scanning example is a great one, I&#8217;ll find out who to bug to get the spec changed to skip or delay state 3 for cross-domain requests. Thanks!</p>
+<p>If the FF XML engine is vulnerable to a buffer overflow then you exploit FF directly by loading an XML page or frame. XHR doesn&#8217;t change a thing.</p>
+<p>I&#8217;m disappointed not seeing anything in the spec about preventing the reading of cookies or other sensitive headers in cross-site requests. That needs to be made explicit.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-44136">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44136">
+			August 29, 2007 at 7:27 am</a>		</div>
+
+		<p>Dan, absolutely. Keep in mind that what I&#8217;ve put here is yet to be verified. All I am saying is the following:</p>
+<div class="message">The industry requires a way for performing cross-domain XHR without the need of a proxy. The standards that will come to solve this problem will cause <strong>probably</strong> more problems then what we have today.</div>
+<p>Ronald said:</p>
+<blockquote><p>they are violating the same origin policy</p></blockquote>
+<p>He is right. Ignore the all specifications problems that we&#8217;ve discussed so far. We don&#8217;t know whether they are going to by present in Firefox&#8217;s implementation. Let&#8217;s concentrate on the fact that attackers will be able to obtain sensitive information from multiple sites by compromising only one of them. The trust relationship that will be built on top of the web will be used in the most undesired ways.</p>
+<p>Let&#8217;s say that Yahoo wants to enable all of their service to communicate with each other but only for their domains. This is cool &#8211; sort of secure. However, if the attacker manages to get only one XSS on any of the trusted domains, they effectively can get interesting info from all the others. To me, this is like back in 1990 &#8211; everything is broken again.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-44212">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/204253871cf0dc3f02ef819404ff7465?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Spider</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-44212">
+			August 29, 2007 at 3:41 pm</a>		</div>
+
+		<p>Yeah. I agree with your writeup. I think the only secure way to do it is to bring digital signatures into play. Any kind of list (Content-Access-Control, allowed javascript, what ever else needs to be locked down) that provides restrictions has to be protected from modification. They need to include a digital signature to assure the browser that the security settings are exactly what the server set and nothing has modified it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-45252">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ed3869317f29f4345046d2be2172b072?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://annevankesteren.nl/' rel='external nofollow' class='url'>Anne van Kesteren</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-45252">
+			September 2, 2007 at 1:00 pm</a>		</div>
+
+		<p>I&#8217;m not sure how you think your attacks will work given the algorithms outlined in <a href="http://dev.w3.org/2006/webapi/XMLHttpRequest-2/Overview.html" rel="nofollow">http://dev.w3.org/2006/webapi/.....rview.html</a> although given that the specification is not entirely done yet there may be some issues I suppose. (Disclaimer: I&#8217;m the editor of both XMLHttpRequest level 2 and the Enabling Read Access for Web Resources specification.)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-45254">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-45254">
+			September 2, 2007 at 1:08 pm</a>		</div>
+
+		<p>Anne,</p>
+<p>I don&#8217;t have much time to read the spec again but by skimming through it very quickly, I stumbled across the following:</p>
+<blockquote><p>A conforming user agent must support some version of the HTTP protocol. It should support any HTTP method that matches the Method production and must at least support the following methods:</p>
+<ul>
+<li>GET</li>
+<li>POST</li>
+<li>HEAD</li>
+<li>PUT</li>
+<li>DELETE</li>
+<li>OPTIONS</li>
+</ul>
+</blockquote>
+<p>So u guys are not explicitly preventing TRACE, which potentially, again I repeat, potentially can lead to some problems.</p>
+<p>Moreover, logically, ready state 3 should fire no matter the security restrictions. Am I wrong?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-45583">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ed3869317f29f4345046d2be2172b072?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://annevankesteren.nl/' rel='external nofollow' class='url'>Anne van Kesteren</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-45583">
+			September 3, 2007 at 5:07 pm</a>		</div>
+
+		<p>If you do not read the specification carefully no wonder you can dream up all kinds of security holes. The specification makes very precise requirements on non same-origin requests. See also <a href="http://lists.w3.org/Archives/Public/public-appformats/2007Aug/0034.html" rel="nofollow">http://lists.w3.org/Archives/P...../0034.html</a> for some comments on this post from a Firefox implementor.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-45608">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-45608">
+			September 3, 2007 at 7:27 pm</a>		</div>
+
+		<p>Anne and Thomas Roessler,</p>
+<p>First of all the comments are always open. Everyone can comment! Second, I am not sure if I am mistaken or you guys are fighting for the wrong cause. I am going to quietly wait until u guys come with Firefox3 and then we all will see whether your specification is inherently insecure or not. I hope <strong>not</strong>.</p>
+<p>To repeat, IMHO u have some quite obvious security gaps. I am referring to the specifications outlined <a href="http://dev.w3.org/2006/webapi/XMLHttpRequest-2/Overview.html" rel="nofollow">here (XMLHttpRequest level 2, Editor&#8217;s draft 9 August 2007)</a> and <a href="http://www.w3.org/TR/access-control/" rel="nofollow">here (Enabling Read Access for Web Resources)</a>.</p>
+<p>Let&#8217;s have a brief overview of your mistakes, the way I see them:</p>
+<h3>First of all</h3>
+<p>You perform the access control checks after the request was completed. This is insane! You are saying that CSRF attacks are known for ages and you are not really contributing to the greater evilness of the Web. I must disagree. CSRF attacks via Forms (POST and GET) or Images (GET) and Links (GET) cannot contain additional headers. They do not have fine-grain over the data that is submitted. Therefore, your method makes the whole situation more <strong>insecure</strong>. I highly recommend to read Wade&#8217;s excellent paper on <q><a href="http://www.ngssoftware.com/research/papers/InterProtocolExploitation.pdf" rel="nofollow">Inter-Protocol Exploitation</a></q> for more ideas how your approach can be abused.</p>
+<h3>Second</h3>
+<p>None of the cpecs explicitly specify what methods should be used with your access control system. I am sure that you are both great coders and have a lot of good stuff to offer when it comes to specifications and design, but I am breaking into WebApp applications all day long. I&#8217;ve probably seen stuff that you guys cannot even imagine. The world is not perfect. I highly recommend to consider implementing a METHOD restriction, such as only GET and POST have the ability to perform cross-domain operations.</p>
+<h3>Third</h3>
+<p>The whole idea of cross-domain communication is just plain <strong>insecure</strong>.  I am not saying that Adobe&#8217;s crossdomain.xml implementation is any better. I am just implying that we are going to have a lot more problems then now &#8211; all of them trust related. Good that only Firefox is going to implement these specs so Internet is not going down, yet.</p>
+<h3>Finally</h3>
+<p>I am not completely sure whether your specifications will result in more accurate port scanning with JavaScript. Maybe I am just day dreaming. But I don&#8217;t care. As far as I am concerned it is your job to make sure that this doesn&#8217;t happen.</p>
+<p>Before you flame me back, please take my points as just pure critic on the specifications, nothing personal. We are all grownups here, no matter who is mistaken we shouldn&#8217;t really convert the entire matter into a war. I&#8217;ve made tones of mistakes in my life and I hope that I make even more in the future. There is no better way to learn new things. Making mistakes is not a really a problem. The problem is not being able to react properly when they happen.</p>
+<div class="message">Please, if I am missing an important paragraph in both drafts, which clearly solves the problems I mentioned earlier, do post it here. I will happily withdraw my statements with a follow-up comment and apologize for the caused troubles.</div>
+<p>Otherwise, if we all agree that there might be some problems, even if they are minor for now, let&#8217;s sit down and work them out. Let&#8217;s not leave pride and other elements prevent us making the world slightly better place.</p>
+<p>P.S. so far my research has caused only trouble :) however, don&#8217;t shoot the messenger!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-45768">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ed3869317f29f4345046d2be2172b072?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://annevankesteren.nl/' rel='external nofollow' class='url'>Anne van Kesteren</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-45768">
+			September 4, 2007 at 9:44 am</a>		</div>
+
+		<p>I would suggest you carefully study the specification. Specifically the algorithm for the send() method. You will notice that method protection is in place, that port scanning as well as finding out whether there&#8217;s some intranet to attack is protected, et cetera. If you do not carefully study the specification nor the implementation and just make bold claims you will indeed turn out to be wrong.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-46166">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/da6b54ad3fdb36ba7656df9adfe65d12?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Dan Veditz</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-46166">
+			September 5, 2007 at 7:14 pm</a>		</div>
+
+		<p>pdp writes &#8220;I am not completely sure whether your specifications will result in more accurate port scanning with JavaScript. [...] As far as I am concerned it is your job to make sure that this doesnâ€™t happen.&#8221;</p>
+<p>Yes. Yes it is.<br />
+- Dan Veditz (Mozilla)</p>
+<p>P.S. you can play with the proposed Firefox 3 implementation of this feature _today_ by downloading a nightly build. The $500 Mozilla Security Bug Bounty applies if you can demonstrate an actual data-stealing same-origin violation in it, no need to wait for the actual release. We&#8217;d much prefer to know now, in fact.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-46801">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-46801">
+			September 7, 2007 at 9:57 am</a>		</div>
+
+		<p>give me some time and I will come back to you.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48439">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9ef500673ecb5b5007a8b3397d6634c5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Roy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48439">
+			September 12, 2007 at 11:07 pm</a>		</div>
+
+		<p>Great article.. but the headline is a bit misleading.<br />
+It implies that Firefox is the problem&#8230;. not the spec.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50074">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/938ff64bf5f6b82c6c87d347cdacf619?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Brad</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50074">
+			September 18, 2007 at 6:01 am</a>		</div>
+
+		<p>Kudos for flagging an important security issue.  Detailed scrutiny of specifications and implementations that change the browser sandboxing model is desirable, welcome and absolutely necessary.  </p>
+<p>That said, the article appears to spout FUD more than any credible security vulnerability in either the specification or Mozilla&#8217;s implementation.  </p>
+<p>The same-origin policy on the web is not the end-all-be-all-solution for proper sandboxing.  The same-origin policy greatly limits the type of applications that can be built.</p>
+<p>Kudos to Firefox for implementing this.  Properly secured, this capability will open the flood gates to an entirely new wave of interoperability and application richness on the web.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123517">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/46b8731bcec47bba0667a9398ba2b4ba?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://darrinyoun.greatnuke.com/' rel='external nofollow' class='url'>ypyhnikz</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123517">
+			September 3, 2008 at 3:11 pm</a>		</div>
+
+		<p>I <a href="http://darrinyoun.greatnuke.com/" rel="nofollow">sofia vergara desnuda gratis</a> rubbed it was filled with nothing to describe.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="441"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="d151b115aa" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/i-dont-think-that-you-understand-firefox3-vulnerable-by-design/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:18:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

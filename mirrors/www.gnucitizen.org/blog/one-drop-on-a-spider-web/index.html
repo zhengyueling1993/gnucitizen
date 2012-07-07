@@ -1,0 +1,481 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/one-drop-on-a-spider-web/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; One Drop on A Spider Web</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; One Drop on A Spider Web Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='XSS Worms and Mitigation Controls' href='../xss-worms-and-mitigation-controls/index.html' />
+<link rel='next' title='Open Source Documentary on Net Neutrality' href='../open-source-documentary-on-net-neutrality/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index03bd.html?p=256' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-256" class="post">
+	<div class="post-title"><h2><span>One Drop on A Spider Web</span></h2></div>
+	<div class="post-date"><span>published:</span> June 25th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>On 6th February 2007, I&#8217;ve published an article titled <a href="../playing-in-large/index.html">Playing in Large</a>, which discusses various ways of injecting large JavaScript payloads into tiny XSS holes. The technique that I used as an example is quite simple. In general, all attackers need to do is to place their malicious payload behind the fragment identifier (<code># sign</code>) and evaluate it within the attacked application context. This can be achieved by using something like this: <code>eval(location.hash.substr(1))</code>.</p>
+
+<p>This works really well when you are restricted in terms of the vulnerable field length. It was found that we can squeeze XSS payloads into 50 to 60 characters in size. Keep in mind that this is only when we use script elements (<code>&lt;script/&gt;</code>), which is by far the longest way of doing it. In some case, we can inject a couple of MBs of JavaScript inside a vulnerable application by composing a XSS string that is around 25 to 30 characters long.</p>
+
+<p>Another interesting point to outline is that the fragment identifier technique is quite stealth. Every information that is behind the hash (<code>#</code>) sign is not sent to the server. The fragment identifier is only used on the client. This means that this technique is suitable for circumventing firewalls, intrusion detection and intrusion prevention systems.</p>
+
+<p>It is recommended to check the <a href="../playing-in-large/index.html">Playing in Large</a> article, if you are not familiar with this technique.</p>
+
+<p>In this post, I will show you a technique that I have developed in the last half an hour, which is as stealth compared to what we have discussed before, but a lot smaller in terms of length of characters needed and does not require special characters such as:</p>
+
+<ul>
+<li><code>dots .</code></li>
+<li><code>square brackets []</code></li>
+<li><code>spaces</code></li>
+<li><code>other meta characters that are usually used inside JavaScript</code></li>
+</ul>
+
+<p>The character set that is required is composed of lower case letters and the round brackets <code>()</code>. In order to explain how the technique works, I am going to lay out a hypothetical scenario which is as follows:</p>
+
+<pre><code>https://acme.com/vuln.php3?<code>"&gt;&lt;/script&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;!--</code></code></pre>
+
+<p>It is clear that the example above is vulnerable to XSS. However, although we can alert the character 1 on the screen, we are not able to do anything else, mainly because the site converts special characters into underscores (<code>_</code>). This means that the payload: <code>"&gt;&lt;/script&gt;&lt;script&gt;alert(<code>document.cookie</code>)&lt;/script&gt;&lt;!--</code> is converted to <code>"&gt;&lt;/script&gt;&lt;script&gt;alert(<code>document_cookie</code>)&lt;/script&gt;&lt;!--</code>, which fails mainly because <code>document_cookie</code> does not exists. If we try to inject more complicated JavaScript, we pretty much end with the same problem. What&#8217;s even worse, single quotes and double quotes are also sanitized.</p>
+
+<p>One thing is for sure, we might be able to inject remote script files by using various browser quirks such as <code>&lt;script src=domain/script</code>. However, these type of payload is unstable and require to host a file in a server in rather strange way. Remember, most meta characters are not allowed, including dots (<code>.</code>) and columns (<code>:</code>).</p>
+
+<p>I was toying around this problem for a bit when I realized that the best way to bypass this restriction is to reuse something that is part of the DOM already. I needed something that fits into the following vector:</p>
+
+<pre><code>https://acme.com/vuln.php3?<strong>"&gt;&lt;/script&gt;&lt;script&gt;eval(something)&lt;/script&gt;&lt;!--</strong></code></pre>
+
+<p>&#8230; where something is a variable part of the DOM global space and can be controlled from outside. There are plenty of such kind of variables but not that many of them are suitable for the job. For example we can inject stuff into the referrer and try to evaluate that. It is possible but very complicated since we need to find a way of spoofing this information.</p>
+
+<p>After digging into DOM I found a global namespace variable, which seamed that could work.</p>
+
+<p><code>name</code> is a global namespace variable that defines the name of the current window. Most of the time, <code>name</code> contains nothing but a blank string. However, once we call a page within an iframe or an object with the appropriate attributes, the <code>name</code> value is changed to reflect that. In order to see how <code>name</code> looks like when opened from a browser window and an iframe try the following:</p>
+
+<ul>
+<li>create a blank html page with the following content: <code>&lt;script&gt;alert(name)&lt;/script&gt;</code></li>
+<li>open the page within your browser &#8211; you should see a blank alert box</li>
+<li>create a blank html page with the following content: <code>&lt;iframe name="test" src="path_to_the_first_page.htm"&gt;&lt;/iframe&gt;</code></li>
+<li>open the page within your browser &#8211; you should see an alert box with the message test</li>
+</ul>
+
+<div class="message">All this proves that we can manipulate the value of the global namespace variable <code>name</code>. So how this applies to XSS?</div>
+
+<p>If you haven&#8217;t realized yet, we can use this technique to circumvent filters in a very clever and quite sneaky way. Let&#8217;s get back to our hypothetical scenario with the XSS vulnerability in acme.com which cannot be exploited easily. By using the technique I discussed above, we can bypass the restriction and here it is how:</p>
+
+<pre><code>&lt;iframe src="https://acme.com/vuln.php3?%22%3E%3C/script%3E%3Cscript%3E<strong>eval%28name%29</strong>%3C/script%3E%3C%21--" name="<strong>/* your JavaScript payload here*/ alert('xss')</strong>"&gt;&lt;/iframe&gt;</code></pre>
+
+<p>If you take the code displayed above and place it inside an innocent HTML page, you will be able to XSS anyone who visits it and is on the acme.com domain, although acme does a good job of sanitizing some of the meta characters.</p>
+
+<p>Some of the sceptical XSSers may not see the point of using this technique for a number of reasons. The first reason is based on the fact that there are other ways to exploit acme.com. This is true, but the example here was provided as a case study only. Very often we can <code>alert(1)</code> but nothing else, because the string needs to be short and can only contain standard characters. This is exactly when this technique is most suitable, because the character set is standard and <code>eval(name)</code> is a lot like <code>alert(1)</code>.</p>
+
+<p>Keep in mind that this attack leaves a very small footprint on the attacked system. The data that is contained in the <code>name</code> variable is never submitted to the server. It is worth mentioning that HTML/XML attributes are usually allowed to contain quite a lot of data which allows attackers to include entire XSS frameworks within the boundaries of <code>name</code>.</p>
+
+<div class="message">To summarize, the technique presented here allows you to inject JavaScript in places where the supported character set is usually not enough. The attack footprint is very small and the payload can exceed MBs of data. This makes this technique very stealth and extremely hard to detect. The technique is a combination of reflected/dom based XSS and works everywhere where attackers can simple inject <code>alert(1)</code>.</div>
+
+<p><em>This technique was published in order to raise the security awareness in regards to XSS (Cross-site Scripting) attacks. There are more then one way of doing things, which we usually overlook.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/bypass/index.html" rel="tag">bypass</a> | <a href="../../tags/payload/index.html" rel="tag">payload</a> | <a href="../../tags/xss/index.html" rel="tag">xss</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-31624">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8291d653ee8e5e106822c70bcb2ce782?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://christ1an.blogspot.com/' rel='external nofollow' class='url'>christ1an</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31624">
+			June 25, 2007 at 4:12 pm</a>		</div>
+
+		<p>Very good writeup, I was doing quite a lot of research on this because such a situation was present on YouTube (<a href="http://www.youtube.com/advertise" rel="nofollow">http://www.youtube.com/advertise</a>) a few days ago.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-31636">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/711f58b095c5a8b45419d3e94df1129e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31636">
+			June 25, 2007 at 4:33 pm</a>		</div>
+
+		<p>what is interesting about this technique that is a combination of reflected XSS with a little help from the DOM.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-31682">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ikwt.com/' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31682">
+			June 25, 2007 at 5:14 pm</a>		</div>
+
+		<p>This is VERY powerful. We&#8217;re saying that if we can run </p>
+<pre><code>&lt;script&gt;eval(name)&lt;/script&gt;</code></pre>
+<p>as our XSS payload, then we can run JavaScript without any restrictions whatsoever.</p>
+<p>So when testing for XSS, if we get a blank alert box when injecting </p>
+<pre><code>&lt;script&gt;eval(name)&lt;/script&gt;</code></pre>
+<p>then we know we can run absolutely anything by visiting a third-party page that embeds our magic iframe.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-31688">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/290e868e00e8429bf1624a461b8ef81e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://maone.net/' rel='external nofollow' class='url'>Giorgio Maone</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31688">
+			June 25, 2007 at 5:18 pm</a>		</div>
+
+		<p>If yours is new, I guess I can patent the following:</p>
+<pre><code>with(location)with(hash)eval(substring(1))</code></pre>
+<p>Much easier to post everywhere, because it&#8217;s self-contained and you don&#8217;t need to control the window name.</p>
+<p>Cheers<br />
+&#8211;<br />
+There&#8217;s a brower safer than Firefox&#8230; it&#8217;s Firefox, with NoScript &#8211; <a href="http://noscript.net/" rel="nofollow">http://noscript.net</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-31691">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/711f58b095c5a8b45419d3e94df1129e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31691">
+			June 25, 2007 at 5:21 pm</a>		</div>
+
+		<p>Giorgio, no one is patenting anything, but your trick is cooler I must admit. Nice stuff&#8230; I love it. However, mine is still smaller&#8230; :) but heck I love self-contained stuff so you win. :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-31698">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/290e868e00e8429bf1624a461b8ef81e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://maone.net/' rel='external nofollow' class='url'>Giorgio Maone</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31698">
+			June 25, 2007 at 5:39 pm</a>		</div>
+
+		<p>pdp, I was just kidding &#8211; Cenzic is enough about patents.<br />
+Of course I wouldn&#8217;t have figured out mine if I didn&#8217;t read your [a-z\(\)] challenge, so many thanks for inspiration ;)<br />
+&#8211;<br />
+Thereâ€™s a brower safer than Firefoxâ€¦ itâ€™s Firefox, with NoScript &#8211; <a href="http://noscript.net/" rel="nofollow">http://noscript.net</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-31729">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31729">
+			June 25, 2007 at 7:07 pm</a>		</div>
+
+		<p>Giorgio, I&#8217;ve totally ignored the <strong>with</strong> statement. To be honest with you, I am not using it that often. In fact, I cannot remember the last time I&#8217;ve made any use of it apart from the time when I tried to create a sandbox within JavaScript which didn&#8217;t work, so I had to use full blown iframes to imitate similar characteristics.</p>
+<p>Anyway, great stuff. RSnake should include this one into his cheat sheet.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-31785">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ikwt.com/' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31785">
+			June 25, 2007 at 8:34 pm</a>		</div>
+
+		<p>Giorgio,</p>
+<p>That&#8217;s a killer snippet. Thanks a lot for that.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-31924">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-31924">
+			June 26, 2007 at 6:53 am</a>		</div>
+
+		<div class="message">Here you can find a snippet from a resent discussion on Sla.ckers.org about the techniques that were presented in this post</div>
+<blockquote><p>Awesome AnDrEw Wrote:</p>
+<hr />
+But then in essence I would see the technique pdp has found as relatively useless unless it was able to be done through some type of service within the site. What I mean by that is I would think it&#8217;d only be useful if say I had the ability to post an IFRAME within a messageboard on the site that I am targetting, but then again it still is of little value. If you can get a user to navigate to a third-party page then you&#8217;ve already won, because you can use your own payloads without cross-site scripting as a prerequisite unless you absolutely need to use the frame to target the site.</p></blockquote>
+<p>Use the right tool for the right job&#8230; although I find ma1 technique rather cool, it may not work in some cases. For example, changes in the fragment identifier wont result in page refresh which is what you might want to achieve in some cases. Also, there are ways to make the fragment identifier to go away via a series of redirections, which is something that happens quite often. Another bad thing about the fragment identifier technique is that although everything is inside the URL, it looks too suspicious. Very often, attackers will use a 3rd party website which upon user arrival does the actual exploitation. Not to mention the fact that in some cases the # hash is used as communication mechanism between frames which are served from different origins. Any use of the fragment identifier will break the communication. You don&#8217;t want to do that if you want to be stealth.</p>
+<p>Here is an example. Let&#8217;s say that you have a worm that exploits the user on several domains. For sure you can use the fragment identifier technique and compose URLs which are included inside a hidden iframe. However, you need to do all the manual work for nothing, when you can simply create the iframe, assign the name or the target with your payload and rotate the src value with the URLs you want to exploit. XSSED.com has tones of vectors that simply <code>alert(1)</code>. All we need to do in order to make them work is <code>/alert\((1|'XSS'|"XSS")\)/eval(name)/i</code> and start rotating them inside an iframe. The chances of this technique to work are higher mainly because we do not add that much more characters into the payload. We don&#8217;t have to do any characters counting and we don&#8217;t have to think whether there is something before our code that makes uses of the information after the # hash. believe me, more and more applications make use of the hash today.</p>
+<p>To sum up&#8230; do not be ignorant. use the right tools for the right job. as you can see, there are real applications of the technique I described.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-32094">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e78ade355027be37b2192e622b14a46f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.msblabs.org/' rel='external nofollow' class='url'>Acidus</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32094">
+			June 26, 2007 at 8:13 pm</a>		</div>
+
+		<p>I&#8217;m not sure if you all know it or not, but the contents of window.name are persisted across domains for the lifetime of the browsing context. This means window.name can be used to as a global session storage system.</p>
+<p>For example, site1.com writes a value into window.name. Any other websites that are visited in that browsing context (i.e. that browser tab or single browsing window) can read or write this value. In fact, I&#8217;ve got some cool demos where I track individual users across domains without web bugs/3rd part image server using JavaScript and window.name.</p>
+<p>In fact, we touch on this in the upcoming Ajax security book in our attacking offline Ajax apps chapter. I even wrote a source code compatible implementation for Firefox&#8217;s sessionStorage object for ther other browsers.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-32128">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32128">
+			June 26, 2007 at 10:07 pm</a>		</div>
+
+		<p>Acidus,</p>
+<p>I didn&#8217;t know that. Actually this is very funny. I cannot see to what extend <code>window.name</code> can be used for malicious purposes although it is sort of interesting since it is almost like some kind of global dashboard where everyone can leave a message. So, we can implement some sort of a system where sites leave information about the user inside <code>window.name</code> and other sites can reuse that information in a clever way.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-32201">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9eb5ed1067bbc3c9675f8911316b7600?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.ush.it/' rel='external nofollow' class='url'>ascii</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32201">
+			June 27, 2007 at 2:39 am</a>		</div>
+
+		<p>i would like to patent (built on the maone&#8217;s one)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-32238">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8646bd4e904762c599e11665cc67f158?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://wasjournal.blogspot.com/' rel='external nofollow' class='url'>Kishor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32238">
+			June 27, 2007 at 4:23 am</a>		</div>
+
+		<p>What about frame breaking code on acme?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-32288">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/711f58b095c5a8b45419d3e94df1129e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32288">
+			June 27, 2007 at 9:32 am</a>		</div>
+
+		<p>Kishor, what do u mean?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-32306">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9eb5ed1067bbc3c9675f8911316b7600?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.ush.it/' rel='external nofollow' class='url'>ascii</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32306">
+			June 27, 2007 at 11:08 am</a>		</div>
+
+		<p>i would like to patent (built on the maone&#8217;s one)</p>
+<pre><code>&lt;img src=http://w onError=with(document)with(e)eval(unescape(innerHTML))</code></pre>
+<p>please tell me when the registration process is finished : )</p>
+<p><a href="http://www.ush.it/2007/06/27/xss-cheat-sheet-two-stage-payloads/" rel="nofollow">http://www.ush.it/2007/06/27/x.....-payloads/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-32308">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/711f58b095c5a8b45419d3e94df1129e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32308">
+			June 27, 2007 at 11:16 am</a>		</div>
+
+		<p>ascii, I am opening a patent bureau. Please send your submissions to <em>contact <strong>at</strong> gnucitizen.org</em> or contact the GNUCITIZEN group at <em>group <strong>at</strong> gnucitizen.org</em>. thanks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-32353">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8646bd4e904762c599e11665cc67f158?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://wasjournal.blogspot.com/' rel='external nofollow' class='url'>Kishor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32353">
+			June 27, 2007 at 3:51 pm</a>		</div>
+
+		<p>This code inside the page which is vulnerable:</p>
+<pre><code>if (top.location != location)
+  top.location.href = document.location.href ;</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-32358">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8646bd4e904762c599e11665cc67f158?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://wasjournal.blogspot.com/' rel='external nofollow' class='url'>Kishor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-32358">
+			June 27, 2007 at 4:15 pm</a>		</div>
+
+		<p>As per Acidus&#8217;s comments</p>
+<p>Here is what I tried out,</p>
+<p>1.html:</p>
+<pre><code>window.name = unescape("alert('XSS!');");</code></pre>
+<p>and </p>
+<p>2.html:</p>
+<pre><code>breakframe();
+eval(window.name);</code></pre>
+<p>2.html still alerts XSS!</p>
+<p>So it means we can use window.name even if frame breaking code is present.</p>
+<p>So another &#8216;with&#8217; may be necessary for window&#8217;.&#8217;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-33987">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/290e868e00e8429bf1624a461b8ef81e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://maone.net/' rel='external nofollow' class='url'>Giorgio Maone</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-33987">
+			July 5, 2007 at 11:52 am</a>		</div>
+
+		<p>SirDarckCat and I are having fun with PHPIDS at <a href="http://groups.google.de/group/php-ids/browse_thread/thread/f689a9c8cc934867" rel="nofollow">http://groups.google.de/group/.....c8cc934867</a> </p>
+<p>Incidentally, he just added some extra spice to hash (fragment) payload attacks:</p>
+<pre><code>eval(unescape(location))</code></pre>
+<p>This works if you break the hash with a %0A (newline) before your payload, because:</p>
+<blockquote><p>&#8220;http:&#8221; gets parsed as a label<br />
+&#8220;//host:port/path&#8230;#&#8230;&#8221; is ignored until newline (C++ style comment)</p></blockquote>
+<p>So simple, so nice :)<br />
+&#8211;<br />
+Thereâ€™s a brower safer than Firefoxâ€¦ itâ€™s Firefox, with NoScript &#8211; <a href="http://noscript.net/" rel="nofollow">http://noscript.net</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-33994">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/711f58b095c5a8b45419d3e94df1129e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-33994">
+			July 5, 2007 at 12:17 pm</a>		</div>
+
+		<p>Neato!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="256"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="04c2ef48ad" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/one-drop-on-a-spider-web/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:20:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

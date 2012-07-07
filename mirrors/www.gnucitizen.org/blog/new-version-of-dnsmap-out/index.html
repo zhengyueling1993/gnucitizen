@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/new-version-of-dnsmap-out/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; New Version of dnsmap out!</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; New Version of dnsmap out! Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Trapping HTTP Requests and Responses with Python' href='../trapping-http-requests-and-responses-with-python/index.html' />
+<link rel='next' title='You Don&#8217;t Need the Ultimate Pen-testing Framework!' href='../you-dont-need-the-ultimate-pen-testing-framework/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexaaad.html?p=2622' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-2622" class="post">
+	<div class="post-title"><h2><span>New Version of dnsmap out!</span></h2></div>
+	<div class="post-date"><span>published:</span> February 22nd, 2009</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>We just released a new version of <a href="../../static/blog/2009/03/dnsmap-0222tar.gz">dnsmap</a>. dnsmap is a subdomain bruteforcer for stealth enumeration.</p>
+
+<p>Originally released in 2006, dnsmap is mainly meant to be used by pentesters during the information gathering/enumeration phase of infrastructure security assessments. During the enumeration stage, the security consultant would typically discover the target company&#8217;s IP netblocks, domain names, phone numbers, etc. dnsmap was <a href="http://backtrack.offensive-security.com/index.php?title=Tools">included</a> in Backtrack 2 and 3, although the version included is the now dated version 0.1.</p>
+
+<p>Subdomain brute-forcing is another technique that should be used in the enumeration stage, as it&#8217;s especially useful when other domain enumeration techniques such as zone transfers don&#8217;t work (I rarely see zone transfers being publicly allowed these days by the way).</p>
+
+<h3>Original Features of Version 0.1</h3>
+
+<ul>
+<li>obtain all IP addresses (A records) associated to each successfully bruteforced subdomain, rather than just one IP address per subdomain</li>
+<li>abort the bruteforcing process in case the target domain uses wildcards</li>
+<li>ability to be able to run the tool without providing a wordlist by using a built-in list of keywords</li>
+<li>bruteforcing by using a user-supplied wordlist (as opposed to the built-in wordlist)</li>
+</ul>
+
+<h3>New Improvements in Version 0.22</h3>
+
+<ul>
+<li>saving the results in human-readable and CSV format for easy processing</li>
+<li>fixed bug that disallowed reading wordlists with DOS CRLF format</li>
+<li>improved built-in subdomains wordlist</li>
+<li>new bash script (<code>dnsmap-bulk.sh</code>) included which allows running dnsmap against a list of domains from a user-supplied file. i.e.: bruteforcing several domains in a bulk fashion</li>
+<li>bypassing of signature-based <a href="https://lists.dns-oarc.net/pipermail/dns-operations/2006-September/001047.html">dnsmap detection</a> by generating a proper pseudo-random subdomain when checking for wildcards</li>
+</ul>
+
+<h3>Usage</h3>
+
+<pre><code>
+usage: dnsmap &lt;target-domain&gt; [options]
+options:
+-w &lt;wordlist-file&gt;
+-r &lt;results-path&gt;
+</code></pre>
+
+<h3>Example on Live Domain</h3>
+
+<p>The following is just an example so you get an idea of how dnsmap works. Very simple to use as you can see. If you want to save the results or use your own wordlist, checkout the usage syntax. Question for those who pay attention to detail: <em>can you spot the potential leaks of <a href="http://www.faqs.org/rfcs/rfc1918.html">internal IP addresses</a>?</em></p>
+<pre><code>
+$ dnsmap baidu.com
+dnsmap 0.22 - DNS Network Mapper by pagvac (gnucitizen.org)
+
+[+] searching (sub)domains for baidu.com using built-in wordlist
+
+accounts.baidu.com
+IP address #1: 10.11.252.74
+
+events.baidu.com
+IP address #1: 202.108.23.40
+
+finance.baidu.com
+IP address #1: 60.28.250.196
+IP address #2: 60.28.251.79
+IP address #3: 60.28.251.206
+IP address #4: 123.129.240.28
+IP address #5: 123.129.240.29
+IP address #6: 60.28.250.102
+IP address #7: 60.28.250.111
+
+forum.baidu.com
+IP address #1: 202.108.250.212
+
+images.baidu.com
+IP address #1: 61.135.163.93
+
+mail.baidu.com
+IP address #1: 10.23.3.137
+
+mobile.baidu.com
+IP address #1: 202.108.23.125
+
+mx.baidu.com
+IP address #1: 61.135.163.61
+
+mx1.baidu.com
+IP address #1: 61.135.163.61
+
+mx2.baidu.com
+IP address #1: 61.135.163.62
+
+mx3.baidu.com
+IP address #1: 61.135.162.61
+
+news.baidu.com
+IP address #1: 61.135.163.87
+
+ns1.baidu.com
+IP address #1: 202.108.22.220
+
+ns2.baidu.com
+IP address #1: 61.135.165.235
+
+ns3.baidu.com
+IP address #1: 220.181.37.10
+
+oracle.baidu.com
+IP address #1: 172.18.0.50
+
+photo.baidu.com
+IP address #1: 61.135.163.93
+
+photos.baidu.com
+IP address #1: 61.135.163.93
+
+pop.baidu.com
+IP address #1: 61.135.166.249
+
+proxy.baidu.com
+IP address #1: 202.108.11.30
+
+smtp.baidu.com
+IP address #1: 61.135.163.61
+
+vpn.baidu.com
+IP address #1: 202.108.250.231
+
+wap.baidu.com
+IP address #1: 61.135.163.237
+
+webmail.baidu.com
+IP address #1: 61.135.166.249
+
+win.baidu.com
+IP address #1: 10.65.19.212
+
+www.baidu.com
+IP address #1: 220.181.5.222
+
+www1.baidu.com
+IP address #1: 220.181.5.222
+
+www2.baidu.com
+IP address #1: 202.108.22.136
+
+www3.baidu.com
+IP address #1: 202.108.22.188
+
+[+] 29 (sub)domains and 35 IP address(es) found
+</code></pre><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2009/03/dnsmap-0222tar.gz">dnsmap-0.22.2.tar.gz</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/bruteforce/index.html" rel="tag">bruteforce</a> | <a href="../../tags/bruteforcing/index.html" rel="tag">bruteforcing</a> | <a href="../../tags/dns/index.html" rel="tag">DNS</a> | <a href="../../tags/dnsmap/index.html" rel="tag">dnsmap</a> | <a href="../../tags/enumeration/index.html" rel="tag">enumeration</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-126074">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126074">
+			February 23, 2009 at 12:22 am</a>		</div>
+
+		<p>now you need to make it multi-threaded :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-126116">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126116">
+			February 25, 2009 at 12:19 am</a>		</div>
+
+		<p>yeah, multi-threading among other features are mentioned in the included TODO file. will eventually implement them all hopefully!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126189">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cb93bd138e40ebb0735b2ab228ec2f1e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.bothunters.pl/' rel='external nofollow' class='url'>kanedaaa</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126189">
+			February 27, 2009 at 11:02 pm</a>		</div>
+
+		<p>Small patch add -fw option to scan even wildcard is detected.</p>
+<pre><code>dnsmap-0.22$ patch < dnsmap.patchwildcard.patch</code></code></pre>
+<p><a href="http://kaneda.bohater.net/files/dnsmap.patchwildcard.diff" rel="nofollow">http://kaneda.bohater.net/file.....dcard.diff</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-126204">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kinqpinz.info/' rel='external nofollow' class='url'>meathive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126204">
+			March 1, 2009 at 10:02 am</a>		</div>
+
+		<p>Well done. <a href="https://kinqpinz.info/lib/2009/feb/#09c81545" rel="nofollow">https://kinqpinz.info/lib/2009/feb/#09c81545</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-126206">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126206">
+			March 1, 2009 at 5:55 pm</a>		</div>
+
+		<p>@kanedaaa: thanks for the patch, haven&#8217;t tested it yet, but wanted to let u know that i fixed a few bugs reported by users, so it&#8217;d be cool if the patch also worked on version 0.22.1: <a href="http://lab.gnucitizen.org/projects/dnsmap" rel="nofollow">http://lab.gnucitizen.org/projects/dnsmap</a> (downloads on bottom of page)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126322">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d6ae9cf1198458bd791075ed744bf667?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://paheli.net/blog/' rel='external nofollow' class='url'>Varun</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126322">
+			March 17, 2009 at 11:54 am</a>		</div>
+
+		<p>The &#8220;dnsmap&#8221; link in the first sentence seems to have broken after this post was made. Leads to &#8220;http://lab.gnucitizen.org/projects/dnsmap-1&#8243; which gives a &#8220;Page not found&#8221;. Thanks!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-126327">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126327">
+			March 17, 2009 at 5:12 pm</a>		</div>
+
+		<p>should be fixed now!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126334">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/16ea8181da57081da74205a150c6d720?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">GNa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126334">
+			March 18, 2009 at 8:53 pm</a>		</div>
+
+		<p>kanedaaa&#8217;s patch is great for opendns users :)</p>
+<p>for the 0.22.2 there is 1 thing to correct:</p>
+<pre><code>-       unsigned short int i=0, j=0, found=0, ipCount=0, wordlist=FALSE, results=FALSE;
++       unsigned short int i=0, j=0, found=0, ipCount=0, wordlist=FALSE, results=FALSE, forcewildcard=FALSE;</code></pre>
+<p>notice the unsigned short at the beginning</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126335">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/16ea8181da57081da74205a150c6d720?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">GNa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126335">
+			March 18, 2009 at 9:00 pm</a>		</div>
+
+		<p>i should also note that opendns users get the whole wordlist resolved, so they should filter out the ip 67.215.65.132 , or disable the nxdomain capture in their opendns account :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126363">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://withdk.com/' rel='external nofollow' class='url'>David Kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126363">
+			March 23, 2009 at 9:38 pm</a>		</div>
+
+		<p>Yo AP, its not that serious considering its run from the command line, but argv[1] is vulnerable to a buffer overflow.</p>
+<p>The problem is in: <code>wildcarddetect(char *dom)</code><br />
+VULNERABLE LINE: <code>strcat(s, dom);</code><br />
+FIXED: <code>strncat(s, dom, sizeof(s));</code></p>
+<pre><code>Program received signal SIGSEGV, Segmentation fault.
+0x41414141 in ?? ()
+(gdb) info reg
+eax            0x0      0
+ecx            0xffffffe0       -32
+edx            0x3      3
+ebx            0x41414141       1094795585
+esp            0xbf90c600       0xbf90c600
+ebp            0x41414141       0x41414141
+esi            0x41414141       1094795585
+edi            0x41414141       1094795585
+eip            0x41414141       0x41414141
+eflags         0x200282 2097794
+cs             0x73     115
+ss             0x7b     123
+ds             0x7b     123
+es             0x7b     123
+fs             0x0      0
+gs             0x33     51</code></pre>
+<p>I can just imagine someone using this tool on a web frontend or something and getting themselves in trouble ;)</p>
+<p>Cheers for the cool tool.</p>
+<p>DK</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-126389">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126389">
+			March 27, 2009 at 11:45 am</a>		</div>
+
+		<p>lols. thought i fixed most of those! will fix it probably when i update other things in the code i was planning to fix. thanks for that DK. we should post a working PoC, that&#8217;d be cool :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-126391">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126391">
+			March 27, 2009 at 10:07 pm</a>		</div>
+
+		<p>as far as I know nmap has been (still is) vulnerable to all sorts of attacks for years, and it is more likely to end up with a suid bit than dnsmap. of course, it is always good to fix the bugs, ap :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-126395">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126395">
+			March 28, 2009 at 7:58 pm</a>		</div>
+
+		<p>pdp: the only reason why i haven&#8217;t cared much about input validation on dnsmap is because it doesn&#8217;t require the SUID bit to be on, where tools like nmap do require to be run with root privileges. i.e.: for SYN portscans. nevertheless, as DK pointed out, if someone created a web gui for dnsmap, it could lead to remote command exec. i&#8217;d hope that if someone did implement a web gui for dnsmap, they filtered malicious input from the server-side script itself, unless they want their site to be owned :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127624">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c59152a77c0bc073fe6f2a3141b99010?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Zee</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127624">
+			July 14, 2009 at 3:01 pm</a>		</div>
+
+		<p>My resolver does ~400-600k per minute on core 2 duo, 5 mbit.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128595">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0a382f78d8540baaacd4fcb3a0bb4900?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kinqpinz.info/' rel='external nofollow' class='url'>meathive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128595">
+			June 26, 2010 at 8:51 am</a>		</div>
+
+		<p>The PHP port for those interested. <a href="https://kinqpinz.info/?%C2%B6=cb252860#index" rel="nofollow">https://kinqpinz.info/?%C2%B6=cb252860#index</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="2622"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8543fd5230" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/new-version-of-dnsmap-out/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

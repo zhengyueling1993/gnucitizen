@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: The Attack of the TINY URLs</title>
+	<atom:link href="http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: Unauthorized TinyURL URL Enumeration Vulnerability &#124; SecureThoughts.com</title>
+		<link>http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls/comment-page-1/#comment-126030</link>
+		<dc:creator>Unauthorized TinyURL URL Enumeration Vulnerability &#124; SecureThoughts.com</dc:creator>
+		<pubDate>Fri, 20 Feb 2009 07:31:01 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls#comment-126030</guid>
+		<description>[...] reported in TinyURL in the past, one of them is discussed by security researchers Pdp and Kuza55 here and [...]</description>
+		<content:encoded><![CDATA[<p>[...] reported in TinyURL in the past, one of them is discussed by security researchers Pdp and Kuza55 here and [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls/comment-page-1/#comment-1754</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 02 Jan 2007 19:37:03 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls#comment-1754</guid>
+		<description>interesting piece of code</description>
+		<content:encoded><![CDATA[<p>interesting piece of code</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: luma</title>
+		<link>http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls/comment-page-1/#comment-1731</link>
+		<dc:creator>luma</dc:creator>
+		<pubDate>Mon, 01 Jan 2007 20:55:25 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls#comment-1731</guid>
+		<description>Yes interesting, I decided to write my own version:
+
+This only works in localhost
+ 
+&lt;pre&gt;&lt;code&gt;lol = document.createElement(&#039;iframe&#039;);
+lol.src = &#039;http://tinyurl.com/ym7yba&#039;;
+document.body.appendChild(lol);
+
+function printCODE()
+{
+code = lol.contentDocument.location + &#039;&#039;;
+
+if(code)
+ {
+ body = document.getElementById(&#039;code&#039;);
+ code = unescape(code);
+ body.innerHTML = code.substr(28, code.length-18);
+ }
+ else
+ {
+ alert(&#039;error&#039;);
+ }
+}
+
+setInterval(&quot;printCODE()&quot;, 3000);&lt;/code&gt;&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>Yes interesting, I decided to write my own version:</p>
+<p>This only works in localhost</p>
+<pre><code>lol = document.createElement('iframe');
+lol.src = 'http://tinyurl.com/ym7yba';
+document.body.appendChild(lol);
+
+function printCODE()
+{
+code = lol.contentDocument.location + '';
+
+if(code)
+ {
+ body = document.getElementById('code');
+ code = unescape(code);
+ body.innerHTML = code.substr(28, code.length-18);
+ }
+ else
+ {
+ alert('error');
+ }
+}
+
+setInterval("printCODE()", 3000);</code></pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Operation n &#187; TinyURL Exploitation</title>
+		<link>http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls/comment-page-1/#comment-1391</link>
+		<dc:creator>Operation n &#187; TinyURL Exploitation</dc:creator>
+		<pubDate>Fri, 22 Dec 2006 02:19:02 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls#comment-1391</guid>
+		<description>[...] It isn&#8217;t new that TinyURL type sites can be used in phishing attacks; although I haven&#8217;t seen any of these myself. More interestingly was the article pdp released a short time ago: TinyURL as a storage house for mobile code. I thought this was an absolutely awesome idea. [...]</description>
+		<content:encoded><![CDATA[<p>[...] It isn&#8217;t new that TinyURL type sites can be used in phishing attacks; although I haven&#8217;t seen any of these myself. More interestingly was the article pdp released a short time ago: TinyURL as a storage house for mobile code. I thought this was an absolutely awesome idea. [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Planeta cPanel &#187; Top 10 Web Hacks of 2006</title>
+		<link>http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls/comment-page-1/#comment-1254</link>
+		<dc:creator>Planeta cPanel &#187; Top 10 Web Hacks of 2006</dc:creator>
+		<pubDate>Sat, 16 Dec 2006 02:19:38 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls#comment-1254</guid>
+		<description>[...] Full ListThe Attack of the TINY URLsBackdooring MP3 FilesBackdooring QuickTime MoviesCSS history hacking with evil marketingI know where you&#8217;ve beenStealing Search Engine Queries with JavaScriptHacking RSS FeedsMX Injection : Capturing and Exploiting Hidden Mail ServersBlind web server fingerprintingJavaScript Port ScanningCSRF with MS WordBackdooring PDF FilesExponential XSS AttacksMalformed URL in Image Tag Fingerprints Internet ExplorerJavaScript Portscanning and bypassing HTTP AuthBruteforcing HTTP Auth in Firefox with JavaScriptBypassingMozilla Port BlockingHow to defeat digg.comA story that diggsitselfExpect Header Injection Via FlashForging HTTP request headers with FlashCross Domain Leakage With Image SizeEnumerating Through User AccountsWidespread XSS for Google Search ApplianceDetecting States of Authentication With Protected ImagesXSS Fragmentation AttacksPoking new holes with Flash Crossdomain Policy FilesGoogle Indexes XSSXML Intranet Port ScanningIMAP Vulnerable to XSSDetecting Privoxy Users and Circumventing ItUsing CSS to De-AnonymizeResponse Splitting Filter EvasionCSS History Stealing Acts As CookieDetecting FireFox ExtentionsStealing User Information Via Automatic Form FillingCircumventing DNS Pinning for XSSNetflix.com XSRF vulnBrowser Port Scanning without JavaScriptWidespread XSS for Google Search ApplianceBypassing Filters With EncodingVariable Width EncodingNetwork Scanning with HTTP without JavaScriptAT&amp;T Hack Highlights Web Site Vulnerabilities How to get linked from SlashdotF5 and Acunetix XSS disclosureAnti-DNS Pinning and Circumventing Anti-Anti DNS pinningGoogle plugs phishing holeNikon magazine hit with security breachGovernator HackMetaverse breached: Second Life customer database hackedHostGator: cPanel Security Hole Exploited in Mass HackI know what you&#8217;ve got (Firefox Extensions)ABC News (AU) XSS linking the reporter to Al QaedaAccount Hijackings Force LiveJournal ChangesXanga Hit By Script WormAdvanced Web Attack Techniques using GMailPayPal Security Flaw allows Identity TheftInternet Explorer 7 &#8220;mhtml:&#8221; Redirection Information DisclosureBypassing of web filters by using ASCII Selecting Encoding Methods For XSS Filter EvasionAdultspace XSS WormAnonymizing RFI Attacks Through GoogleGoogle Hacks On Your BehalfGoogle Dorks Strike Again [...]</description>
+		<content:encoded><![CDATA[<p>[...] Full ListThe Attack of the TINY URLsBackdooring MP3 FilesBackdooring QuickTime MoviesCSS history hacking with evil marketingI know where you&#8217;ve beenStealing Search Engine Queries with JavaScriptHacking RSS FeedsMX Injection : Capturing and Exploiting Hidden Mail ServersBlind web server fingerprintingJavaScript Port ScanningCSRF with MS WordBackdooring PDF FilesExponential XSS AttacksMalformed URL in Image Tag Fingerprints Internet ExplorerJavaScript Portscanning and bypassing HTTP AuthBruteforcing HTTP Auth in Firefox with JavaScriptBypassingMozilla Port BlockingHow to defeat digg.comA story that diggsitselfExpect Header Injection Via FlashForging HTTP request headers with FlashCross Domain Leakage With Image SizeEnumerating Through User AccountsWidespread XSS for Google Search ApplianceDetecting States of Authentication With Protected ImagesXSS Fragmentation AttacksPoking new holes with Flash Crossdomain Policy FilesGoogle Indexes XSSXML Intranet Port ScanningIMAP Vulnerable to XSSDetecting Privoxy Users and Circumventing ItUsing CSS to De-AnonymizeResponse Splitting Filter EvasionCSS History Stealing Acts As CookieDetecting FireFox ExtentionsStealing User Information Via Automatic Form FillingCircumventing DNS Pinning for XSSNetflix.com XSRF vulnBrowser Port Scanning without JavaScriptWidespread XSS for Google Search ApplianceBypassing Filters With EncodingVariable Width EncodingNetwork Scanning with HTTP without JavaScriptAT&amp;T Hack Highlights Web Site Vulnerabilities How to get linked from SlashdotF5 and Acunetix XSS disclosureAnti-DNS Pinning and Circumventing Anti-Anti DNS pinningGoogle plugs phishing holeNikon magazine hit with security breachGovernator HackMetaverse breached: Second Life customer database hackedHostGator: cPanel Security Hole Exploited in Mass HackI know what you&#8217;ve got (Firefox Extensions)ABC News (AU) XSS linking the reporter to Al QaedaAccount Hijackings Force LiveJournal ChangesXanga Hit By Script WormAdvanced Web Attack Techniques using GMailPayPal Security Flaw allows Identity TheftInternet Explorer 7 &#8220;mhtml:&#8221; Redirection Information DisclosureBypassing of web filters by using ASCII Selecting Encoding Methods For XSS Filter EvasionAdultspace XSS WormAnonymizing RFI Attacks Through GoogleGoogle Hacks On Your BehalfGoogle Dorks Strike Again [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls/comment-page-1/#comment-669</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Thu, 16 Nov 2006 06:24:36 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls#comment-669</guid>
+		<description>maluc,
+
+I tried to be ironic. tinyurl does have persistent XSS but I am not disclousing that, and it doesn&#039;t matter anyway. 
+
+&lt;blockquote&gt;And you say it&#039;s to use for remote storage, but what sort of example storage would a javascript worm need? i mean, i can&#039;t think of a way to load any dynamic flash or file like this with IE. Like can you think of a sample attack using it? i&#039;m just drawing a blank..&lt;/blockquote&gt;
+
+This is easy. Get the base64 value and append the following in front of it: data:application/x-shockwave-flash;base64,. Put that into an iframe src attribute and you have the flash running. This doesn&#039;t work on IE though. More on that &lt;a href=&quot;http://www.gnucitizen.org/blog/self-contained-xss-attacks&quot; rel=&quot;nofollow&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;http://www.gnucitizen.org/blog/a-bag-full-of-tricks&quot; rel=&quot;nofollow&quot;&gt;here&lt;/a&gt;.
+
+&lt;blockquote&gt;... but there&#039;s a lot of ways to use remote storage ... you can put it on any site that allows user content&lt;/blockquote&gt;
+
+Yes I agree on that, but I want something that is more agile, as I said in this post. I want to create a virtual file system that the agent can operate without requiring assistance. This is where tinyurl shines: everyone is free to shrink, no registration is required.</description>
+		<content:encoded><![CDATA[<p>maluc,</p>
+<p>I tried to be ironic. tinyurl does have persistent XSS but I am not disclousing that, and it doesn&#8217;t matter anyway. </p>
+<blockquote><p>And you say it&#8217;s to use for remote storage, but what sort of example storage would a javascript worm need? i mean, i can&#8217;t think of a way to load any dynamic flash or file like this with IE. Like can you think of a sample attack using it? i&#8217;m just drawing a blank..</p></blockquote>
+<p>This is easy. Get the base64 value and append the following in front of it: data:application/x-shockwave-flash;base64,. Put that into an iframe src attribute and you have the flash running. This doesn&#8217;t work on IE though. More on that <a href="http://www.gnucitizen.org/blog/self-contained-xss-attacks" rel="nofollow">here</a> and <a href="http://www.gnucitizen.org/blog/a-bag-full-of-tricks" rel="nofollow">here</a>.</p>
+<blockquote><p>&#8230; but there&#8217;s a lot of ways to use remote storage &#8230; you can put it on any site that allows user content</p></blockquote>
+<p>Yes I agree on that, but I want something that is more agile, as I said in this post. I want to create a virtual file system that the agent can operate without requiring assistance. This is where tinyurl shines: everyone is free to shrink, no registration is required.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: maluc</title>
+		<link>http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls/comment-page-1/#comment-664</link>
+		<dc:creator>maluc</dc:creator>
+		<pubDate>Thu, 16 Nov 2006 05:21:34 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-attack-of-the-tiny-urls#comment-664</guid>
+		<description>Actually, tinyurl does have a persistent XSS. So i think the more accurate sentence would be &quot;This does NOT use an XSS on tinyurl.&quot;
+
+And you say it&#039;s to use for remote storage, but what sort of example storage would a javascript worm need? i mean, i can&#039;t think of a way to load any dynamic flash or file like this with IE. Like can you think of a sample attack using it? i&#039;m just drawing a blank..
+
+It&#039;s a good idea if it does have some use.. but there&#039;s alot of ways to use remote storage. For example, putting it on a myspace page.. then using your double proxy iframes method to extract it. You can put it on anyy site that allows user content - forums, comments, wordpress, etc. Assuming it can handle the bandwidth of a worm.
+
+-maluc</description>
+		<content:encoded><![CDATA[<p>Actually, tinyurl does have a persistent XSS. So i think the more accurate sentence would be &#8220;This does NOT use an XSS on tinyurl.&#8221;</p>
+<p>And you say it&#8217;s to use for remote storage, but what sort of example storage would a javascript worm need? i mean, i can&#8217;t think of a way to load any dynamic flash or file like this with IE. Like can you think of a sample attack using it? i&#8217;m just drawing a blank..</p>
+<p>It&#8217;s a good idea if it does have some use.. but there&#8217;s alot of ways to use remote storage. For example, putting it on a myspace page.. then using your double proxy iframes method to extract it. You can put it on anyy site that allows user content &#8211; forums, comments, wordpress, etc. Assuming it can handle the bandwidth of a worm.</p>
+<p>-maluc</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-without-0days-drive-by-java/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Hacking without 0days: Drive-by Java</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Hacking without 0days: Drive-by Java Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Web Client Fuzzer.py' href='../web-client-fuzzer_py/index.html' />
+<link rel='next' title='Mozilla Prism: not there yet!' href='../mozilla-prism-not-there-yet/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index7398.html?p=531' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-531" class="post">
+	<div class="post-title"><h2><span>Hacking without 0days: Drive-by Java</span></h2></div>
+	<div class="post-date"><span>published:</span> October 25th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>From <a href="http://en.wikipedia.org/wiki/Drive-by_download">Wikipedia</a>, the free encyclopedia, drive-by download is: <q>Download of spyware, a computer virus or any kind of malware that happens without knowledge of the user. Drive-by downloads may happen by visiting a website, viewing an e-mail message or by clicking on a deceptive popup window: the user clicks on the window in the mistaken belief that, for instance, it is an error report from his own PC or that it is an innocuous advertisement popup; in such cases, the &#8220;supplier&#8221; may claim that the user &#8220;consented&#8221; to the download though he was completely unaware of having initiated a malicious software download</q>. <q>So what is this then?</q></p>
+
+<p>For those of you who have never seen a warning message like the one bellow, this is the default dialog box you get from the Java Runtime when you run cryptographically signed applets. Signed applets are different in comparison to the unsigned ones. Basically they defer in terms of their security sandbox and level of privilege. Signed applets can do anything your desktop applications can do, although they run from within the browser.</p>
+
+<div class="screen"><a href="../../static/blog/2007/10/warning-supermario-3d-nintendo.jpg"><img src="../../static/blog/2007/10/warning-supermario-3d-nintendo.jpg" alt="" title="Warning Supermario 3D Nintendo PNG" width="516" height="315" class="alignnone size-full wp-image-3875" /></a></div>
+
+<p><em>The one million dollar question is:</em></p>
+
+<h3>How is that secure? and Should Sun rethink the security of their platform?</h3>
+
+<p>We know that unaware users will approve anything just to get their game running or job done for that matter. This type of attack is by far the simplest to pull and does not rely on any particular kind of vulnerability. The Java Runtime is the only browser embeddable object which gives such a degree of access from simple Web pages. Flash, Adobe Reader, and even Signed JavaScript (<strong>disabled by default</strong>) wont allow you to do all of these, mainly because it is highly insecure!</p>
+
+<p>I know that a lot of angry Java developers and many <q>military grade</q> (I certainly not sure what military grade is) exploit hunters may object but let&#8217;s be honest here for a moment. Most of the hacks occur due to simple human mistakes. In the case of the Java Runtime, there is <strong>50%</strong> chance to make the wrong choice. I think that malware authors and botnet operators like this figure a lot, especially when no vulnerability is required to perform the hack&#8230; not to mention that the information displayed inside the security warning box can be easily forged in such a way that the attackers can increase the their chances by making the user believe he or she is doing the right thing.</p>
+
+<p>Over the years, I&#8217;ve been using this type of attack in a number of scenarios and I am not extremely happy to say this (although I had may fare share of fun) but it works so well that it almost feels surreal. The attach tar file contains a tool which I wrote long time ago to compile and sign Applets and JAR files in a few simple steps. I use it every time I can, just to prove that having Java enabled on workstation part of a large enterprise is kind of a bad idea.</p>
+
+<p><em>Cannot simply say that Java is insecure and we should avoid it at all cost. In fact, I think Java is awesome platform but it is obvious that although some of its security aspects are spot on, others are seriously lacking any thought.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/10/supermario3d.tar.gz">supermario3d.tar.gz</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/drive-by/index.html" rel="tag">drive by</a> | <a href="../../tags/hacking/index.html" rel="tag">hacking</a> | <a href="../../tags/java/index.html" rel="tag">java</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-61603">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/121f0b424651ceb90c553c958d9c6c0a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">pdphoenix3</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61603">
+			October 25, 2007 at 11:02 pm</a>		</div>
+
+		<p>Very interesting will have to look into this some more. I mean I used to think Java was use less but pdp has been doing some sick sh.t with it lately good job man and keep the post coming im loving them.</p>
+<p>-pdphoenix3</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-61737">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d025d43c89ca5da6b20fb27fdf6b73e9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rado</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61737">
+			October 26, 2007 at 9:26 am</a>		</div>
+
+		<p>I like your understanding of hacking &#8211; who needs to write exploits nowadays when there are so many simple and clever ways to do the job :)</p>
+<p>The answer of the $1M question &#8211; it is *very* secure from technical point of view since you can&#8217;t harm the client&#8217;s PC if he doesn&#8217;t trust your applet. There is no technology which is protected from human mistakes &#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-61741">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61741">
+			October 26, 2007 at 9:59 am</a>		</div>
+
+		<p>rado, very interesting but I have to disagree. It is not secure! Let&#8217;s compare it with signed JavaScript which can do exactly the same as signed applets. The difference between both is that signed JavaScript is disabled by default (browser preferences) and there is no reason why you should have it enabled.</p>
+<p>Moreover, compare this with tricking the user into downloading an executable and running it from the desktop: this thing requires more then one step and it looks very suspicious. Not to mention that if you have an anti-virus it is very likely that it will lock the executable if it matches a known signature and your Firewall wont probably let it go out. The chances for something like this to work is like <strong>10%</strong> maybe even less.</p>
+<p>Let&#8217;s compare it with browser extensions. The victim needs to first of all approve the supplier. Then wait for 3 seconds and then approve it. The first step requires 3 additional sub-steps, such as right clicking on the pop-up bar, selecting Approve suppler (whatever it was) option and clicking on the <strong>Allow</strong> button.</p>
+<p>An attack, like the one described in the post, which does not require any exploit, can be easily made to look like a legitimate operation (forging the applet name and the certificate CN), and has <strong>50%</strong> chance to succeed is far from a good news for the IT industry. Based on personal experience, I know that this thing works more then 50%. It works all the time in fact.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-61743">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3d6a350133d92590f648098405210bae?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">NurBo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61743">
+			October 26, 2007 at 10:07 am</a>		</div>
+
+		<p>pdp you always amaze me keep up the good post man. Im loving it</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-61744">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61744">
+			October 26, 2007 at 10:08 am</a>		</div>
+
+		<div class="message">The problem with security researchers today is that we converted hacking into science. we care about highly ineffective kernel vulnerabilities and we forget that simplicity is the attackers&#8217; best friend all the time. You will spend 3 months developing your exploit and coming up with solutions, where the bad guys will spend no more then 10 minutes and hit more targets then anyone has expected.</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-61772">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d025d43c89ca5da6b20fb27fdf6b73e9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rado</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61772">
+			October 26, 2007 at 1:17 pm</a>		</div>
+
+		<p>pdp, I totally agree that it is very easy to trick the user to execute a signed applet. I just don&#8217;t think that something is &#8220;insecure&#8221; if it is not foolproof :) Or may be I&#8217;m wrong &#8230; Anyways, keep up the good work!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-62422">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/de57fc56102886f5d3fe467e5dda179d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.cashoncell.com/' rel='external nofollow' class='url'>waldo</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-62422">
+			October 28, 2007 at 9:16 am</a>		</div>
+
+		<p>Very interesting. Thanks for the information buddy is really valuable to keep security levels high.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-62716">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-62716">
+			October 29, 2007 at 1:48 pm</a>		</div>
+
+		<p>pdp, i got to admit that this is one of the coolest trick that you pulled out of your bag. REspect mate.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-62730">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f91ff97dfa134351fe94c06c918ddb95?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">moon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-62730">
+			October 29, 2007 at 2:44 pm</a>		</div>
+
+		<p>thenk you</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-62795">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/def56caf405ed3e209df3913a54247ec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Richard Moore</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-62795">
+			October 29, 2007 at 6:31 pm</a>		</div>
+
+		<p>You say that applets are the only embeddable object that can do this, what about activeX controls?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-62804">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d1658ac36692c8b5ff5612aa9d6a837?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rezn</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-62804">
+			October 29, 2007 at 6:59 pm</a>		</div>
+
+		<p>another big problems with signed applets (as currently implemented) is that the dialog which pops up is very similar looking (especially if you just glance quickly) for valid (as in, traceable to CA trusted by your browser) and invalid signatures.  </p>
+<p>the world would be better if users were not given the choice of consuming things which the computer knows are wrong, at least not without going and explicitly tweaking some settings.  since everyone has now been trained to virtually ignore errors about invalid SSL Server certs, people blindly click &#8216;OK&#8217; on almost any warning presented to them by the browser.</p>
+<p>also, you may discount social engineering attacks as &#8216;lame&#8217; or &#8216;irrelevant&#8217;.  lots of people do.  this is precisely why they are so effective and popular among attackers.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-62847">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/870419564f7ebe6cb4f631e98e14e5dd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://g-brain.sesoyo.com/' rel='external nofollow' class='url'>G-Brain</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-62847">
+			October 29, 2007 at 8:33 pm</a>		</div>
+
+		<p>I don&#8217;t like the title: &#8220;Hacking without 0days&#8221;?</p>
+<p>It doesn&#8217;t even make sense if you think about it. I mean, as opposed to &#8220;Hacking _with_ 0days&#8221;? Releasing an exploit for software X the same day software X is released _is_ the hack.</p>
+<p>How do you hack _with_ a 0day? Run the pre-made Perl script? That isn&#8217;t hacking.</p>
+<p>The first part of the title makes no sense. Overall: nice article.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-62855">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-62855">
+			October 29, 2007 at 8:49 pm</a>		</div>
+
+		<p>Richard Moore, it is different when it comes to ActiveX controllers.</p>
+<p>rezn, absolutely!</p>
+<p>G-Brain, point taken! :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-62977">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/06e750d2110805500cfaaaf72343af99?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://djtechnocrat.blogspot.com/' rel='external nofollow' class='url'>Technocrat</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-62977">
+			October 30, 2007 at 3:46 am</a>		</div>
+
+		<p>Good stuff pdp. </p>
+<p>The weakest link in security is the human element. Clearly things could be changed to better protect non-informed users from themselves&#8230;but in the end, the only solution is education.</p>
+<p>By bringing issues like this into the light, you are helping educate people&#8230;.nice work.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-63113">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76e25688ec30669c675e77bdbb8a5b0e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mogano</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63113">
+			October 30, 2007 at 10:42 am</a>		</div>
+
+		<p>Don&#8217;t know that you get an attack working. How for example you can get some binary stuff (shellcode) running?? Thats only a exec command! Other things are not possible like write binfile or ???</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-63131">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63131">
+			October 30, 2007 at 12:23 pm</a>		</div>
+
+		<p>mogano, I am not sure what u are trying to say!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-63157">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76e25688ec30669c675e77bdbb8a5b0e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mogano</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63157">
+			October 30, 2007 at 1:54 pm</a>		</div>
+
+		<p>what can I do with signed Applets?? Also stuff like execute arbitary code (from outside)? (if so, how?)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-63166">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a3b620701f9268c2da5b7d8eb8c36935?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">LiquidBrain</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63166">
+			October 30, 2007 at 2:37 pm</a>		</div>
+
+		<p>Actually you can execute any command on system&#8230; start service, download file&#8230; you can do anything&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-63176">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76e25688ec30669c675e77bdbb8a5b0e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mogano</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63176">
+			October 30, 2007 at 3:02 pm</a>		</div>
+
+		<p>how do I download a file for example??</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-63177">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aa3630e0f05c7ad2144ac3292d402a40?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">jayjwa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63177">
+			October 30, 2007 at 3:07 pm</a>		</div>
+
+		<p>Works for Linux too, as long as the app. exists (ln -s xcalc calc for this example). It does put up a warning box and ask for confirmation that is obvious enough for me, but I can see how some people would click away without checking. Oddly, Firefox (2.0.0.7) also pops up an authenticaion box (bug?).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-63208">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76e25688ec30669c675e77bdbb8a5b0e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mogano</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63208">
+			October 30, 2007 at 5:22 pm</a>		</div>
+
+		<p>Still only one question from me:</p>
+<p>How do I download a File using a signed applet?</p>
+<p>greetz,<br />
+mogano</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-63217">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63217">
+			October 30, 2007 at 5:54 pm</a>		</div>
+
+		<p>:) what are u building man?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-63224">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2822499a0c362c28f0de5df8fc34ead5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.indiana.edu/~phishing/verybigad/' rel='external nofollow' class='url'>sid</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63224">
+			October 30, 2007 at 6:38 pm</a>		</div>
+
+		<p>Some of us at Indiana University tried out this type of re-signing and modifying applets in a realistic scenario last year&#8230; you&#8217;re right, it works very well.  People don&#8217;t care about whether or not they should trust an executable; if they expect it, they will click yes no matter what.</p>
+<p>Check out our results: <a href="http://www.indiana.edu/~phishing/verybigad/" rel="nofollow">http://www.indiana.edu/~phishing/verybigad/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-63239">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5b7bc69f8e5026e15aaf789df081d84b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">diesl0w</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63239">
+			October 30, 2007 at 7:33 pm</a>		</div>
+
+		<p>Sounds like someones trying to compile a download/execute payload :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-63248">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76e25688ec30669c675e77bdbb8a5b0e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mogano</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63248">
+			October 30, 2007 at 8:38 pm</a>		</div>
+
+		<p>we call it:  DA BOMB! ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-63254">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63254">
+			October 30, 2007 at 8:49 pm</a>		</div>
+
+		<p>diesl0w, indeed!</p>
+<p>mogano, DA BOMB? should we watch out for it?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-63305">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/76e25688ec30669c675e77bdbb8a5b0e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mogano</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-63305">
+			October 30, 2007 at 11:24 pm</a>		</div>
+
+		<p>I&#8217;ve already done s.th. but not on Applets. Therefore I asked because I don&#8217;t think that they has increased the level of system rights. Does someone know that writing (binary) files in (signed )Applets work???</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-101636">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/84ae706aabc97f12ff5d73f772f32e08?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.kbnet.com/' rel='external nofollow' class='url'>kbnet</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-101636">
+			January 20, 2008 at 9:28 am</a>		</div>
+
+		<p>This guy has a very interesting blog, he has a video which shows an applet patching a binary. Very nice!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-101663">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/84ae706aabc97f12ff5d73f772f32e08?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.kbnet.com/' rel='external nofollow' class='url'>kbnet</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-101663">
+			January 20, 2008 at 11:18 am</a>		</div>
+
+		<p>Sorry, didn&#8217;t post the URL: <a href="http://www.aboulton.blogspot.com/" rel="nofollow">http://www.aboulton.blogspot.com</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122424">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8ad8fecb1c17081146446f0372b1fb55?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">goblert</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122424">
+			June 2, 2008 at 9:02 pm</a>		</div>
+
+		<p>It is possible to make the applet download and run a executable. I have seen it with my own eyes. Its a very effective way to infect someone.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="531"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="3de21f7c77" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/hacking-without-0days-drive-by-java/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

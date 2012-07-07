@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Preventing CSRF</title>
+	<atom:link href="http://www.gnucitizen.org/blog/preventing-csrf/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/preventing-csrf/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-130045</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 27 Apr 2011 13:47:17 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-130045</guid>
+		<description>Hi Bob,
+
+You can still has the cookie with a known salt value in order to prevent leakage. I think the technique is very simple and effective.</description>
+		<content:encoded><![CDATA[<p>Hi Bob,</p>
+<p>You can still has the cookie with a known salt value in order to prevent leakage. I think the technique is very simple and effective.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Bob</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-129909</link>
+		<dc:creator>Bob</dc:creator>
+		<pubDate>Fri, 22 Apr 2011 21:04:08 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-129909</guid>
+		<description>I came across this old thread while researching CSRF prevention. It seems to me that the proposed solution on this post is what OWASP calls &quot;double-submit cookies&quot; (https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet)
+OWASP suggests that this solution is effective, but increases risk of session hijacking, and recommends a &quot;synchronizer token&quot; solution.
+I put the link here in case others come across this thread.</description>
+		<content:encoded><![CDATA[<p>I came across this old thread while researching CSRF prevention. It seems to me that the proposed solution on this post is what OWASP calls &#8220;double-submit cookies&#8221; (<a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet" rel="nofollow">https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet</a>)<br />
+OWASP suggests that this solution is effective, but increases risk of session hijacking, and recommends a &#8220;synchronizer token&#8221; solution.<br />
+I put the link here in case others come across this thread.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Preventing CSRF with CsrfGuard &#124; Keep It Locked</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-129664</link>
+		<dc:creator>Preventing CSRF with CsrfGuard &#124; Keep It Locked</dc:creator>
+		<pubDate>Thu, 20 Jan 2011 02:14:07 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-129664</guid>
+		<description>[...] type of solution is suggested by some reputable sources in application security. In some cases, the CSRF token is the session [...]</description>
+		<content:encoded><![CDATA[<p>[...] type of solution is suggested by some reputable sources in application security. In some cases, the CSRF token is the session [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-129274</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Sat, 13 Nov 2010 01:55:36 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-129274</guid>
+		<description>it depends</description>
+		<content:encoded><![CDATA[<p>it depends</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Sumit</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-129184</link>
+		<dc:creator>Sumit</dc:creator>
+		<pubDate>Thu, 07 Oct 2010 10:23:03 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-129184</guid>
+		<description>Is using Security Tokens with URLs Correct Option of Preventing website from XSRF...</description>
+		<content:encoded><![CDATA[<p>Is using Security Tokens with URLs Correct Option of Preventing website from XSRF&#8230;</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: sibidiba</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-128104</link>
+		<dc:creator>sibidiba</dc:creator>
+		<pubDate>Sat, 16 Jan 2010 03:38:05 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-128104</guid>
+		<description>A tipical CSRF attack scenario: You receive an e-mail or a web page with a link on it. You click the link.
+
+The link is for example: http://bank.example.com/transfer?amount=1000&amp;to=12345
+or an equivalent POST request.
+
+You are logged in with the same browser on bank.example.com . Therefore the site will think the request *is* coming on your behalf. Wont be the SESSIONDID still be there? Isn&#039;t this the reason while the request would already reach this point of code, assuming you are logged in? The presence of your session in the browser is the core of this attack vector. The session is identified by the SESSIONID cookie, isn&#039;t it? Then your solution wouldn&#039;t work.</description>
+		<content:encoded><![CDATA[<p>A tipical CSRF attack scenario: You receive an e-mail or a web page with a link on it. You click the link.</p>
+<p>The link is for example: <a href="http://bank.example.com/transfer?amount=1000&#038;to=12345" rel="nofollow">http://bank.example.com/transf.....8;to=12345</a><br />
+or an equivalent POST request.</p>
+<p>You are logged in with the same browser on bank.example.com . Therefore the site will think the request *is* coming on your behalf. Wont be the SESSIONDID still be there? Isn&#8217;t this the reason while the request would already reach this point of code, assuming you are logged in? The presence of your session in the browser is the core of this attack vector. The session is identified by the SESSIONID cookie, isn&#8217;t it? Then your solution wouldn&#8217;t work.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Inferno</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-127633</link>
+		<dc:creator>Inferno</dc:creator>
+		<pubDate>Sun, 19 Jul 2009 07:30:20 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-127633</guid>
+		<description>Hi pdp,
+
+Just to add my input to your insightful post, i got an idea of a pure client side attack to locate csrf tokens using jeremiah&#039;s css history hack. some readers commented on using a hash of session id. if this hash is short length and is part of url, then this attack is feasible (even when links to external sites=0). more details here - http://securethoughts.com/2009/07/hacking-csrf-tokens-using-css-history-hack/</description>
+		<content:encoded><![CDATA[<p>Hi pdp,</p>
+<p>Just to add my input to your insightful post, i got an idea of a pure client side attack to locate csrf tokens using jeremiah&#8217;s css history hack. some readers commented on using a hash of session id. if this hash is short length and is part of url, then this attack is feasible (even when links to external sites=0). more details here &#8211; <a href="http://securethoughts.com/2009/07/hacking-csrf-tokens-using-css-history-hack/" rel="nofollow">http://securethoughts.com/2009.....tory-hack/</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Preventing CSRF, the Right Way - KeepItLocked.net</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-124092</link>
+		<dc:creator>Preventing CSRF, the Right Way - KeepItLocked.net</dc:creator>
+		<pubDate>Fri, 17 Oct 2008 22:01:00 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-124092</guid>
+		<description>[...] type=&quot;Submit&quot; value=&quot;Click Me&quot;/&gt; &lt;/form&gt; This type of solution is suggested by some reputable sources in application security. In some cases, the CSRF token is the session ID. There are [...]</description>
+		<content:encoded><![CDATA[<p>[...] type=&#8221;Submit&#8221; value=&#8221;Click Me&#8221;/&gt; &lt;/form&gt; This type of solution is suggested by some reputable sources in application security. In some cases, the CSRF token is the session ID. There are [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: r3ck0rd</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-121039</link>
+		<dc:creator>r3ck0rd</dc:creator>
+		<pubDate>Wed, 07 May 2008 08:51:31 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-121039</guid>
+		<description>^ a newbie? 
+well yes it could be, easily using PHP :)</description>
+		<content:encoded><![CDATA[<p>^ a newbie?<br />
+well yes it could be, easily using PHP :)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Accounts Security Part III &#124; Th0R's Blog</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-119426</link>
+		<dc:creator>Accounts Security Part III &#124; Th0R's Blog</dc:creator>
+		<pubDate>Tue, 22 Apr 2008 10:35:31 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-119426</guid>
+		<description>[...]  CSRF Attack: for users and WDev&amp;P Lists of links that may help you preventing CSRF: - http://www.gnucitizen.org/blog/preventing-csrf/ - http://websecurity.ro/blog/2008/03/28/wordpress-233-probably-a-0day-exploit/ - [...]</description>
+		<content:encoded><![CDATA[<p>[...]  CSRF Attack: for users and WDev&amp;P Lists of links that may help you preventing CSRF: &#8211; <a href="http://www.gnucitizen.org/blog/preventing-csrf/" rel="nofollow">http://www.gnucitizen.org/blog/preventing-csrf/</a> &#8211; <a href="http://websecurity.ro/blog/2008/03/28/wordpress-233-probably-a-0day-exploit/" rel="nofollow">http://websecurity.ro/blog/200.....y-exploit/</a> &#8211; [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Accounts Security Part III &#124; r3ck0rd's Blog</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-118623</link>
+		<dc:creator>Accounts Security Part III &#124; r3ck0rd's Blog</dc:creator>
+		<pubDate>Fri, 11 Apr 2008 13:24:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-118623</guid>
+		<description>[...]  CSRF Attack: for users and WDev&amp;P Lists of links that may help you preventing CSRF: - http://www.gnucitizen.org/blog/preventing-csrf/ - http://websecurity.ro/blog/2008/03/28/wordpress-233-probably-a-0day-exploit/ - [...]</description>
+		<content:encoded><![CDATA[<p>[...]  CSRF Attack: for users and WDev&amp;P Lists of links that may help you preventing CSRF: &#8211; <a href="http://www.gnucitizen.org/blog/preventing-csrf/" rel="nofollow">http://www.gnucitizen.org/blog/preventing-csrf/</a> &#8211; <a href="http://websecurity.ro/blog/2008/03/28/wordpress-233-probably-a-0day-exploit/" rel="nofollow">http://websecurity.ro/blog/200.....y-exploit/</a> &#8211; [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Preventing CSRF efficiently &#187; Inking's Security Blog</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-116811</link>
+		<dc:creator>Preventing CSRF efficiently &#187; Inking's Security Blog</dc:creator>
+		<pubDate>Tue, 18 Mar 2008 17:01:20 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-116811</guid>
+		<description>[...] forgeries and how to prevent them, however this time slightly different and not only dealing with approaches that have already been discussed numerous times and are likely to fail under certain well known circumstances. It&#039;s actually difficult to start on [...]</description>
+		<content:encoded><![CDATA[<p>[...] forgeries and how to prevent them, however this time slightly different and not only dealing with approaches that have already been discussed numerous times and are likely to fail under certain well known circumstances. It&#8217;s actually difficult to start on [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Zoiz</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-103503</link>
+		<dc:creator>Zoiz</dc:creator>
+		<pubDate>Fri, 25 Jan 2008 13:25:23 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-103503</guid>
+		<description>Newbie here. Can I prevent CSRF by matching the referrer URL with my site URL?</description>
+		<content:encoded><![CDATA[<p>Newbie here. Can I prevent CSRF by matching the referrer URL with my site URL?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-15660</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Mon, 23 Apr 2007 08:46:34 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-15660</guid>
+		<description>Scott,
+
+good summary my man.</description>
+		<content:encoded><![CDATA[<p>Scott,</p>
+<p>good summary my man.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Scott Parsons</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-15098</link>
+		<dc:creator>Scott Parsons</dc:creator>
+		<pubDate>Fri, 20 Apr 2007 18:42:02 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-15098</guid>
+		<description>Newbie here, but have been thinking and discussing CSRF with some other folks.  I&#039;m feeling pretty large that I had come up with the same approach as PDP a couple weeks ago.  While it sessionID &lt;strong&gt;should&lt;/strong&gt; be safe to use, it would seem prudent to use a secure hash of it rather than the sessionID itself.  Provided there is sufficient entropy in the session Id and output bits in the hash, it should be rainbow-table proof.  The advantage is that there is no secret to keep, and it can either be calculated on the server or on the client-side.  This also allows it to be valiated in multiple places without the need to do secret key management, which might be required for an HMAC approach.</description>
+		<content:encoded><![CDATA[<p>Newbie here, but have been thinking and discussing CSRF with some other folks.  I&#8217;m feeling pretty large that I had come up with the same approach as PDP a couple weeks ago.  While it sessionID <strong>should</strong> be safe to use, it would seem prudent to use a secure hash of it rather than the sessionID itself.  Provided there is sufficient entropy in the session Id and output bits in the hash, it should be rainbow-table proof.  The advantage is that there is no secret to keep, and it can either be calculated on the server or on the client-side.  This also allows it to be valiated in multiple places without the need to do secret key management, which might be required for an HMAC approach.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-14258</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Fri, 13 Apr 2007 07:05:54 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-14258</guid>
+		<description>naka, yes it will work. the problem is how we are going to prevent CSRF without introducing too mush stuff into the system. but yes, this works.</description>
+		<content:encoded><![CDATA[<p>naka, yes it will work. the problem is how we are going to prevent CSRF without introducing too mush stuff into the system. but yes, this works.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: naka</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-14252</link>
+		<dc:creator>naka</dc:creator>
+		<pubDate>Fri, 13 Apr 2007 06:14:41 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-14252</guid>
+		<description>How about using a hashed JSESSIONID instead of raw one?
+I think that it is better than the way you suggested.</description>
+		<content:encoded><![CDATA[<p>How about using a hashed JSESSIONID instead of raw one?<br />
+I think that it is better than the way you suggested.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-13143</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Sat, 07 Apr 2007 06:18:41 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-13143</guid>
+		<description>Kyle,
+
+It all depends. We cannot say whether your application is secure or not. Rethink all technologies that you are using and make sure that they are applied appropriately.</description>
+		<content:encoded><![CDATA[<p>Kyle,</p>
+<p>It all depends. We cannot say whether your application is secure or not. Rethink all technologies that you are using and make sure that they are applied appropriately.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Kyle</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-13104</link>
+		<dc:creator>Kyle</dc:creator>
+		<pubDate>Sat, 07 Apr 2007 01:01:31 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-13104</guid>
+		<description>In my admin section, the forms are submitted over xmlhttprequest. So instead of using javascript to rewrite the dom and add hidden inputs, couldn&#039;t I just modify my xmlhttprequest wrapper to add a custom header with a unique id from the cookie? The header is then checked in the back end.
+
+This would only require 1 line of extra code client side and is faster than rewriting the dom. It also means that if you have different panels of the admin section open in separate tabs then they all have the most recent id whenever you eventually submit them (which a dom rewrite onload may not and even though a dom rewrite onsubmit would it&#039;s less efficient). I regularly regenerate the session id so this is an issue for me.
+
+If the user has javascript turned off, the js is incompatible with the browser or the js is just plain borked then the id will not be sent because there&#039;s no fall back, but that isn&#039;t a problem here since the admin section is private and for me only.
+
+Does this method open any new holes that I haven&#039;t noticed?</description>
+		<content:encoded><![CDATA[<p>In my admin section, the forms are submitted over xmlhttprequest. So instead of using javascript to rewrite the dom and add hidden inputs, couldn&#8217;t I just modify my xmlhttprequest wrapper to add a custom header with a unique id from the cookie? The header is then checked in the back end.</p>
+<p>This would only require 1 line of extra code client side and is faster than rewriting the dom. It also means that if you have different panels of the admin section open in separate tabs then they all have the most recent id whenever you eventually submit them (which a dom rewrite onload may not and even though a dom rewrite onsubmit would it&#8217;s less efficient). I regularly regenerate the session id so this is an issue for me.</p>
+<p>If the user has javascript turned off, the js is incompatible with the browser or the js is just plain borked then the id will not be sent because there&#8217;s no fall back, but that isn&#8217;t a problem here since the admin section is private and for me only.</p>
+<p>Does this method open any new holes that I haven&#8217;t noticed?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: wrc</title>
+		<link>http://www.gnucitizen.org/blog/preventing-csrf/comment-page-1/#comment-12294</link>
+		<dc:creator>wrc</dc:creator>
+		<pubDate>Mon, 02 Apr 2007 15:29:02 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/preventing-csrf#comment-12294</guid>
+		<description>An attack using XMLHTTP to make the requests through the victim&#039;s browser against the desired site will only need an additional intermediate step.  Soley protecting POSTs won&#039;t help.</description>
+		<content:encoded><![CDATA[<p>An attack using XMLHTTP to make the requests through the victim&#8217;s browser against the desired site will only need an additional intermediate step.  Soley protecting POSTs won&#8217;t help.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

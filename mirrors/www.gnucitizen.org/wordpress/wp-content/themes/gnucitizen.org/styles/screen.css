@@ -1,0 +1,36 @@
+@import url("../../default/styles/screen.html");
+@import url("screen.base.css");
+@import url("screen.core.css");
+
+#search p {
+	font-size: 90%;
+	margin-top: 0px;
+}
+
+.list li a:before  ,
+.list2 li a:before ,
+.list3 li a:before {
+	content: '\2234\20';
+}
+
+body.blog #content {
+	min-height: 1300px;
+}
+
+/* <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+	<Work rdf:about="">
+		<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+		<dc:title>GNUCITIZEN</dc:title>
+		<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+		<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+		<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+		<dc:source rdf:resource="http://www.gnucitizen.org"/>
+	</Work>
+	<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+		<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+		<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+		<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+		<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+		<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+	</License>
+</rdf:RDF> --> */

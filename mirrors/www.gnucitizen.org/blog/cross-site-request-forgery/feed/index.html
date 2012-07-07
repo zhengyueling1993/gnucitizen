@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Cross-site Request Forgery</title>
+	<atom:link href="http://www.gnucitizen.org/blog/cross-site-request-forgery/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: GNUCITIZEN &#187; Preventing CSRF</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-11262</link>
+		<dc:creator>GNUCITIZEN &#187; Preventing CSRF</dc:creator>
+		<pubDate>Fri, 30 Mar 2007 10:12:48 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-11262</guid>
+		<description>[...] As I have discussed in the past, CSRF vulnerabilities occur on applications which allow every request that has a valid session identifier to be processed by the application business logic. This is bad for a number of reasons. The main reason is related to the way the browser handles requests: [...]</description>
+		<content:encoded><![CDATA[<p>[...] As I have discussed in the past, CSRF vulnerabilities occur on applications which allow every request that has a valid session identifier to be processed by the application business logic. This is bad for a number of reasons. The main reason is related to the way the browser handles requests: [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-1164</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 12 Dec 2006 01:17:32 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-1164</guid>
+		<description>You can either write a pure Perl module for Apache or just proxy the request to another server that will do the filtering and the processing. Good luck.</description>
+		<content:encoded><![CDATA[<p>You can either write a pure Perl module for Apache or just proxy the request to another server that will do the filtering and the processing. Good luck.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Joe Phantom</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-1159</link>
+		<dc:creator>Joe Phantom</dc:creator>
+		<pubDate>Mon, 11 Dec 2006 19:57:28 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-1159</guid>
+		<description>We have an closed source intranet web in the company  I work (it was already bought when I entered the company, and we are not allowed to change in any way  the web intranet). The intranet is vulnerable to Cross-site Request Forgery.
+
+I think the best way would be to have a application firewall (as you said), I will try to code it.
+Thank&#039;s Delixe and pdp.</description>
+		<content:encoded><![CDATA[<p>We have an closed source intranet web in the company  I work (it was already bought when I entered the company, and we are not allowed to change in any way  the web intranet). The intranet is vulnerable to Cross-site Request Forgery.</p>
+<p>I think the best way would be to have a application firewall (as you said), I will try to code it.<br />
+Thank&#8217;s Delixe and pdp.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-1143</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Mon, 11 Dec 2006 00:07:16 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-1143</guid>
+		<description>Joe as Delixe mentioned you can implement your own mechanism for preventing CSRF. It is all about adding a hidden field in the forms you are displaying that has unique id. If this id matches the id generate and stored inside the user session then the request from the form is allowed, otherwise you disregard prompting an error.
+
+It is even more trivial to generalize this with a simple PHP class that will generate the form for you and do the rest. The problem is that the larger the application gets the more tedious this method is. I guess it is much better to do some kind of smart layered filtering where a top level application firewall modifies the form with all necessary information. I don&#039;t think that you can do that with mod_security but a little bit of perl will do.
+
+And, hei, your English is not that bad. Cheers.</description>
+		<content:encoded><![CDATA[<p>Joe as Delixe mentioned you can implement your own mechanism for preventing CSRF. It is all about adding a hidden field in the forms you are displaying that has unique id. If this id matches the id generate and stored inside the user session then the request from the form is allowed, otherwise you disregard prompting an error.</p>
+<p>It is even more trivial to generalize this with a simple PHP class that will generate the form for you and do the rest. The problem is that the larger the application gets the more tedious this method is. I guess it is much better to do some kind of smart layered filtering where a top level application firewall modifies the form with all necessary information. I don&#8217;t think that you can do that with mod_security but a little bit of perl will do.</p>
+<p>And, hei, your English is not that bad. Cheers.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Delixe</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-1141</link>
+		<dc:creator>Delixe</dc:creator>
+		<pubDate>Sun, 10 Dec 2006 18:44:08 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-1141</guid>
+		<description>I believe sessions in general take care of this.
+
+You can just plug sessions vars in the action portion of a form and neutralize all attempts of CSRF since the attacker can&#039;t possibly know the session string.</description>
+		<content:encoded><![CDATA[<p>I believe sessions in general take care of this.</p>
+<p>You can just plug sessions vars in the action portion of a form and neutralize all attempts of CSRF since the attacker can&#8217;t possibly know the session string.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Joe Phantom</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-1139</link>
+		<dc:creator>Joe Phantom</dc:creator>
+		<pubDate>Sun, 10 Dec 2006 17:42:03 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-1139</guid>
+		<description>I know many frameworks for developing webs, in many languages, but I didn&#039;t know anyone who had any library that was useful against CSRF. I will read the documentation of the frameworks.
+
+(Sorry for my english, I am from Argentina)
+Thank you for doing such a great blog.</description>
+		<content:encoded><![CDATA[<p>I know many frameworks for developing webs, in many languages, but I didn&#8217;t know anyone who had any library that was useful against CSRF. I will read the documentation of the frameworks.</p>
+<p>(Sorry for my english, I am from Argentina)<br />
+Thank you for doing such a great blog.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-1123</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Sun, 10 Dec 2006 00:31:46 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-1123</guid>
+		<description>Joe,
+
+there are many of them. I am quite sure that you can find at least one framework per programming language.
+
+.NET for example has the __VIEWSTATE. I don&#039;t like transmitting so much data back&#039;nfort to the client but, hey, that is by default and it protects your from CSRF. Microsoft has just released their Anti-XSS Library, I am not sure if that helps in terms of CSRF as well.
+
+However, although there are available frameworks that more less prevent CSRF on your applications you must understand that none of them are AJAX compatible. As Billy Hoffman suggested on a few occasions, AJAX technologies are not completely understood and that makes them a lot more hackable. These are not his exact word but the context is the same.</description>
+		<content:encoded><![CDATA[<p>Joe,</p>
+<p>there are many of them. I am quite sure that you can find at least one framework per programming language.</p>
+<p>.NET for example has the __VIEWSTATE. I don&#8217;t like transmitting so much data back&#8217;nfort to the client but, hey, that is by default and it protects your from CSRF. Microsoft has just released their Anti-XSS Library, I am not sure if that helps in terms of CSRF as well.</p>
+<p>However, although there are available frameworks that more less prevent CSRF on your applications you must understand that none of them are AJAX compatible. As Billy Hoffman suggested on a few occasions, AJAX technologies are not completely understood and that makes them a lot more hackable. These are not his exact word but the context is the same.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Joe Phantom</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-1093</link>
+		<dc:creator>Joe Phantom</dc:creator>
+		<pubDate>Sat, 09 Dec 2006 06:12:19 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-1093</guid>
+		<description>I knew what CSFR meant, but I didn&#039;t understand it&#039;s full potential. Thanks for clarifying the power of CSFR.
+How can we protect our webs from this type of attack? Any idea?
+pdp, you mentioned frameworks, can you tell me which framework already has some type of built in protection against CSFR?
+Thanks</description>
+		<content:encoded><![CDATA[<p>I knew what CSFR meant, but I didn&#8217;t understand it&#8217;s full potential. Thanks for clarifying the power of CSFR.<br />
+How can we protect our webs from this type of attack? Any idea?<br />
+pdp, you mentioned frameworks, can you tell me which framework already has some type of built in protection against CSFR?<br />
+Thanks</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pagvac</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-994</link>
+		<dc:creator>pagvac</dc:creator>
+		<pubDate>Wed, 06 Dec 2006 14:03:14 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-994</guid>
+		<description>Most people are super skeptic to CSRF attacks. The typical scenario of being CSRFed while doing online banking and transferring funds to the attacker&#039;s account is one that many people refuse to believe.
+
+CSRF skeptics would say &quot;How the hell would an attacker fool me to visit a third-party site, while I&#039;m still *logged on* to https://www.[nameOfBank].com
+
+Well, unfortunately there is a web browser feature that is becoming more and more popular which will make CSRF attacks even more feasible in the future. It&#039;s called TAB BROWSING. The more web users do tab browsing, the more victims that will get CSRFed.
+
+Check out the following scenario:
+
+1. Victim is reading a blog
+2. Victim opens new tab (without closing the already-open tabs) and logs into https://www.[nameOfBank].com
+
+What if the blog that was still open in a different tab had injected a script snippet that submits a CSRF attack to https://www.[nameOfBank].com every X seconds in the background?
+
+Guess what, you&#039;ve just been robbed :-D
+
+As pdp reminded us, we should consider splogs as a vector for maximizing the chances of successful exploitation.</description>
+		<content:encoded><![CDATA[<p>Most people are super skeptic to CSRF attacks. The typical scenario of being CSRFed while doing online banking and transferring funds to the attacker&#8217;s account is one that many people refuse to believe.</p>
+<p>CSRF skeptics would say &#8220;How the hell would an attacker fool me to visit a third-party site, while I&#8217;m still *logged on* to <a href="https://www.nameOfBank.com" rel="nofollow">https://www.nameOfBank.com</a></p>
+<p>Well, unfortunately there is a web browser feature that is becoming more and more popular which will make CSRF attacks even more feasible in the future. It&#8217;s called TAB BROWSING. The more web users do tab browsing, the more victims that will get CSRFed.</p>
+<p>Check out the following scenario:</p>
+<p>1. Victim is reading a blog<br />
+2. Victim opens new tab (without closing the already-open tabs) and logs into <a href="https://www.nameOfBank.com" rel="nofollow">https://www.nameOfBank.com</a></p>
+<p>What if the blog that was still open in a different tab had injected a script snippet that submits a CSRF attack to <a href="https://www.nameOfBank.com" rel="nofollow">https://www.nameOfBank.com</a> every X seconds in the background?</p>
+<p>Guess what, you&#8217;ve just been robbed :-D</p>
+<p>As pdp reminded us, we should consider splogs as a vector for maximizing the chances of successful exploitation.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-983</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 06 Dec 2006 02:14:30 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-983</guid>
+		<description>pagvac, you have some interesting stuff on your domain. Very nice! I think that we are going to see a lot more of these attacks in the future, especially the ones concerning network devices. Web browsers are the perfect platform to bridge protected networks with the wild web.</description>
+		<content:encoded><![CDATA[<p>pagvac, you have some interesting stuff on your domain. Very nice! I think that we are going to see a lot more of these attacks in the future, especially the ones concerning network devices. Web browsers are the perfect platform to bridge protected networks with the wild web.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pagvac</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-978</link>
+		<dc:creator>pagvac</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 23:18:18 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-978</guid>
+		<description>&lt;blockquote&gt;I don’t think that’s a fitting example considering how many users are going to be logged in their router interface&lt;/blockquote&gt;
+
+Guys, we need to remind ourselves that many routers have vulnerabilities on their web interfaces which when combined with CSRF can potentially allow you to gain internal access to a network WITHOUT requiring the victim user to be authenticated.
+
+Consider an authentication bypass vuln
+
+http://www.securityfocus.com/bid/19347/discuss
+
+By simply visiting the following URL, you just changed configuration settings on your router (if vulnerable) WITHOUT needing to be authenticated:
+
+http://ikwt.com/projects/linksys/BID19347_test.html
+
+Also consider an unauthenticated access to the router&#039;s config file vuln. If combined with an XSS vuln, an attacker should be able to steal your router&#039;s config file by using XMLHttpRequest() in the XSS payload:
+
+http://www.securityfocus.com/bid/19057/discuss
+http://ikwt.com/projects/btvoyager-getconfig.txt
+
+&lt;blockquote&gt;What does have access to a router interface do?&lt;/blockquote&gt;
+
+If you can make admin requests to a router&#039;s web inteface then you just gained internal access to the target network, by setting port forwarding for instance, or placing internal hosts on the DMZ.</description>
+		<content:encoded><![CDATA[<blockquote><p>I don’t think that’s a fitting example considering how many users are going to be logged in their router interface</p></blockquote>
+<p>Guys, we need to remind ourselves that many routers have vulnerabilities on their web interfaces which when combined with CSRF can potentially allow you to gain internal access to a network WITHOUT requiring the victim user to be authenticated.</p>
+<p>Consider an authentication bypass vuln</p>
+<p><a href="http://www.securityfocus.com/bid/19347/discuss" rel="nofollow">http://www.securityfocus.com/bid/19347/discuss</a></p>
+<p>By simply visiting the following URL, you just changed configuration settings on your router (if vulnerable) WITHOUT needing to be authenticated:</p>
+<p><a href="http://ikwt.com/projects/linksys/BID19347_test.html" rel="nofollow">http://ikwt.com/projects/links....._test.html</a></p>
+<p>Also consider an unauthenticated access to the router&#8217;s config file vuln. If combined with an XSS vuln, an attacker should be able to steal your router&#8217;s config file by using XMLHttpRequest() in the XSS payload:</p>
+<p><a href="http://www.securityfocus.com/bid/19057/discuss" rel="nofollow">http://www.securityfocus.com/bid/19057/discuss</a><br />
+<a href="http://ikwt.com/projects/btvoyager-getconfig.txt" rel="nofollow">http://ikwt.com/projects/btvoyager-getconfig.txt</a></p>
+<blockquote><p>What does have access to a router interface do?</p></blockquote>
+<p>If you can make admin requests to a router&#8217;s web inteface then you just gained internal access to the target network, by setting port forwarding for instance, or placing internal hosts on the DMZ.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pagvac</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-977</link>
+		<dc:creator>pagvac</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 22:24:37 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-977</guid>
+		<description>&lt;blockquote&gt;you can hit a lot of random web users by spawning splogs for example&lt;/blockquote&gt;
+
+Automated CSRF, that&#039;s a very good point!
+
+&lt;blockquote&gt;let’s say that you have a router vulnerable to CSRF (all of them are)&lt;/blockquote&gt;
+
+Actually I don&#039;t agree with this statement. While I would say that *most* router&#039;s web interfaces are vulnerable to CSRF, not all are. For instance, BT Voyager 2091 router adds a token to all admin HTTP requests that change configuration settings. 
+
+i.e.:
+
+http://192.168.1.1/lancfg2.cgi?checkNum=6418&amp;ethIpAddress=192.168.1.1&amp;ethSubnetMask=255.255.255.0&amp;hostname=voyager&amp;domainname=home&amp;enblLan2=0&amp;lan2IpAddress=0.0.0.0&amp;lan2SubnetMask=255.255.255.255&amp;lanmtu=1500
+
+In this case the attacker needs to know the value of &#039;checkNum&#039; when CSRFing, which is really assigned from the variable &#039;randomNum&#039; within a JS snippet. &#039;randomNum&#039; changes each time a page is loaded. YES, I&#039;m sure that you can reverse engineer the router and figure out how the random token is generated (especially since the software is open source), but the point here is that BT kept in mind CSRF attacks when designing the web interface for Voyager 2091.
+
+I do believe that routers&#039; web interfaces will be designed in the future using randomly-generated tokens for all configuration requests. But since now most people don&#039;t have a damn clue what CSRF is and why it can be bad thing, there is still a lot of opportunities (and time) for exploitation.</description>
+		<content:encoded><![CDATA[<blockquote><p>you can hit a lot of random web users by spawning splogs for example</p></blockquote>
+<p>Automated CSRF, that&#8217;s a very good point!</p>
+<blockquote><p>let’s say that you have a router vulnerable to CSRF (all of them are)</p></blockquote>
+<p>Actually I don&#8217;t agree with this statement. While I would say that *most* router&#8217;s web interfaces are vulnerable to CSRF, not all are. For instance, BT Voyager 2091 router adds a token to all admin HTTP requests that change configuration settings. </p>
+<p>i.e.:</p>
+<p><a href="http://192.168.1.1/lancfg2.cgi?checkNum=6418&#038;ethIpAddress=192.168.1.1&#038;ethSubnetMask=255.255.255.0&#038;hostname=voyager&#038;domainname=home&#038;enblLan2=0&#038;lan2IpAddress=0.0.0.0&#038;lan2SubnetMask=255.255.255.255&#038;lanmtu=1500" rel="nofollow">http://192.168.1.1/lancfg2.cgi.....anmtu=1500</a></p>
+<p>In this case the attacker needs to know the value of &#8216;checkNum&#8217; when CSRFing, which is really assigned from the variable &#8216;randomNum&#8217; within a JS snippet. &#8216;randomNum&#8217; changes each time a page is loaded. YES, I&#8217;m sure that you can reverse engineer the router and figure out how the random token is generated (especially since the software is open source), but the point here is that BT kept in mind CSRF attacks when designing the web interface for Voyager 2091.</p>
+<p>I do believe that routers&#8217; web interfaces will be designed in the future using randomly-generated tokens for all configuration requests. But since now most people don&#8217;t have a damn clue what CSRF is and why it can be bad thing, there is still a lot of opportunities (and time) for exploitation.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Kishor</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-967</link>
+		<dc:creator>Kishor</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 17:18:22 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-967</guid>
+		<description>Identifying if your victim is logged in is easy:
+
+Here is the article
+
+http://wasjournal.blogspot.com/2006/12/use-of-time-delay-technique-for.html</description>
+		<content:encoded><![CDATA[<p>Identifying if your victim is logged in is easy:</p>
+<p>Here is the article</p>
+<p><a href="http://wasjournal.blogspot.com/2006/12/use-of-time-delay-technique-for.html" rel="nofollow">http://wasjournal.blogspot.com.....e-for.html</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-947</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 03:41:24 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-947</guid>
+		<description>Sorry man, I didn&#039;t mean to offend you. Anyway, I am glad that we have clarified this.
+
+&lt;blockquote&gt;The protection mechanisms to prevent CSRF seem rather difficult to apply and rather cumbersome to say at the least. I know I would hate to apply that with every damn form or many.&lt;/blockquote&gt;
+
+Yes, however, this is what frameworks are for. They are designed to save your time. Still, people like writing things themselves.
+
+Many thanks.</description>
+		<content:encoded><![CDATA[<p>Sorry man, I didn&#8217;t mean to offend you. Anyway, I am glad that we have clarified this.</p>
+<blockquote><p>The protection mechanisms to prevent CSRF seem rather difficult to apply and rather cumbersome to say at the least. I know I would hate to apply that with every damn form or many.</p></blockquote>
+<p>Yes, however, this is what frameworks are for. They are designed to save your time. Still, people like writing things themselves.</p>
+<p>Many thanks.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Delixe</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-946</link>
+		<dc:creator>Delixe</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 03:27:54 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-946</guid>
+		<description>I am in the pursuit for knowledge like many of you and besides I don&#039;t steal.
+
+I&#039;ve seen the acronym CSRF quite often, I was interested in what the buzz was all about.
+
+Thank you for clarifying, yes the combination of CSRF and persistent XSS can be deadly -- I can definitely see that.
+
+The protection mechanisms to prevent CSRF seem rather difficult to apply and rather cumbersome to say at the least. I know I would hate to apply that with every damn form or many.</description>
+		<content:encoded><![CDATA[<p>I am in the pursuit for knowledge like many of you and besides I don&#8217;t steal.</p>
+<p>I&#8217;ve seen the acronym CSRF quite often, I was interested in what the buzz was all about.</p>
+<p>Thank you for clarifying, yes the combination of CSRF and persistent XSS can be deadly &#8212; I can definitely see that.</p>
+<p>The protection mechanisms to prevent CSRF seem rather difficult to apply and rather cumbersome to say at the least. I know I would hate to apply that with every damn form or many.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-945</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 03:02:30 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-945</guid>
+		<description>heh, no worries...
+
+The purpose of CSRF is to perform actions on behalf of the current user but this user must be authenticated first. Otherwise, there is no point in doing whatsoever.
+
+Ok, here is another one: let&#039;s say that an attacker wants to transfer some money to his/her account. They start a splog network which is backdoored from top to bottom with malicious JavaScript. The attacker targets several banks at the same time. So he/she has CSRF for Lloyds, Natwest, HSBC and some other bank. Once an unaware user visits any page from this splog network a CSRF will be executed to all bank sites initiating a money transfer. Most of the requests will fail, however, if the current user is unlucky enough to have their account open at the same time, or they forgot to logoff, the transfer will be successful.
+
+As pagvac, put it very clear, CSRF in combination with persistent XSS could be quite dangerous. Why? Well, let&#039;s say that someone targets MySpace with a similar exploit as the one discussed above. A worm like that could reach a critical mass in less then an hour effecting millions of users. Even if only 0.5% of them have their account open, the attacker could collect substantial amount of money.
+
+Sometimes I see that attack vectors discussed in this blog are tried for real. I&#039;ve seen some of them in the wild. The &lt;a href=&quot;http://www.websense.com/securitylabs/alerts/alert.php?AlertID=708&quot; rel=&quot;nofollow&quot;&gt;QuickTime attack on MySpace&lt;/a&gt; is just one of them. I hope that you won&#039;t try this thing at home. Right?</description>
+		<content:encoded><![CDATA[<p>heh, no worries&#8230;</p>
+<p>The purpose of CSRF is to perform actions on behalf of the current user but this user must be authenticated first. Otherwise, there is no point in doing whatsoever.</p>
+<p>Ok, here is another one: let&#8217;s say that an attacker wants to transfer some money to his/her account. They start a splog network which is backdoored from top to bottom with malicious JavaScript. The attacker targets several banks at the same time. So he/she has CSRF for Lloyds, Natwest, HSBC and some other bank. Once an unaware user visits any page from this splog network a CSRF will be executed to all bank sites initiating a money transfer. Most of the requests will fail, however, if the current user is unlucky enough to have their account open at the same time, or they forgot to logoff, the transfer will be successful.</p>
+<p>As pagvac, put it very clear, CSRF in combination with persistent XSS could be quite dangerous. Why? Well, let&#8217;s say that someone targets MySpace with a similar exploit as the one discussed above. A worm like that could reach a critical mass in less then an hour effecting millions of users. Even if only 0.5% of them have their account open, the attacker could collect substantial amount of money.</p>
+<p>Sometimes I see that attack vectors discussed in this blog are tried for real. I&#8217;ve seen some of them in the wild. The <a href="http://www.websense.com/securitylabs/alerts/alert.php?AlertID=708" rel="nofollow">QuickTime attack on MySpace</a> is just one of them. I hope that you won&#8217;t try this thing at home. Right?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Delixe</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-943</link>
+		<dc:creator>Delixe</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 02:46:27 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-943</guid>
+		<description>I don&#039;t think that&#039;s a fitting example considering how many users are going to be logged in their router interface. 95% (and I pulling this out of my ass yes) of people probably haven&#039;t logged in that more than once.
+
+What does have access to a router interface do? You can play around with ports and such but what else? (Yes I am ignorant to this)</description>
+		<content:encoded><![CDATA[<p>I don&#8217;t think that&#8217;s a fitting example considering how many users are going to be logged in their router interface. 95% (and I pulling this out of my ass yes) of people probably haven&#8217;t logged in that more than once.</p>
+<p>What does have access to a router interface do? You can play around with ports and such but what else? (Yes I am ignorant to this)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-942</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 02:43:30 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-942</guid>
+		<description>Delixe, let&#039;s say that you have a router vulnerable to CSRF (all of them are). You login but you forget to logout. Than you continue surfing the net. Suddenly you reach a page that is a bit malicious. You don&#039;t know about that so you happily continue browsing around. Unfortunately, what have just happened is your network being exposed to attackers. How? Well, you have visited a page that contains a CSRF vector for you router located at 192.168.1.1/192.168.0.1. You router admin interface is now exposed to the Internet. All attackers need to do is to collect your IP which is already logged on their server and access the admin interface. Very simple but quite powerful.</description>
+		<content:encoded><![CDATA[<p>Delixe, let&#8217;s say that you have a router vulnerable to CSRF (all of them are). You login but you forget to logout. Than you continue surfing the net. Suddenly you reach a page that is a bit malicious. You don&#8217;t know about that so you happily continue browsing around. Unfortunately, what have just happened is your network being exposed to attackers. How? Well, you have visited a page that contains a CSRF vector for you router located at 192.168.1.1/192.168.0.1. You router admin interface is now exposed to the Internet. All attackers need to do is to collect your IP which is already logged on their server and access the admin interface. Very simple but quite powerful.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Delixe</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-941</link>
+		<dc:creator>Delixe</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 02:27:39 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-941</guid>
+		<description>So you&#039;re saying that those MySpace trains are examples of CSRF? (MySpace trains add people to friend lists and etc. just by clicking on a link.)
+
+I don&#039;t really see the huge gain from a CSRF attack, could you possibly provide an example that would truly open our eyes to how &quot;powerful&quot; it seems to be?</description>
+		<content:encoded><![CDATA[<p>So you&#8217;re saying that those MySpace trains are examples of CSRF? (MySpace trains add people to friend lists and etc. just by clicking on a link.)</p>
+<p>I don&#8217;t really see the huge gain from a CSRF attack, could you possibly provide an example that would truly open our eyes to how &#8220;powerful&#8221; it seems to be?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/cross-site-request-forgery/comment-page-1/#comment-939</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 05 Dec 2006 02:02:15 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/cross-site-request-forgery#comment-939</guid>
+		<description>&lt;blockquote&gt;One thing that kind of turns me off is that it requires social engineering in most cases.&lt;/blockquote&gt;
+
+yes man, but there are so many situations where CSRF can be used without social engineering. You are right that these types of attacks are not targeted, but you can hit a lot of random web users by spawning splogs for example. That&#039;s why the WEB is the perfect medium for spreading worms.</description>
+		<content:encoded><![CDATA[<blockquote><p>One thing that kind of turns me off is that it requires social engineering in most cases.</p></blockquote>
+<p>yes man, but there are so many situations where CSRF can be used without social engineering. You are right that these types of attacks are not targeted, but you can hit a lot of random web users by spawning splogs for example. That&#8217;s why the WEB is the perfect medium for spreading worms.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

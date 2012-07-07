@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/strategic-geoip-hacking-and-tv-streaming-theft/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:58:56 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Strategic GeoIP Hacking and TV Streaming Theft</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Strategic GeoIP Hacking and TV Streaming Theft Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Java JAR Attacks and Features' href='../java-jar-attacks-and-features/index.html' />
+<link rel='next' title='OWASP USA 2007 AppSec Conference' href='../owasp-usa-2007-appsec-conference/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index3a5c.html?p=568' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-568" class="post">
+	<div class="post-title"><h2><span>Strategic GeoIP Hacking and TV Streaming Theft</span></h2></div>
+	<div class="post-date"><span>published:</span> November 16th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>A couple of weeks ago, my wife pointed out to me this really <a href="http://www.cnettv.com/9742-1_53-27769.html">cool appliance</a> she saw on a magazine. Since she knows I like spending my free time hacking/researching embedded devices, she thought I&#8217;d be interested.</p>
+
+<p>In summary, you hookup <a href="http://www.slingmedia.com/go/slingbox">Slingbox</a> to your TV box, be it digital TV, or cable. Then you can do streaming to your laptop, desktop computer or even mobile/cell phone. The best thing is that not only you can stream within your home (LAN) network, but also from the Internet, anywhere any time! Of course you would need to setup port-forwarding on your border router to accomplish this first. Don&#8217;t be fooled and think that only geeks would enable such setups because of its difficulty. Truth is, SlingPlayer (the client), will help you automatically enable port-forwarding on your router through a easy-to-use wizard (which uses UPnP in the background to talk to your router, in case you are interested). Never the less there are also instructions to <a href="http://support.slingmedia.com/page/remote-viewing-tutorials">setup remote viewing manually</a>.</p>
+
+<p>After researching the device a bit, I learned that all you need is install the client called SlingPlayer. In order to receive the video stream, a connection is established to port 5001 on the appliance, and then you just authenticate with a username/password combination. As you can see it&#8217;s a very standard client-to-server setup!</p>
+
+<p>Most people that setup port-forwarding on their router to their Slingbox would forward port 5001 from their router to port 5001 on the Slingbox, simply because this is how the documentation available shows users how to manually setup <a href="http://support.slingmedia.com/go/remote-viewing">remote viewing</a> to their Slingboxes&#8217; video stream. SlingPlayer&#8217;s can also be used to enable port-forwarding on such port by following an automatic wizard which is perfect for non-technical users. Cutting the story short, the target port to find Slingboxes on the Internet would be 5001.</p>
+
+<p>Imagine someone found an authentication bypass bug. Or maybe, most users leave default credentials on. There is potential for stealing TV services. This of course doesn&#8217;t only apply to this device but many others that are in charge of services such as TV streaming, VoIP telephony, etc &#8230; How would a cracker come about finding these boxes on the Internet? Well, from a GeoIP hacking point of view, step number one would be to find the countries with Slingbox users. By browsing slingmedia.com, you learn that the device is available for the USA, UK, Canada and the Netherlands.</p>
+
+<p>pdp <a href="../strategic-hacking-geoip/index.html">wrote</a> a script (do.sh) that downloads Maxmind&#8217;s <a href="http://www.maxmind.com/download/geoip/database/http://www.maxmind.com/download/geoip/database/">free GeoIP database</a> and parses the IP ranges of all countries &#8211; sweet! The end result is a file with IP ranges using the following format which separates the start IP and end IP with a coma ( , ) : <code>X.X.X.X,X.X.X.X</code>. The problem is that this notation is not compatible with nmap. Since what we want is scan countries with Slingboxes for port 5001, we need to convert the IP ranges to a notation that can be understood by nmap, which can be done with the following script.</p>
+
+<pre><code>#!/bin/bash
+# iprange2nmaprange.sh
+
+# just change the following line to match the country csv file you want to convert
+for i in `cat country-XX.csv`
+do
+        startIP=`echo $i | cut -d ',' -f 1`
+        endIP=`echo $i | cut -d ',' -f 2`
+
+        startA=`echo $startIP | cut -d '.' -f 1`
+        startB=`echo $startIP | cut -d '.' -f 2`
+        startC=`echo $startIP | cut -d '.' -f 3`
+        startD=`echo $startIP | cut -d '.' -f 4`
+        #echo $startA $startB $startC $startD
+
+        endA=`echo $endIP | cut -d '.' -f 1`
+        endB=`echo $endIP | cut -d '.' -f 2`
+        endC=`echo $endIP | cut -d '.' -f 3`
+        endD=`echo $endIP | cut -d '.' -f 4`
+        #echo $endA $endB $endC $endD
+
+        if [ $startA -eq $endA ]
+        then
+                nmapA=$startA
+        else
+                nmapA="$startA-$endA"
+        fi
+
+        if [ $startB -eq $endB ]
+        then
+                nmapB=$startB
+        else
+                nmapB="$startB-$endB"
+        fi
+
+        if [ $startC -eq $endC ]
+        then
+                nmapC=$startC
+        else
+                nmapC="$startC-$endC"
+        fi
+
+        if [ $startD -eq $endD ]
+        then
+                nmapD=$startD
+        else
+                nmapD="$startD-$endD"
+        fi
+
+        echo "$nmapA.$nmapB.$nmapC.$nmapD"
+done</code></pre>
+
+<pre><code>./test.sh &gt; targets</code></pre>
+
+<p>In this case we&#8217;re interested in the files <code>country-US.csv</code>, <code>country-GB.csv</code>, <code>country-CA.csv</code> and <code>country-NL.csv</code>. Once converted to nmap IP range notation with the previous script we&#8217;re ready to go:</p>
+
+<pre><code>nmap -P0 -n -iL targets -p5001 -oG results</code></pre>
+
+<p><em>Everything is turning to TCP/IP these days. Not only consumer devices, but also corporate and governmental appliances. Although this approach makes it cheaper to build products by reusing existing implementations/frameworks/APIs, there is a price to pay: it makes it easier for people (including bad guys) to perform vulnerability research, since TCP/IP is widely understood.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/geoip/index.html" rel="tag">geoip</a> | <a href="../../tags/scanning/index.html" rel="tag">scanning</a> | <a href="../../tags/streaming/index.html" rel="tag">streaming</a> | <a href="../../tags/theft/index.html" rel="tag">theft</a> | <a href="../../tags/tv/index.html" rel="tag">tv</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-72059">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e84708d25a0040efb2469dac1e9cecc3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://jasonmacpherson.com/' rel='external nofollow' class='url'>Jason Macpherson</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-72059">
+			November 16, 2007 at 8:54 pm</a>		</div>
+
+		<p>Nmap tends to be a little slow for large scans like this.  You&#8217;ll get your results much faster if you used scanrand.  </p>
+<p><a href="http://www.doxpara.com/read.php/code/paketto.html" rel="nofollow">http://www.doxpara.com/read.php/code/paketto.html</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-72229">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6d54c4fc7c7f8bd115cd09e8273e8b1b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Zeryl</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-72229">
+			November 17, 2007 at 8:52 am</a>		</div>
+
+		<p>I re-wrote the shell script for this, in PHP.  It does all of the .csv&#8217;s created from the other script, at once, and extremely quickly (about 5 seconds on a dual P3). Below is the code for it:</p>
+<pre><code>&lt;?php
+
+//Look through the local directory for *.csv
+foreach (glob("*.csv") as $filename) {
+    //Load the current file into the $lines array
+    $lines = file($filename);
+
+    $content = '';
+
+    foreach($lines as $line)
+    {
+        //Explode the start and end ip from the current line
+        list($startIP, $endIP) = explode(',', $line);
+
+        //Explode each octet of the current ip into arrays
+        $start = explode('.', $startIP);
+        $end   = explode('.', $endIP);
+
+        //Parse each array for the ip
+        for($i = 0; $i&lt;=3; $i++)
+        {
+            if($start[$i] == $end[$i])
+            {
+                $nmap[$i] = $start[$i];
+            }
+            else {
+                $nmap[$i] = "$start[$i]-$end[$i]";
+            }
+        }
+
+        //Write the current namp'ified IP to the variable
+        $content .= "$nmap[0].$nmap[1].$nmap[2].$nmap[3]\r\n";
+    }
+
+    //replace the extension with target
+    $newfile = str_replace('csv', 'target', $filename);
+
+    //write the file
+    $size = file_put_contents($newfile, $content);
+    echo("Wrote $newfile with a size of $size&lt;br /&gt;\r\n");
+}</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-72466">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-72466">
+			November 18, 2007 at 4:55 am</a>		</div>
+
+		<p>Hey Jason! I will try Scanrand when I have time. I&#8217;ve also been wanting to play with Unicorn <a href="http://www.unicornscan.org/" rel="nofollow">http://www.unicornscan.org/</a> for a while!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-72818">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/24819206e4f57471e625238aa2010b8d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">LordDoskias</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-72818">
+			November 18, 2007 at 4:19 pm</a>		</div>
+
+		<p>I think that &#8220;tcp/ip is widely understood&#8221; isn&#8217;t a good argument. History has shown that &#8220;security through obscurity&#8221; doesn&#8217;t work well. If tomorrow&#8217;s technology is not tcp/ip or something else. Then it&#8217;s a matter of time before someone document this technology. For example &#8211; &#8220;Silver needle in the skype&#8221; presented at BH &#8217;06. And skype is thought to be one of the most &#8220;hidden&#8221; technologies out there.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-72875">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-72875">
+			November 18, 2007 at 5:52 pm</a>		</div>
+
+		<p>unicornscan is the way to go</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-73095">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/75cb2ad2020965b5ca7b502efca1aefb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Dominik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-73095">
+			November 18, 2007 at 10:16 pm</a>		</div>
+
+		<p>My personal experience has been that scanrand is indeed fast, but also misses quite some open ports.</p>
+<p>Yes, nmap _will_ run very slow with the provided command line. But you can speed it up quite a bit. First, scanning with -P0 is dead slow, because nmap has no round-trip-time information without a ping first, and will default to a slow scan mode. Second, nmap has a not-so-well documented fast single port scan mode. Third, you can speed things up by setting less conservative timing limits</p>
+<p>An updated nmap command line would be: <code>nmap -PS5001 -S5 -n -iL targets -p5001 -oG results</code></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-73100">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/75cb2ad2020965b5ca7b502efca1aefb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Dominik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-73100">
+			November 18, 2007 at 10:18 pm</a>		</div>
+
+		<p>Sorry, just made a typo. It should read -T5 and not -S5</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-73392">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2afc2c0e8404cb7facd316386b2c655c?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">br4inmatic</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-73392">
+			November 19, 2007 at 8:43 am</a>		</div>
+
+		<p><code>nmap -PS5001 -S5 -n -iL targets -p5001 -oG results</code> yeah.. that&#8217;s really make it much faster.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-73977">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-73977">
+			November 19, 2007 at 11:19 pm</a>		</div>
+
+		<p>@LordDoskias &#8211; I agree that security through obscurity is not the way to go. However, we all are in a comfort zone, and that is highly reflected in public security research. btw, I will check out &#8220;Silver needle in the skype&#8221; :-)</p>
+<p>Nice nmap tips guys! I was familiar with the timing -T flags, but not the -PS flag.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-74637">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9e8243d98f8f2f4f0112d6d948ec7896?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">maze</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-74637">
+			November 20, 2007 at 9:19 pm</a>		</div>
+
+		<p>anyone got an idea on how the auth works? im trying to get a brute forcer goin&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-74702">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-74702">
+			November 20, 2007 at 11:29 pm</a>		</div>
+
+		<p>@maze &#8211; Just run Wireshark while you try to authenticate with SlingPlayer. You can use the following filter on Wireshark: <code>ip.dst==targetIPaddress</code></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-117213">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f77147fbd955443d2780acf5e1c4acf6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">sean</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-117213">
+			March 23, 2008 at 11:40 am</a>		</div>
+
+		<p>Very interesting article. However, how do you handle the password part ? I understand you can designate a slingbox by its IP address, but how would you hack the password?</p>
+<p>Thanks</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128489">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/88dc166a1763482fe6a98ce223de35cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.usmc.mil/' rel='external nofollow' class='url'>NerdBert</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128489">
+			April 21, 2010 at 8:40 am</a>		</div>
+
+		<p>I used a Slingbox for a while but ended up ditching it. Nowadays internet speeds are so fast that I can access TV via the internet.  I&#8217;m in Europe, so I use a VPN service to connect to either the US or UK (VPN gives me a local IP address, thus working around the outside the &#8220;US/UK&#8221; country blocking). Three of the best sites are Hulu, SeeSaw and BBC iPlayer.</p>
+<p>Here is a good updated list of the US/UK TV networks with free internet streaming <a href="http://www.vpntelevision.com/" rel="nofollow">http://www.vpntelevision.com</a> Good luck in your quest for TV online!</p>
+<p>Uncle Abe</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="568"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b4a2c90fdd" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/strategic-geoip-hacking-and-tv-streaming-theft/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:58:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

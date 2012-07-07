@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: The Shadow</title>
+	<atom:link href="http://www.gnucitizen.org/blog/the-shadow/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/the-shadow/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/the-shadow/comment-page-1/#comment-3403</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Tue, 06 Feb 2007 09:30:33 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-shadow#comment-3403</guid>
+		<description>Anurag, it is the same. However, I have all XSS vectors in advance for all external links, so the user doesn&#039;t have to wait.
+
+I have tested this technique on several Kiosk platforms and they kind of work. :)</description>
+		<content:encoded><![CDATA[<p>Anurag, it is the same. However, I have all XSS vectors in advance for all external links, so the user doesn&#8217;t have to wait.</p>
+<p>I have tested this technique on several Kiosk platforms and they kind of work. :)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Anurag Agarwal</title>
+		<link>http://www.gnucitizen.org/blog/the-shadow/comment-page-1/#comment-3377</link>
+		<dc:creator>Anurag Agarwal</dc:creator>
+		<pubDate>Tue, 06 Feb 2007 00:05:32 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-shadow#comment-3377</guid>
+		<description>I had been thinking about the same thing. Here is my approach 
+
+1. victimA is hijacked by exploiting its XSS vulnerability.
+2. I have control over all its links (internal and external)
+3. Internal links i am not worried about as i can pass them through my ajax worm (you can see the PoC on my blog)
+4. When it comes to external links, ajax wont work but i can still send all those links to attacker.com server and using any server side program i can check those sites for different types of XSS vuln and when found, i replace the link on victimA.com with the XSS attack vector so when a user clicks, the worm can be passed to the new site.
+
+All this can be done without iframe.
+
+
+If your approach is different, then i would be interested to know whenever you decide to post it.</description>
+		<content:encoded><![CDATA[<p>I had been thinking about the same thing. Here is my approach </p>
+<p>1. victimA is hijacked by exploiting its XSS vulnerability.<br />
+2. I have control over all its links (internal and external)<br />
+3. Internal links i am not worried about as i can pass them through my ajax worm (you can see the PoC on my blog)<br />
+4. When it comes to external links, ajax wont work but i can still send all those links to attacker.com server and using any server side program i can check those sites for different types of XSS vuln and when found, i replace the link on victimA.com with the XSS attack vector so when a user clicks, the worm can be passed to the new site.</p>
+<p>All this can be done without iframe.</p>
+<p>If your approach is different, then i would be interested to know whenever you decide to post it.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/the-shadow/comment-page-1/#comment-3295</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Sun, 04 Feb 2007 09:01:16 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-shadow#comment-3295</guid>
+		<description>kuza55, probably you misunderstand the article. Thanks for the info.
+
+Anurag, not exactly! What I am saying is that an AJAX worm can move with the user as long as the next page of destination is also vulnerable to XSS. It is that simple. When the user serfs further, the worm just follows like a shadow.
+
+In order to achieve that you have to find all possible XSS vectors, in advance, for all external links given a starting point. So, you need a spider that will be able to detect XSS while visiting pages. Once the shadow is in motion, it will perform queries on some sort of remote database to retrieve information about the next XSS vector. When the user clicks on a link, the shadow will take that user to the specified place but also, it will be able to move itself as well. Hope that now the concept is clear enough?
+
+Unfortunately, I cannot present my POC because I have to share my research XSS database. This is very unethical, I believe. However, with a little bit of Python and a few simple XSS checks you can definitely write a XSS spider on your own. I might publish mine actually. Let me think about it first.</description>
+		<content:encoded><![CDATA[<p>kuza55, probably you misunderstand the article. Thanks for the info.</p>
+<p>Anurag, not exactly! What I am saying is that an AJAX worm can move with the user as long as the next page of destination is also vulnerable to XSS. It is that simple. When the user serfs further, the worm just follows like a shadow.</p>
+<p>In order to achieve that you have to find all possible XSS vectors, in advance, for all external links given a starting point. So, you need a spider that will be able to detect XSS while visiting pages. Once the shadow is in motion, it will perform queries on some sort of remote database to retrieve information about the next XSS vector. When the user clicks on a link, the shadow will take that user to the specified place but also, it will be able to move itself as well. Hope that now the concept is clear enough?</p>
+<p>Unfortunately, I cannot present my POC because I have to share my research XSS database. This is very unethical, I believe. However, with a little bit of Python and a few simple XSS checks you can definitely write a XSS spider on your own. I might publish mine actually. Let me think about it first.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Anurag Agarwal</title>
+		<link>http://www.gnucitizen.org/blog/the-shadow/comment-page-1/#comment-3229</link>
+		<dc:creator>Anurag Agarwal</dc:creator>
+		<pubDate>Sat, 03 Feb 2007 01:28:23 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-shadow#comment-3229</guid>
+		<description>If i am reading you correctly then you want to try out an XSS attack on all the external links on a web page to see if they are vulnerable to XSS. if they are then you spawn an iframe but won&#039;t it be easier to replace the url with the XSS attack vector rather then spawning a frame? the other point i would like to mention is the limitation with this approach is that you can only try out for XSS in the url or header variables.</description>
+		<content:encoded><![CDATA[<p>If i am reading you correctly then you want to try out an XSS attack on all the external links on a web page to see if they are vulnerable to XSS. if they are then you spawn an iframe but won&#8217;t it be easier to replace the url with the XSS attack vector rather then spawning a frame? the other point i would like to mention is the limitation with this approach is that you can only try out for XSS in the url or header variables.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: kuza55</title>
+		<link>http://www.gnucitizen.org/blog/the-shadow/comment-page-1/#comment-3225</link>
+		<dc:creator>kuza55</dc:creator>
+		<pubDate>Fri, 02 Feb 2007 22:14:25 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/the-shadow#comment-3225</guid>
+		<description>Ok, excuse me if I&#039;m wrong - but this seems like just another scare article, it tells us nothing about what you&#039;ve come up with only that you&#039;ve come up with some attacks.
+
+But anyway; for maintaining control of a user there is one type of XSS vulnerability which can greatly help an attacker. XSS vulns which print data stored in cookies, but which you can set through request parameters, e.g. when you are allowed to choose a stylesheet for a site, or if a reflected XSS vector is printing a $_REQUEST value rather than a $_GET value.
+
+Using the example of being able to choose a stylesheet; if you create a reflected XSS vector where you set the cookie to a value that is valid, but append some data so that you execute your script as well, and have the cookie set to last for years, you will effectively have control of the user&#039;s browser for the whole time they are on the site - which on sites like forums is an exceptionally long time. Furthermore you could even go so far as have your code rewrite the DOM so that when the user selects a new skin, the cookie is adultered so that the XSS payload stays intact.</description>
+		<content:encoded><![CDATA[<p>Ok, excuse me if I&#8217;m wrong &#8211; but this seems like just another scare article, it tells us nothing about what you&#8217;ve come up with only that you&#8217;ve come up with some attacks.</p>
+<p>But anyway; for maintaining control of a user there is one type of XSS vulnerability which can greatly help an attacker. XSS vulns which print data stored in cookies, but which you can set through request parameters, e.g. when you are allowed to choose a stylesheet for a site, or if a reflected XSS vector is printing a $_REQUEST value rather than a $_GET value.</p>
+<p>Using the example of being able to choose a stylesheet; if you create a reflected XSS vector where you set the cookie to a value that is valid, but append some data so that you execute your script as well, and have the cookie set to last for years, you will effectively have control of the user&#8217;s browser for the whole time they are on the site &#8211; which on sites like forums is an exceptionally long time. Furthermore you could even go so far as have your code rewrite the DOM so that when the user selects a new skin, the cookie is adultered so that the XSS payload stays intact.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

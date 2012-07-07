@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/dumping-the-admin-password-of-the-bt-home-hub-pt-2/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:29:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Dumping the admin password of the BT Home Hub (pt 2)</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Dumping the admin password of the BT Home Hub (pt 2) Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Dumping the admin password of the BT Home Hub' href='../dumping-the-admin-password-of-the-bt-home-hub/index.html' />
+<link rel='next' title='Most Attractive Targets: SaaS' href='../most-attractive-targets-saas/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index049d.html?p=859' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-859" class="post">
+	<div class="post-title"><h2><span>Dumping the admin password of the BT Home Hub (pt 2)</span></h2></div>
+	<div class="post-date"><span>published:</span> May 27th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>This is just a quick update regarding our <a href="../dumping-the-admin-password-of-the-bt-home-hub/index.html">previous post</a> which details how to extract the default admin password for the latest firmware of the BT Home Hub (6.2.6.E at time of writing). I recommend you to read the previous post if you have not done so yet.</p>
+
+<p>The BT Home Hub&#8217;s serial number &#8211; which is the default admin password &#8211; can also be found on UPnP description XML files. If you own a BT Home Hub, just notice the serialNumber tags on <code>http://api.home/upnp/IGD.xml</code> and <code>http://api.home/dslf/IGD.xml</code></p>
+
+<blockquote>Note that no password is required to access such files, as they&#8217;re used for UPnP (authentication-less) operations. Note: UPnP is enabled by default on the BTHH.</blockquote>
+
+<p>The attack needs to take place either via the Ethernet or the WLAN (Wi-Fi) interface, just like the MDAP attack described in our previous post. Unless of course you use a cross-domain vulnerability such as XSS which allows you to remotely scrape the contents of the description XML files and send them to a third-party site. Remember that the default admin password is simply the serial number with the string &#8216;CP&#8217; prefixed to it. In other words, if the serial number was <code>0633EHPSL</code>, the default admin password for the Home Hub would be <code>CP0633EHPSL</code>. Enjoy!</p>
+
+<p><strong>UPDATE:</strong> the serial number disclosure reported in this post was originally tested on a BT Home Hub running firmware version 6.2.2.6 (please see screenshots for more information). However, it appears that BT has replaced such information with the Hub&#8217;s MAC address in the latest firmware (6.2.6.E at time of writing).</p>
+
+<div class="screen"><a href="../../static/blog/2008/05/bthh_sn_a.png"><img src="../../static/blog/2008/05/bthh_sn_a-162x150.png" alt="" title="BTHH SN A PNG" width="162" height="150" class="alignleft size-thumbnail wp-image-3920" /></a> <a href="../../static/blog/2008/05/bthh_sn_b.png"><img src="../../static/blog/2008/05/bthh_sn_b-188x150.png" alt="" title="BTHH SN B" width="188" height="150" class="alignleft size-thumbnail wp-image-3921" /></a></div>
+
+<p><em>Since only the latest firmware uses the Hub&#8217;s serial number as the default admin password, the reported serial number disclosure via UPnP XML description files is NOT exploitable. Nevertheless, the <a href="../dumping-the-admin-password-of-the-bt-home-hub/index.html">MDAP attack</a> has been verified on the latest firmware and has been confirmed by several users both on the BT Home Hub v1 and v1.5.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/adrian-pastor/index.html" rel="tag">adrian pastor</a> | <a href="../../tags/bt-home-hub/index.html" rel="tag">bt home hub</a> | <a href="../../tags/bthomehub/index.html" rel="tag">bthomehub</a> | <a href="../../tags/embedded-devices/index.html" rel="tag">embedded devices</a> | <a href="../../tags/vulnerability/index.html" rel="tag">vulnerability</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-122295">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f31b9d88eae32f38965a1c23aba02e26?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">MJW</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122295">
+			May 27, 2008 at 2:48 pm</a>		</div>
+
+		<p>I&#8217;m on 6.2.6.E and I&#8217;ve checked the IGD.xml file, the Serial Number field shows my MAC code not the serial number. Is this a change in 6.2.6.E?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122297">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122297">
+			May 27, 2008 at 5:10 pm</a>		</div>
+
+		<p>On my HH v15 the serialnumber field has the MAC address in it</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122299">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122299">
+			May 27, 2008 at 5:15 pm</a>		</div>
+
+		<p>Just to add that I&#8217;m on 6.2.6.E (forgot to mention that)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122300">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122300">
+			May 27, 2008 at 5:19 pm</a>		</div>
+
+		<p>Apologies for three posts in a row but I just checked and UPnP is definitely switched off on my HH (I immediately disabled it on reading your initial HH posts some months ago).</p>
+<p>Should these files still be available even when UPnP is off? Because they are&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-122301">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122301">
+			May 27, 2008 at 5:21 pm</a>		</div>
+
+		<p>even when you switch off UPnP the IGD description may still be present.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122302">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122302">
+			May 27, 2008 at 5:24 pm</a>		</div>
+
+		<p>Ok. Reading it in detail the upnp/IGD.xml file contains the following:</p>
+<pre><code>Device not enabled: UPNP-IGD</code></pre>
+<p>So at least it seems to be off. However the dslf/IGD.xml looks like it still offers services &#8211; does this mean that even turning off UPnP that one could still utilise the dslf stuff to pwn it?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122310">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/422e4c3bd050ffe31350a738748d9c3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rishi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122310">
+			May 28, 2008 at 2:32 pm</a>		</div>
+
+		<p>Have any flaws been found in the H firmware? Thanks!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-122318">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122318">
+			May 28, 2008 at 11:51 pm</a>		</div>
+
+		<p>The serial number disclosure reported in this post was originally tested on a BT Home Hub running firmware version 6.2.2.6. However, it appears that BT has replaced such information with the Hub&#8217;s MAC address in the latest firmware (6.2.6.E at time of writing).</p>
+<p>Since only the latest firmware uses the Hub&#8217;s serial number as the default admin password, the reported serial number disclosure via UPnP XML description files is NOT exploitable. </p>
+<p>Nevertheless, the MDAP attack described in our previous post has been verified on the latest firmware and has been confirmed by several users both, on the BT Home Hub v1, and v1.5.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122338">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f2a04ebf06d8566e03dea5292fe7c7f3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Aaron</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122338">
+			May 29, 2008 at 7:41 pm</a>		</div>
+
+		<p>You can dump the serial number of the HomeHub 6.2.6.E by connecting to the HTTPS port and examining the SSL Certificate&#8230; the default OU of the certificate issuer is the serial number of the device&#8230;</p>
+<p>Hence, the pwndhub I am currently using has just dished out this after I ran a Nessus scan on it&#8230;</p>
+<pre><code>OU = 0641EHJRR
+O = THOMSON
+CN = BT Home Hub</code></pre>
+<p>Please verify this works for others&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122380">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7900a7c7a83f32c569fab55cfa7b424a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122380">
+			May 30, 2008 at 5:28 pm</a>		</div>
+
+		<p>I can verify that the OU of the SSL certificate gives the serial number on 6.2.6.E on my HH v1.5</p>
+<p>Just point your browser to <a href="https://api.home/" rel="nofollow">https://api.home/</a> and click examine certificate when prompted ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-122390">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122390">
+			May 31, 2008 at 9:33 am</a>		</div>
+
+		<p>We got a winner :) I can confirm this works on the BT Home Hub v1, firmware 6.2.6.E. Good catch Aaron! Any other ideas on how to obtain the Hub&#8217;s S/N and therefore the default admin password? The more techniques the merrier!</p>
+<p>btw, the troubleshooting page &#8211; which doesn&#8217;t require a password to be seen &#8211; *used to* include the S/N but BT removed such info in the latest firmware: <a href="https://api.home/cgi/b/bttroubleshooting/" rel="nofollow">https://api.home/cgi/b/bttroubleshooting/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124348">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d23088fe8da73a13f841e24865290054?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Gary</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124348">
+			November 15, 2008 at 8:13 pm</a>		</div>
+
+		<p>You can also get the Serial Number by visiting this page: <a href="http://pbteu.bt.motive.com/ElectiveFWUpgradePortal/" rel="nofollow">http://pbteu.bt.motive.com/Ele.....adePortal/</a> and clicking on &#8220;Schedule your BT Home Hub upgrade&#8221;</p>
+<p>or follow the link direct: <a href="http://pbteu.bt.motive.com/ElectiveFWUpgradePortal/jsp/Loading.jsp?URL=Schedule.jsp" rel="nofollow">http://pbteu.bt.motive.com/Ele.....hedule.jsp</a></p>
+<p>This has to be done while connected to a HomeHub.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127489">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3cf7349b6aa29e3100aa2aee560f4ccd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Martin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127489">
+			June 16, 2009 at 11:01 am</a>		</div>
+
+		<p>Gary, that was perfect. I couldn&#8217;t get the other methods to work as I didn&#8217;t realise you had to add on the CP to the start of what was returned.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127668">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f37024687c4e24aa8a5b0e8c11e523cf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">fLaMePr0oF</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127668">
+			August 2, 2009 at 4:49 am</a>		</div>
+
+		<p>Another method for getting the serial number of any BTHH is to download and run the latest BT Home Hub Recovery Tool 6.2.2.6 (can get it here: <a href="http://www.josephn.net/download/dl.php?file=bthh_recovery" rel="nofollow">http://www.josephn.net/downloa.....h_recovery</a>)&#8230;  When the tool tries to access the HH and asks for authentication, the serial number will be displayed above the user/pass input fields.</p>
+<p>(LoL @ BT for changing password to serial to improve security when serial can be accessed SO easily!)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127968">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6c13abf6a119b8785b8d0619b4f497da?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.josephn.net/' rel='external nofollow' class='url'>pwn-a-cycle</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127968">
+			October 30, 2009 at 4:59 pm</a>		</div>
+
+		<p>the link is <a href="http://www.josephn.net/download/dl.php?file=bthh_recovery" rel="nofollow">http://www.josephn.net/downloa.....h_recovery</a></p>
+<p>@fLaMePr0oF &#8211; seems you accidently appended a ).. to the url</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128146">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7f0b26939227d6241f9f924d03b176f6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Andy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128146">
+			February 15, 2010 at 5:59 pm</a>		</div>
+
+		<p>You can still get the serial. Go to <a href="https://api.home" rel="nofollow">https://api.home</a> View the cert like said, but it&#8217;s simply the OU- organizational unit above serial number. Add CP to that string, and that&#8217;s the serial.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="859"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="3849451ac8" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/dumping-the-admin-password-of-the-bt-home-hub-pt-2/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:30:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

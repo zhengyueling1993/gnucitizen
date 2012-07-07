@@ -1,0 +1,109 @@
+/*
+ * VERSION 1.0
+ */
+
+@import url(../../gnucitizen.org/styles/screen.css);
+
+/* -------------------- */
+
+body {
+padding-top: 50px;
+padding-left: 100px;
+background: #1C1616 url(images/background.png) top left no-repeat;
+/* image provided by Mrs. Maze (http://flickr.com/photos/kmtucker/919480254/) */
+}
+
+h1, h2, h3, h4, h5, h6 {
+text-transform: none;
+}
+
+input, textarea {
+font-family: Arial;
+padding: 5px ! important;
+}
+
+/* -------------------- */
+
+#header {
+padding: 10px;
+text-align: right;
+margin-bottom: 20px;
+background: none ! important;
+}
+
+#header h1 {
+float: right;
+}
+
+#header h1 a {
+width: 247px;
+height: 47px;
+margin-left: 0 ! important;
+margin-right: 0 ! important;
+background: url(images/logo.png) no-repeat;
+}
+
+#header p {
+clear: both;
+}
+
+#navigation {
+padding-top: 10px;
+padding-left: 10px;
+margin: 0 ! important;
+}
+
+#content {
+padding: 10px ! important;
+}
+
+#search {
+border: none;
+margin: 0 ! important;
+}
+
+/* -------------------- */
+
+#navigation, #search, #content, #footer {
+opacity: 0.95;
+background: #1C1616 ! important;
+}
+
+/* -------------------- */
+
+.comment {
+border: none ! important;
+}
+
+.response-form  {
+border: none ! important;
+}
+
+/* -------------------- */
+
+#home .post, #category .post, #tag .post, #author .post,
+#home .post-date, #category .post-date, #tag .post-date, #author .post-date,
+#home .post-title, #category .post-title, #tag .post-title, #author .post-title,
+#home .post-links, #category .post-links, #tag .post-links, #author .post-links,
+#home .post-excerpt, #category .post-excerpt, #tag .post-excerpt, #author .post-excerpt {
+margin-left: 0 ! important;
+padding-left: 0 ! important;
+}
+
+/* <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">	
+	<Work rdf:about="">
+		<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/" />
+		<dc:title>Spin Hunters</dc:title>
+		<dc:creator><Agent><dc:title>Spin Hunters</dc:title></Agent></dc:creator>
+		<dc:rights><Agent><dc:title>Spin Hunters</dc:title></Agent></dc:rights>
+		<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+		<dc:source rdf:resource="http://www.spinhunters.org"/>
+	</Work>
+	<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+		<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+		<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+		<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+		<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+		<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+	</License>
+</rdf:RDF> --> */

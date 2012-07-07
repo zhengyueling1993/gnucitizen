@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/cross-context-scripting-with-sage/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Cross Context Scripting with Sage</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Cross Context Scripting with Sage Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Backdooring QuickTime Movies' href='../backdooring-quicktime-movies/index.html' />
+<link rel='next' title='Web Pages from Hell' href='../web-pages-from-hell/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexe2dc.html?p=69' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-69" class="post">
+	<div class="post-title"><h2><span>Cross Context Scripting with Sage</span></h2></div>
+	<div class="post-date"><span>published:</span> September 8th, 2006</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p><em>This month we have a guest blogger and his name is David Kierznowski, the founder of <a href="http://michaeldaw.org/">Operation n &#8211; the adventures of Michaels Daw</a>. David and I have been working together on various security related projects. He currently works as a security analyst and researcher. David contacted me after he found interesting anomaly with Sage Firefox Extension. These are his words:</em></p>
+
+<p>I would often keep abreast of new vulnerabilities and exploits via my RSS feeds. Visiting page after page was just never fun. RSS allowed me to categorise, organise and track the security mayhem on the Internet. What was the point of employing a security analyst who was outdated and outgunned?<p>
+
+<p>I decided to play with <a href="http://sage.mozdev.org/">Sage</a>, which is a popular RSS extension for Mozilla Firefox. It had a friendly interface and a nice option to turn HTML tags on and off. This was a feature I was certainly interested in. It meant I could prevent a number of attacks outlined by SPI Dynamic&#8217;s recent <a href="http://www.spidynamics.com/assets/documents/HackingFeeds.pdf">RSS Injection whitepaper</a>. The recommendation given in this paper was the typical recommendation given to XSS attacks. Escape <code>&lt;&gt;</code> to <code>&amp;lt; &amp;gt;</code>.</p>
+
+<p>I turned off HTML tags and continued on as normal. However, something odd happened. When rendering my whitepaper <a href="http://michaeldaw.org/projects/awakening-the-sleeping-giant-v10/">Awakening the Sleeping Giant</a> an insert of JavaScript was executed in my browser. How bazaar I thought. The security enabled feature makes me vulnerable. Sage was vulnerable to XSS! I immediately contacted pdp. We worked on it for 30 minutes and for those 30 minutes all you could hear were sinister laughs.</p>
+
+<ul>
+<li><strong>First</strong>: Sage rendered <code>&amp;lt;&amp;gt;</code> as <code>&lt;&gt;</code>. This means JavaScript can be executed when HTML tags are turned off (not the default).</li>
+<li><strong>Second</strong>: Logical mental progression put forward the question, what if we reversed it? <code>&amp;lt;</code>, <code>&amp;gt;</code> became <code>&lt;&gt;</code> when HTML tags were turned on (THE DEFAULT). This means we can effectively hack the latest version of Sage via RSS Injection regardless of which mode is set.</li>
+<li><strong>Thirdly</strong>: Sage converts the feed into an HTML file and stores it on the local system. This means we were now in the browser&#8217;s local zone policy. From here we could read any file from the local system.</li>
+</ul>
+
+<p><em>The proof of concept feed can be downloaded from the following <a href="../../static/blog/2006/09/sage-feed-poc.xml">URL</a>.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="https://www.gnucitizen.org/static/blog/2006/09/sage-feed-poc.xml">sage-feed-poc.xml</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/0day/index.html" rel="tag">0day</a> | <a href="../../tags/guest/index.html" rel="tag">guest</a> | <a href="../../tags/sage/index.html" rel="tag">sage</a> | <a href="../../tags/xss/index.html" rel="tag">xss</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-55">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f97be13ba7fb0226e7b9c2a1041db505?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.plasser.net/blog' rel='external nofollow' class='url'>J'rgen R. Plasser</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55">
+			September 8, 2006 at 10:23 pm</a>		</div>
+
+		<p>The feed did not work for me, so I looked closer and saw that request.send() throughs exceptions (which try catches). I simply added null as parameter to send: request.send(null). Then it worked.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-57">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-57">
+			September 9, 2006 at 7:13 am</a>		</div>
+
+		<p>Although the original feed works in my browser, using the send method the way you are suggesting is more accurate so I fixed the feed. Thanks for that.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-64">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/558ede802d0fd782b5d41bc6205b88f5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.cgisecurity.com/' rel='external nofollow' class='url'>robert</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-64">
+			September 11, 2006 at 1:57 pm</a>		</div>
+
+		<p>Hello I am the author of the whitepaper, and blackhat presentation of which you speak. The slides to my talk can be found below.</p>
+<p>RSS Slideshow: <a href="http://www.cgisecurity.com/papers/RSS-Security.ppt" rel="nofollow">http://www.cgisecurity.com/papers/RSS-Security.ppt</a><br />
+RSS Security Repository: <a href="http://www.cgisecurity.com/rss/" rel="nofollow">http://www.cgisecurity.com/rss/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-65">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../index.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-65">
+			September 11, 2006 at 4:15 pm</a>		</div>
+
+		<p>Thanks Robert, the slides are quite good.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-72">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0769ac78c91c6eefb0f58cd18ca01d92?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">A Thornton</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-72">
+			September 15, 2006 at 11:05 am</a>		</div>
+
+		<p>Look at how long this bug has been open &#8211; probably not a good sign:</p>
+<p><a href="http://mozdev.org/bugs/show_bug.cgi?id=13744" rel="nofollow">http://mozdev.org/bugs/show_bug.cgi?id=13744</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-175">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/157c1eba8e58e1f18a85b8f887a7d3c4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.petea.org/' rel='external nofollow' class='url'>Peter Andrews</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-175">
+			October 3, 2006 at 7:13 am</a>		</div>
+
+		<p>This issue has now been addressed with the release of Sage 1.3.7</p>
+<p><a href="http://mozdev.org/bugs/show_bug.cgi?id=15101" rel="nofollow">http://mozdev.org/bugs/show_bug.cgi?id=15101</a></p>
+<p>Thanks for your concern.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="69"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="01098e2295" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/cross-context-scripting-with-sage/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:23:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

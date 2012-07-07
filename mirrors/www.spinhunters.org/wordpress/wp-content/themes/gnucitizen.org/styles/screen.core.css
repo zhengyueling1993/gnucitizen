@@ -1,0 +1,259 @@
+form, code, table {
+	clear: both;
+}
+
+/* -------------------- */
+
+.post-content ul li ,
+.post-content ol li {
+	margin-bottom: 10px;
+}
+
+.post-content ul li:last-child ,
+.post-content ol li:last-child {
+	margin-bottom: 0px;
+}
+
+.post-content ul li ul ,
+.post-content ul li ol ,
+.post-content ol li ul ,
+.post-content ol li ol {
+	margin-top: 10px;
+}
+
+/* -------------------- */
+
+.post-meta {
+	display: block;
+	list-style-type: none;
+}
+
+.post-meta li {
+	display: inline;
+	margin-right: 5px;
+}
+
+.post-meta li:after {
+	content: ';';
+}
+
+.post-meta li:last-child:after {
+	content: '';
+}
+
+.related-links {
+	font-size: 80%;
+}
+
+.post-meta, .related-links {
+	clear: both;
+	padding: 10px;
+	color: #003333;
+	border-radius: 2px;
+	background: #e3fbe9;
+	margin-bottom: 20px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: thin solid #59955c;
+}
+
+.post-meta a, .related-links a {
+	color: #000000;
+	font-weight: normal;
+	border-bottom: 1px dotted;
+}
+
+.post-meta .post-meta-key, .related-links {
+	font-weight: bolder;
+}
+
+.message {
+	clear: both;
+}
+
+.post-date {
+	font-size: 80%;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.post-links, .page-links {
+	clear: both;
+	font-size: 80%;
+}
+
+.post .post-links {
+	margin-bottom: 20px;
+}
+
+.post-tags {
+	clear: both;
+	font-size: 70%;
+	margin-bottom: 20px;
+	text-transform: lowercase;
+}
+
+.post-tags a {
+	color: #333333 ! important;
+}
+
+.page-navigation {
+	font-size: 150%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.comment {
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: thin solid #111111;
+}
+
+.comment-meta {
+	margin-bottom: 2px;
+}
+
+.no-comments {
+	display: none;
+}
+
+.response-form {
+	padding: 10px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: thin solid #111111;
+}
+
+.avatar {
+	float: left;
+	padding: 5px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: thin dotted #111111;
+}
+
+.category-description, .author-bio {
+	padding: 5px;
+	font-size: 90%;
+	margin-bottom: 5px;
+	background: #000000;
+}
+
+/* -------------------- */
+
+#header h1 {
+	margin: 0;
+	padding: 0;
+}
+
+#header h1 a {
+	width: 193px;
+	height: 40px;
+	display: block;
+	background: url(images/logo.png) no-repeat;
+}
+
+#header h1 a span {
+	display: none;
+}
+
+/* -------------------- */
+
+#entries .post-title {
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+#entries .post-excerpt {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#entries .post-date  ,
+#entries .post-links {
+	margin-left: 10px;
+}
+
+/* -------------------- */
+
+#services-integration {
+	margin: 0;
+	padding: 0;
+list-style-type: none;
+}
+
+#services-integration li {
+	display: inline;
+}
+
+#services-integration li a:before {
+	content: '\0BB ';
+}
+
+/* -------------------- */
+
+body#home #entry .post .post-title {
+	display: none;
+}
+
+/* -------------------- */
+
+body.blog #search {
+	width: 1020px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+body.blog #content #entry   ,
+body.blog #content #entries {
+	width: 670px;
+}
+
+body.blog #content-sidebar {
+	top: 5px;
+	right: 5px;
+	width: 320px;
+	position: absolute;
+	padding-bottom: 50px;
+}
+
+body.blog #content-sidebar .widget {
+	margin-bottom: 20px;
+}
+
+body.blog #content-sidebar h2 {
+	font-size: 100%;
+}
+
+body.blog #content-sidebar .scaffold {
+	margin-bottom: 5px;
+}
+
+body.blog #content-sidebar .list {
+	margin-top: 10px;
+}
+
+/* <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+	<Work rdf:about="">
+		<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+		<dc:title>GNUCITIZEN</dc:title>
+		<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+		<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+		<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+		<dc:source rdf:resource="http://www.gnucitizen.org"/>
+	</Work>
+	<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+		<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+		<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+		<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+		<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+		<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+	</License>
+</rdf:RDF> --> */

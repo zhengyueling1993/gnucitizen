@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/xssing-the-lan-3/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:28:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; XSSing the Lan 3</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; XSSing the Lan 3 Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='XSSing the Lan 2' href='../xssing-the-lan-2/index.html' />
+<link rel='next' title='XSSing the Lan 4' href='../xssing-the-lan-4/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index1e7e.html?p=34' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-34" class="post">
+	<div class="post-title"><h2><span>XSSing the Lan 3</span></h2></div>
+	<div class="post-date"><span>published:</span> August 8th, 2006</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><img class="initial-capital" src="../../static/blog/2006/08/killer-tomatoes.jpg" alt="Killer Tomatoes" title="Killer Tomatoes" width="192" height="241" class="alignnone size-full wp-image-2119" />
+
+<p>In my <a href="../xssing-the-lan/index.html">previous</a> <a href="../xssing-the-lan-2/index.html">posts</a> I mentioned that in order to compromise a LAN device from the Internet the attacker needs to exploit a XSS vulnerability in the device firmware. The limitations of this kind of attack are quite obvious. Let&#8217;s have a look at the exploitation process again.
+
+<p>First of all the local LAN needs to be explored for live hosts and than each host needs to be scanned with a URL Signature database in order to detect the firmware type and version. Once the firmware is detected an appropriate attack can be mounted against it.</p>
+
+<p>This is a time consuming task as most of you may suggest. Unless the user spends considerable amount of time on the malicious page, the attack will most definitely fail. Fortunately or not, there are a few other possible attack vectors that can be used in order to assure successfully exploitation.</p>
+
+<h3>Web Based Trojan Horses</h3>
+
+<p>By definition, a trojan is a program that appears desirable but actually contains something harmful. Web trojans are used to gain some kind of trust relationship with the visiting users. For example, an attacker can incorporate YouTube player inside a malicious container that carries the rest of the attack while the user previews it. Unnoticeable, the malicious flash container can perform security audit of the local network using JavaScript, ActionScript, Java, XML, XSLT and combination of these technologies. The longer the user interacts with the trojan, the more successful the attack will be.</p>
+
+<p>Web trojans can be built pretty much out of anything. The most harmless of all harmful things the attacker can perform is port scanning with JavaScript on behalf of the user. The results of the scan can be send back to a collection point when the scan is completed or when the user leaves the current resource. I find this type of scenario very concerning.</p>
+
+<h3>Trojan Hypes</h3>
+
+<p>To investigate the subject further, I&#8217;ve spend some time looking through some popular viral marketing materials of the past because I believe that they will be the first means for distributing web based trojans. For example, the <strong>crazy frog</strong> (apparently quite popular cartoon character) was very popular among the young generation mostly in United Kingdom. The most typical type of transport media for the cartoon character was flash movies. These transport mechanism can be used by web based trojans to mount attacks on a large scale.</p>
+
+<p><a href="http://www.google.com/trends?q=crazy+frog">According to Google Trends</a>, the <strong>crazy frog</strong> phenomenon was at its peak between May 2005 and Jul 2006. This is exactly 13 months. The highest point was on 29th May 2005. This means that if the attackers were after this type of viral marketing content, they would have had 5 to 6 months distribution time for shipping malicious media containers to pretty much every point on the web. The compromised media could incorporate DDoS attack that activates on certain date, mimicking a typical time bomb. Given the right channels, attackers can also make their own digital peace of art a desirable free product which is exchanged among users participating in social networks, increasing the success rate of the attack.</p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/cross-site-scripting/index.html" rel="tag">cross-site scripting</a> | <a href="../../tags/lan/index.html" rel="tag">lan</a> | <a href="../../tags/xss/index.html" rel="tag">xss</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-125767">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/80d408893f119b01f7f06c7471e4d381?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">dibrg</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125767">
+			February 1, 2009 at 7:53 am</a>		</div>
+
+		<p>Wello, I&#8217;m comfussed,when I find an XSS bug in only one page ,how can I make XSS-worm??? Could you give me some seggestions?? Thanks for your time.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-125771">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125771">
+			February 1, 2009 at 2:10 pm</a>		</div>
+
+		<p>Hi Dibrg,</p>
+<p>It is not straightforward. You need to find a way to persist the XSS vector. There are many way you can do that and one of it is to use public bookmarking services.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="34"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="6d7b9bc784" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/xssing-the-lan-3/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:28:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

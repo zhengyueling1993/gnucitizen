@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/java-jar-attacks-and-features/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:58:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Java JAR Attacks and Features</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Java JAR Attacks and Features Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Severe XSS in Google and Others due to the JAR protocol issues' href='../severe-xss-in-google-and-others-due-to-the-jar-protocol-issues/index.html' />
+<link rel='next' title='Strategic GeoIP Hacking and TV Streaming Theft' href='../strategic-geoip-hacking-and-tv-streaming-theft/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index03c9.html?p=563' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-563" class="post">
+	<div class="post-title"><h2><span>Java JAR Attacks and Features</span></h2></div>
+	<div class="post-date"><span>published:</span> November 10th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>This is my last post for this week, so I will try to keep it short and sweet. While playing with the JAR protocol for Firefox (<a href="../web-mayhem-firefoxs-jar-protocol-issues/index.html">here</a> and <a href="../severe-xss-in-google-and-others-due-to-the-jar-protocol-issues/index.html">here</a>), I also did some investigation on the way Java handles jars, as well. To my surprise, the Java runtime seems to posses some very interesting features which may easily be implemented into an attack scenario. I shared some of my research and ideas with <a href="http://aviv.raffon.net/">Aviv Raff</a> and we both concluded that the observed behavior may not be the perfect way to attack someone, although IMHO, I see nothing more but opportunities for <strong>evilness</strong>.</p>
+
+<p>Here is the deal. If someone manages to upload an Applet, as a JAR archive, on the targeted server, they will be able to invoke it from a page located on a different server/site. <q>This is not very exciting but we are getting to the interesting part soon.</q></p>
+
+<p>Many Web servers come with quite a few open ports which are there for management purposes only (backup consoles, MsSQL or any other backend database, SMB, etc). Unfortunately, these services are behind the firewall, i.e. we can see only ports 80/TCP and maybe 443/TCP but nothing else, the rest is simply blocked for external IP address. However, if you are behind the firewall, well, no such restrictions are applied. This means that internal visitors have more access to the remote server then external visitors.</p>
+
+<p>When a user invokes an applet, this applet will run within the sandbox of the <code>codebase</code> parameter, i.e the applet can only access resources that are located on the IP address/domain it was delivered from. This also applies to socket communication. For example, if we open an applet from <code>http://example.com:80</code>, the byte code will be able to connect with a socket to <code>example.com:25</code> without the need for extra permissions. This is how the Java&#8217;s same origin policies are implemented. There is a lot more than this but you get the point.</p>
+
+<p>Having this in mind, it is obvious that attackers can abuse Java to poke a server as being accessed behind the firewall. The attack of course is very simple. The attacker needs to upload the JAR blob or a <code>.class</code> file on the targeted server. Then the attacker needs to host a page that embeds the applet somewhere (does not have to be the targeted server) and get someone from behind the firewall to visit it. When the victim/proxy opens the page, the attacker will be able to poke the targeted server from behind the firewall. So in case the targeted server runs MsSQL with a blank <code>SA</code> password, the attacker will be able not only to compromise the backend database but also execute commands on the backend itself and as such get some sort of remote command execution. Of course, this all depends on how the MsSQL instance is setup, but most of the time, these services are very poorly configured, so attackers have some real potentials with this technique.</p>
+
+<p>Of course, this is only one of the things the attackers can do to the target. Because applets have different origin checks from JavaScript and Web pages in general, attackers can bridge two zones together (the origin of the applet and the origin of the hosted malicious page). Therefore, it is possible to create some kind of proxy which will allow the attacker to access any service on the target, again as seen by the victim.</p>
+
+<p>Aviv, pointed out that there are two many IFs, and I must agree with him. The first IF is related to whether the target can host user supplied files. This might be the case, but there also will be some kind of restriction on what files the users can upload (i.e. jpg, gif, doc, etc, etc). The second IF is related to how to get someone behind the firewall to visit the evil page. There are ways, which often involve social engineering and a bit of strategy, but I will leave this blank space for you to fill it yourself. Finally, the 3rd IF is related to whether there is anything interesting on the target. So, it kind of looks like a trick which is really hard to pull. But, I kind of like these the most.</p>
+
+<h3>IF #1 &#8211; uploading the malicious JAR/Applet</h3>
+
+<p>If the target does not have any file upload facilities then the attacker is left with nothing but to switch to another strategy. Keep in mind that this attack is tailer made for sites that allow uploads. The second obstacle is to trick the remote upload facility that you are uploading the right type of file while you are delivering something completely different at the end. This is where the second oddity, which I&#8217;ve discovered inside the Java runtime, comes into place.</p>
+
+<p>Simply put, the Java runtime recognizes images as JARs, while the browser or any other software will recognize them as images. <q>How is that possible?</q> To answer that, we have to look at the following example. Follow the steps as described bellow:</p>
+
+<ol>
+<li>Get an image from the Web: <pre><code>fancyimage.jpg</code></pre></li>
+<li>Prepare your jar:<pre><code>jar cvf evil.jar Evil*.class</code></pre></li>
+<li>Put them together: <pre><code>copy /B fancyimage.jpg + evil.jar fancyevilimage.jpg</code></pre> or <pre><code>cp fancyimage.jpg fancyevilimage.jpg
+cat evi.jar >> fancyevilimage.jpg</code></pre></li>
+</ol>
+
+<p>If you double click on the <code>fancyevilimage.jpg</code> you get your default image viewer with the actual image displayed inside. If you put the image inside the <code>src</code> attribute of an <code>img</code> tag, surprise, surprise, it renders. If you try to verify the image headers, you will get <code>OK</code>. However, if you change the extension from <code>.jpg</code> to <code>.zip</code> and try to unzip it with WinRAR or the command line unzip utility, you get the archive content. So, it seams that uploading weired stuff on a server does not have to be as hard as it seams. In our case, the Java runtime, will happily interpret an image as a JAR.</p>
+
+<p>It is actually possible to attach any other file before the JAR but you have to be careful since you may end up with corrupted JAR. If the remote site does not have any type checks, then the attacker can simply upload a <a>.class</a> file. It works pretty much in the same way.</p>
+
+<p><em>As I side note, the same technique can be used to trick application into running arbitrary Java classes.</em></p>
+
+<h3>IF #2 &#8211; tricking the user into visiting the malicious resource</h3>
+
+<p>Come up with something. I really enjoyed the social science classes at my University. Keep in mind that social engineering is not only about telling lies on the phone or via an e-mail. There is a lot more into that like behavioral pattern analysis, for example.</p>
+
+<h3>IF #3 &#8211; dancing with the devil</h3>
+
+<p>The attacker might end up with nothing pretty much. This is the reason why the applet needs to be as sharp as it can get. The applet needs to scan ports, identify services, brute force passwords and pretty much whatever else is needed. The attacker may have only one shot so they will probably throw the kitchen sink at the server.</p>
+
+<p><em>This is it. I know that it sounds too complicated to be feasible but, hey, if it is that complicated no one will think about it, so the chances of remaining undetected are very high. Also the JAR manipulation technique can be used in a number of other cases to achieve more devastating effect. BTW, if you are around San Jose next week, come for a chat. I will be there pretty much the whole next week at the USA OWASP conn.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-68916">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-68916">
+			November 11, 2007 at 2:39 am</a>		</div>
+
+		<p>Hey pdp, this is a really an ingenious technique, however, i havent come across web sites that runs java applet with uploading features.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-69042">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-69042">
+			November 11, 2007 at 8:45 am</a>		</div>
+
+		<p>you don&#8217;t need a java applet with uploading features. All you need is to be able to upload a simple JPG file.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-69095">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/6f999d15ec58b3b76a4f15a84a0852eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.zataz.com/' rel='external nofollow' class='url'>zataz</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-69095">
+			November 11, 2007 at 11:53 am</a>		</div>
+
+		<p>Hey, this is the same technic as &#8220;ActionScript 3 in Adobe Flash Player 9.0.47.0 socket handling allows port probing&#8221;. But could not be use as proxy. <a href="http://securityreason.com/securityalert/2995" rel="nofollow">http://securityreason.com/securityalert/2995</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-mario odd alt thread-odd thread-alt depth-1" id="comment-69370">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e53f5d616931bfe8fa74bfd9f72e049e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/mario.html' rel='external nofollow' class='url'>.ï»©ï»¨ïº®ï»ªïº´</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-69370">
+			November 11, 2007 at 9:42 pm</a>		</div>
+
+		<p>And hope for lacking MIME checks of course ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-69604">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9dc92a25c30efa451e5c54c5ca8bbe94?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">venom23</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-69604">
+			November 12, 2007 at 10:41 am</a>		</div>
+
+		<p>isn&#8217;t it even dangerous for the target server to host a malicious class file? We would use this user->applet-thing to be able to access more ports on the server, right?</p>
+<p>This is really frightening&#8230; :#</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-69638">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5d1658ac36692c8b5ff5612aa9d6a837?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rezn</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-69638">
+			November 12, 2007 at 11:59 am</a>		</div>
+
+		<p>..you also need a way to get the malicious image you uploaded to be the target of an APPLET or OBJECT tag inside someone&#8217;s browser.  If you upload an doctored image (with a jar tacked onto the end), and it ends up as the target of an IMG tag, all you&#8217;ve done is made someone download a few extra bytes.</p>
+<p>very interesting find, however, and i&#8217;m sure it&#8217;ll come in handy in some situations.</p>
+<p>pdp, can you expand upon &#8220;As [a] side note, the same technique can be used to trick application into running arbitrary Java classes.&#8221;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-69674">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/318a601d968e1f67c5ddcffa691466d7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.ladadadada.net/' rel='external nofollow' class='url'>Dave</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-69674">
+			November 12, 2007 at 1:33 pm</a>		</div>
+
+		<p>The flaw here is not really with Java but rather with insecure Firewall configuration / insecure permission models.</p>
+<p>If you trust machines on your local network then you had better make sure that those machines are secure.  Better yet, don&#8217;t use any sort if IP address based security model.  IP addresses can be spoofed or even stolen and hence don&#8217;t make for good authentication.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-70306">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1360a092d30480b4f0c94547ee8c77e6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://xssworm.com/' rel='external nofollow' class='url'>vaj</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70306">
+			November 14, 2007 at 1:40 am</a>		</div>
+
+		<p>so you say that if i send user a web page with link to </p>
+<p>http&#58;//10.0.0.1/level/15/exec/-/configure/-/banner/motd/xssworm.com</p>
+<p>and there is cisco router on 10.0.0.1 and cisco router has http bug, user can deliver payload to internal vulnerable IP ? heheh no news here (-;</p>
+<blockquote><p>IF #2 &#8211; tricking the user into visiting the malicious resource</p></blockquote>
+<p>what is a &#8216;user&#8217; ? what is a &#8216;visit&#8217; to a resource? rss embed into everything. internet pushing and pulling now. vista desktop make &#8216;visit&#8217; on behalf of user and follow links and submit cookie and &#8216;click&#8217; things. so does igoogle rojo netvibe yahoo  live and more.</p>
+<p>link embedded in any page gets &#8216;clicks&#8217; from automatic spiders and bots</p>
+<p>browser have widget to precache favorite page or predictive surf and restore session. we have tracking cookie and token everywhere that persist across many domain. user computer is clicking on links all day long without interaction therefore xss is important vector for delivery of serious hacking pdp!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-70433">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70433">
+			November 14, 2007 at 7:35 am</a>		</div>
+
+		<p>vaj, :) not quite</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-70505">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/99905dc7cfd6a28a06a1dcc231009a6e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">flipper</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70505">
+			November 14, 2007 at 11:08 am</a>		</div>
+
+		<p>pdp, i tried to figure out how this works?</p>
+<p>i was playing with a jar applet embeded in a jpeg imageg (copy /b&#8230;all of that) but in a IMG tag call from html file..nothing happens. I thing there must be a way of triggering the applet, but it doesnt seem to be an easy task at all..in case that&#8217;s even possible.</p>
+<p>Thank you.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-70519">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b4d496e7cf902dae322168f63530b3e1?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">RobW</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70519">
+			November 14, 2007 at 11:28 am</a>		</div>
+
+		<p>The only interesting thing here is that it seems like Java will accept JAR files ending in &#8220;.jpg&#8221;&#8230; is that right?  You didn&#8217;t say that explicitly, so I&#8217;m unsure.</p>
+<p>As far as an attack vector, it&#8217;s very weak (as you mentioned) &#8212; it would require a server that outside users can upload files to, but which ALSO has some valuable services unprotected against internal users.  I&#8217;ve certainly never seen a setup anything like that.  It&#8217;s common sense&#8230; a public-facing webserver, PARTICULARLY if you allow uploads of files that it then hosts! &#8212; is occasionally vulnerable to flaws in PHP, your CMS, Apache, etc. etc., so you&#8217;d never put your important private company data on it, and you&#8217;d also never give it free access to the rest of your internal network (which is implied if your internal users can access it freely, which you require).</p>
+<p>So if someone actually has the exact setup you need, I&#8217;ll bet there are much simpler ways to crack them than tricking a user to visiting your custom-built applet page!</p>
+<p>Last thing: what did you mean by this?  &#8220;As I side note, the same technique can be used to trick application into running arbitrary Java classes.&#8221;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-70583">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70583">
+			November 14, 2007 at 2:42 pm</a>		</div>
+
+		<p>flipper, you don&#8217;t load the applet from the an HTML inside the JAR. you should load it from an external page.</p>
+<p>RobW, you&#8217;ve got it wrong. I will get back with a working example as soon as I get some of my other stuff on track.</p>
+<p>The technique is very simple. It is all described in the post above.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-70584">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70584">
+			November 14, 2007 at 2:44 pm</a>		</div>
+
+		<p>btw, RobW, I&#8217;ve certainly seen setups like that. However, I am not saying that this is the ultimate attack vector. All I am saying is that this attack is something to keep in mind.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-70588">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fae6bbde7c049739f6824f4125d62916?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Bug</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70588">
+			November 14, 2007 at 2:52 pm</a>		</div>
+
+		<p>This is utter rubbish, you can&#8217;t learn anything about the server (the jar is executed on the client NOT the server. If the applet did try and probe the server from the client, you couldn&#8217;t learn anything you could more simply learn by just running a port scanning tool) and the Java sand-box stops the applet on the client machine probing the client machine. </p>
+<p>If you are suggesting you get someone on the server side to run the applet, whoopie do, the applet still can&#8217;t pass that information on as it can&#8217;t connect to anything other than itself. </p>
+<p>I&#8217;m sorry, this is total nonsense.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-70590">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70590">
+			November 14, 2007 at 2:56 pm</a>		</div>
+
+		<blockquote><p>Applets are not allowed to open network connections to any computer, except for the host that provided the .class files. This is either the host where the html page came from, or the host specified in the codebase parameter in the applet tag, with codebase taking precendence. <a href="http://java.sun.com/sfaq/" rel="nofollow">Applet Security</a></p></blockquote>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-70853">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1242bf19d1c335d6ac2d90bda03a0547?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">justpassingthrough</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70853">
+			November 15, 2007 at 12:08 am</a>		</div>
+
+		<p>So, therefore, all you have to do to exploit is get someone to load a malicious page with , since codebase takes priority? This seems a little too good to be true.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-70855">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1242bf19d1c335d6ac2d90bda03a0547?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">justpassingthrough</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70855">
+			November 15, 2007 at 12:11 am</a>		</div>
+
+		<p>Gah. Apparently your board supports html.<br />
+&lt;applet codebase=&#8221;localhost&#8221; src=&#8221;malicious.jar&#8221; /&gt; was the proper snippet.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-70934">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1360a092d30480b4f0c94547ee8c77e6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://xssworm.com/' rel='external nofollow' class='url'>vaj</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-70934">
+			November 15, 2007 at 2:43 am</a>		</div>
+
+		<p>bug, noone cares about hacking the individual server. Web 2.0 services are distributed, the attack surface is vast. get with the times, ./grandpa (-;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-116118">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/01a33612b9e75022d9b7fd5ed86c7856?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.viridium.ro/' rel='external nofollow' class='url'>Mihai</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116118">
+			March 11, 2008 at 3:28 am</a>		</div>
+
+		<p>I think you missed the point that bug made. The friggin&#8217; applet still executes within the client. It doesn&#8217;t suddenly acquire server priviledges. You&#8217;d have to spawn a virtual machine on the server machine and have a class run in it, that&#8217;s the kind of support your applet would need in order to poke around. Yeah, they talk about that on the web &#8212; if an applet requires connecting to something other than its originating host, some process on the server must help it. You&#8217;re confusing some unrelated concepts here.</p>
+<p>If you seem to think that this upload-then-run-me issue is some sort of an Achile&#8217;s heel, well, it is not. Simple sanitizing techniques in your file uploading should do the trick. Check out the bugtraq lists every now and then.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-116136">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-116136">
+			March 11, 2008 at 8:04 am</a>		</div>
+
+		<p>Mihai, none of the libraries that I&#8217;ve tested which check whether an uploaded blob is a valid issue has detected the malicious JAR attached. This is the fact. But if you don&#8217;t believe me, go and do some experiments on your own.</p>
+<p>I think that you misunderstood the post.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122416">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fe4eff39c6e2389afdf42a74fe07f229?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">ymajoros</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122416">
+			June 2, 2008 at 11:10 am</a>		</div>
+
+		<p>No one seems to have noticed Dave&#8217;s feedback. If you base your security on ip addresses&#8230; well&#8230; I know many people do just that, but it still is quite stupid. An IP address is an attribute of some machine on a network, which is quite different from a secure credential identifying some user. There could be a lot of users behind the same IP, a user could use multiple computers from different locations and still should have legit access&#8230; So, it isn&#8217;t a safe, secure and flexible way of identifying users.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-125597">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7a32c9bca90b81d44ce4d0c3df5774ec?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.securethoughts.com/' rel='external nofollow' class='url'>Inferno</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125597">
+			January 26, 2009 at 4:53 am</a>		</div>
+
+		<p>Hi pdp,</p>
+<p>I have found another server side fix for the GIFAR issue and also referenced this article at my blog<br />
+<a href="http://securethoughts.com/?p=35" rel="nofollow">http://securethoughts.com/?p=35</a>.</p>
+<p>Thanks,<br />
+Inferno</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-125605">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125605">
+			January 26, 2009 at 11:51 am</a>		</div>
+
+		<p>thanks, I will have a look.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126224">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bad3be28fccb8aa62b8f415a11fe2f49?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">m</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126224">
+			March 3, 2009 at 1:11 am</a>		</div>
+
+		<p>How many worthwhile targets are boxes that someone would be running a browser on at all? </p>
+<p>Honestly, as far as I can tell, the most interesting thing here is that java will run stuff with strange extensions. Which could be interesting, seeing as Netscape will automatically download files that it doesn&#8217;t recognize an extension for.</p>
+<p>No matter what, this seems to be worthless without some form of social engineering. And there are already plenty of nasty things you can do if you can get someone to point a browser at your website.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="563"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ebdd2da324" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/java-jar-attacks-and-features/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:59:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

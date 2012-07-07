@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/thoughts-on-the-certificate-authority-attack-presented-at-ccc/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Thoughts on the Certificate Authority Attack presented at CCC</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Thoughts on the Certificate Authority Attack presented at CCC Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Hijacking Innocent Frames' href='../hijacking-innocent-frames/index.html' />
+<link rel='next' title='Happy New 2009' href='../happy-new-2009/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index1870.html?p=2053' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-2053" class="post">
+	<div class="post-title"><h2><span>Thoughts on the Certificate Authority Attack presented at CCC</span></h2></div>
+	<div class="post-date"><span>published:</span> December 31st, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>It <a href="http://events.ccc.de/congress/2008/Fahrplan/events/3023.en.html">turns out</a> that the group of international researchers have created their own legitimate CA (<a href="http://en.wikipedia.org/wiki/Certificate_Authority">Certificate Authority</a>) which can be used to sign any other cert they want and as such increase the likelihood of success when performing SSL man-in-the-middle types of attacks.</p>
+
+<p>It is pointless to explain how the attack works. Go over the presentation slides or get the video/audio. What I would like to do is to present some of my thoughts regarding the attack and its impact. So here they are:</p>
+
+<ul>
+<li><strong>The attack is impressive!</strong> Mostly the cryptographic bit. Yes, it has been known that MD5 is weak since 2005 but cracking it with a cluster of 200 PS3s in 2008 still sounds like a lot of fun.</li>
+<li><strong>The attack targets a single certificate authority!</strong> That is RapidSSL. Although the attack relates to the idea that every CA which uses MD5 is vulnerable, in reality the attack is possible because RapidSSL&#8217;s signing process is flawed. As such, this is a vendor specific attack.</il>
+<li><strong>Although MD5 is weak, the CA under attack may not be!</strong> Keep in mind that the team predicts the serial number. In the case of RapidSSL the serial number is sequential and therefore predictable. However, that may not be necessarily true for other CAs. Not to mention that RapidSSL can easily fix their flawed process by just making the serial number unpredictable and therefore breaking this particular attack entirely.</li>
+<li><strong>The attack is expensive!</strong> It really is. I think that, moneywise,  it might be better to just buy yourself the certificate from an insider that works for a CA. It sounds a lot simpler and realistic. In my experience the bad guys often choose the simplest possible way to achieve their goals.</li>
+</ul>
+
+<h3>How do we Fix the Mess</h3>
+
+<p>First of all, CAs should start improving their signing process and also switch to SHA-1. At the moment SHA-1 is considered as one of the best hashing algorithms. The switch may take a few years to complete. Second, the CAs, the security community and the academic researchers should come together to improve PKI in a way that it is easier to migrate to a different hashing algorithm in the future if needed. We might just need a simple change in the standard and in the way we process the chain of trust. Finally, it is important that all software products that make use of SSL keep signatures of the certificates the user encounters. This may not only solve the current problem to an extend but it may also improve the situation with SSL man-in-the-middle types of attacks in general.</p>
+
+<p><em>In conclusion: yet again, a system is as secure as the weakest link. In the case of PKI, the chain of trust is as secure/trustworthy as the weakest certificate authority.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/ca/index.html" rel="tag">CA</a> | <a href="../../tags/ccc/index.html" rel="tag">CCC</a> | <a href="../../tags/certificate-authority/index.html" rel="tag">certificate authority</a> | <a href="../../tags/md5/index.html" rel="tag">MD5</a> | <a href="../../tags/pki/index.html" rel="tag">PKI</a> | <a href="../../tags/presentation/index.html" rel="tag">presentation</a> | <a href="../../tags/security/index.html" rel="tag">security</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-124956">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/37b0f7cf8ccf81abfff68beb1ea54c3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://mindmasters.nl/kender/' rel='external nofollow' class='url'>Kender</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124956">
+			December 31, 2008 at 2:29 pm</a>		</div>
+
+		<p>The 1st step to improve the PKI would be to find out why it is possible for a CA to operate with flawed procedures (non-random serial, MD5 hashing). I thought they were held to some pretty strict standards. This attack, combined with [url=http://www.sslshopper.com/article-ssl-certificate-for-mozilla.com-issued-without-validation.html this] is making me lose trust in the PKI infra.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-124957">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124957">
+			December 31, 2008 at 2:34 pm</a>		</div>
+
+		<p>not to mention that users who are usually familiar with PKI or SSL will completely ignore any warnings anyway.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124959">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fcab05a2d8d8ca0d32e66d0cbd22269e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rvdh.ath.cx/' rel='external nofollow' class='url'>rvdh</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124959">
+			December 31, 2008 at 3:24 pm</a>		</div>
+
+		<p>I don&#8217;t understand the motivation behind all of this. Just like the DNS issues which has been known since ages (see: Berkeley) and many theorems written in 1991, MD5 has been written off since the late nineties and finally in 2004, and completely in 2005 by Vlastimil Klima who could produce collisions on a Pentium 1.6 GHZ. It&#8217;s fairly known that you cannot rely on MD5 as well as SHA_0 since a decade. So anyone in the security field who relied on MD5 commits the original sin, so what&#8217;s the news?</p>
+<p>Other than that, there are plenty of other ways which are easier to perform. Think about shared certs on virtual hosting for example, keys that link all over place without the need for fast computation. Criminals use the path of least resistance, maybe this feat in Cryptography is interesting for governments, my bet is that we won&#8217;t see attacks like these on webshops. it totally lacks perspective on the reality of Internet criminals, the term hacking certs is the right one as I see it only as a intellectual accomplishment build upon years of Cryptographic study unnecessary to provide PoC&#8217;s because everyone in Cryptography was already in the knowing.  </p>
+<p>Everyone knew the possible problems without the need for PoC&#8217;s. But no one did anything, maybe that&#8217;s the news: people start to see the real danger, other than that I&#8217;m far from impressed. I wonder if they are in need of funding of some kind, academics with too much spare time with  agenda&#8217;s beyond my comprehension. </p>
+<p>This is not a shoot down, it&#8217;s a common sense analysis on something that doesn&#8217;t needed a PoC in the first place to scare people away from using certs.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-124960">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124960">
+			December 31, 2008 at 3:55 pm</a>		</div>
+
+		<p>I am not sure about the motivation, apart from pointing that it is possible. And I think that this often is very much needed in order to open the eyes of the masses.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124961">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fcab05a2d8d8ca0d32e66d0cbd22269e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rvdh.ath.cx/' rel='external nofollow' class='url'>rvdh</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124961">
+			December 31, 2008 at 4:04 pm</a>		</div>
+
+		<p>I believe Schneier said years ago in one of his books something similar like:</p>
+<p>&#8220;&#8230;How do we know that the CA issuer of certs can be trusted?&#8230;&#8221;</p>
+<p>Obvious answer: we can&#8217;t. </p>
+<p>Furthermore I know no-one who checks the certs and read them before accepting them, it just a false sense of security for man in the middle attacks if you own one end of the line already. Root a box that sets up a SSL connection and no matter how secure your certs are, MIM won&#8217;t be nessesary. Don&#8217;t know about you but guess a root password requires less computation than setting up a CA yourself with 300 playstations.</p>
+<p>But that might be me, I think to simple.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-124963">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124963">
+			December 31, 2008 at 4:29 pm</a>		</div>
+
+		<p>no, you are right. technically speaking, it will be easier to crack the root password but only if you can do that offline. remote attacks are challenging. and you are right about the CAs. we cannot trust them in anyway. this is the reason why I said in my post that for the same amount of money invested into this project, you can buy yourself a cert from an insider.  the only thing that I can figure right now that can potentially mitigate the whole trust in CAs issue is to record the signatures for every cert you encounter and you are willing to trust. that way you create an offline index of trusted certs, which if modified on later stage, you should get some warning for. but again, these warning will most likely be ignored by most people. :)</p>
+<p>the way I see it now, self-signed certificates are more secure (from browser prospective). at least with the self-signed certs I can explicitly trust them. and if these trusted certs are changed, well&#8230; no worries! the browser will warn you, i think :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124966">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e2b4b990be56dd468211730436e98b11?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.phreedom.org/' rel='external nofollow' class='url'>Alexander Sotirov</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124966">
+			December 31, 2008 at 8:30 pm</a>		</div>
+
+		<p>I am one of the researchers who published this research. Our motivation (aside from getting famous) was to force the CAs to stop using the insecure MD5 hash function.</p>
+<p>Obviously the theoretical attacks on certificate signing presented in 2005 and 2007 were not sufficient to make these companies stop using MD5, so we had to make the theoretical practical and do the attack. I was very pleased that Verisign responded quickly and as of today RapidSSL is no longer issuing MD5 signed certificates.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124971">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/37b0f7cf8ccf81abfff68beb1ea54c3e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://mindmasters.nl/kender/' rel='external nofollow' class='url'>Kender</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124971">
+			January 1, 2009 at 10:13 am</a>		</div>
+
+		<p>What you&#8217;re saying is that certificates are useless for determining the identity of servers. Do you assume that there are more rogue CA&#8217;s out there? (one was created with a method you say is harder than other available methods)</p>
+<p>I don&#8217;t believe in perfect security so no, you cannot 100% trust all CA&#8217;s. But the PKI is not built on 100% trust but on reasonable trust (imho). Incidents like the ones above erode that trust towards a level where it might not be reasonable to trust them anymore. Of course &#8216;reasonable&#8217; has different values for different people :)</p>
+<p>Personally I would like to see some actions taken by the browser manufacturers (who include default trusted certs) and the CA&#8217;s to beef up that trust. Stricter rules wrt algorithms and processes used should be enforced. Stricter validation and vetting of both CA&#8217;s and resellers should be applied.</p>
+<p>Oh, and if you don&#8217;t trust a CA, feel free to remove their certs from your browser :) (Ff: Tools->Options->Advanced->Encryption->View certificates->Authorities)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-124988">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fcab05a2d8d8ca0d32e66d0cbd22269e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rvdh.ath.cx/' rel='external nofollow' class='url'>rvdh</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124988">
+			January 1, 2009 at 10:01 pm</a>		</div>
+
+		<p>@Alexander,</p>
+<p>In that case it&#8217;s a deserved recognition. Security is and always has been an economics issue, and they surely knew about MD5 collision weakness and denied the fact that MD5 is obsolete, because it would hurt their business model, forgetting that brilliant researchers like yourself will make them regret the choice of dollar signs in their eyes. But maybe not, I don&#8217;t think they even care after it went globally, these CA people don&#8217;t care about their users safety, they care about dollars.</p>
+<p>I wish they were as responsible as automobile manufacturers, when they detect a flaw they recall all models, something that the Internet is still missing: Liability.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124989">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fcab05a2d8d8ca0d32e66d0cbd22269e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rvdh.ath.cx/' rel='external nofollow' class='url'>rvdh</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124989">
+			January 1, 2009 at 10:20 pm</a>		</div>
+
+		<p>@Kender,</p>
+<p>For me security and hacking is only about latency, and variations thereof. The trick for criminals is to have short latency, and for security folks it is to have long latency. It&#8217;s a nice game but I think it&#8217;s critical to realize that indeed the security paradigm cannot exist. That doesn&#8217;t mean that security is void, it means that with long latency and addequate response and monitoring on a breach, you can be more secure.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-admin even thread-even depth-1" id="comment-124991">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/02ad2ea464a98737d78746fa7b7c36b6?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124991">
+			January 1, 2009 at 10:33 pm</a>		</div>
+
+		<p>still, this is a vulnerability in the vendor&#8217;s (RapidSSL) certificate issuing process, although MD5 is weak! or am I wrong?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-124996">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fcab05a2d8d8ca0d32e66d0cbd22269e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rvdh.ath.cx/' rel='external nofollow' class='url'>rvdh</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-124996">
+			January 1, 2009 at 11:36 pm</a>		</div>
+
+		<p>I only gleamed over the material, I got the idea that’s is sequential. It seems they sign plaintext with MD5 with minor entropy in the plaintext, but I think that the entropy isn’t the biggest problem here, it’s the signed plaintext ab initio. So even if they used SHA-X you could theoretically collide due to a chosen plaintext attack because of signing the plaintext. Granted it would be way tougher. So the flaw favors it’s injury: MD5. But most of the cryptanalysis goes way above my comprehension, maybe Alexander or someone else can elaborate on it.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-125021">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/08a272db1b317fdd3613e62953e4ac35?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Janus Cook</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125021">
+			January 2, 2009 at 9:05 am</a>		</div>
+
+		<p>&#8220;still, this is a vulnerability in the vendor’s (RapidSSL) certificate issuing process, although MD5 is weak! or am I wrong?&#8221;</p>
+<p>It just makes it easier to bruteforce, because knowing about RapidSSL&#8217;s process eliminates some parameters that would otherwise be completely random.</p>
+<p>Now that Alexander is responding here, I would like to ask what he suggests for the near future. Since SHA-0/1 hashes have major flaws as well, and I believe that&#8217;s still widely used.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-125034">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7f158c6175e898144a79dac0fb645972?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://securityandthe.net/' rel='external nofollow' class='url'>Martin</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-125034">
+			January 2, 2009 at 1:26 pm</a>		</div>
+
+		<p>It might be worth mentioning that, while using MD5 was a bad idea, Verisign has shown an excellent response (they stopped using MD5 for RapidSSL within 24 hours):<br />
+<a href="https://blogs.verisign.com/ssl-blog/2008/12/on_md5_vulnerabilities_and_mit.php" rel="nofollow">https://blogs.verisign.com/ssl-blog/2008/12/on_md5_vulnerabilities_and_mit.php</a></p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="2053"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c89c217c3d" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/thoughts-on-the-certificate-authority-attack-presented-at-ccc/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:23:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

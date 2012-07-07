@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Snippets of defense Pt.I</title>
+	<atom:link href="http://www.gnucitizen.org/blog/snippets-of-defense-pti/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: Content Injection: Hack the Hacker &#187; Inking's Security Blog</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-118629</link>
+		<dc:creator>Content Injection: Hack the Hacker &#187; Inking's Security Blog</dc:creator>
+		<pubDate>Fri, 11 Apr 2008 14:48:11 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-118629</guid>
+		<description>[...] (i.e. logging, blocking etc). Check out some of Marioâ€™s code snippets of defense for the idea: here, here, here, and [...]</description>
+		<content:encoded><![CDATA[<p>[...] (i.e. logging, blocking etc). Check out some of Marioâ€™s code snippets of defense for the idea: here, here, here, and [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Content Injection: Hack the Hacker &#124; GNUCITIZEN</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-118625</link>
+		<dc:creator>Content Injection: Hack the Hacker &#124; GNUCITIZEN</dc:creator>
+		<pubDate>Fri, 11 Apr 2008 14:07:31 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-118625</guid>
+		<description>[...] logging, blocking etc). Check out some of Mario&#8217;s code snippets of defense for the idea: here, here, here, and [...]</description>
+		<content:encoded><![CDATA[<p>[...] logging, blocking etc). Check out some of Mario&#8217;s code snippets of defense for the idea: here, here, here, and [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-62528</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Sun, 28 Oct 2007 17:01:09 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-62528</guid>
+		<description>bedirhan, excellent. I did something similar for &lt;a href=&quot;http://www.gnucitizen.org/blog/technika&quot; rel=&quot;nofollow&quot;&gt;technika&lt;/a&gt;. I needed to insert some code, but I did not wanted to pollute the &lt;strong&gt;this&lt;/strong&gt; namespace with some random vars such as &lt;strong&gt;i&lt;/strong&gt; or anything along these lines. My solution is the following:
+
+&lt;pre&gt;&lt;code&gt;(new function () {
+  return function (self) {
+    // your code here
+  };
+})(this);&lt;/code&gt;&lt;/pre&gt;
+
+This is almost like self executing, self destructive code. sweet!</description>
+		<content:encoded><![CDATA[<p>bedirhan, excellent. I did something similar for <a href="http://www.gnucitizen.org/blog/technika" rel="nofollow">technika</a>. I needed to insert some code, but I did not wanted to pollute the <strong>this</strong> namespace with some random vars such as <strong>i</strong> or anything along these lines. My solution is the following:</p>
+<pre><code>(new function () {
+  return function (self) {
+    // your code here
+  };
+})(this);</code></pre>
+<p>This is almost like self executing, self destructive code. sweet!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: bedirhan</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-62522</link>
+		<dc:creator>bedirhan</dc:creator>
+		<pubDate>Sun, 28 Oct 2007 16:19:41 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-62522</guid>
+		<description>Sorry if this makes a duplicate post, but during the last one your domain seemed to go down :(.
+
+If we can change the code to;
+
+&lt;pre&gt;&lt;code&gt;alert = (function(){
+    var old_alert = alert;
+    return function(m){
+        // logging goes here
+        old_alert(m);
+    }
+})();&lt;/code&gt;&lt;/pre&gt;
+
+then by-passing would be a little harder. This is creating private members thru closures.</description>
+		<content:encoded><![CDATA[<p>Sorry if this makes a duplicate post, but during the last one your domain seemed to go down :(.</p>
+<p>If we can change the code to;</p>
+<pre><code>alert = (function(){
+    var old_alert = alert;
+    return function(m){
+        // logging goes here
+        old_alert(m);
+    }
+})();</code></pre>
+<p>then by-passing would be a little harder. This is creating private members thru closures.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: djteller</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-56851</link>
+		<dc:creator>djteller</dc:creator>
+		<pubDate>Tue, 09 Oct 2007 21:14:55 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-56851</guid>
+		<description>Kuza55, this is against kiddies, and since 99% are using automated scripts that will work just fine.
+You can even obfuscate this code to make it harder to read.
+
+Always good to have logs, even if they are false you can learn from them.</description>
+		<content:encoded><![CDATA[<p>Kuza55, this is against kiddies, and since 99% are using automated scripts that will work just fine.<br />
+You can even obfuscate this code to make it harder to read.</p>
+<p>Always good to have logs, even if they are false you can learn from them.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: kuza55</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-56300</link>
+		<dc:creator>kuza55</dc:creator>
+		<pubDate>Mon, 08 Oct 2007 08:20:54 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-56300</guid>
+		<description>Personally I don&#039;t like this for two reasons:
+
+a) It places IDS logic into the web page, thereby giving it to the attacker
+b) It puts you in a position where an attacker can easily clog your IDS with false positives
+c) It won&#039;t work if referers are turned off
+
+Sure, in regards to (b), you could collect more data, but you still need some way to verify it - you might be able to automate this by getting some machine to visit the pages in the referer (or passed to your logged as a GET parameter), but that&#039;s just ugly (and seems like a wide open security hole), and it also tells you nothing about POST XSS&#039;s, and so unless you want to discount all the POST XSS&#039;s this detects, you would have to investigate every referer you get with no parameters (or parameters for which your page uses POST data).
+
+So while it might work, it will probably give people a false sense of security, and be a headache to administer if anyone malicious notices it.</description>
+		<content:encoded><![CDATA[<p>Personally I don&#8217;t like this for two reasons:</p>
+<p>a) It places IDS logic into the web page, thereby giving it to the attacker<br />
+b) It puts you in a position where an attacker can easily clog your IDS with false positives<br />
+c) It won&#8217;t work if referers are turned off</p>
+<p>Sure, in regards to (b), you could collect more data, but you still need some way to verify it &#8211; you might be able to automate this by getting some machine to visit the pages in the referer (or passed to your logged as a GET parameter), but that&#8217;s just ugly (and seems like a wide open security hole), and it also tells you nothing about POST XSS&#8217;s, and so unless you want to discount all the POST XSS&#8217;s this detects, you would have to investigate every referer you get with no parameters (or parameters for which your page uses POST data).</p>
+<p>So while it might work, it will probably give people a false sense of security, and be a headache to administer if anyone malicious notices it.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ascii</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-56208</link>
+		<dc:creator>ascii</dc:creator>
+		<pubDate>Mon, 08 Oct 2007 01:46:40 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-56208</guid>
+		<description>@RoC_MM: thanks good bookmarklet!</description>
+		<content:encoded><![CDATA[<p>@RoC_MM: thanks good bookmarklet!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: RoC_MM</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-56132</link>
+		<dc:creator>RoC_MM</dc:creator>
+		<pubDate>Sun, 07 Oct 2007 19:31:15 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-56132</guid>
+		<description>pdp, this is a good blog, I read it all the time.
+
+ascii, in cases like this, I use the &quot;enlarge textareas&quot; bookmarklet.  Make a bookmark with this as the URL, then click it anytime you are on a page with a too small text box.
+
+&lt;pre&gt;&lt;code&gt;javascript:(function(){var i,x; for(i=0;x=document.getElementsByTagName(%22textarea%22)[i];++i) x.cols += 150; })()&lt;/code&gt;&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>pdp, this is a good blog, I read it all the time.</p>
+<p>ascii, in cases like this, I use the &#8220;enlarge textareas&#8221; bookmarklet.  Make a bookmark with this as the URL, then click it anytime you are on a page with a too small text box.</p>
+<pre><code>javascript:(function(){var i,x; for(i=0;x=document.getElementsByTagName(%22textarea%22)[i];++i) x.cols += 150; })()</code></pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: clinisbut</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-56120</link>
+		<dc:creator>clinisbut</dc:creator>
+		<pubDate>Sun, 07 Oct 2007 19:03:45 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-56120</guid>
+		<description>Yeah it&#039;s a good way to detect when someone try to hack our site.
+But there is the famous Firebug extension for firefox that offers the console.log() to debug apps. Maybe a function like yours would be necessary for firebug?
+
+ps:I know my english is poor...</description>
+		<content:encoded><![CDATA[<p>Yeah it&#8217;s a good way to detect when someone try to hack our site.<br />
+But there is the famous Firebug extension for firefox that offers the console.log() to debug apps. Maybe a function like yours would be necessary for firebug?</p>
+<p>ps:I know my english is poor&#8230;</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ascii</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-56052</link>
+		<dc:creator>ascii</dc:creator>
+		<pubDate>Sun, 07 Oct 2007 15:15:57 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-56052</guid>
+		<description>hi mario! a simple bypass is
+
+&lt;pre&gt;&lt;code&gt;alert=old_alert;alert(&quot;test&quot;);&lt;/code&gt;&lt;/pre&gt;
+
+but i know you didn&#039;t intended this as a silver bullet, more like a kiddie protection. wisec has published some info on how to block the fetch/set of a cookie value for geko based browsers, it&#039;s more generic than trap alert()
+
+http://www.wisec.it/sectou.php?id=44c7949f6de03
+
+it can be bypassed too using frames and other techniques (eg: you can try everything but if it&#039;s hooked in js it can also be reverted to the original in js). anyway why not? it&#039;s cheap! i&#039;m going to implement both on my sities
+
+ps: pdp make this textbox larger please : )</description>
+		<content:encoded><![CDATA[<p>hi mario! a simple bypass is</p>
+<pre><code>alert=old_alert;alert("test");</code></pre>
+<p>but i know you didn&#8217;t intended this as a silver bullet, more like a kiddie protection. wisec has published some info on how to block the fetch/set of a cookie value for geko based browsers, it&#8217;s more generic than trap alert()</p>
+<p><a href="http://www.wisec.it/sectou.php?id=44c7949f6de03" rel="nofollow">http://www.wisec.it/sectou.php?id=44c7949f6de03</a></p>
+<p>it can be bypassed too using frames and other techniques (eg: you can try everything but if it&#8217;s hooked in js it can also be reverted to the original in js). anyway why not? it&#8217;s cheap! i&#8217;m going to implement both on my sities</p>
+<p>ps: pdp make this textbox larger please : )</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Kishor</title>
+		<link>http://www.gnucitizen.org/blog/snippets-of-defense-pti/comment-page-1/#comment-56043</link>
+		<dc:creator>Kishor</dc:creator>
+		<pubDate>Sun, 07 Oct 2007 14:52:17 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/snippets-of-defense-pti#comment-56043</guid>
+		<description>Nice trick to get your app scanned for xss for free!
+
+Although, a frustrated attacker could add dummy entries to your logs. And since you believe that the log file contains accurate XSSs , you may have hard time removing those false entries.
+
+You may need something more at server side to detect such spamming.</description>
+		<content:encoded><![CDATA[<p>Nice trick to get your app scanned for xss for free!</p>
+<p>Although, a frustrated attacker could add dummy entries to your logs. And since you believe that the log file contains accurate XSSs , you may have hard time removing those false entries.</p>
+<p>You may need something more at server side to detect such spamming.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

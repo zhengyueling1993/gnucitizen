@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/the-value-of-automated-security-tests/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; The value of automated Security Tests</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; The value of automated Security Tests Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='GEO Tracking Online Personas' href='../geo-tracking-online-personas/index.html' />
+<link rel='next' title='System Hacking from the Browser (the Python Style)' href='../system-hacking-from-the-browser-the-python-style/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index1d45.html?p=604' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-604" class="post">
+	<div class="post-title"><h2><span>The value of automated Security Tests</span></h2></div>
+	<div class="post-date"><span>published:</span> December 4th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I think that I should speak up how I feel about automated security tests. I don&#8217;t think that this post will bring much value to you but at least you will be able to see what it feels like from the field. I will try to keep my thoughts short and clean and emphasize on the main points without going too much out of scope. I think that this topic has been already widely discussed so there is no need to waste more time on it. Everyone should make up their own mind.</p>
+
+<p>I personally believe that there is a place for automated security tests although I wont recommend them to anyone who is serious about their security. Automated scanners are only good for identifying vulnerabilities in a bulk manner following predefined types of patterns. We already know that unless we come up with an <em>AI (Artificial Intelligence)</em> type of software we will never be able to provide that much of a value here. The problem is not whether scanners can identify vulnerabilities, the problem is whether they are conscious enough (to have the right amount of semantics and pragmatics) to define these vulnerabilities, to zoom <strong>OUT</strong> and <strong>IN</strong> and as such provide global view and more fine-grained one depending on the scenario or the test case.</p>
+
+<p>A lot of the scanning vendors reason that scanners can identify all issues of a given type and this type of service usually cost less and it is performed a lot faster when compared to the service a h4kur can provide, which obviously will cost a lot more and will require a lot more time. They are right! There is no doubt about that. Though, we should decide on the motivation of getting a security test on first place. Why do we need it? What are we trying to achieve by getting it?</p>
+
+<blockquote>If you are a software vendor, automated scanners should definitely be part of your products&#8217; lifecycle. If you are a system administrator, you depend on automated security tests in order to reduce the burden of managing such a huge work load on your own. However, if you are an organization which is interested in knowing your real security level, you should probably run away from automated security tests and hire some good penetration testers.</blockquote>
+
+<p>I&#8217;ve mentioned earlier that scanners lack the ability to provide sensible picture based on the gathered data. Simply put, the scanner will craw, scan, prob and report but nothing more. On the other hand, a skillful attacker won&#8217;t be able to provide you with the level of detail a scanner will, but will be able to give you a lot better description about the current security state of your systems. The attacker will be able to identify the weakest points of your network or application and as such give you more value for your money. In comparison to scanners, this approach is a lot more valuable because scanners will only list vulnerabilities based on their severity level. Keep in mind that HIGH risk issues are not often those that needs to be fixed first, not to mention the fact that successful penetration of a given organization often relies on combination of tricks, which is something scanners cannot come up with.</p>
+
+<p><em>I will stop right here since I find this topic not very much for my taste, though I&#8217;ve been asked so many times so I through that I can easily refer to this post as soon as I need it. The main principles is to follow your needs. I would personally employ people since they can provide me with the intelligence which is a lot more valuable. Scanners will be the last thing on my mind. They may help you with hardening the perimeter (something very important btw) but they will most probably mislead you if you trust them too much. <strong>That said, I am done on this topic.</strong></em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/automated-test/index.html" rel="tag">automated test</a> | <a href="../../tags/automates-scanners/index.html" rel="tag">automates scanners</a> | <a href="../../tags/philosophy/index.html" rel="tag">philosophy</a> | <a href="../../tags/scanners/index.html" rel="tag">scanners</a> | <a href="../../tags/scanning/index.html" rel="tag">scanning</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/test/index.html" rel="tag">test</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-81423">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/99905dc7cfd6a28a06a1dcc231009a6e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">flipper</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-81423">
+			December 5, 2007 at 1:03 pm</a>		</div>
+
+		<p>In In think this subject can be detailed in many ways, and can lead to many different opinions. Hiring a h3ker would be a plus considering the interpretation it might give to his analysis..</p>
+<p>But good choice â€œanalysisâ€, because often that we might admit, it relays (al least in some points) onâ€¦â€scannersâ€ïŠ Of course it relays on scanners, and more often is ..nmap. Why? Cause Itâ€™s the nearest tool to see what services are available in a public manner and which of them are not suppose to be.</p>
+<p>As you mentionâ€¦â€combinations of tricksâ€ is the key. Yes, it is! No scanner I know can do this (at the moment), but I donâ€™t really find it impossible at all..scenarios can be scripted in templates and modulated as an AIâ€¦like in the games (Iâ€™m no gamer, ..just to mention).</p>
+<p>So, getting back to â€œcombination of tricksâ€, a h3ker mind can go much further that considering some port opened, or not, ..or a service available or not. It can do tests based on the vulnerabilities of that version..or missconfigurations. And this is a big +.</p>
+<p>Of course hiring a h3ker is somehow ..not enough..he need the tools..just his AI is just not enough, and no one has that time to reinvent the wheelâ€¦to script new nmap (just an example) to scan a server.</p>
+<p>Is a conclusion of my thoughtsâ€¦I think scanners without AI is to few..and a good AI without the tools ..is big time consumption, effort and it came be easily a failure.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-81431">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-81431">
+			December 5, 2007 at 1:19 pm</a>		</div>
+
+		<p>flipper, yes of coures, a h4kur without tools is of no use to anyone. However, my point was quite different. All I am trying to say here is that while automated test (automated vulnerability assestment tools, this does not include nmap but mostly Nessus and the clones plus those used in the WebApp world) are of no use if you really want to know how an attacker can penetrate your network or applications. They will show you all your vulnerabilities (as far as they can) but they won&#8217;t show you how an attacker can gain access without using any vulnerability whatsoever or how an attacker can come up with a combination of attacks.</p>
+<p>It think that it is really a matter of choice.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-81489">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/99905dc7cfd6a28a06a1dcc231009a6e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">flipper</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-81489">
+			December 5, 2007 at 3:43 pm</a>		</div>
+
+		<p>Always is a matter of choice..and the choose you make is always a compromise.</p>
+<p>Companies, often believe in what other companies do..that&#8217;s why often they copy mistakes from one to each other (way solution are implemented, equipments brands, software, OS..almost everything)&#8230;so unavoidable they believe in others companies testing software. Of course it&#8217;s only about scanning for some vulnerabilities&#8230;but companies risk a lot..very much. They think that covering with patches and updates will solve the problem.Nope. No way u can do it like this. Becoming a h4ker..knowing what can be done is the way..But of course..to use this valuable knowledge (&#8217;cause u won&#8217;t find &#8220;Hacking for Idiots&#8221; on every corner as being a good material, and it&#8217;s perfectly understandable) in a good manner, for protecting yourself and upgrade your security level.</p>
+<p>In this case&#8230; definitly u need a h3ker to evaluate, or become one&#8230; :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-81491">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-81491">
+			December 5, 2007 at 3:45 pm</a>		</div>
+
+		<p>nice wrap up :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-81500">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/99905dc7cfd6a28a06a1dcc231009a6e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">flipper</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-81500">
+			December 5, 2007 at 3:54 pm</a>		</div>
+
+		<p>Thanx, and they call it &#8220;audit company&#8221;. I guess most of us been through such experience.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-81508">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/44c5e290ccf283471210752d0b1ed6df?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.packetguru.org/' rel='external nofollow' class='url'>djteller</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-81508">
+			December 5, 2007 at 4:11 pm</a>		</div>
+
+		<p>I do believe that a skilled h4kur will produce much more valuable report than a scanner but: Today big organizations usually hire more than one penetration testing team, since they want different opinion about their security deployment. A mix between a person and an automated script/service will produce a reliable report.</p>
+<p>2 days ago in OWASP Israel conference i came across a new Startup company that provide an online automated penetration service, (gamasec.com), they tailor their service to each customer. Combining services such as this PLUS a real manual penetration test twice a year by a skilled individual is the right approach.</p>
+<p>P.S  &#8211; pdp i agree with you, that&#8217;s a dark topic that no-one really wants to talk about, so i&#8217;m done here as well :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-81523">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f645b9e869b471fd52e73ee1243f1e35?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">db</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-81523">
+			December 5, 2007 at 5:12 pm</a>		</div>
+
+		<p>People (sysadmin&#8217;s I worked with) would tell me that you could never automate system builds, but as the tools got better and the faith in the tools got better the reliance on automation increased.   Currently some companies rely on automation so much that they do not have the skilled labor to know when their automation has gone to the dogs.</p>
+<p>Automation should only be used to assist a professional and not an a replacement for the skills that are needed to protect your data/infrastructure/person.</p>
+<p>However I am repeating what has been said before, it is worth repeating.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="604"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ffd390ed71" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/the-value-of-automated-security-tests/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:57:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

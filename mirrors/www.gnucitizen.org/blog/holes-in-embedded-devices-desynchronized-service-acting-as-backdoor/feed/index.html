@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Holes in Embedded Devices: Desynchronized service acting as backdoor</title>
+	<atom:link href="http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: Adrian 'pagvac' Pastor</title>
+		<link>http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/comment-page-1/#comment-123066</link>
+		<dc:creator>Adrian 'pagvac' Pastor</dc:creator>
+		<pubDate>Thu, 24 Jul 2008 11:01:40 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor#comment-123066</guid>
+		<description>Just noticed a very nice example of a desynchronized service acting as a backdoor: http://www.milw0rm.com/exploits/5289
+
+Even if the user changes the default password, there is still another management service which keeps using the original default pass. Simple vulnerability yet it has obvious serious implications.</description>
+		<content:encoded><![CDATA[<p>Just noticed a very nice example of a desynchronized service acting as a backdoor: <a href="http://www.milw0rm.com/exploits/5289" rel="nofollow">http://www.milw0rm.com/exploits/5289</a></p>
+<p>Even if the user changes the default password, there is still another management service which keeps using the original default pass. Simple vulnerability yet it has obvious serious implications.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: DamionKutaeff</title>
+		<link>http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/comment-page-1/#comment-117170</link>
+		<dc:creator>DamionKutaeff</dc:creator>
+		<pubDate>Sun, 23 Mar 2008 00:43:50 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor#comment-117170</guid>
+		<description>Hello everybody, my name is Damion, and I&#039;m glad to join your conmunity, 
+and wish to assit as far as possible.</description>
+		<content:encoded><![CDATA[<p>Hello everybody, my name is Damion, and I&#8217;m glad to join your conmunity,<br />
+and wish to assit as far as possible.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Adrian Pastor</title>
+		<link>http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/comment-page-1/#comment-111486</link>
+		<dc:creator>Adrian Pastor</dc:creator>
+		<pubDate>Thu, 07 Feb 2008 21:34:26 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor#comment-111486</guid>
+		<description>@Ghost - although this issue is not usually a default setup on embedded devices, I assure you that there are real examples of this vulnerability out there.
+
+For instance, I&#039;m currently working towards reporting a very severe issue to a vendor which is based on the same idea: an administrative service different to HTTP which runs by default allows remote access with a different set of credentials. Worst of all, such service is enabled on the WAN interface by default!
+
+Most likely I will be able to present this vulnerability among many others on my &quot;Cracking into Embedded Devices and Beyond!&quot; presentation @ HITB Dubai: http://conference.hackinthebox.org/hitbsecconf2008dubai/?page_id=186</description>
+		<content:encoded><![CDATA[<p>@Ghost &#8211; although this issue is not usually a default setup on embedded devices, I assure you that there are real examples of this vulnerability out there.</p>
+<p>For instance, I&#8217;m currently working towards reporting a very severe issue to a vendor which is based on the same idea: an administrative service different to HTTP which runs by default allows remote access with a different set of credentials. Worst of all, such service is enabled on the WAN interface by default!</p>
+<p>Most likely I will be able to present this vulnerability among many others on my &#8220;Cracking into Embedded Devices and Beyond!&#8221; presentation @ HITB Dubai: <a href="http://conference.hackinthebox.org/hitbsecconf2008dubai/?page_id=186" rel="nofollow">http://conference.hackinthebox.....age_id=186</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Adrian Pastor</title>
+		<link>http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/comment-page-1/#comment-111198</link>
+		<dc:creator>Adrian Pastor</dc:creator>
+		<pubDate>Thu, 07 Feb 2008 09:54:19 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor#comment-111198</guid>
+		<description>@entombed - how about devices that come with telnet running by default? Are *all* admins checking if such services are enabled by default?
+
+How about home routers shipped by ISPs with telnet enabled by default on the WAN interface? Think about this for a second. We all remember the BeThere fiasco in which a backdoor account could be used to login to routers from the Internet via telnet: http://blogs.securiteam.com/index.php/archives/826</description>
+		<content:encoded><![CDATA[<p>@entombed &#8211; how about devices that come with telnet running by default? Are *all* admins checking if such services are enabled by default?</p>
+<p>How about home routers shipped by ISPs with telnet enabled by default on the WAN interface? Think about this for a second. We all remember the BeThere fiasco in which a backdoor account could be used to login to routers from the Internet via telnet: <a href="http://blogs.securiteam.com/index.php/archives/826" rel="nofollow">http://blogs.securiteam.com/index.php/archives/826</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Ghost</title>
+		<link>http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/comment-page-1/#comment-111132</link>
+		<dc:creator>Ghost</dc:creator>
+		<pubDate>Thu, 07 Feb 2008 06:50:28 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor#comment-111132</guid>
+		<description>I&#039;ve dealt with routers that have telnet off by default (or at least booted you as soon as you connected) but it was possible to enable them and be accessed by the default username and password. Dunno how many of them are out there that are like that but its interesting though.</description>
+		<content:encoded><![CDATA[<p>I&#8217;ve dealt with routers that have telnet off by default (or at least booted you as soon as you connected) but it was possible to enable them and be accessed by the default username and password. Dunno how many of them are out there that are like that but its interesting though.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: entombed</title>
+		<link>http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor/comment-page-1/#comment-110886</link>
+		<dc:creator>entombed</dc:creator>
+		<pubDate>Wed, 06 Feb 2008 18:45:09 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/holes-in-embedded-devices-desynchronized-service-acting-as-backdoor#comment-110886</guid>
+		<description>If a specific service such as telnet is needed it&#039;s most likely the admin has changed the default password. Otherwise the service will be disabled anyway.</description>
+		<content:encoded><![CDATA[<p>If a specific service such as telnet is needed it&#8217;s most likely the admin has changed the default password. Otherwise the service will be disabled anyway.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

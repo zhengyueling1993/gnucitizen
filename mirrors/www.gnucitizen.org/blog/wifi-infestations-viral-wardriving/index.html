@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/wifi-infestations-viral-wardriving/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:51:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; WiFi Infestations &#8211; Viral Wardriving</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; WiFi Infestations &#8211; Viral Wardriving Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Social Networks Evil Twin Attacks' href='../social-networks-evil-twin-attacks/index.html' />
+<link rel='next' title='Cross-site File Upload Attacks' href='../cross-site-file-upload-attacks/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index1583.html?p=725' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-725" class="post">
+	<div class="post-title"><h2><span>WiFi Infestations &#8211; Viral Wardriving</span></h2></div>
+	<div class="post-date"><span>published:</span> February 20th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>WiFi networks are the necessary evil. In this post I would like to briefly highlight some ideas on the potential damages that can be introduced when attackers combine automated viral-like attacks with human power. This post is largely related to the wifi worms topic that was quite present among all media outlets at the beginning of 2008. Although the proposed paper was quite theoretical, in this post I will try to prove that the introduced concepts are mostly practical when implemented with a twist.</p>
+
+<p>Public WiFi networks are everywhere, especially today. We are surrounded by free hot spots, BT Openzone-s, office networks, ad-hoc networks like the infamous <code>hpsetup</code> printers, etc, etc, etc. WiFi is more accessible then ever and it seems like that this tendency will continue in the following years. In UK for example, BT&#8217;s FON, a.k.a BT Openzone, is gaining a huge momentum. BT Openzone networks are everywhere. I know that Google is also working on similar projects, as well as many other companies do. The simple fact is that there is a lot of money to be made with free WiFi networks, often involving concepts like location based advertising, etc, but I will come to this some other time.</p>
+
+<p>It is very important to understand that all WiFi networks are ruled by miniature devices. We call them embedded devices because they usually contain the entire package in a single box (software and hardware, i.e they are embedded). These devices are a vital part of the security and reliability properties of WiFi networks. However they fail to be secure or reliable. In the past couple of weeks, <a href="../router-hacking-challenge/index.html">here</a> in GNUCITIZEN, we&#8217;ve introduced numerous vulnerabilities that affect various types of embedded devices which are often used by SOHO companies, coffee shops, restaurants, etc. By war-driving around with a laptop equipped with all our findings, it is possible to spread a disease across numerous open WiFi networks. This is how WiFi worms could work.</p>
+
+<p>It is not only one technology that can be attacked. There are several of them. Let&#8217;s have a look at UPnP for example. Embedded devices like UPnP a lot. It is very simple to locate UPnP devices withing a network. All the attacker needs to do is to send several broadcast packets. Upon receiving them, UPnP enabled devices will piggy back with information about their UPnP interfaces. <a href="../hacking-with-upnp-universal-plug-and-play/index.html">Many UPnP devices allow unauthorized access</a> to critical features such as resetting the admin credentials, portforwarding and primary, DNS change, which is one of the keys to a successful WiFI worm attack. Simply put, if the attacker manages to change the default DNS of the WiFi access point, they will be able to permanently control the network where this device resides, i.e viral infection of a WiFi network.</p>
+
+<p>DHCP also comes very handy for viral wardriving. I&#8217;ve discussed this before <a href="../r00ting-public-wifi-networks-dhcp-name-poisoning-attacks/index.html">here</a>, but let me summarize it one more time. The DHCP protocol allows you to register a name together with your IP. This means that anyone can register as many internal names as possible. Sometimes, it is even possible to register a name that maps to an external IP. Given the fact that a lot of setups use shortened names, such as proxy, mail, pop3, wpad in particular, home, intranet1/01, etc, and the fact that attackers can force the name to be present for a period of time such as 5 days, anyone who arrives on the WiFi network and uses shorten names somewhere on their setup, might get compromised. This conditions are met more often then you think.</p>
+
+<p><a href="../name-mdns-poisoning-attacks-inside-the-lan/index.html">mDNS</a> is also a good technology to make use of when wardriving in order to propagate malicious code. mDNS is incredibly useful for locating devices but also to install such for further reference. For example, many video management interfaces rely on mDNS. If the attacker registers a new mDNS server and points it to an external resource, she will be able to effectively <a href="../hacking-video-surveillance-networks/index.html">hijack the video stream</a>. This injection often stays present until it is overwritten &#8211; something that rarely happens.</p>
+
+<p>Various forms of injection attacks can also take place. I&#8217;ve started a discussion over <a href="../dhcpmdns-injection-issues/index.html">here</a> but I would like to elaborate further. Because most embedded devices come with some sort of web-based management interface, and because these web interfaces are prone to all sorts of injection issues, attackers can trivially install persistent XSS vectors. For example, when you register a name through DHCP, this information is usually displayed on the front page of the admin console where all other clients are listed. However, through DHCP attackers can register names that contain special characters such as <code>&lt;</code> and <code>&gt;</code>. This means that it is trivial to backdoor the remote devices with a persistent XSS vector which will give further access to the device management interface once an authorized user visits the infected page.</p>
+
+<blockquote>Many devices come with SIP ports open as well. Every single SIP INVITE request me be recorded without being sanitized, therefore allowing attackers to persistently backdoor the device management console. Keep in mind that this is also applicable to any device that has SIP functions exposed on the Internet.</blockquote>
+
+<pre><code>INVITE sip:UAB<strong>&lt;injection point&gt;</strong>@example.com SIP/2.0
+Via: SIP/2.0/UDP 10.20.30.40:5060
+From: UserA<strong>&lt;injection point&gt;</strong> &lt;sip:UAA<strong>&lt;injection point&gt;</strong>@example.com&gt;;tag=589304
+To: UserB<strong>&lt;injection point&gt;</strong> &lt;sip:UAB<strong>&lt;injection point&gt;</strong>@example.com&gt;
+Call-ID: 8204589102<strong>&lt;injection point&gt;</strong>@example.com
+CSeq: 1 INVITE
+Contact: &lt;sip:UserA<strong>&lt;injection point&gt;</strong>@10.20.30.40&gt;
+Content-Type: application/sdp
+Content-Length: 0</code></pre>
+
+<p><em>These are just a few of the possible scenarios which are not that difficult to implement, as there are more then enough tools to ease the process. Viral WiFi attacks based on simple wardriving is very much possible.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/injection/index.html" rel="tag">injection</a> | <a href="../../tags/mdns/index.html" rel="tag">mDNS</a> | <a href="../../tags/secure/index.html" rel="tag">secure</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/upnp/index.html" rel="tag">UPnP</a> | <a href="../../tags/viral/index.html" rel="tag">viral</a> | <a href="../../tags/virus/index.html" rel="tag">virus</a> | <a href="../../tags/wardriving/index.html" rel="tag">wardriving</a> | <a href="../../tags/wifi/index.html" rel="tag">wifi</a> | <a href="../../tags/xss/index.html" rel="tag">xss</a></div></div>
+				
+
+
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="725"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="cd9810a339" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/wifi-infestations-viral-wardriving/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:52:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

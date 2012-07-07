@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/how-to-make-money-with-xss/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:14:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; How to make money with XSS</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; How to make money with XSS Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='OWASP Day 2007' href='../owasp-day-2007/index.html' />
+<link rel='next' title='Rain of -MINUS Transactions' href='../rain-of-minus-transactions/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexb47e.html?p=449' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-449" class="post">
+	<div class="post-title"><h2><span>How to make money with XSS</span></h2></div>
+	<div class="post-date"><span>published:</span> September 10th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Finding XSS is dead easy task. Everybody is vulnerable to this type of issue and even if there are protection mechanisms on place such as application firewalls and sanitization filters, very often attackers can get a stable exploit working in a matter of a couple of minutes. In fact, I don&#8217;t think that there are unstable XSS exploits. It is not like the attacker have to manipulate the stack or a corrupted heap in order to get some sort of execution control. No! It is a simple injection issue.</p>
+
+<p>In this post I am going to summarize one of the attack strategies, which I discussed in detail in my paper <a href="../for-my-next-trick-hacking-web20/index.html">For my next trickâ€¦ hacking Web2.0</a>, and talked about it over <a href="../owasp-day-2007/index.html">here</a>. We are going to look at a very basic scenario which outlines a possible technique attackers can use in order to make money out of XSS vulnerabilities.</p>
+
+<p>The strategy is quite simple. First of all attackers need is a bunch of XSS issues for various sites. The higher ranking these sites have, the more money they will make. A good starting point is <a href="http://www.xssed.com/">XSSED.com</a>. The attacker can simply grab the high ranking sites from known lists and use them for the strategy that follows. On the other hand, a simple python script in combination with Google.com could serves the same purpose.</p>
+
+<p>So, at this stage the attackers have XSS attacks ready to be deployed. The next stage is to come up with a generic payload for all of them. This step is quite simple as well. In regards to the initial idea, there are two ways to make money: direct and indirect. I am going to cover the Ad-jacking one :). The idea is that the attackers plug an XSS payload into the page to hijack the ads revenue. This is a dead easy task. In most cases, all the attackers need to do is to change a simple number. From this point on, everyone who stumbles across the Ad-jacked page and clicks on the any ad, some profit will be made not to the page owner but the attacker. <strong>Not cool.</strong></p>
+
+<p>The final stage is to get the XSSed URLs and their payloads out for general consummation. Attackers can use the power of Web2.0 technologies in this case. Social bookmarking sites fit very well here. The more the attackers bookmark the Ad-jacked URLs, the more money they will make out of them. There are even services like <a href="http://onlywire.com/">OnlyWire</a>, which allows attackers to distribute the URLs to 20 more different social bookmarking websites in a single go. Of course, attackers will keep websites with very, very, very high ranking for services such as DIGG and Reddit for manual submission, since both of them have CAPTCHAs. But, heh, CAPTCHAs can be easy broken as well.</p>
+
+<p>Now search engines, aggregators, and other robotic things will start exploring and crawling the Ad-jacked webistes. People will start visiting them and looking for info inside them and every once in a while someone will click on the ads. The only problem is that site owners will share their profit with the crooks.</p>
+
+<p><em>So, this is it! More information about this issue is outlined in the paper. Have a look through it if you have time.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-47879">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/23191258ee971b0be7c3bba63bb0bda5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.conversion-matters.co.uk/' rel='external nofollow' class='url'>Adam</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-47879">
+			September 11, 2007 at 1:45 am</a>		</div>
+
+		<p>I thought you were going to say something about black hat seo / xss :[</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-47946">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-47946">
+			September 11, 2007 at 7:34 am</a>		</div>
+
+		<p>well, if u think about it&#8230; this technique is pretty black hat seo like</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-47970">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0e6ddcd6d6d78b9a837cbaf4874816d7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://lort.dk/' rel='external nofollow' class='url'>kork</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-47970">
+			September 11, 2007 at 10:20 am</a>		</div>
+
+		<blockquote><p>CAPTCHAs can be easy broken as well.</p></blockquote>
+<p>code?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-47971">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-47971">
+			September 11, 2007 at 10:31 am</a>		</div>
+
+		<p>kork, heh :) no code but you can check out some of the successful projects currently available for free that does break most of the CAPTCHAs.</p>
+<p>The other day I had a brief discussion with AP about how to break CAPTCHAs. We concluded that almost every CAPTCHA can be broken, in one degree or another, with simple customized scripts and a couple of open source OCR tools from Freshmeat. So, no code is available, and I doubt that we are going to ever publish any code at all on this, mainly because it will be highly unethical. So you have to take my word for it and look into the subject yourself.</p>
+<div class="message">CAPTCHAs are dead!</div>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-48969">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e0f595cbc8f1811233adce10ac6c5d3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.awesomeandrew.net/' rel='external nofollow' class='url'>Awesome AnDrEw</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-48969">
+			September 14, 2007 at 3:16 am</a>		</div>
+
+		<p>Just like phishing you can use a transparent image as an overlay to subvert clicks to some other site, which could realistically put some money in your pocket depending on the type of traffic the site generates. I think I&#8217;ve read on some SEO sites that this is usually done on sites such as Wikipedia.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-53088">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/aa330bc3a723990fc439dcca443ce05f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">FORGE</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-53088">
+			September 27, 2007 at 10:26 am</a>		</div>
+
+		<p>Yeah i think this is blackhat SEO technique. Pretty Neat if you ask me. Being doing alot of readin on it. It pawns.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56172">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/997a9fa55e557e2aa8262a07758b161d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://websecurity.com.ua/' rel='external nofollow' class='url'>MustLive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56172">
+			October 8, 2007 at 12:04 am</a>		</div>
+
+		<p>Pdp, nice article! Ad-jacking it&#8217;s interesting way to make money out of XSS.</p>
+<p>But what about others ways? :-) Such as black SEO way of making money out of XSS holes. You need to cover different sides of this topic (think about it, maybe in future you&#8217;ll write about others ways). Though this is interesting one.</p>
+<blockquote><p>Of course, attackers will keep websites with very, very, very high ranking for services such as DIGG and Reddit for manual submission, since both of them have CAPTCHAs</p></blockquote>
+<p>After I read your post in 12.09.2007, I looked at Digg&#8217;s captcha and found that it&#8217;s velnerable (to my MustLive CAPTCHA bypass method). So this captcha like a lot of others can be easily bypassed (with my method).</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56180">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/997a9fa55e557e2aa8262a07758b161d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://websecurity.com.ua/' rel='external nofollow' class='url'>MustLive</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56180">
+			October 8, 2007 at 12:33 am</a>		</div>
+
+		<p>Petko, captchas can be bypassed (using vulnerabilities in them, without any OCR). I explored a lot in this topic last time.</p>
+<p>Like I wrote at my site (<a href="http://websecurity.com.ua/1337/#comment-60245" rel="nofollow">http://websecurity.com.ua/1337/#comment-60245</a>), I&#8217;ll write an article about my MustLive CAPTCHA bypass method. And I am planning to make event about bypassing a lot of CAPTCHAs ;-) (with my method). I&#8217;ll write you in detail about this.</p>
+<blockquote><p>code?</p></blockquote>
+<p>kork, there will be a whole of month which I&#8217;ll make &#8211; Month of bugs in CAPTCHAs. This month will be full of codes (exploits) for bypassing captchas all over the Internet. So keep waiting for official announcement. You will be happy ;-), everyone will be happy, especially bad guys, but good guys too.</p>
+<blockquote><p>no code but you can check out some of the successful projects currently available for free that does break most of the CAPTCHAs.</p></blockquote>
+<p>You speaking mostly about OCR breaking of captchas or breaking with manual typing (low cost man power). But there is a way (with my methods &#8211; main and advanced) to bypass a lot of captchas in the Internet.</p>
+<blockquote><p>CAPTCHAs are dead!</p></blockquote>
+<p>Not all captchas &#8211; many still trying (for their last days). And many still making look that &#8220;they are working fine&#8221;. And many others still believe that captchas can protect them (security site&#8217;s also &#8211; there are a lot of vulnerable captchas on security sites also).</p>
+<p>But I&#8217;ll show to web community and their captchas the real life ;-). Very soon Internet will see &#8211; the Captchas Apocalypses. A lot of captchas will die. The time has come.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-56322">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56322">
+			October 8, 2007 at 10:36 am</a>		</div>
+
+		<p>MustLive, you right there there are bugs in CAPTCHA mechanisms but if they are implemented correctly, there is no other way to break out of them but to type the string. So, OCR will remain the primary and most generic way for braking captchas.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118947">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/d5d066a61a371994571c81f55e853525?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.scuttle.ifst.pl/bookmarks.php/reuklits1' rel='external nofollow' class='url'>bookequatry</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118947">
+			April 18, 2008 at 9:29 am</a>		</div>
+
+		<p>I have carried out  huge research and collected the most trustworthy sites about  online investment  in the Internet </p>
+<p>I choose only update and developing ones and collected them in the same place. They are accessible for everybody. I offer you to acquaint with them ( online investing bookmak <a href="http://bookmark.searchengines.ru/bookmarks.php/nnikolaa" rel="nofollow">http://bookmark.searchengines......p/nnikolaa</a>   ) If somebody can supplement  my list   please publish here your research or bookmark </p>
+<p>PS I am sorry if my message out of forum topic  or it`s not interesting to community.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128612">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f8a528b6f2bfc9a87e6c6837fa23ff9b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.incomemaestro.com/' rel='external nofollow' class='url'>yang</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128612">
+			July 1, 2010 at 5:42 pm</a>		</div>
+
+		<p>nice information, i have already read about the SEO but i don&#8217;t know how to use that black hot SEO..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-129659">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/514bee587e0e0efa40c084e25d2dbdf5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://yellowjelly.uk.com/' rel='external nofollow' class='url'>atomiku</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-129659">
+			January 18, 2011 at 5:08 pm</a>		</div>
+
+		<p>XSS can be a good way to get some backlinks. Creating a HTML page that has 100s of HTML links and having the spider index it. Thanks for this article!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="449"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="cbdfc91493" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/how-to-make-money-with-xss/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:14:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

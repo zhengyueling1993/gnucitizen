@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/more-on-gifars-and-other-dangerous-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:25:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; More on GIFARS and Other Dangerous Attacks</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; More on GIFARS and Other Dangerous Attacks Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='GIFARs and Other Issues' href='../gifars-and-other-issues/index.html' />
+<link rel='next' title='Targeted' href='../targeted/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index846b.html?p=1006' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-1006" class="post">
+	<div class="post-title"><h2><span>More on GIFARS and Other Dangerous Attacks</span></h2></div>
+	<div class="post-date"><span>published:</span> August 3rd, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>This is a continuation from my <a href="../gifars-and-other-issues/index.html">previous post</a>. The reasons why GIFARs, although in my case it was JPGAR (from JPG + JAR), work was explained to me by FX (<a href="http://www.recurity-labs.com/">Recurity Labs</a>) after my talk during the <a href="../black-hat-europe-2008/index.html">last Black Hat in Amsterdam</a>.</p>
+
+<p>Basically, when you combine GIF/JPG and JAR/ZIP you have a hybrid file which have two heads. The head of GIF/JPG file is at the top. The head of the JAR/ZIP file is at the bottom. This condition satisfies both parsers and as such if you use ImageMagic or any other standard file/image manipulation library to detect whether the user is sending a valid picture you are <strong>vulnerable</strong>. Go fix your code <strong>now</strong>!</p>
+
+<p>What you should do is to first of all validate whether what you receive is a picture and then re-convert it. If it is JPG, convert it again to JPG, That way you force the library to rearrange the bits within the image and as such the junk at the bottom, which is the malicious JAR, will be removed. This is your safest option for now and for the future, unless you are using a very stringent image manipulation library.</p>
+
+<h3>But there is a Bigger Problem</h3>
+
+<p>But there is a bigger problem which I&#8217;ve pointed out during the <a href="../black-hat-europe-2008/index.html">last Black Hat</a>, <a href="../hitb-dubai-2008/index.html">HITB Dubai</a> and <a href="../confidence-2008/index.html">CONFidence</a>. ZIP, which is basically JAR, is a very generic packing technology and it has been reused everywhere. For example, it has been used as the basic format for Microsoft Windows 2007 Documents. OpenOffice documents too. What about AIR applications? There are numerous examples of ZIP reuses. This essentially means that any site which allows you to upload any format based on ZIP is vulnerable to a persistent XSS plus the socket issue I&#8217;ve briefly covered in my <a href="../gifars-and-other-issues/index.html">previous post</a> and <a href="../java-jar-attacks-and-features/index.html">my initial post</a> from a year ago. And you don&#8217;t have to use the combo trick. All the attacker needs to do is to slip a <code>.class</code> file into a MS Word Document file among the others MS specific files and you have a problem.</p>
+
+<p>The process will go like this. BTW, this is the lamest possible way of doing all this. You can do the same with a single command:</p>
+
+<ul>
+<li>Change the extension from <code>.doc</code> to <code>.zip</code></li>
+<li>Put the .class file in to the <code>.zip</code> file.</li>
+<li>Change the extension from <code>.zip</code> to <code>.doc</code></li>
+<li>Upload it to the server which you want to attack.</li>
+</ul>
+
+<p><em>So, to summarize: <q>any file format that is based on ZIP, you allow your users to upload on your server, can be used in an attack. Any format that has its headers at the top of the file and it ignores junk at the bottom can be used in an attack. No matter which way you look at it, SUN has to do something about the issue. Perhaps, something like what Firefox did to prevent <a href="../0day-quicktime-pwns-firefox/index.html">this</a> exploit from working might be a good solution.</q></em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/black-hat/index.html" rel="tag">Black Hat</a> | <a href="../../tags/exploit/index.html" rel="tag">exploit</a> | <a href="../../tags/gif/index.html" rel="tag">gif</a> | <a href="../../tags/gifar/index.html" rel="tag">gifar</a> | <a href="../../tags/hacking-java/index.html" rel="tag">hacking java</a> | <a href="../../tags/jar/index.html" rel="tag">jar</a> | <a href="../../tags/java/index.html" rel="tag">java</a> | <a href="../../tags/jpg/index.html" rel="tag">jpg</a> | <a href="../../tags/secure/index.html" rel="tag">secure</a> | <a href="../../tags/security/index.html" rel="tag">security</a></div></div>
+				
+
+
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="1006"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="7ef999f342" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/more-on-gifars-and-other-dangerous-attacks/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:25:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/google_js/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:01:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Google.js</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Google.js Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Hacking CITRIX &#8211; the forceful way' href='../hacking-citrix-the-forceful-way/index.html' />
+<link rel='next' title='Snippets of defense Pt.I' href='../snippets-of-defense-pti/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexfaa1.html?p=488' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-488" class="post">
+	<div class="post-title"><h2><span>Google.js</span></h2></div>
+	<div class="post-date"><span>published:</span> October 6th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I am learning to love Windows. Yeh it has its own problems and sometimes could be a bit insecure but in general, it just works well and every single piece of it is reusable and scriptable. Today, I quickly wrote a Google search scraper. It runs straight from the command line.</p>
+
+<p>Pay attention on the size of the script and the level of clarity of the code. Moreover, it is well integrated with the host&#8217;s setup and connection settings (proxies, socks, etc). You cannot do that even with Python. Thanks Microsoft.</p>
+
+<pre><code><a href="../../static/blog/2007/10/google.js" rel="inline-text">http://www.gnucitizen.org/static/blog/2007/10/google.js</a></code></pre>
+
+<p>There are two way you can run the script. If your default scripting engine is <code>cscript</code>, then you can just type: <code>google.js <strong>some query here</strong></code>. If this is not the case then you either need to be explicit like this: <code>cscript /nologo google.js <strong>some query here</strong></code>, or make cscript default like this: <code>cscript //H:CScript</code>. Whatever you do, the code will run and will work flawlessly.</p>
+
+<p><em>I enjoy when things are plain and easy or just simply clever.</em></p><div class="single-content-bottom-widgets"></div></div>
+	<ul class='post-meta'>
+<li><span class='post-meta-key'>Download:</span> <a href="../../static/blog/2007/10/google.js">google.js</a></li>
+</ul>
+	<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-55936">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/790744a7a8c99b3d3c1e6c97d50120a0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Stephen Bloch</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-55936">
+			October 7, 2007 at 10:12 am</a>		</div>
+
+		<p>When running your script I&#8217;m getting:</p>
+<pre><code>"Access is denied" message.
+The error code: 80070005,
+the source: msxml3.dll</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-56083">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56083">
+			October 7, 2007 at 5:43 pm</a>		</div>
+
+		<pre><code>cscript //H:CScript</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56161">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/33648c13a5119e61b41ef6dffe6faa84?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">thornade</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56161">
+			October 7, 2007 at 10:54 pm</a>		</div>
+
+		<p>No output for me, when I debug, it seems like I have no tag &lt;a&gt; in the returned document but when I sniff, I could see answers from Google, furthermore the script sends 2 requests (q=xxx, q=xxx&amp;start=10)</p>
+<p>I wrote a similar script in perl to find all web servers crawled by google for a specific domain (ie: gnucitizen.org). I did not use the wap version, is there any reason to use it ? (speeder, smaller &#8230; ?)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56387">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4ea194a71f286cab260352412f761d92?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nori</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56387">
+			October 8, 2007 at 3:51 pm</a>		</div>
+
+		<p>Hi, no outpout when using no proxy. But when passing through Paros, results are returned. Maybe an issue with Accept-Encoding: gzip,deflate&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-56389">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56389">
+			October 8, 2007 at 4:09 pm</a>		</div>
+
+		<p>strange, it should work flawlessly&#8230; are you sure that your system proxy settings are set correctly?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-56402">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/4ea194a71f286cab260352412f761d92?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">nori</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56402">
+			October 8, 2007 at 4:32 pm</a>		</div>
+
+		<pre><code>if (WScript.Arguments.length == 0) {
+	WScript.Echo('usage: ' + WScript.ScriptName + ' &lt;query&gt;');
+	WScript.Echo('       ' + WScript.ScriptName + ' site:gnucitizen.org ext:js');
+	WScript.Echo('');
+	WScript.Echo('Google Search');
+	WScript.Echo('by Petko D. Petkov (pdp) GNUCITIZEN (<a href="../../index.html" rel="nofollow">http://www.gnucitizen.org</a>)');
+	WScript.Quit(1);
+} else {
+	var tmp = [];
+
+	for (var i = 0; i &lt; WScript.Arguments.length; i++) {
+		tmp.push(WScript.Arguments(i));
+	}
+
+	var query = tmp.join(' ');
+}
+
+var pos = 0;
+var doc = WScript.CreateObject('MSXML2.DOMDocument');
+var xhr = WScript.CreateObject('Microsoft.XMLHTTP');
+var resp;
+
+doc.async = false;
+doc.validateOnParse = false;
+
+do {
+	var lns = [];
+  xhr.open('GET','http://www.google.com/xhtml?q=' + escape(query) + (pos != 0 ? '&#038;start=' + pos : ''),false);
+  //xhr.setRequestHeader("Accept-Encoding", "text");
+  xhr.send(null);
+	//doc.load('http://www.google.com/xhtml?q=' + escape(query) + (pos != 0 ? '&#038;start=' + pos : ''));
+	try{
+		doc.loadXML(xhr.responseText);
+    //WScript.Echo(xhr.responseText);
+	//WScript.Echo('XML:' + xhr.responseText);
+	var as = doc.getElementsByTagName('a');
+
+	for (var i = 0; i &lt; as.length; i++) {
+		var href = as[i].getAttribute('href');
+		//WScript.Echo(href);
+		var match = href.match(/^\/gwt\/.*?u=(.*?)$/);
+		//WScript.Echo(match);
+		if (match) {
+			var ln = unescape(match[1]);
+
+			lns.push(ln);
+		}
+	}
+
+	}catch(ex){
+		//WScript.Echo(ex.description);
+	}
+	if (pns &#038;&#038; pns.sort().join() == lns.sort().join()) {
+		break;
+	}
+
+	for (var i = 0; i &lt; lns.length; i++) {
+		WScript.Echo(lns[i]);
+	}	
+
+	var pns = lns;
+
+	pos += 10;
+} while (lns);</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-56474">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/33648c13a5119e61b41ef6dffe6faa84?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">thornade</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56474">
+			October 8, 2007 at 9:35 pm</a>		</div>
+
+		<p>Yes, it sounds like MSXML2.DOMDocument could not deflate gzip. If I disable HTTP/1.1 on Internet Explorer settings, it works better, in this case no gzip encoding support.  Nevertheless, foreach page Google returns, the DTD is checked. This represents 31 documents downloaded&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-56483">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-56483">
+			October 8, 2007 at 9:55 pm</a>		</div>
+
+		<p>nori, cheers for that.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-59007">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5876dd54e976f13fd1f158b408220cf0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">albert arul prakash</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59007">
+			October 17, 2007 at 5:56 am</a>		</div>
+
+		<p>Working fine for me. Its lovely</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-60678">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60678">
+			October 23, 2007 at 3:47 am</a>		</div>
+
+		<p>same here. No output when not using any proxy</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-60702">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60702">
+			October 23, 2007 at 7:18 am</a>		</div>
+
+		<p>I don&#8217;t know. it works really well for me. Check if cscript is your default scripting engine. If not, just follow the steps described above.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-60741">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60741">
+			October 23, 2007 at 11:09 am</a>		</div>
+
+		<p>followed all three steps man, still, it doesn&#8217;t work. Strange.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="488"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="7e4694f140" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/google_js/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:01:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

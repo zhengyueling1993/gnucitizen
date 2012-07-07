@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/extreme-search-engine-hacking/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:51:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Extreme Search Engine Hacking</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Extreme Search Engine Hacking Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Cross-site File Upload Attacks' href='../cross-site-file-upload-attacks/index.html' />
+<link rel='next' title='Holes in Embedded Devices: Authentication bypass (pt 4)' href='../holes-in-embedded-devices-authentication-bypass-pt-4/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index7458.html?p=734' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-734" class="post">
+	<div class="post-title"><h2><span>Extreme Search Engine Hacking</span></h2></div>
+	<div class="post-date"><span>published:</span> February 22nd, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>If you are a beginner Google Hacker then I would recommend to have a look at the <a href="../google-hacking-for-penetration-testers-second-edition/index.html">Google Hacking for Penetration Testers Second Edition</a> book or check the <a href="http://www.cultdeadcow.com/">cDc</a>&#8216;s <a href="http://goolag.org/">GoolagScanner</a>. If you want to learn some new tricks follow me:</p>
+
+<p>We know what Google Hacking is but have we explored the edges of the craft? I don&#8217;t thing so. This post is all about going to the possible limit. So, let&#8217;s have a look on some tricks and techniques that attackers may use in order to take full advantage of the available technologies. <strong>WARNING!</strong> you may need to spend some money but the overall result is enlightening. So, it is worthed.</p>
+
+<h3>Forceful Spidering</h3>
+
+<p>I started this discussion long time ago in my <a href="../for-my-next-trick-hacking-web20/index.html">paper on Web2.0 hacking</a>, but let me summarize the idea here for you. Simply put, it is possible to force a spider to craw pages of your likings. This is not a big news but it has some interesting side-effects, like uncovering the hidden web. For those of you who don&#8217;t know what the hidden web is, here is a snippet:</p>
+
+<blockquote>The sum of the Web pages that is not accessible to Web crawlers.<a href="http://www.infodiv.unimelb.edu.au/metadata/glossary.html"> University of Melbourne Metadata Glossary</a></blockquote>
+
+<p>So here is the scenario. If the attackers want to monitor a large corporation they could rely on queering the Google database, which is very limited because of various reasons, or they can force the search engine spiders to go and visit all resources of interest and as such expose their hidden features. The process is usually very simple and it is represented by the following steps:</p>
+
+<ol>
+<li>collect the target IP ranges</li>
+<li>construct a list of known ports such as <code>80, 443, 8080, 80801, 8443, etc</code></li>
+<li>generate a new list which combines both lists described above, i.e. <code>http://[ip]:[port]</code></li>
+<li>navigate search engines to visit these URLs:
+<ul>
+<li>by generating random pages (splogs, etc) which contain these links</li>
+<li>by pinging URLs using well known and documented services such as <a href="http://developer.yahoo.com/search/siteexplorer/">Yahoo&#8217;s Site Explorer API</a>, <a href="http://technorati.com/">Technorati</a>, <a href="http://pingomatic.com/">Ping-o-Matic</a>, etc&#8230;</li>
+</ul>
+</li>
+<li>wait for a couple of days until the spiders collect, process and index the information</li>
+<li>construct a custom search engine by using <a href="http://my.yahoo.com/">MyYahoo</a>&#8216;s or <a href="http://google.com/coop">Google&#8217;s Co-op</a> web interfaces. Specify the URLs that were generated in step 3 as the custom search engine base.</li>
+<li>Query it!</li>
+</ol>
+
+<p>The potential benefits are quite obvious. For example, if attackers go ahead and start crawling manually, looking for interesting URLs, they will endup in very time consuming operation which is dependent on hardware and line-speed limitations. On the other hand Google and Yahoo will keep a good index of the crawled resources even when they get update. Not to mention that there is already a good infrastructure of various Google dorks which can be re-used and tools such as <a href="http://www.paterva.com/web2/Maltego/maltego.html">Maltego</a> may come immensely useful.</p>
+
+<h3>Batch Processing Search Engine Results</h3>
+
+<p>This primary involves the Alexa&#8217;s Web Search Platform and <a href="http://aws.amazon.com/">Amazon&#8217;s Services</a>. The Alexa&#8217;s Web Search Platform allows you to write a tool in whatever language you like, as long as it supports SOAP, and use that to process millions of results. No fuzzy logic applied. You receive the content as it is plus information about the response headers, etc. This is quite powerful and it is the preferred way for searching for embedded devices and weird server headers as you get the whole thing not just the body text like when using just Google.</p>
+
+<p>The service costs <strong>$1 per CPU hour</strong> &#8211; not much for the power you get out of it. Allow me to mention that your tool can run on Amazon&#8217;s infrastructure which allows you to start as many servers as you want in order to process the results faster then you can afford with your personal computational network.</p>
+
+<h3>Elastic Cloud Computing</h3>
+
+<p>By using <a href="http://aws.amazon.com/">Amazon&#8217;s Services</a> and more specifically their <a href="http://aws.amazon.com/ec2">Elastic Cloud</a> infrastructure, attackers can gain immense scalability which they can use for their own evil good. The cloud allows developers to spawn ritualized instances of any type of operating system which can be instructed to go through any kind of heavy machine processing task, such as crawling web sites, port-scanning, etc. The information can be stored on <a href="http://aws.amazon.com/s3">Amazon&#8217;s Simple Storage</a> service. The whole package is quite cheep and very affordable.</p>
+
+<p><em>My personal experience with these techniques led me to a lot of revelations which I haven&#8217;t decided what to do with, yet.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/amazon/index.html" rel="tag">amazon</a> | <a href="../../tags/elastic-cloud/index.html" rel="tag">elastic cloud</a> | <a href="../../tags/extreme/index.html" rel="tag">extreme</a> | <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/search-engine/index.html" rel="tag">search engine</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/simple-storage/index.html" rel="tag">simple storage</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-115661">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/09398425ee2c2ea313cfea19f3323f17?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://sct.org/' rel='external nofollow' class='url'>NIX</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-115661">
+			February 26, 2008 at 10:53 am</a>		</div>
+
+		<p>very nice idea &#8230; im curious also on your revelations :D</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-121213">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3a8e132f670587c0ab1cc7d6be41dc89?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">black enigma</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121213">
+			May 9, 2008 at 1:05 am</a>		</div>
+
+		<p>wow,i want to learn,hmm,interesting</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="734"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c8e729751b" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/extreme-search-engine-hacking/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:51:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

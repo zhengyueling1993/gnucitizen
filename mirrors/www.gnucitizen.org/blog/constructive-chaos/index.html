@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/constructive-chaos/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:19:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Constructive Chaos</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Constructive Chaos Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Automated Web Foo or Fud!' href='../automated-web-foo-or-fud/index.html' />
+<link rel='next' title='Web2.0 is not AJAX' href='../web20-is-not-ajax/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index8eaf.html?p=411' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-411" class="post">
+	<div class="post-title"><h2><span>Constructive Chaos</span></h2></div>
+	<div class="post-date"><span>published:</span> August 7th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><blockquote>Fuzz testing or fuzzing is a software testing technique that provides random data (&#8220;fuzz&#8221;) to the inputs of a program. If the program fails (for example, by crashing, or by failing built-in code assertions), the defects can be noted. <a href="http://en.wikipedia.org/wiki/Fuzz_testing">Wikipedia</a></blockquote>
+
+<p>Recently several interesting tools were released to cover one special aspect of fuzz testing in web application security &#8211; JavaScript fuzzing. Mozilla has released their fuzzer called <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=jsfunfuzz">JSFunFuzz</a> and <a href="http://thespanner.co.uk/">Gareth Heyes</a> has released a tool called <a href="http://www.businessinfo.co.uk/labs/jsfuzz/fuzz.php">JavaScript Fuzzer 2.1</a>. Both of them have more or less similar purpose although, they use different methods for reaching their targets.</p>
+
+<h3>Chaotic fuzzing</h3>
+
+<p>The Mozilla fuzzer or JSFunFuzz has been around for some time now. The tool was first announced in a ticket published in late August 2006. It&#8217;s purpose is to use a large base of JavaScript language constructs concatenated together, no matter if the represent valid code or not. Today, this project is probably the main way for testing how the Rhino and SpiderMonkey JavaScript engines react on weird or even faulty code. The obtained results were used to optimize both script engines stability. JSFunFuzz even helped to <a href="http://my.opera.com/desktopteam/blog/2007/08/03/fun-with-the-fuzzer">identify several problems</a> in the Opera JS engine. A handful of them were security relevant and the Opera team already have announced that fixes should be expected soon.</p>
+
+<p>The files attached to the JSFunFuzz tickets that announced the project, also provides implementation for in-browser fuzzing although it seams to be neither funny nor very useful. Most of the time, the CPU load is around 100% and the user gets some low frequently updated text output which spits out info about the concatenated strings and the debug output they provoked. Nevertheless some people already implemented solutions similar to this one. Do you remember that CPU load will probably rise sky high if you click this <a href="http://download.remcol.ath.cx/jstest.html">link</a>?</p>
+
+<p>The question is how to use the JSFunFuzz fuzzer at home. Quite easy, I must say. Just grab a copy of the <a href="ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_6R6.zip">Rhino</a> engine from Mozilla. Install a <a href="http://java.com/en/">JRE</a> if you do not have one yet, and use your console to instantiate Rhino. Something like the following should do the job: </p>
+
+<pre><code>java -jar /path/to/js.jar</code></pre>
+
+<p>After that a JavaScript console should appear replacing the usual command line. If you attach <a href="https://bugzilla.mozilla.org/attachment.cgi?id=240710">jsparsefuzz.js</a> to the above command you should immediately see dozens to hundreds of JavaScript snippets racing upwards the command line. If you want to make real good usage of the tool you may need have to pipe the output through some regular expressions, save the results in a file and give the script some time to finish. After a while you should have a very large collections of code fragments you can test in your application filters or you may want to use them for other purposes.</p>
+
+<pre><code>java -jar /path/to/js.jar /path/to/jsparsefuzz.js </code></pre>
+
+<h3>Structured fuzzing</h3>
+
+<p>Gareth Heyes fuzzer has taken a slightly different path. He provides a handy in-browser fuzzer and enables the user to predefine many parameters of the fuzzing process before usage. You can predefine tags and attributes to fuzz as well as quote types, text case and many other useful things. What makes this tool really useful is the obvious but worth to mention fact that you can use it in any browser. This enables you to hunt for special markup related browser peculiarities when coming to interpret JavaScript via event handlers, attributes, etc. The tool has already found some pretty weird combinations of attributes and special chars. According to emails we exchanged with Gareth recently, the tool will soon feature a database which provides already found vectors. That will make the tool more powerful and useful and will exponentially grow if more people start using it. Also there are plans to publish the fuzzer as an open source project &#8211; combined with a public database like <a href="http://dabbledb.com/">DabbleDB</a> which we already use for the almighty <a href="../../xssdb/application.htm">xssDB</a>. This, we believe may become a very valuable source for security testers.</p>
+
+<h3>Conclusion</h3>
+
+<p>Both fuzzers are potentially quite useful and will definitely increase the security of future web applications and browser technologies. JavaScript fuzzers may also help with preventing certain XSS vectors. They make a huge change when securing a particular project or implementation. Furthermore, By reading posts like <a href="http://sirdarckcat.blogspot.com/2007/08/javascript-is-just-evil-for-you-part-i.html">SirDarckCat&#8217;s astonishing research reports</a>, it makes clear that many of use haven&#8217;t had the chance to realize what JavaScript is capable of &#8211; what do you think?</p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/mario/index.html" title="Posts by .mario" rel="author">.mario</a></div>
+	</div>
+				
+
+
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="411"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="7f940d4c3f" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/constructive-chaos/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:19:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

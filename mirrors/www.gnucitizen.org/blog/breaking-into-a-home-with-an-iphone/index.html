@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/breaking-into-a-home-with-an-iphone/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:22:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Breaking Into a Home With an iPhone</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Breaking Into a Home With an iPhone Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Extensions at War' href='../extensions-at-war/index.html' />
+<link rel='next' title='Hacking Linksys IP Cameras (pt 5)' href='../hacking-linksys-ip-cameras-pt-5/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexc3ad.html?p=3211' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-3211" class="post">
+	<div class="post-title"><h2><span>Breaking Into a Home With an iPhone</span></h2></div>
+	<div class="post-date"><span>published:</span> May 11th, 2009</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>This is going to be one of these quick posts which just makes you think what the information security landscape will be like in 5 years. Before I move on with my commentary, here is a video which is essential for you to watch.</p>
+
+<div class="screen"><object width="560" height="340"><param name="movie" value="http://www.youtube.com/v/rJfrdcbfXsc&#038;hl=en&#038;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/rJfrdcbfXsc&amp;hl=en&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="560" height="340"></embed></object></div>
+
+<p>Got the idea? No? Let me explain. What you see in the video above is an application for the iPhone which gives you detailed characteristics of properties (houses) in USA. You can either search the map or just use your GPS coordinates to get information such as price of the house, number of floors, number of rooms, pictures taken from inside the house if the house was part of any register (letting agencies etc.) before you moved in, and other interesting information.</p>
+
+<p>This is the kind of information gathering you see only in the movies. I won&#8217;t be surprised if future versions of these kind of applications can pool even essential blueprints which show not only how the house was constructed from architectural point of view but also show the power and gas grids and perhaps even any other wiring such as telephone, coaxial, etc.</p>
+
+<p>All of this information is also available through easily accessible APIs. Perhaps these APIs are not publicly known but anyone who can run a sniffer most certainly can get hold of the URLs and their formats. Now mash this APIs with any other tool such as one that correlates IP address to physical location (not very accurate btw) or better yet a wardriving tool and you have a infowar machine in your pocket that will make any criminal organization proud of.</p>
+
+<p>This was the main purpose of my <a href="../for-my-next-trick-hacking-web20/index.html">Web2.0 talk/research</a> from two years ago. Back then I made a very simple analogy which I would like to bring once again. When the email was invented nobody even suspected that it will be used for things such as spam and malware. That was something unimaginable. Today spam is the fastest growing criminal industry and malware delivered over email is the most successful one. In summary, we cannot foresee how a technology will be used/abused. That depends on the imagination of the people.</p>
+
+<p>The same goes for the Web2.0 meme. The more we use it, the more ways we will find to abuse it. However it is also important to say that the more we use it the more accustomed we will become to it. Therefore, when the shit hits the fan there will be very little that we can do.</p>
+
+<p><em>The reason I am bringing this up is not because I would like to start even more FUD around the Web2.0 mem but it is time for us to stop looking into the technical aspects and start thinking in terms of technologies that affect normal people. Sometimes, we just lack the realism and we fail to spot the obvious problems.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/iphone/index.html" rel="tag">iphone</a> | <a href="../../tags/security/index.html" rel="tag">security</a> | <a href="../../tags/web/index.html" rel="tag">web</a> | <a href="../../tags/web20/index.html" rel="tag">web2.0</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-126987">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/3773cd5671a7560d76bf55a2e024bcc0?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.securityguy.org/' rel='external nofollow' class='url'>Alexander Sverdlov</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126987">
+			May 11, 2009 at 12:37 pm</a>		</div>
+
+		<p>as much as I like your blog, this is overreacting. A stone can be used to kill or sit on &#8211; are stones to be banned or considered a security vulnerability, writing articles on the danger of having stones just lying around on the streets? Same way, an application giving you useful information can be used in thousands of ways &#8211; if only one of them can be used for malicious purposes, you should prosecute the criminal, NOT the application. You can&#8217;t ban all useful web 2.0 apps, just because some jerk will start using it for bad things. Higher punishment for crime and real prosecution of criminals &#8211; that is what we need more than panic over the possible uses of all great apps and devices we have around.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-126989">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126989">
+			May 11, 2009 at 5:29 pm</a>		</div>
+
+		<p>Hi Alexander,</p>
+<p>Thanks for the comment. I just want to make clear that some of the posts are not meant to point and expose security issues but to start a dialog. I saw the video and I thought that it is an interesting thing that can be shared. My aim is not to <q>ban applications</q> :) but rather than elaborate how these applications, that data that is out there but yet undiscovered, can be used to create insecure situations or scenarios.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-126990">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b2c2f868aa777b620148969f352f2a68?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jason</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126990">
+			May 11, 2009 at 5:44 pm</a>		</div>
+
+		<p>Just to add on to this, Zillow allows pretty much anyone to create a developer account to access their APIs.  I signed up for it once upon a time and iirc, all I needed was a valid email address.  You get a token to use to authenticate your calls to their app and then you are good to go.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-126993">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a5aacf35f0b767a7a1cbe5d945f6827d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.zillowblog.com/' rel='external nofollow' class='url'>David G from Zillow.com</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126993">
+			May 11, 2009 at 7:41 pm</a>		</div>
+
+		<p>Hi, this is David from Zillow,</p>
+<p>I must agree with Alexander.</p>
+<p>Property information is actually part of the public record in the US. We as a society decided that things like property taxes and transactions would be more likely to be fair if they were publicly recorded. Zillow uses that information and additional details posted by our users to empower home-shoppers with data and functionality useful for selling, buying and financing a home. </p>
+<p>We are certainly sensitive to owners&#8217; privacy concerns (which vary greatly.) Ownership information, for example, is also part of the public record, but Zillow selects not to display it. </p>
+<p>As we&#8217;ve seen from the success of the Zillow iPhone app, people find the real estate data Zillow publishes very useful while visiting homes for sale &#8230; or simply walking around the neighborhoods. Nothing sinister about it!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-126994">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-126994">
+			May 11, 2009 at 8:20 pm</a>		</div>
+
+		<p>Hi David,</p>
+<p>Thanks for stopping by. Please do not interpret my efforts to start a conversation as a personal attack against Zillow. Your video just happened to grab my attention.</p>
+<p>You are correct that Zillow provides already public information. That&#8217;s not the problem. The problem is that this information, regardless how harmless it my look to you, could be used for <q>sinister</q> purposes when combined with other sources of information and tools. In other words, your application, although obviously useful to many, facilitates easier research for malicious purposes.</p>
+<p>Zillow is among all other web2.0 enabled services out there. I am not arguing that we should abolish these tools and stop using them because of security and privacy concerns. I am only arguing that the web2.0 meme facilitates a different kind of future which mostly relays on openness. I am also arguing that web2.0 tools facilitate that openness in an unimaginable ways. And that is my only argument.</p>
+<p>Keep in mind that I am not anti-web2.0 person. I am running web2.0 infrastructures myself in other projects unrelated to GNUCITIZEN.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127004">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ebdac9f16789a1988d40444e09d84476?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.bananas-playground.net/' rel='external nofollow' class='url'>Banana</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127004">
+			May 12, 2009 at 11:23 am</a>		</div>
+
+		<p>I have to agree to pdp. (although the responds from Alexander and David are also valid)</p>
+<p>But as pdp already say, at the start of the e-mail nobody thought if missusing it. And now everybody is aware of the Spam.</p>
+<p>This can happen to this application too. I would also go this far to say that with everyinformation you can do harm or not.</p>
+<p>It is up to the ppl to decide what to do. And it is also up to us to whatch over what ppl are doing with information since information can also be used as a &#8220;weapon&#8221;. It would be foolish to believe that information will only be used for the purpose it was created.</p>
+<p>Banana</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127012">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fcab05a2d8d8ca0d32e66d0cbd22269e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">rvdh</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127012">
+			May 12, 2009 at 4:42 pm</a>		</div>
+
+		<p>I agree PDP.</p>
+<p>useful for terrorists, Scheier always thinks this stuff is movie plot material, well guess what 9/11 was no movie plot, it happened due to technological advancements. Information in that sense is power.</p>
+<p>But as always, we think it&#8217;s innocent untill it gets abused.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127023">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/bca2204daa687abf6e3963108ff5dc97?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://rwnin.blogspot.com/' rel='external nofollow' class='url'>rwnin</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127023">
+			May 12, 2009 at 10:02 pm</a>		</div>
+
+		<p>this issue lines up with my latest blog post ( <a href="http://rwnin.blogspot.com/2009/04/effective-selective-near-real-time-mass.html" rel="nofollow">http://rwnin.blogspot.com/2009.....-mass.html</a> ) in the sense that prior to the internet this type of information was kept secret mainly via obscurity and the difficultly in performing the recon.</p>
+<p>nowadays, all that info is dumped into databases and apps like zillow make it accessible.</p>
+<p>it isn&#8217;t really a new vuln, because attackers can do recon with or without zillow.  the bar is just lowered for attackers and raised for defenders.</p>
+<p>traditional home defenses beyond obscurity (locks, alarms, dogs, weapons, piles of dirty underwear, etc) don&#8217;t loose effectiveness when zillow is introduced.  thusly, it kinda reinforces that obscurity isn&#8217;t defense, but is more like keeping off the radar&#8230;</p>
+<p>imho :)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127106">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7ccfac7d3d319f875f178ba0e8720f12?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.chromedpork.net/' rel='external nofollow' class='url'>Elisha Grey</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127106">
+			May 16, 2009 at 1:54 am</a>		</div>
+
+		<p>After downloading the app and takeing a look at its features the thing most apparent is this &#8220;isn&#8217;t the movies&#8221;</p>
+<p>The street names in the area surveyed are all wrong, the values on the home are incorrect.  But the GPS and images were spot on.</p>
+<p>I hope potential attackers think long and hard before trusting this sort of data.  Google Maps and an MLS site would probably get you a lot further.  For more infromation city hall might be the place to check&#8230;</p>
+<p>The best thing about the information age is so much of the data is crap.  Interesting post,  I could defiantly see how this could be a useful tool if the data was more reliable.  The whole town is messed up.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127293">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/a35285f81e583d8d30e8bafaea775d7a?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://randomoid.com/' rel='external nofollow' class='url'>xen</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127293">
+			May 25, 2009 at 11:56 pm</a>		</div>
+
+		<p>I agree with PDP too. Just take Google Maps as an example. People are using it to find pools so they can have little swim if the feel like it.</p>
+<p>I understand that Alexander and especially David want to tone it down, but it&#8217;s still possible what PDP says. People laughed when Apple released their iPod, and who knew people would use Google Maps for finding pools to swim in.</p>
+<p>I&#8217;m pretty sure some chuckled when they read or saw the movie 1984.</p>
+<p>I must say it&#8217;s really bad to see someone using a strawman argument. Yes, the stone example is a perfect example of a strawman. It&#8217;s like when someone says we should ban cars, because they can kill people.</p>
+<p>PDP addresses a really good subject. Just look at the information we have access to now. To visit USA I had to go there. Now I can just go on Google Maps and even look at someone front door. I have no intentions on using this information for criminal activities, but I can with 100% confidence tell you that there is people who will.</p>
+<p>And punishment won&#8217;t stop people from committing the crime. Education will!</p>
+<p>Again, great article!</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127311">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/70754b97e08901c720c01fd34104a5d7?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://securityblog.verizonbusiness.com/' rel='external nofollow' class='url'>NTBugtraq</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127311">
+			May 28, 2009 at 4:10 pm</a>		</div>
+
+		<p>Fromâ€¦who would have thought that the idea of having people live in houses close together might have led to the plague?&#8230;toâ€¦who would have thought that the idea of computer networking might have led to a worm like SQL Slammer?</p>
+<p>Your fear is merely your interpretation of stuff humans have been thinking more or less since we began thinking. We come up with a good idea, and someone else uses it in another way. Often this is beneficial; practically all new inventions or theories are based on modifications of an older version. Whomever came up with the idea of a master key that would open any of their locks probably saved a lot of safes, meanwhile another person soon realized that if they could steal one, or forge it, they could break into lots of safes.</p>
+<p>What I think youâ€™re overlooking is the fact that we, as humans, have been dealing with the cons from our pros for eons. There are people, like myself, whose job it is to figure out how to secure things. Most of us donâ€™t spend our time coming up with ideas for the criminals to abuseâ€¦instead; we consider how to secure the stuff people are concerned about.</p>
+<p>Consider:<br />
+-	Is the app going to actually give criminals information that would lead them to target a given home? Probably not. Standing outside or simply driving by should give them a good enough idea regarding which is a likely target. Why would they want to pick only one anyway?<br />
+-	Is the app going to give war-drivers more information than they can already get? Again, probably not. So what if thereâ€™s coax or telephone lines, how will that tell you more? Driving by and seeing a FIOS box or a cable truck from Company XYZ will tell you more.</p>
+<p>Finally, does any of this matter if I have decent locks, a reasonable security system, and insurance?</p>
+<p>Perhaps your concerns were focused more on the privacy aspect? Even there, if youâ€™ve taken pictures inside your house and given them to a lister, youâ€™ve already asked that they make them available to the publicâ€¦havenâ€™t you? Those details, which you somehow perceive as being abused, are the very things which may get you the money you want for the sale of your house. You canâ€™t have your cake and eat it too! Regardless, the choice is still yours.</p>
+<p>In the end, however, Iâ€™d ask you to ask yourselfâ€¦are you truly thinking of ways to better secure peopleâ€¦or are you thinking of criminal acts not yet thought of? If itâ€™s the latter, perhaps thereâ€™s a better use for such thoughts than publication to wanna-be criminals-at-large rather than making suggestions about how to use new devices criminally.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127313">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1f61b6523e4bdaebe237d69ffccda6c8?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://foro.elhacker.net/' rel='external nofollow' class='url'>averno</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127313">
+			May 28, 2009 at 5:26 pm</a>		</div>
+
+		<p>Hi everyone.</p>
+<p>I read the article and I couldn&#8217;t resist on giving my opinion. </p>
+<p>First of all we can not deny that apps like Zillow has two faces: one is the development of marvellous dynamic applications that are extremely useful for the &#8220;good guys&#8221;, and another that is equally useful for the &#8220;bad guys&#8221;. Like it or not, that is the fact.</p>
+<p>But as pdp says, we can not Ban this apps just because they have &#8220;another&#8221; use; or should we ban Wireless transmissions based on 802.11x just because they can be eavesdropped or misused?? There is a reality in all this, and this is that people have to be more up to date with different security issues, and I don&#8217;t just mean in the Internet.</p>
+<p>The paradox resides in that regular people are not informed and that makes the real security issue in these cases. Clearly now, the inners of their homes are exposed to everyone. I take this chance to thank you, pdp, for this Great Blog and to apologize for my poor English.</p>
+<p>Regards,<br />
+averno.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-127402">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.pdp.io/' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127402">
+			June 2, 2009 at 9:05 pm</a>		</div>
+
+		<p>NTBugtraq,</p>
+<p>I like your comment although rather long. Question: do you agree that more accessible information has made you more vulnerable than ever, before? If yes, than you see my point.</p>
+<p>pdp</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-127472">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/1bc26b5bf6d0775672577208ec693e82?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">b0und</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127472">
+			June 12, 2009 at 2:39 pm</a>		</div>
+
+		<p>I have noticed the prevalence of access to this type of highly detailed databases become common place.  My initial thought is to analyze all vectors as to how this spread of highly targeted data can be used and misused.  This particular database is much less intrusive than it will be in the future.</p>
+<p>Multiple sources of data will be indexed and mashed up against each other.  Searching by location to find the highest income individual in an area, and a full bio on them. An article in the current 2600 sums it up better than I can.  Database of marriage licenses and birth records correlated to find maiden names: security words.  Author says and exploit that works against .01% of a big number is still a big number</p>
+<p>The amount of information readily available in public data sources can be benign by themselves.  When they are all referenced together is when things get scary.  It brings me to the realization that much of our societies idea of &#8216;security&#8217; is in fact obfuscation that can readily be brought to light.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-127589">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/b80ba431acfc84cb100dd12abddc6c43?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Cyph3rdk</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-127589">
+			July 2, 2009 at 8:59 pm</a>		</div>
+
+		<p>pdp</p>
+<p>Your point is valid in a lot of ways, but then again&#8230; IMHO, if people want to use information in a &#8220;sinister&#8221; way, be it real estate or something else, there&#8217;s nothing stopping you from doing some wardriving, logging to maps, finding points of interest, and getting the blueprints somewhere else. I have to admit, I don&#8217;t how things are in the US, but here, when it comes to real estate, blueprints can be bought very cheap from the city planners office with no questions asked what s ever.</p>
+<p>So, maybe it isn&#8217;t so much a discussion about &#8220;what&#8221; info there should be floating around, opposed to how easy it is to get without some logging on _who_ got the information, and for what purpose&#8230;.</p>
+<p>just a thought..</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-128480">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/0e463bcafebec6850f108d69cf46a57d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://iphoneland.com.ua/' rel='external nofollow' class='url'>Farik</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128480">
+			April 9, 2010 at 2:21 pm</a>		</div>
+
+		<p>everï»¿ heard about personal data protection and the right for privacy ey ?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-128483">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/045782e7e1b1bcb00da08605d9eb5cac?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">chris</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-128483">
+			April 15, 2010 at 10:30 pm</a>		</div>
+
+		<p>this is a total invasion of privacy. what is this world comming 2? what next we are gonna be able to see eachother walking around from satelite images&#8230;. great way for stalkers&#8230;</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="3211"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="78083948eb" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/breaking-into-a-home-with-an-iphone/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:22:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

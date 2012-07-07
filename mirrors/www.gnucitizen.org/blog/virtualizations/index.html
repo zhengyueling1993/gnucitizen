@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/virtualizations/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:29:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Virtualizations</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Virtualizations Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Most Attractive Targets: SaaS' href='../most-attractive-targets-saas/index.html' />
+<link rel='next' title='Fear' href='../fear/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../indexb4d9.html?p=866' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-866" class="post">
+	<div class="post-title"><h2><span>Virtualizations</span></h2></div>
+	<div class="post-date"><span>published:</span> June 19th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>Please don&#8217;t take this post as a rant towards all the virtualization hackers out there. You are doing a great job and there is no doubt about that. My sole purpose is to get to the bottom of a problem which I believe is widely ignored when it comes to the purpose of virtualizations.</p>
+
+<p>In <a href="../live-mesh-good-or-bad-idea/index.html">Krakow</a> I had a very interesting discussion with Joanna Rutkowska, the famous rootkit security researcher (if you don&#8217;t know her, google her work, it is a good read). My main objection was that virtualization technologies will never be used by the the end-users the way information security researchers are envisioning it today.</p>
+
+<p>According to Joana and several other folks, the basic idea of virtualization as a security solution is:</p>
+
+<blockquote>Segmenting your laptop into several virtualized machines increases the overall security because hacking into one of the machines wont lead to a complete compromise since, the critical data is spread out into some other segments of the same computer. For example, each user will have several operating systems running simultaneously. Each operating system will be associated with a specific purpose, i.e. a secure linux distro with a default secure browser setup will be used only for banking while a different virtual image running windows xp will be used for random surfing.</blockquote>
+
+<p>This is an interesting idea but it will hardly ever work unless you are a geek, imho. The reasons for this are very simple and straightforward:</p>
+
+<h3>Administrative Overhead</h3>
+
+<p>It is needless to say that if your corporate laptop has more then one operating system this will mean that it will be harder for you or your sysadmin to maintain it. It is hard enough to keep up with the latest patches for a single operation system. If you are running 4 of them this would mean that you really have to spend some decent amount of time per day just to maintain some basic level of security.</p>
+
+<h3>User-level Bridges</h3>
+
+<p>Keep in mind that that most users are not geeks and their primary goal of the day is to get their work done not to mess around with finding a clever and secure way of moving their recently stored bookmarks from the <q>random surfing</q> machine to their <q>corporate environment</q> machine. Of course, because none of the machines share disk space, the users will end up using the ingenious Windows sharing features or even some other auto syncing software such as <q>Live Mesh</q>. Virtualization technologies do not make your life easier and every bridge that is used to enable users to do basic tasks will be used against them when one of the guest machines is compromised.</p>
+
+<h3>Environment Considerations</h3>
+
+<p>Although the virtualized OS instances are insulated from each other on a machine level, this is hardly the case on much higher level. Disk space may not be shared but users are still using the same network to access the Internet. What about USBs, Discs and Memsticks? A USB drive will work across all operating systems I presume. Therefore, it is a bridge which completely defeats the purpose of having a virtualized insulation on first place. What about the Web. Some websites will be allowed for access across all virtual machines, therefore the Web is acting as a bridge between different machines.</p>
+
+<h3>Complexity</h3>
+
+<p>Introducing unnecessary complexity is always a bad decision!</p>
+
+<h3>Conclusion</h3>
+
+<p><em>In conclusion, virtualization technologies are good for certain things but let&#8217;s not overestimate them. Hosting gazillions of VPS or installing an invisible rootkit are probably among the things virtualization technology is actually good for. Anything else is probably a call for a disaster.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/joanna-rutkowska/index.html" rel="tag">Joanna Rutkowska</a> | <a href="../../tags/rootkit/index.html" rel="tag">rootkit</a> | <a href="../../tags/virtualization/index.html" rel="tag">virtualization</a> | <a href="../../tags/virtualizations/index.html" rel="tag">virtualizations</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-122564">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e89b7c3f788a081911b01a1e1df8eedd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">c wilson</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122564">
+			June 19, 2008 at 3:54 pm</a>		</div>
+
+		<p>A refreshing perspective. Sometimes security researchers get so lost in the bits &amp; bytes that they forget about practicality, usability and use profiles. In the rush to further research as well as  corporate profits, research sometimes slides into the impractical realm and is overhyped for the sake of hype, getting attention and making money. This is not to say that the research is not interesting or that they should stop, but I think it&#8217;s wise to consider the bigger picture sometimes.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122580">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/71a9677059542a2aef78426108fe80ac?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://robertmcardle.blogspot.com/' rel='external nofollow' class='url'>Bob McArdle</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122580">
+			June 20, 2008 at 10:48 am</a>		</div>
+
+		<p>Unfortunately its normally a case that </p>
+<p>Usability&#x221D;1/Security</p>
+<p>It easy to make a perfectly secure system. As long as there is no way to ever interact with the system in any way, and it was in a secure state at the start &#8211; it should remain secure. Problem is its completely useless.</p>
+<p>Thats where the challange in all of this security industry lies. People want to know that their machines are secure, but ideally they would not want to ever be bothered by their security solution. As security researchers we can lose track of that.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122585">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/548176831f128db7ee7e7ac1ca65093f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Greg</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122585">
+			June 20, 2008 at 12:58 pm</a>		</div>
+
+		<p>The best idea I have heard for VM is to give corporate Users a VM on their work machine for personal use. Steps could be taken to limit threats while plugged into a managed network.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122599">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e10822e3d033324c2a0f8fecf2450cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://none/' rel='external nofollow' class='url'>macubergeek</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122599">
+			June 20, 2008 at 8:48 pm</a>		</div>
+
+		<p>I don&#8217;t believe that security is a prime driver in any decision by organizations. Generally other considerations, including business needs are the decision driver.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122678">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/fbce1d669b4d267397580c8b053b2577?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">TheChaosInside</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122678">
+			June 26, 2008 at 12:22 pm</a>		</div>
+
+		<p>There are methods to stop usb drives mem sticks and discs being used within any operating system.  eg disable mounting of external drives, group policy config in windows.</p>
+<p>In my opinion (feel free to criticise this) the best thing they could do would be to: </p>
+<p>Restrict the one for browsing the Internet down to literally just browsing the internet, any files can be transferred through webmail based clients through the organisations (antivirus) email, (yes you have added one extra step but if you set your mail server up correctly this should not be too much of an issue.)</p>
+<p>This could then be picked up (after already having been scanned for viruses) via your organisations email client on the system where the files are stored.  </p>
+<p>In most environments that are managed, the end user would not typically be allowed to download any executable files anyway, </p>
+<p>OR</p>
+<p>You may set up a network share point that disallows execute commands and can only be written to by logging in as an upload/download user which does not correspond to anything else on employees computers (ie no autologin to network shares with credentials stored on employees computer.</p>
+<p>Obviously permissions would have to be setup as normal on the servers but functionality in virtualised environments does not have to be annihilated only learned.</p>
+<p>If everyone expects windows users to convert to linux and the argument is you&#8217;ll get used to it, then why is the attitude not the same when something as important as confidentiality is concerned. </p>
+<p>(If only the Office of National Statistics (uk) operated in such a secure way&#8230;.)</p>
+<p>If something is weird for long enough it becomes normal.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-122691">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/8150b9645442ee255c68ec036085fdff?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">F0rg3</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122691">
+			June 27, 2008 at 9:22 am</a>		</div>
+
+		<p>There is no silver bullet for Security.It all boils down to profit. it takes money to do research and if the research cannot be used to make money  or save lives, then it is wasted. Virtualisation is a welcomed technology. It can allow me run one Os and emulate another. say for example, running openbsd and emulating windows so, so its good only depends on how you make use of it. big up to those making it happen and are leading the way and I follow the path of enlightment.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122865">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9509edb3b8aecd89b16384938a3f696b?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.sal-e.net/' rel='external nofollow' class='url'>sal-e</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122865">
+			July 6, 2008 at 3:45 pm</a>		</div>
+
+		<p>The VMs are welcome technology. I have several non persistent VMs. I use them to test new software before I install it on my PCs. Especially software downloaded from the Internet. I have also VM for my personal tasks in order to protect my corporate network. But as PDP says I am a geek. Most of the end-users have tough time understanding the VM technology. Some of them have really tough time understanding the Terminal Connections (as RDP and VNC). One promising development is that you can run VM on the background. The application appears as normal windows on your desktop, but in fact is running in the &#8216;sand box&#8217;. But it is up to me as admin to set it up for the user. And again the user remains the weakest link. If he/she is not trained and understand the security nothing will work. We can try to fix the technology, but we can&#8217;t fix the users. We only can show them how, and hope that they are willing to learn. And my personal experience is not very promising. There are whole generation of early computer adopters that have the arrogance to think that they know everything about the computers and they just keep arguing with me. Those type of users are the biggest problem right now.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="866"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="2ac519916e" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/virtualizations/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:29:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/snippets-of-defense-ptiii/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:00:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Snippets of defense Pt.III</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Snippets of defense Pt.III Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='GEO-tracking Mobile Phones' href='../geo-tracking-mobile-phones/index.html' />
+<link rel='next' title='BT Home Flub: Pwnin the BT Home Hub (3)' href='../bt-home-flub-pwnin-the-bt-home-hub-3/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index728e.html?p=517' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-517" class="post">
+	<div class="post-title"><h2><span>Snippets of defense Pt.III</span></h2></div>
+	<div class="post-date"><span>published:</span> October 20th, 2007</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>This article is part of a series of posts about small and easy to understand code fragments you can use on your site for protection against certain kinds of attacks. Also this series is targeted to help you understand better what tricks are used by attackers to break into your site and how to avert them. If you have a Snippet of defense yourself and you want to share it, feel free to <a href="../../contact.html">contact us</a>. Self-defense with a Walking-stick.</p>
+
+<h3>The snippet &#8211; sanitize your input recursively</h3>
+
+<p>This time we are going to show a PHP snippet which you can use to filter your input recursively &#8211; working for PHP4 and PHP5 and being pretty copy&amp;paste ready. Furthermore, the snippet shows how you can defeat XSS on your application without being too aggressive and not forbidding the user to use certain characters. Several large applications use this method or similar ones &#8211; although, of course, it is not suitable for all platform out there.</p>
+
+<p>You can use this snippet to secure existing applications by embedding it via <a href="http://php.net/manual/en/ini.core.php">auto_prepend_file</a> or using it at a centralized position in your application&#8217;s index.php. It doesn&#8217;t rely on any external software or extensions so it should be running fine on most PHP environments without any problems. And of course don&#8217;t use it sightlessly &#8211; but that goes for all snippets of this series.</p>
+
+<pre><code>&lt;?php
+    /**
+     * Initial filter method
+     *
+     * @param array $to_filter
+     * @return array
+     */
+    function filter($to_filter) {
+        if (!empty($to_filter)) {
+        	foreach ($to_filter as $key =&gt; $value) {
+            	$filtered[$key] = iterate($key, $value);
+            }
+        }
+        return $filtered;
+    }
+
+    /**
+     * Iterates recursively of the array to 
+     * be filtered
+     *
+     * @param string $key
+     * @param string $value
+     * @return mixed
+     */
+    function iterate($key, $value) {
+    	if (!is_array($value)) {
+            if (is_string($value)) {
+                $filtered[$key] = sanitize($value);    
+            }
+        } else {
+            foreach ($value as $subKey =&gt; $subValue) {
+                $filtered[$key][$subKey] = sanitize($subValue);
+            }
+        }
+        return $filtered[$key];
+    }
+    
+    /**
+     * The sanitization method
+     *
+     * @param string $string
+     * @return string
+     */
+    function sanitize($string) {
+    	
+    	$search = array('"', "'");
+    	$replace = array('â€', 'â€™'); // &rdquo; and &rsquo; are used here
+    	
+    	/**
+    	 * Remind that the replacement is just one way of many.
+    	 * You can also use html_special_chars() or htmlentities() - but 
+    	 * don't forget the third parameter :)
+    	 */
+    	return strip_tags(str_replace($search, $replace, $string)
+    }
+
+    /**
+     * overwrite the original request array with the filtered one
+     */
+    $_REQUEST = filter($_REQUEST);
+?&gt;</code></pre>
+
+<p><em>We hope that you enjoy the trick  &#8211; please tell us what you think. Till the next time.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/mario/index.html" title="Posts by .mario" rel="author">.mario</a></div>
+	</div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-59815">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/f8069e4c4dcb95906f6f6e2604bc7677?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://k-security.de/' rel='external nofollow' class='url'>NIX</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59815">
+			October 20, 2007 at 10:26 am</a>		</div>
+
+		<p>thats a good one ;)<br />
+thanks</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-59829">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/06153f784be70e3391b07b3582683c0f?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Sirw2p</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59829">
+			October 20, 2007 at 11:08 am</a>		</div>
+
+		<p>Good code, but there are easier ways to filter and prevent xss attacks.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-59839">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/2f6303f9095f59c14c3097ef4df566f5?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://kuza55.blogspot.com/' rel='external nofollow' class='url'>kuza55</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59839">
+			October 20, 2007 at 12:46 pm</a>		</div>
+
+		<p>You&#8217;re missing the end of a line:</p>
+<pre><code>return strip_tags(str_replace($search, $replace, $string)</code></pre>
+<p>should be</p>
+<pre><code>return strip_tags(str_replace($search, $replace, $string));</code></pre>
+<p>Furthermore editing $_REQUEST does not change the values in $_GET, $_POST, $_COOKIE, etc. SO you would need to do this to every array you want to sanitize, and then reconstruct $_REQUEST from your already filtered initial arrays.</p>
+<p>This is purely IMO, but $_REQUEST seems like a bad idea, since you don&#8217;t know where the stuff your working with came from, especially considering it relies on the variables_order directive.</p>
+<p>Anyway, this seems pretty much identical to magic_quotes so I&#8217;m not going to bother criticising it since the arguments for/against magic_quotes have been rehashed enough times already.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-59840">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/89886495b27cfdc78593e1f5c8810594?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://php-ids.org/' rel='external nofollow' class='url'>.mario</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59840">
+			October 20, 2007 at 1:00 pm</a>		</div>
+
+		<p>Hi!</p>
+<p>Thanks for the comments. </p>
+<p>Kuza55 you are right &#8211; $_REQUEST _can_ be problematic in some setups but this is example is more to show on how you can build an easy to extend first solution to cope with global input filtering &#8211; which I really rarely come to see during work. It of course no &#8216;use it and be happy forever&#8217; solution but a snippet to point into a certain direction.</p>
+<p>Greetings,<br />
+.mario</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-59968">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c3c67ef1a4beba7889ca36b0c609cad4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">David</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-59968">
+			October 20, 2007 at 11:05 pm</a>		</div>
+
+		<p>Not really recursive (function doesn&#8217;t call itself, just goes 1 level into an array). Seems you can reduce the whole thing to 1 function by using actual recursion:</p>
+<pre><code> $var) {
+				$safe_html[$key]=recurs_escape_html($var);
+			}
+		} else {
+			return htmlentities($data, ENT_QUOTES, 'ISO-8859-1');
+		}
+		return $safe_html;
+	}
+?&gt;</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-60043">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ac08a11dabb6e8a4477a4fc96b7399be?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">digi7al64</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60043">
+			October 21, 2007 at 4:26 am</a>		</div>
+
+		<p>I been using a similar method to the one you presented here for a while now but there are a few different things in mine that perhaps could be blended into yours to make it safer.</p>
+<p>I.E</p>
+<blockquote><p>&gt; I use the iconv function to force an encoding set on the supplied data<br />
+&gt; I loop through each $_POST and $_GET and set the values that way (as kuza55 suggested [cookie not included as this is only an idea to get you going])</p></blockquote>
+<p>Finally, there is a small bug in my code (intentional for this post) so post back if you can find how to make it throw an error, should be easy :)</p>
+<p>oh and as a final thought, generally you might want to trim the string straight up to a fixed length you know you can handle it with whatever you want to do.</p>
+<pre><code>$value){
+			$_POST[$name] = santize($value);
+		}
+	}
+
+	// Clean any supplied get values
+	if(isset($_GET)) {
+		foreach($_GET as $name =&gt; $value){
+			$_GET[$name] = santize($value);
+		}
+	}
+?&gt;</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-60045">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/ac08a11dabb6e8a4477a4fc96b7399be?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">digi7al64</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60045">
+			October 21, 2007 at 4:29 am</a>		</div>
+
+		<p>it seems this blog removed half of my code. therefore don&#8217;t worry about approving my post, please delete it. i don&#8217;t intend to repost</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp odd alt thread-odd thread-alt depth-1" id="comment-60076">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60076">
+			October 21, 2007 at 7:50 am</a>		</div>
+
+		<p>digi7al64, wordpress will try to prevent you from posting anything that looks like HTML. Just make sure that all your &lt; are replaced &amp;lt; and &gt; is replaced with &amp;gt; :) cheers</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-60559">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/edbb8d1cd610f8c1049b954c8095c2cc?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Wade</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60559">
+			October 22, 2007 at 3:35 pm</a>		</div>
+
+		<p>mario. sorry for rehashing this again, but I don&#8217;t want to see anyone using this code thinking that it&#8217;s going to save them against XSS. As previously mentioned by kuza55 and digi7al64, $_GET and $_POST values (which would typically used by developers) are not being affected by the sanitation script. For this to be more &#8220;copy and paste&#8221; friendly,  you might want to initialize the whole thing by using:</p>
+<pre><code>$_GET = filter($_GET);
+$_POST = filter($_POST);
+$_COOKIE = filter($_COOKIE);</code></pre>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-60571">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/578dd9336bc31629d60c31f6f39bdadd?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.rezen.org/' rel='external nofollow' class='url'>ReZEN</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60571">
+			October 22, 2007 at 3:57 pm</a>		</div>
+
+		<p>.mario:</p>
+<p>Wow this is hilarious.  Kids and their games.  Next time you want to post pure crap just through up a link to rotten.com or ogrish or something and quit wasting everyones time with your absolute shit code.  Have you done NO research on this subject at all?  And if you had THIS IS WHAT YOU CAME UP WITH?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp even thread-even depth-1" id="comment-60584">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60584">
+			October 22, 2007 at 5:10 pm</a>		</div>
+
+		<p>ReZEN, if you don&#8217;t like it, please don&#8217;t read it. All .mario did is to show a kind of code which may fit into some scenarios. We all know that there are no bulletproof solutions.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-mario bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-60626">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e53f5d616931bfe8fa74bfd9f72e049e?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/mario.html' rel='external nofollow' class='url'>Mario Heiderich</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-60626">
+			October 22, 2007 at 10:13 pm</a>		</div>
+
+		<p>Hey ReZEN &#8211; click that, junior!<br />
+<a href="http://tinyurl.com/2h3ps6" rel="nofollow">http://tinyurl.com/2h3ps6</a></p>
+<p>You should have read my post ;)</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-61861">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/11566af8dcd11e7aa34805614eab2385?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Raaka!</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-61861">
+			October 26, 2007 at 8:19 pm</a>		</div>
+
+		<p>LOL =))</p>
+<p>where is reZen now :p</p>
+<p>thanks for the code</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="517"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="a74648942b" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/snippets-of-defense-ptiii/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 15:00:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

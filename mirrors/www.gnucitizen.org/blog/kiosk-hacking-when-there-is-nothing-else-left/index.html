@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	
+<!-- Mirrored from www.gnucitizen.org/blog/kiosk-hacking-when-there-is-nothing-else-left/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:49:28 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="profile" href="http://gmpg.org/xfn/11"/>
+		<link rel="pingback" href="../../wordpress/xmlrpc.php" />
+		<link rel="alternate" type="application/rdf+xml" title="GNUCITIZEN" href="../../feed/rdf/index.html"/>
+		<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN" href="../../feed/rss/index.html"/>
+		<link rel="alternate" type="application/atom+xml" title="GNUCITIZEN" href="../../feed/atom/index.html"/>
+		<link rel="stylesheet" type="text/css" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/style.css"/>
+		<title>GNUCITIZEN &raquo; Kiosk Hacking: When there is nothing else left</title>
+			<meta name="google-site-verification" content="yfE2zXU6xxSUp1CWarDop_6vVdGUUplpLF8P5Xe2fWM"/>
+	<link rel="icon" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/styles/images/favicon.ico" type="image/x-icon"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Comments" href="http://feedproxy.google.com/gnucitizenComments"/>
+	<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Group" href="http://feedproxy.google.com/gnucitizenGroup"/>
+	<link rel="stylesheet" href="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.css" type="text/css" media="screen"/>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/jquery.core.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scriptlets/slimbox2/slimbox2.js" type="text/javascript"></script>
+	<script src="../../wordpress/wp-content/themes/gnucitizen.org-v2/scripts/gnucitizen.common.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN &raquo; Kiosk Hacking: When there is nothing else left Comments Feed" href="feed/index.html" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../wordpress/xmlrpc0db0.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.gnucitizen.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Reviewing Practical PHP Exploitation Techniques' href='../reviewing-practical-php-exploitation-techniques/index.html' />
+<link rel='next' title='Hidden' href='../hidden/index.html' />
+<meta name="generator" content="WordPress 3.3.2" />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index8ae4.html?p=798' />
+<link rel="alternate" type="application/rss+xml" title="GNUCITIZEN Network" href="http://feedproxy.google.com/gnucitizenNetwork"/>	</head>
+	
+	<body id="single" class="blog">
+		<div id="header">
+			<h1><a href="../../index.html"><span>GNUCITIZEN</span></a></h1>
+			<p><span>Information Security Think Tank</span></p>
+		</div>
+
+<div id="navigation">
+	<h2>Navigation</h2>
+	<ul>
+		<li class="cat-item cat-item-2"><a href="../../categories/blog/index.html" title="View all posts filed under Blog">Blog</a></li>
+		<li class="page_item page-item-266"><a href="../../archive/index.html">Archive</a></li>
+<li class="page_item page-item-236"><a href="../../about/index.html">About</a></li>
+<li class="page_item page-item-336"><a href="../../index.html">Home</a></li>
+			</ul>
+</div>
+
+<div id="content">
+			<div id="entry">
+							<div id="post-798" class="post">
+	<div class="post-title"><h2><span>Kiosk Hacking: When there is nothing else left</span></h2></div>
+	<div class="post-date"><span>published:</span> April 7th, 2008</div>
+	<div class="post-content"><div class="single-content-top-widgets"></div><p>I often end up breaking through the least interesting systems. If you ask AP, a password-cracking ninja and master of hacking through simplicity, the leass interesting the system is, the higher the chances to be insecure. A successful exploitation of these systems often leads to successful exploitation of the network and other adjacent systems. This post will concentrate on some theory and practicalities around what to do when penetration testing Kiosks when nothing else is left.</p>
+
+<p>Why Kiosk? Kiosk are perfect for all kinds of scenarios. Everybody who has played enough with them knows that they are insecure no matter how much hardening you apply on them. They are also very much subjective to attacks because the attacker has physical access to them. This means that tampering with the keyboard or any other input/output port is very much possible.</p>
+
+<p>Kiosks are uninteresting because they seem to provide very basic features and therefore they are being largely ignored from a security point of view. At the same time, they are very interesting because people use them for all kinds of mission critical stuff without thinking twice about the confidentiality and security aspects of the operations they perform. To an extend Kioasks are backdoors to the network where they reside and the domains where they are controlled from.</p>
+
+<p>The traditional ways of hacking Kiosks are well documented. The basic idea is to obtain some kind of access on the system which gives you enough flexibility to do whatever that needs to be done. The traditional ways are all based around the idea of escaping the standard GUI lockout. Usually Kiosks are locked so that the user can only use features which are provided by the vendor but nothing else. Sometimes, Kiosk are not correctly locked which of course allows attackers to quickly gain access to Windows&#8217; shell by using something like <code>File -> Open</code> dialog or any other mechanism which allows you to open Explorer shell/frame. This includes the <code>Help</code> system, the <code>Open/Save/Save As</code> features and pretty much everything else that deals with files, explorer and iexplorer. On some Kiosks, browsing through the file system is not possible but yet you can spawn executables by using Outlook, if it is Windows based, because Outlook is usually not blocked and you can add executable attachments to emails which when double-clicked are executed. But this is not all. There are other ways someone can gain access to a Kiosk or at least gain access to the data it holds or it may hold in the future.</p>
+
+<h3>Files, Read, Write, Etc</h3>
+
+<p>Although it is much more convenient to have a command shell spawned for your own needs, sometimes this is very hard and you might not have enough time to mess around with the details which are involved in the process. Simple backdoor techniques could work very well in this case. I am not referring to installing software on the Kiosk, but rather modifying files which can provide further access to the attacker. I&#8217;ve seen Kiosks which are relatively locked and significantly hardened but yet they run under privileged accounts. Notepad or other types of software which allow writing to files are not blocked at all which gives us the opportunity to overwrite files. The <code>host</code> file is a very good target in this case. Modifying this file could potentially give the attacker access later when the system is not hardened. For example, if we substitute the IP address for the <code>google.com</code> domain on a hardened box which we cannot exploit, at some point in time when the box is significantly weaker we can take advantage of the fact the the <code>google.com</code> domain will result into a host controlled by us and therefore take over the Kiosk. Not to mention the fact that this way we will be able to sniff all sorts of goodies from the hijacked domains.</p>
+
+<p>In some cases you don&#8217;t have write access but you can read. In one of the tiger team operations we were involved, we broke though the Kiosk into a protected FTP server due to the fact that the Kiosk software had a VBScripts which use FTP to pull software updates. Unfortunately, the poor developers have left the FTP credentials in clear text which gave us write access to the FTP server and some other critical sections of their network. Reading files is a huge danger and unfortunately it is not very easy to block especially when the Kiosk is based on a rich operating system such as Windows or some Linux variant or even MacOS.</p>
+
+<h3>Java, Applets, Flash and Browser Access</h3>
+
+<p>Not that long time ago I&#8217;ve published quite useful little browser-based tool called <a href="../jython-shell/index.html">Jython Shell</a>. The Jython shell, although a completely legitimate programing tool, can give you some helpful features when Java is enabled on the Kiosk. The applet spawns a simple console screen which is hooked to to the Jython/Python interpreter. All necessary libraries and bindings are downloaded at runtime into a temporary folder from where they are loaded. Therefore, on a Kiosk which allows Java applets to run, we can gain access by using Python primitives and the privileges of the current user. We can spawn files/executables but also spawn sockets and do all kinds of things. It comes quite useful indeed. Other technologies such as Flash, ActiveX and SilverLight are very useful for the same purposes as well.</p>
+
+<h3>Active Exploitation of Vulns</h3>
+
+<p>Although you see fairly locked and patched Kiosks once in a while, most of them are not patched at all. On a number of cases we&#8217;ve found Kiosks which are running VNC with auth credentials set to <q>password</q>. Some of them were even vulnerable to the VNC auth-bypass bug. They were accessible from the Internet which was a big problem. On another case we were able to exploit the browser by visiting a server which holds specific browser exploits which we thought might work. Kudos to the Metasploit team for putting the framework together.</p>
+
+<p><em>This post is mostly a summary of some of the possibilities and scenarios that exist around hacking Kiosks. There are far too many things to consider. I will be able to put more materials on the subject soon. Keep in mind that the the main purpose of this post is to give you an idea of some of the potential ways attackers can break into a Kiosk in order to gain additional rights and access on other systems.</em></p><div class="single-content-bottom-widgets"></div></div>
+		<div class="post-links"><a href="index.html">more</a> | <a href="index.html#post-comments">comments</a> | <a href='feed/index.html'>comments rss</a> | posted by <a href="../../author/pdp/index.html" title="Posts by pdp" rel="author">pdp</a></div>
+	<div class="post-tags">Tags: <a href="../../tags/hack/index.html" rel="tag">hack</a> | <a href="../../tags/kiosk/index.html" rel="tag">kiosk</a> | <a href="../../tags/security/index.html" rel="tag">security</a></div></div>
+				
+
+				<div id="post-comments">
+					<div class="comment even thread-even depth-1" id="comment-118292">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c970dee63fb8c2f40d17e04454742964?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Jonas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118292">
+			April 7, 2008 at 6:46 pm</a>		</div>
+
+		<p>Thank you for some interesting reading. I&#8217;d love to hear more about your adventures in kiosk hacking. I&#8217;ve recently started looking at the possibilities of kiosk hacking, and it&#8217;s kind of interesting.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118361">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/271ecedbd232e23677ddc1d3956147eb?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://hackathology.blogspot.com/' rel='external nofollow' class='url'>hackathology</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118361">
+			April 8, 2008 at 8:01 am</a>		</div>
+
+		<p>Interesting post. I used to play around with kiosk and its pretty crappy when it comes to security.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor even thread-even depth-1" id="comment-118377">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='../../about/pdp.html' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118377">
+			April 8, 2008 at 11:34 am</a>		</div>
+
+		<p>there will be more kiosk hacking related blog posts released soon, some great stuff are coming soon from fellow researchers.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118395">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/5e0f595cbc8f1811233adce10ac6c5d3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.awesomeandrew.net/' rel='external nofollow' class='url'>Awesome AnDrEw</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118395">
+			April 8, 2008 at 2:40 pm</a>		</div>
+
+		<p>Kiosks are far more popular, and widely available across European countries, right? I don&#8217;t believe I have ever come across one in the U.S. as most hotels, airports, and other places I have visited either had an available Ethernet port, Wi-Fi, or service such as WebTV. I only remember using one once several years ago in a hotel in England where it cost several pounds to go online for an hour unless our definitions of kiosks are different.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-118435">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/7cedb843eb2922000eb41b4561ed660d?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://n/a' rel='external nofollow' class='url'>Mike</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118435">
+			April 8, 2008 at 8:27 pm</a>		</div>
+
+		<p>*TRY* opening a folder in winblows and try navigating to this: <code>%comspec%</code>. There are other places where <code>%comspec%</code> works. Fun,  huh?</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-118695">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/21e8129fed30bec19a216e6fb5b674f9?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">Dd</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-118695">
+			April 13, 2008 at 12:20 am</a>		</div>
+
+		<p>A few things I&#8217;ve found while bored in airports:</p>
+<p>Often he company who owns the site lets you browse the company&#8217;s site free of charge: try to find pdf&#8217;s/wmvs other files which may not open in the browser but will run a native app from which you can get an explorer frame.</p>
+<p>The <code>about:</code> address can be extremely useful, as anything you enter after the about will normally be echoed back onto the page. eg <code>about:&lt;script lang=...</code> etc.</p>
+<p>I once found a knoppix kiosk which was slightly locked down but gave a prompt <q>Would you like to run <code>/bin.bash</code> from it&#8217;s current location?</q> when the appropriate path was entered as the address bar. Yes please.</p>
+<p>U3 drives, autorun explorer/ portable cmd shell.</p>
+<p>One great, but unpredicatbale thing is when a native app pops up from behind the scene&#8230; eg <q>would you like to update program x? Updating&#8230;done. Wanna browse around <code>C:\</code> to save a log file?</q></p>
+<p>The other great thing about java (with <code>.jar</code> files) is they&#8217;re not executables, so the OS might have no problem running them. Java usually gets to see all attached drives, and can be used to copy files to the temp directory or others which may be rwx.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-119485">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/299b820a3f310c9cca9819d364dd4a28?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.thomasknight.net/' rel='external nofollow' class='url'>Thomas</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-119485">
+			April 22, 2008 at 8:19 pm</a>		</div>
+
+		<p>I used to be the VP of Operations for a Kiosk hardware and software company. They did music downloading kiosks. Doing this required available USB ports for MP3 player and thumb drives. They were open and available on the outside of the machine. The company thought they were safe because there was no keyboard so you were unable to close the kiosk app and get to xp in the background. The problem was all you needed to do was plug a usb keyboard into the available usb port and you had access to over 1.5 TB of Music.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment odd alt thread-odd thread-alt depth-1" id="comment-121855">
+				<div class="comment-author vcard">
+		<img alt='' src='http://1.gravatar.com/avatar/9dd08162699c76c4a52fa0e0d646db60?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">C@puNx</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-121855">
+			May 14, 2008 at 4:15 pm</a>		</div>
+
+		<p>Nice articles unfortunately I have tried this when I was on High school. but its quite nice as a memories</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment even thread-even depth-1" id="comment-122704">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/e302c4bb326b68fcf32b43ba6c69c8f3?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn">vipera</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122704">
+			June 28, 2008 at 12:02 am</a>		</div>
+
+		<p>in response to Awesome AnDrEw</p>
+<p>yes eu has ALOT of kiosks, best thing is that 80% of them has an usb port &#8220;made for uploading  pictures&#8221;, but most often with a few browser commands or exploits, u can get ur own apps running without a hassel.</p>
+<p>and about webtv, some kiosks provide both &#8220;surf&#8221; and &#8220;tv&#8221; (webtv in most cases), and even if they have locked down the surf part of the kiosk, the webtv part can most often be exploited, as they forgett all the fastkey commands many of those have.</p>
+<p>ex: in germany i was stuck in a small town, needed encrypted vnc access to my box, wifi? none! kiosks, many! but never managed to break it. then i noticed the tv function. and noticed it was streaming over the internet from several &#8220;live&#8221; channels. a few key clicks and i found out what the player was and got an save prompt, the issue with that player was, the save prompt didnt only take the save file name, pipe it (|) and it would let u type in any *nix prompt commands i usually use. a few seconds later, it was running my ccvnc directly from usb without asking anything.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		<div class="comment byuser comment-author-pdp bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-122708">
+				<div class="comment-author vcard">
+		<img alt='' src='http://0.gravatar.com/avatar/c4db4e65c9f09f2a373fcaefa5e2bfb4?s=32&amp;d=retro&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' />		<cite class="fn"><a href='http://www.linkedin.com/in/ppetkov' rel='external nofollow' class='url'>pdp</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="comment-page-1/index.html#comment-122708">
+			June 28, 2008 at 7:08 am</a>		</div>
+
+		<p>Nice one, I have a few tricks for Kiosk hacking maybe we should organize a Kiosk Hacking Challenge just like the Router Hacking <a href="../router-hacking-challenge/index.html" rel="nofollow">one</a>.</p>
+
+		<div class="reply">
+				</div>
+		</div>
+		</div>
+		
+		<div class="post-comments-navigation">
+			<div class="older-comments"></div>
+			<div class="newer-comments"></div>
+		</div>
+	
+	<div id="post-response">
+		<h2>Respond</h2>
+					<form action="http://www.gnucitizen.org/wordpress/wp-comments-post.php" name="response-form" method="post" class="response-form">
+				<p><em>We retain the right to remove any comment or trackback we determine to be, at our sole discretion, unacceptable.</em></p>
+									<div><label for="author">name: (required)</label></div>
+					<div><input type="text" name="author" id="author" value="" size="20" tabindex="1"/></div>
+					<div><label for="email">mail: (required)</label></div>
+					<div><input type="text" name="email" id="email" value="" size="20" tabindex="2"/></div>
+					<div><label for="url">website:</label></div>
+					<div><input type="text" name="url" id="url" value="" size="20" tabindex="3"/></div>
+								<div><label for="comment">comment:</label></div>
+				<div><textarea name="comment" id="comment" cols="50" rows="10" tabindex="4"></textarea></div>
+				<div>
+					<input class="button" name="submit" type="submit" id="submit" tabindex="5" value="submit"/>
+					<input class="button" name="reset" type="reset" id="reset" tabindex="6" value="reset"/>
+				</div>
+				<input type="hidden" name="comment_post_ID" value="798"/>
+				<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e859c2b1a6" /></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+	<label for="subscribe">Notify me of followup comments via e-mail</label>
+	</p>
+
+
+			</form>
+			</div>
+					</div>
+		<div id="content-sidebar">					<div class="widget">			<p style="font-size:24px"><em>Get <a href="http://www.websecurify.com/">Websecurify</a> - a cross-platform web security testing technology designed from the ground up with simplicity in mind.</em></p>			</div>			</div></div>
+
+				
+		<div id="footer">
+			
+	<script type="text/javascript">
+		var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+		document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker('UA-363996-1');
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+
+				<p>(<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/" title="Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Generic">CC</a>)2005-2012 <a href="../../index.html" title="Information Security Think Tank">GNUCITIZEN</a></p>
+		</div>
+		
+		<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+				<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+				<dc:title>GNUCITIZEN</dc:title>
+				<dc:date>2005-2012</dc:date>
+				<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+				<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+				<dc:source rdf:resource="http://www.gnucitizen.org"/>
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+				<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+				<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+				<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+				<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+				<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+			</License>
+		</rdf:RDF> -->
+		
+		<!-- tested by blogsecurify -->
+		<!-- wpscanner -->
+	</body>
+
+<!-- Mirrored from www.gnucitizen.org/blog/kiosk-hacking-when-there-is-nothing-else-left/ by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 07 Jul 2012 14:49:28 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8"><!-- /Added by HTTrack -->
+</html>

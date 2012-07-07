@@ -1,0 +1,840 @@
+body {
+	margin: 5px;
+	padding: 0px;
+	color: #cccccc;
+	font: normal 12px Arial, Helvetica, sans-serif;
+	background: #070707 url(images/background.png) repeat-x;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0px;
+	padding: 0px;
+	font-weight: lighter;
+	text-transform: uppercase;
+}
+
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
+	text-decoration: none;
+}
+
+a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a img {
+	border: 0;
+}
+
+p {
+	line-height: 18px;
+	margin-bottom: 20px;
+}
+
+q {
+	font-style: italic;
+}
+
+ul, ol {
+	list-style-position: inside;
+}
+
+code {
+	white-space: pre-wrap;
+	font-family: monospace;
+}
+
+pre code {
+	padding: 10px;
+	color: #000000;
+	overflow: auto;
+	display: block;
+	max-height: 200px;
+	border-radius: 2px;
+	margin-bottom: 20px;
+	background: #FFFFFF;
+	white-space: pre-wrap;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+pre code a {
+	color: #000000;
+}
+
+blockquote {
+	font-size: 15px;
+	line-height: 22px;
+}
+
+blockquote pre code {
+	font-size: 11px;
+}
+
+/*
+ * PRIMITIVES
+ * --------------------------------------------------
+ */
+
+.message {
+	color: #000000;
+	display: block;
+	padding: 15px 25px;
+	margin-bottom: 1em;
+	background: #EED2EE;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	border: thin solid #cd96cd;
+	-webkit-border-radius: 2px;
+}
+
+.message a {
+	color: #000000;
+	font-weight: bolder;
+	text-decoration: none;
+}
+
+.message a:hover {
+	text-decoration: underline;
+}
+
+.message p {
+	margin: 0px;
+	padding: 0px;
+	font-size: 100%;
+	margin-bottom: 1em;
+}
+
+.warning {
+	color: #000000;
+	display: block;
+	padding: 15px 25px;
+	margin-bottom: 1em;
+	border-radius: 2px;
+	background: #ffdfff;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: thin solid #ff4848;
+}
+
+.warning a {
+	color: #000000;
+	font-weight: bolder;
+	text-decoration: none;
+}
+
+.warning a:hover {
+	text-decoration: underline;
+}
+
+.warning p {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	margin-bottom: 1em;
+}
+
+.stress {
+	padding: 20px;
+	font-size: 110%;
+	font-style: italic;
+	font-weight: lighter;
+	margin-bottom: 0.5em;
+	text-transform: uppercase;
+}
+
+.pane {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 300px;
+	color: #FFFFFF;
+	background: #000000;
+	border: 1px solid #111111;
+}
+
+.preview {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 300px;
+	color: #FFFFFF;
+	margin-top: 0.5em;
+	background: #000000;
+	margin-bottom: 0.5em;
+	border: 1px solid #BBB;
+}
+
+.section {
+	clear: both;
+	display: block;
+	border-top: 1px solid #111111;
+}
+
+.box {
+	padding: 2em;
+	background: #000000;
+	border: 5px solid #BBB;
+}
+
+.scaffold {
+	padding: 10px;
+	display: block;
+	margin-bottom: 1em;
+	border: thin solid #111111;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+.mount {
+	padding: 10px;
+	display: block;
+	margin-bottom: 1em;
+}
+
+
+.bullet {
+	min-height: 80px;
+	padding-left: 60px;
+	background: url(images/icon.deadman.png) 0 5px no-repeat;
+}
+
+.green {
+	color: #FFFFFF;
+	background: #5e840a url(images/background.green.png) repeat-x;
+}
+
+.green a {
+	text-decoration: underline;
+}
+
+.purple {
+	color: #FFFFFF;
+	background: #4f11dd url(images/background.purple.png) repeat-x;
+}
+
+.purple a {
+	text-decoration: underline;
+}
+
+.tooltip {
+	width: 33%;
+	font-size: 80%;
+	overflow: auto;
+}
+
+.tooltip h3 {
+	font-weight: lighter;
+	text-transform: none;
+}
+
+.menu {
+margin: 0;
+padding: 0;
+width: 100%;
+height: 1.5em;
+font-size: 90%;
+background: #333333;
+list-style-type: none;
+}
+
+.menu li {
+float: left;
+}
+
+.menu li:hover ul {
+display: block;
+}
+
+.menu li a {
+display: block;
+color: #777777;
+line-height: 2em;
+padding-right: 3em;
+padding-left: 0.5em;
+background: #000000;
+text-decoration: none;
+}
+
+.menu li a:hover {
+color: #000000;
+background: #777777;
+}
+
+.menu li ul {
+margin: 0;
+padding: 0;
+display: none;
+position: absolute;
+list-style-type: none;
+}
+
+.menu li ul li {
+float: none;
+}
+
+.menu li ul li a {
+font-size: 120%;
+}
+
+/*
+ * FORM
+ * --------------------------------------------------
+ */
+
+label {
+	font-size: 80%;
+}
+
+select {
+	padding: 0;
+	border: none;
+	margin: 5px 0 5px 0;
+}
+
+select option {
+	padding: 1em;
+}
+
+textarea, input {
+	border: none;
+	padding: 10px;
+	border-radius: 2px;
+	background: #ffffff;
+	margin: 5px 0px 5px 0px;
+	-moz-border-radius: 2px;
+	border: 1px solid #ffffff;
+	-webkit-border-radius: 2px;
+}
+
+textarea:focus, input:focus {
+	outline: none;
+	border: 1px solid #ffffff;
+}
+
+input[type=checkbox] {
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: none;
+}
+
+input[type=checkbox] + label {
+	margin: 0;
+	padding: 0 0 0 5px;
+	position: relative;
+}
+
+fieldset {
+	border: 1px solid #111111;
+}
+
+/*
+ * THE CLEARED PRIMITIVE
+ * --------------------------------------------------
+ */
+
+.cleared:after {
+	height: 0;
+	clear: both;
+	content: ".";
+	line-height: 0;
+	display: block;
+	visibility: hidden;
+}
+
+.cleared {
+	display: inline-block;
+}
+
+html[xmlns] .cleared {
+	display: block;
+}
+
+* html .cleared {
+	height: 1%;
+}
+
+/*
+ * GENERIC PRIMITIVES
+ * --------------------------------------------------
+ */
+
+.hidden {
+	display: none;
+}
+
+.h-centered {
+	width: 100%;
+	margin: 0 auto 0 auto;
+}
+
+.left-floated {
+	float: left ! important;
+}
+
+.right-floated {
+	float: right ! important;
+}
+
+.round {
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+.frame {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	position: relative;
+	margin-bottom: 10px;
+	background: #000000;
+	border: 10px solid #111111;
+}
+
+/*
+ * SPECIFIC PRIMITIVES
+ * --------------------------------------------------
+ */
+
+a.big {
+	font-size: 150%;
+}
+
+a.button {
+	padding: 5px;
+	border-radius: 2px;
+	background: #000000;
+	text-decoration: none;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+a.button:hover {
+	background: #333333;
+}
+
+img.tiny {
+	margin: 5px;
+	height: 25px;
+}
+
+img.small {
+	margin: 5px;
+	height: 50px;
+}
+
+img.medium {
+	margin: 5px;
+	height: 80px;
+}
+
+img.initial-capital {
+	float: left;
+	clear: left;
+	padding: 5px;
+	border-radius: 2px;
+	margin: 0 10px 5px 0;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: thin dotted #111111;
+}
+
+ul.bar {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	overflow: hidden; 
+}
+
+ul.bar li {
+	float: left;
+	margin-right: 10px;
+	padding-left: 10px;
+	list-style-type: none;
+	border-left: 1px dotted #666666;
+}
+
+ul.bar li:first-child {
+	border: 0;
+}
+
+ul.bar li img {
+	display: block;
+}
+
+ul.grid {
+	margin:0;
+	padding: 0;
+	width: 150px;
+}
+
+cool.table {
+width: 100%;
+background: #000000;
+margin-bottom: 0.5em;
+border: 1px solid #000000;
+}
+
+cool.table tr td {
+padding: 10px;
+font-size: 75%;
+color: #000000;
+background: #FFFFFF;
+}
+
+cool.table tr td a {
+color: #000000;
+border-bottom: 1px dotted #000000;
+}
+
+cool.table thead tr td {
+color: #FFFFFF;
+background: #000000;
+font-weight: bolder;
+text-transform: uppercase;
+}
+
+ul.grid li {
+float: left;
+width: 50px;
+height: 50px;
+list-style-type: none;
+}
+
+div.screen {
+width: auto; 
+clear: both;
+display: block;
+overflow: hidden;
+position: relative;
+margin-bottom: 10px;
+border-radius: 2px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border: thin solid #111111;
+}
+
+div.screen img, div.screen object, div.screen > embed, div.screen iframe, div.screen form {
+float: left;
+margin: 10px;
+padding: 5px;
+display: inline;
+background: #000000;
+border-radius: 2px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border: thin dotted #111111;
+}
+
+div.description {
+padding: 1em;
+font-size: 90%;
+background: #000000;
+margin-bottom: 0.5em;
+}
+
+/*
+ * COLS
+ * --------------------------------------------------
+ */
+
+.col {
+width: 100%;
+float: left;
+display: block;
+margin-right: 2%;
+}
+
+.col2 {
+width: 48%;
+float: left;
+display: block;
+margin-right: 2%;
+}
+
+.col3 {
+float: left;
+width: 31.3%;
+display: block;
+margin-right: 2%;
+}
+
+/*
+ * LISTS
+ * --------------------------------------------------
+ */
+
+ul.list, ol.list, ul.list2, ol.list2, ul.list3, ol.list3, ul.list4, ol.list4 {
+	margin: 0;
+	padding: 0;
+	display: block;
+	font-size: 11px;
+	padding-right: 10px;
+	list-style-type: none;
+}
+
+ul.list2, ol.list2, ul.list3, ol.list3, ul.list4, ol.list4 {
+	width: 100%;
+}
+
+ul.list2 li, ol.list2 li, ul.list3 li, ol.list3 li, ul.list4 li, ol.list4 li {
+	float: left;
+	display: block;
+	margin-right: 2%;
+}
+
+ul.list2 li, ol.list2 li {
+	width: 48%;
+}
+
+ul.list3 li, ol.list3 li {
+	width: 31.3%;
+}
+
+ul.list4 li, ol.list4 li {
+	width: 23%;
+}
+
+ul.list li a, ol.list li a, ul.list2 li a, ol.list2 li a, ul.list3 li a, ol.list3 li a, ul.list4 li a, ol.list4 li a {
+	padding: 2px;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	border-top: 1px solid #111111;
+}
+
+ul.list li a:hover, ol.list li a:hover, ul.list2 li a:hover, ol.list2 li a:hover, ul.list3 li a:hover, ol.list3 li a:hover, ul.list4 li a:hover, ol.list4 li a:hover {
+	color: #111111;
+	background: #ffffff;
+	text-decoration: none;
+}
+
+/*
+ * HEADER
+ * --------------------------------------------------
+ */
+
+div#header h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 3em;
+	font-weight: lighter;
+	text-transform: uppercase;
+}
+
+div#header h1 {
+	color: #FFFFFF;
+}
+
+div#header h1 a {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+div#header h1 a:hover {
+	text-decoration: none;
+}
+
+div#header p {
+	color: #FFFFFF;
+	font-size: 11px;
+	margin-bottom: 0.5em;
+	margin: 0 ! important;
+	padding: 0 ! important;
+}
+
+/*
+ * NAVIGATION
+ * --------------------------------------------------
+ */
+
+div#navigation {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+div#navigation h2 {
+	display: none;
+}
+
+div#navigation ul {
+	margin-bottom: 1em;
+	list-style-type: none;
+	margin: 0 ! important;
+	padding: 0 ! important;
+}
+
+div#navigation ul li {
+display: inline;
+margin-right: 10px;
+}
+
+div#navigation ul li a {
+	padding: 2px;
+	color: #999999;
+	font-size: 11px;
+	text-decoration: none;
+}
+
+div#navigation ul li a:hover {
+	color: #111111;
+	background: #ffffff;
+}
+
+div#navigation ul li a.selected {
+	color: #111111;
+	background: #ffffff;
+}
+
+div#navigation ul li a.selected:hover {
+	/* pass */
+}
+
+/*
+ * CONTENT
+ * --------------------------------------------------
+ */
+
+div#content {
+	padding: 5px;
+	background: #050505 url(images/background.content.png) repeat-x;
+}
+
+/*
+ * FOOTER
+ * --------------------------------------------------
+ */
+
+div#footer {
+	clear: both;
+	font-size: 9px;
+	padding-top: 20px;
+	text-align: center;
+	padding-bottom: 20px;
+	text-transform: uppercase;
+}
+
+/*
+ * PRESENTATION
+ * --------------------------------------------------
+ */
+
+body.presentation {
+	margin-left: 20%;
+	margin-right: 20%;
+	text-align: center;
+}
+
+body.presentation #header h1 {
+	padding-top: 30%;
+}
+
+body.presentation #header h1 a {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+body.presentation p {
+	line-height: 1.2em;
+}
+
+body.presentation #footer {
+	display: none;
+}
+
+/*
+ * RECEPTION
+ * --------------------------------------------------
+ */
+
+body.reception {
+	margin-left: 20%;
+	margin-right: 20%;
+	text-align: center;
+}
+
+body.reception #header h1 a {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+body.reception #content {
+	padding: 15px;
+	text-align: left;
+}
+
+/*
+ * PAGE
+ * --------------------------------------------------
+ */
+
+body.page #header     ,
+body.page #navigation ,
+body.page #content    ,
+body.page #footer     {
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*
+ * WIDE
+ * --------------------------------------------------
+ */
+
+body.wide #header     ,
+body.wide #navigation ,
+body.wide #content    ,
+body.wide #footer     {
+	width: 1030px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+body.wide #content {
+	position: relative;
+}
+
+/*
+ * BLOG
+ * --------------------------------------------------
+ */
+
+body.blog #header     ,
+body.blog #navigation ,
+body.blog #content    ,
+body.blog #footer     {
+	width: 1030px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+body.blog #content {
+	position: relative;
+}
+
+/* <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+	<Work rdf:about="">
+		<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/"/>
+		<dc:title>GNUCITIZEN</dc:title>
+		<dc:creator><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:creator>
+		<dc:rights><Agent><dc:title>GNUCITIZEN</dc:title></Agent></dc:rights>
+		<dc:type rdf:resource="http://purl.org/dc/dcmitype/Text"/>
+		<dc:source rdf:resource="http://www.gnucitizen.org"/>
+	</Work>
+	<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+		<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+		<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+		<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+		<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+		<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+	</License>
+</rdf:RDF> --> */
